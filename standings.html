@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standings — Elevation Change</title>
+<meta name="description" content="Group of Six standings: Mountain West, Pac-12, MAC, American, Conference USA and Sun Belt.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Group of Six standings">
+<meta property="og:description" content="Records and next games across all six conferences.">
+<meta property="og:url" content="https://demolisheddino7.github.io/elevation-change/standings.html">
+<meta property="og:image" content="https://demolisheddino7.github.io/elevation-change/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://demolisheddino7.github.io/elevation-change/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="standings.html" aria-current="page">Standings</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="standings-head">
+      <p class="eyebrow">Updated through Week 0 · Week 1 matchups</p>
+      <h1 class="page-title">Standings</h1>
+      <p class="page-sub">Records and next games across the Group of Six.</p>
+    </section>
+
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="panel"></div>
+
+    <p class="table-note">Records through Week 0. Next game shows the Week 1 matchup. Updated by hand each week.</p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;width:min(68rem,100% - 2.5rem);">
+    <span>Elevation Change · 2026</span>
+    <span><a href="index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+/* ===================================================================
+   EDIT BELOW EACH WEEK.
+   Each team is: ["Team name", "overall record", "conference record", "next game"]
+   Use "@ Team" for away games and "vs Team" for home games.
+   =================================================================== */
+
+const DATA = {
+  "Mountain West": [
+    ["Air Force", "0-0", "0-0", "vs Duquesne"],
+    ["Hawai'i", "0-1", "0-0", "vs UNLV"],
+    ["Nevada", "0-0", "0-0", "vs Western Kentucky"],
+    ["New Mexico", "0-0", "0-0", "vs Central Michigan"],
+    ["North Dakota State", "1-0", "0-0", "vs Fordham"],
+    ["Northern Illinois", "0-0", "0-0", "@ Iowa"],
+    ["San José State", "0-1", "0-0", "@ Eastern Michigan"],
+    ["UNLV", "0-1", "0-0", "@ Hawai'i"],
+    ["UTEP", "0-0", "0-0", "@ Oklahoma"],
+    ["Wyoming", "0-0", "0-0", "@ Colorado State"]
+  ],
+  "Pac-12": [
+    ["Boise State", "0-0", "0-0", "@ Oregon"],
+    ["Colorado State", "0-0", "0-0", "vs Wyoming"],
+    ["Fresno State", "0-0", "0-0", "@ USC"],
+    ["Oregon State", "0-0", "0-0", "@ Houston"],
+    ["San Diego State", "0-0", "0-0", "vs Portland State"],
+    ["Texas State", "0-0", "0-0", "@ Texas"],
+    ["Utah State", "0-0", "0-0", "vs Idaho State"],
+    ["Washington State", "0-0", "0-0", "@ Washington"]
+  ],
+  "MAC": [
+    ["Akron", "0-0", "0-0", "@ Wake Forest"],
+    ["Ball State", "0-0", "0-0", "@ Ohio State"],
+    ["Bowling Green", "0-0", "0-0", "vs Tarleton State"],
+    ["Buffalo", "0-0", "0-0", "vs Albany"],
+    ["Central Michigan", "0-0", "0-0", "@ New Mexico"],
+    ["Eastern Michigan", "1-0", "0-0", "vs San José State"],
+    ["Kent State", "0-0", "0-0", "@ South Carolina"],
+    ["Miami (OH)", "0-0", "0-0", "@ Pittsburgh"],
+    ["Ohio", "0-0", "0-0", "@ Nebraska"],
+    ["Sacramento State", "0-1", "0-0", "vs Mississippi Valley State"],
+    ["Toledo", "0-0", "0-0", "@ Michigan State"],
+    ["UMass", "0-0", "0-0", "@ Rutgers"],
+    ["Western Michigan", "0-0", "0-0", "@ Michigan"]
+  ],
+  "American": [
+    ["Army", "0-0", "0-0", "vs Bryant"],
+    ["Charlotte", "0-0", "0-0", "vs The Citadel"],
+    ["East Carolina", "0-0", "0-0", "@ Alabama"],
+    ["Florida Atlantic", "0-0", "0-0", "@ Florida"],
+    ["Memphis", "1-0", "0-0", "vs Arkansas State"],
+    ["Navy", "0-0", "0-0", "vs Towson"],
+    ["North Texas", "0-0", "0-0", "TBD"],
+    ["Rice", "0-0", "0-0", "vs Houston Christian"],
+    ["South Florida", "0-0", "0-0", "vs FIU"],
+    ["Temple", "0-0", "0-0", "vs Rhode Island"],
+    ["Tulane", "0-0", "0-0", "@ Duke"],
+    ["Tulsa", "0-0", "0-0", "vs Oklahoma State"],
+    ["UAB", "0-0", "0-0", "@ Illinois"],
+    ["UTSA", "0-0", "0-0", "TBD"]
+  ],
+  "Conference USA": [
+    ["Delaware", "0-0", "0-0", "vs Merrimack"],
+    ["FIU", "0-0", "0-0", "@ South Florida"],
+    ["Jacksonville State", "0-1", "0-0", "vs Eastern Kentucky"],
+    ["Kennesaw State", "0-0", "0-0", "vs West Georgia"],
+    ["Liberty", "0-0", "0-0", "@ James Madison"],
+    ["Middle Tennessee", "0-0", "0-0", "vs Murray State"],
+    ["Missouri State", "0-0", "0-0", "@ Texas A&M"],
+    ["New Mexico State", "0-1", "0-0", "vs Mercyhurst"],
+    ["Sam Houston", "0-0", "0-0", "@ Troy"],
+    ["Western Kentucky", "0-0", "0-0", "@ Nevada"]
+  ],
+  "Sun Belt": [
+    ["Appalachian State", "0-0", "0-0", "vs Maine"],
+    ["Arkansas State", "0-0", "0-0", "@ Memphis"],
+    ["Coastal Carolina", "0-0", "0-0", "@ West Virginia"],
+    ["Georgia Southern", "0-0", "0-0", "vs Charleston Southern"],
+    ["Georgia State", "0-0", "0-0", "vs North Carolina A&T"],
+    ["James Madison", "0-0", "0-0", "vs Liberty"],
+    ["Louisiana", "0-0", "0-0", "vs Lamar"],
+    ["Louisiana Tech", "0-0", "0-0", "vs Northwestern State"],
+    ["Louisiana-Monroe", "0-0", "0-0", "@ Mississippi State"],
+    ["Marshall", "0-0", "0-0", "@ Penn State"],
+    ["Old Dominion", "0-0", "0-0", "vs Norfolk State"],
+    ["South Alabama", "0-0", "0-0", "vs Southeastern Louisiana"],
+    ["Southern Miss", "0-0", "0-0", "vs Alcorn State"],
+    ["Troy", "0-0", "0-0", "vs Sam Houston"]
+  ]
+};
+
+/* ---- nothing below here needs editing ---- */
+
+const tabsEl = document.getElementById('tabs');
+const panelEl = document.getElementById('panel');
+const names = Object.keys(DATA);
+
+function render(conf) {
+  const rows = DATA[conf].map(t =>
+    '<tr><td class="team">' + t[0] + '</td>' +
+    '<td class="num">' + t[1] + '</td>' +
+    '<td class="num">' + t[2] + '</td>' +
+    '<td class="next' + (t[3] === 'TBD' ? ' tbd' : '') + '">' + t[3] + '</td></tr>'
+  ).join('');
+
+  panelEl.innerHTML =
+    '<div class="table-scroll"><table class="standings">' +
+    '<thead><tr><th scope="col">Team</th><th scope="col">Record</th>' +
+    '<th scope="col">Conf.</th><th scope="col">Next game</th></tr></thead>' +
+    '<tbody>' + rows + '</tbody></table></div>';
+
+  [...tabsEl.children].forEach(b =>
+    b.setAttribute('aria-selected', b.textContent === conf ? 'true' : 'false'));
+}
+
+names.forEach(n => {
+  const b = document.createElement('button');
+  b.className = 'tab';
+  b.type = 'button';
+  b.setAttribute('role', 'tab');
+  b.textContent = n;
+  b.addEventListener('click', () => render(n));
+  tabsEl.appendChild(b);
+});
+
+render(names[0]);
+</script>
+
+</body>
+</html>
