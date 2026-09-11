@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standings — Elevation Change</title>
+<meta name="description" content="Group of Six standings: Mountain West, Pac-12, MAC, American, Conference USA and Sun Belt.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Group of Six standings">
+<meta property="og:description" content="Records and next games across all six conferences.">
+<meta property="og:url" content="https://demolisheddino7.github.io/elevation-change/standings.html">
+<meta property="og:image" content="https://demolisheddino7.github.io/elevation-change/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://demolisheddino7.github.io/elevation-change/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.tabs {
+  display: flex;
+  gap: 1.75rem;
+  overflow-x: auto;
+  padding: 0 0 0.875rem;
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none;
+  position: relative;
+  background: none;
+  border: 0;
+  padding: 0 0 0.5rem;
+  margin: 0;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: var(--display);
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1.125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+}
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.9rem;
+  height: 3px;
+  background: var(--purple);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s ease;
+}
+.tab:hover { color: var(--paper); }
+.tab[aria-selected="true"] { color: var(--paper); }
+.tab[aria-selected="true"]::after { transform: scaleX(1); }
+.apr, .rv {
+  margin-left: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  vertical-align: 0.15em;
+}
+.apr { color: var(--paper); background: var(--purple-deep); padding: 0.15rem 0.35rem; border-radius: 3px; }
+.rv { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="standings.html" aria-current="page">Standings</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="standings-head">
+      <p class="eyebrow">Updated through Week 1 · Week 2 matchups</p>
+      <h1 class="page-title">Standings</h1>
+    </section>
+
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="panel"></div>
+
+    
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;width:min(68rem,100% - 2.5rem);">
+    <span>Elevation Change · 2026</span>
+    <span><a href="index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+/* ===================================================================
+   EDIT BELOW EACH WEEK.
+   Each team is: ["Team", "record", "conference record", "next game", "rank"]
+   rank: "" for none, "12" for an AP ranking, or "RV 43" for votes received.
+   Rows sort by conference record first, then overall, like ESPN.
+   Use "@ Team" for away games and "vs Team" for home games.
+   =================================================================== */
+
+const DATA = {
+  "Mountain West": [
+    ["Air Force", "1-0", "0-0", "vs North Dakota State", ""],
+    ["Hawai'i", "0-2", "0-1", "vs New Mexico State", ""],
+    ["Nevada", "1-0", "0-0", "vs Montana State", ""],
+    ["New Mexico", "1-0", "0-0", "vs Mercyhurst", ""],
+    ["North Dakota State", "2-0", "0-0", "@ Air Force", ""],
+    ["Northern Illinois", "0-1", "0-0", "vs Illinois State", ""],
+    ["San José State", "1-1", "0-0", "vs Cal Poly", ""],
+    ["UNLV", "1-1", "1-0", "@ North Texas", ""],
+    ["UTEP", "0-1", "0-0", "vs Texas Southern", ""],
+    ["Wyoming", "0-1", "0-0", "vs Northern Colorado", ""]
+  ],
+  "Pac-12": [
+    ["Boise State", "0-1", "0-0", "vs Memphis", "RV 86"],
+    ["Colorado State", "1-0", "0-0", "vs Southern Utah", ""],
+    ["Fresno State", "0-1", "0-0", "vs Sacramento State", ""],
+    ["Oregon State", "0-1", "0-0", "vs Texas Tech", ""],
+    ["San Diego State", "1-0", "0-0", "@ UCLA", ""],
+    ["Texas State", "0-1", "0-0", "vs UTSA", ""],
+    ["Utah State", "0-1", "0-0", "@ Washington", ""],
+    ["Washington State", "0-1", "0-0", "@ Kansas State", ""]
+  ],
+  "MAC": [
+    ["Akron", "0-1", "0-0", "vs Robert Morris", ""],
+    ["Ball State", "0-1", "0-0", "vs Stony Brook", ""],
+    ["Bowling Green", "0-1", "0-0", "@ Nebraska", ""],
+    ["Buffalo", "1-0", "0-0", "@ FIU", ""],
+    ["Central Michigan", "0-1", "0-0", "vs Colgate", ""],
+    ["Eastern Michigan", "1-1", "1-0", "@ Michigan State", ""],
+    ["Kent State", "0-1", "0-0", "vs Wofford", ""],
+    ["Miami (OH)", "0-1", "0-0", "vs Holy Cross", ""],
+    ["Ohio", "0-1", "0-0", "vs Jacksonville State", ""],
+    ["Sacramento State", "1-1", "0-1", "@ Fresno State", ""],
+    ["Toledo", "0-1", "0-0", "vs Central Connecticut", ""],
+    ["UMass", "1-0", "0-0", "vs Sacred Heart", ""],
+    ["Western Michigan", "0-1", "0-0", "vs Monmouth", "RV 12"]
+  ],
+  "American": [
+    ["Army", "1-0", "0-0", "vs South Florida", ""],
+    ["Charlotte", "0-1", "0-0", "@ Ole Miss", ""],
+    ["East Carolina", "0-1", "0-0", "vs Appalachian State", ""],
+    ["Florida Atlantic", "0-1", "0-0", "vs Navy", ""],
+    ["Memphis", "2-0", "0-0", "@ Boise State", "RV 23"],
+    ["Navy", "1-0", "0-0", "@ Florida Atlantic", "RV 10"],
+    ["North Texas", "0-1", "0-0", "vs UNLV", ""],
+    ["Rice", "1-0", "0-0", "@ Notre Dame", ""],
+    ["South Florida", "1-0", "0-0", "@ Army", ""],
+    ["Temple", "1-0", "0-0", "vs Penn State", ""],
+    ["Tulane", "0-1", "0-0", "vs South Alabama", ""],
+    ["Tulsa", "1-0", "0-0", "@ Sam Houston", ""],
+    ["UAB", "0-1", "0-0", "vs Louisiana-Monroe", ""],
+    ["UTSA", "1-0", "0-0", "@ Texas State", ""]
+  ],
+  "Conference USA": [
+    ["Delaware", "1-0", "0-0", "@ Vanderbilt", ""],
+    ["FIU", "0-1", "0-0", "vs Buffalo", ""],
+    ["Jacksonville State", "1-1", "0-0", "@ Ohio", ""],
+    ["Kennesaw State", "1-0", "0-0", "vs Georgia State", ""],
+    ["Liberty", "0-1", "0-0", "vs Gardner-Webb", ""],
+    ["Middle Tennessee", "1-0", "0-0", "@ Marshall", ""],
+    ["Missouri State", "0-1", "0-0", "vs Lindenwood", ""],
+    ["New Mexico State", "1-1", "0-0", "@ Hawai'i", ""],
+    ["Sam Houston", "0-1", "0-0", "vs Tulsa", ""],
+    ["Western Kentucky", "0-1", "0-0", "@ Georgia", ""]
+  ],
+  "Sun Belt": [
+    ["Appalachian State", "1-0", "0-0", "@ East Carolina", ""],
+    ["Arkansas State", "0-1", "0-0", "vs West Georgia", ""],
+    ["Coastal Carolina", "0-1", "0-0", "vs Fordham", ""],
+    ["Georgia Southern", "1-0", "0-0", "@ Clemson", ""],
+    ["Georgia State", "1-0", "0-0", "@ Kennesaw State", ""],
+    ["James Madison", "1-0", "0-0", "vs Wagner", "RV 4"],
+    ["Louisiana", "1-0", "0-0", "@ USC", ""],
+    ["Louisiana Tech", "1-0", "0-0", "@ LSU", ""],
+    ["Louisiana-Monroe", "0-1", "0-0", "@ UAB", ""],
+    ["Marshall", "0-1", "0-0", "vs Middle Tennessee", ""],
+    ["Old Dominion", "1-0", "0-0", "@ Virginia Tech", ""],
+    ["South Alabama", "1-0", "0-0", "@ Tulane", ""],
+    ["Southern Miss", "1-0", "0-0", "@ Auburn", ""],
+    ["Troy", "1-0", "0-0", "vs Alabama State", ""]
+  ]
+};
+
+/* ---- nothing below here needs editing ---- */
+
+const tabsEl = document.getElementById('tabs');
+const panelEl = document.getElementById('panel');
+const names = Object.keys(DATA);
+
+function sortTeams(list) {
+  const rec = r => r.split('-').map(Number);
+  const score = r => !r ? 0 : (r.indexOf('RV') === 0 ? +r.slice(3) : 10000 - +r);
+  return list.slice().sort((a, b) => {
+    const [cwa, cla] = rec(a[2]), [cwb, clb] = rec(b[2]);
+    if (cwb !== cwa) return cwb - cwa;          // conference wins
+    if (cla !== clb) return cla - clb;          // conference losses
+    const [owa, ola] = rec(a[1]), [owb, olb] = rec(b[1]);
+    if (owb !== owa) return owb - owa;          // overall wins
+    if (ola !== olb) return ola - olb;          // overall losses
+    const sa = score(a[4]), sb = score(b[4]);
+    if (sb !== sa) return sb - sa;              // ranking / votes
+    return a[0].localeCompare(b[0]);
+  });
+}
+
+function render(conf) {
+  const rows = sortTeams(DATA[conf]).map(t => {
+    const r = t[4];
+    const badge = !r ? '' :
+      (r.indexOf('RV') === 0
+        ? '<span class="rv">' + r + '</span>'
+        : '<span class="apr">' + r + '</span>');
+    return '<tr><td class="team">' + t[0] + badge + '</td>' +
+      '<td class="num">' + t[1] + '</td>' +
+      '<td class="num">' + t[2] + '</td>' +
+      '<td class="next">' + t[3] + '</td></tr>';
+  }).join('');
+
+  panelEl.innerHTML =
+    '<div class="table-scroll"><table class="standings">' +
+    '<thead><tr><th scope="col">Team</th><th scope="col">Record</th>' +
+    '<th scope="col">Conf.</th><th scope="col">Next game</th></tr></thead>' +
+    '<tbody>' + rows + '</tbody></table></div>';
+
+  [...tabsEl.children].forEach(b =>
+    b.setAttribute('aria-selected', b.textContent === conf ? 'true' : 'false'));
+}
+
+names.forEach(n => {
+  const b = document.createElement('button');
+  b.className = 'tab';
+  b.type = 'button';
+  b.setAttribute('role', 'tab');
+  b.textContent = n;
+  b.addEventListener('click', () => render(n));
+  tabsEl.appendChild(b);
+});
+
+render(names[0]);
+</script>
+
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js"></script>
+</body>
+</html>
