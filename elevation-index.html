@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Elevation Index — Elevation Change</title>
+<meta name="description" content="A résumé-based weekly ranking of the Western Group of Six, computed from game results — not records.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Elevation Index">
+<meta property="og:description" content="Twenty Western teams, ranked by résumé. Every position explained.">
+<meta property="og:url" content="https://demolisheddino7.github.io/elevation-change/elevation-index.html">
+<meta property="og:image" content="https://demolisheddino7.github.io/elevation-change/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://demolisheddino7.github.io/elevation-change/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.ei-head { padding: 3.5rem 0 1.5rem; }
+.ei-intro { max-width: 46ch; color: var(--muted); margin: 0; }
+.ei-chart-wrap { margin: 2rem 0 0; border: 1px solid var(--line); border-radius: 4px; background: var(--ink-2); padding: 1rem 0.5rem 0.5rem; overflow-x: auto; }
+.ei-chart { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--mono); }
+.ei-chart .grid { stroke: var(--line); stroke-width: 1; }
+.ei-chart .axis { fill: var(--muted); font-size: 11px; letter-spacing: 0.08em; }
+.ei-chart .line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; opacity: 0.85; }
+.ei-chart .line.dim, .ei-chart .dot.dim { opacity: 0.12; }
+.ei-chart .dot { stroke: var(--ink-2); stroke-width: 2; }
+.ei-chart .end { font-size: 10px; font-weight: 500; fill: #fff; }
+.ei-chart .endbg { stroke: var(--ink-2); stroke-width: 2; }
+.ei-chart .endlabel { font-family: var(--display); font-size: 12px; transform: translateX(6px); font-weight: 600; fill: var(--paper); letter-spacing: 0.04em; }
+.ei-chart image { }
+.ei-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0.75rem 0 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; }
+.ei-legend button { background: none; border: 0; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0; font: inherit; }
+.ei-legend button i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.ei-legend button[aria-pressed="true"] { color: var(--paper); }
+
+.ei-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-family: var(--mono); font-size: 0.8125rem; }
+.ei-table th { text-align: left; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.6875rem; color: var(--muted); padding: 0 0.75rem 0.75rem 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ei-table td { padding: 0.8rem 0.75rem 0.8rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ei-table .rk { font-family: var(--display); font-size: 1.25rem; font-weight: 600; width: 2.5rem; }
+.ei-table .tm { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.0625rem; font-weight: 500; white-space: nowrap; }
+.ei-table .tm i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 0.5rem; vertical-align: -1px; }
+.ei-table .mv { white-space: nowrap; }
+.up { color: #78BE8C; } .down { color: #D25F5F; } .flat { color: var(--muted); }
+.ei-table .sc { color: var(--purple); }
+.ei-table .why { color: var(--muted); font-family: var(--body); font-size: 0.9375rem; line-height: 1.45; max-width: 40ch; }
+@media (max-width: 46rem) { .ei-table .why { display: none; } }
+
+.ei-cards { display: grid; gap: 1.25rem; margin: 3rem 0 2rem; grid-template-columns: 1fr; }
+@media (min-width: 46rem) { .ei-cards { grid-template-columns: 1fr 1fr; } }
+.ei-card { border: 1px solid var(--line); border-radius: 4px; background: var(--ink-2); padding: 1.25rem 1.25rem 1.5rem; border-top: 4px solid var(--purple); }
+.ei-card h3 { font-family: var(--display); text-transform: uppercase; font-style: italic; font-weight: 600; font-size: 1.5rem; margin: 0; line-height: 1.1; }
+.ei-card .meta { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0.35rem 0 1rem; }
+.ei-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 1rem; font-size: 0.9375rem; }
+.ei-card dt { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); padding-top: 0.2rem; }
+.ei-card dd { margin: 0; }
+.ei-card .games { margin: 1rem 0 0; padding: 0.75rem 0 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.ei-card .games div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.2rem 0; }
+.ei-card .games b { color: var(--paper); font-weight: 500; }
+.ei-method { max-width: 44rem; margin: 3rem 0 4rem; }
+.ei-method h2 { font-family: var(--display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; font-size: 1.5rem; margin: 0 0 0.75rem; }
+.ei-method p { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="elevation-index.html" aria-current="page">Index</a>
+      <a href="standings.html">Standings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="ei-head">
+      <p class="eyebrow" id="ei-eyebrow">The Elevation Index</p>
+      <h1 class="page-title">Elevation Index</h1>
+      <p class="ei-intro">Twenty Western teams ranked by résumé, not record. Who you played, whether you won, how close it was, and how recently. An FCS loss is the biggest penalty in the system. Every position below has a reason.</p>
+    </section>
+
+    <div class="ei-chart-wrap">
+      <svg class="ei-chart" id="ei-chart" viewBox="0 0 900 640" role="img" aria-label="Ranking by week for each team"></svg>
+    </div>
+    <div class="ei-legend" id="ei-legend"></div>
+
+    <div class="table-scroll">
+      <table class="ei-table" id="ei-table">
+        <thead><tr><th>#</th><th>Team</th><th>Rec</th><th>Move</th><th>Score</th><th>Why</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="ei-cards" id="ei-cards"></div>
+
+    <section class="ei-method">
+      <h2>How it works</h2>
+      <p>Every game gets a score. Wins earn points for opponent quality, a win bonus that scales with the opponent, and a margin bonus with diminishing returns. Losses to elite teams earn real credit if they're close — a near-upset of a ranked team is worth more than most wins over bad ones. Losses to bad teams cost more the wider they get, and a 28-point-plus loss to a non-elite team takes an extra hit. FCS wins are capped low. FCS losses start at −35 before margin. Recent games count noticeably more — last week is worth 100%, the week before 82%, and it keeps sliding — but nothing ages out. The season score is the sum, and ties break on quality wins, strength of wins, quality losses, fewer bad losses, point differential and the most recent result — never on record.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;width:min(68rem,100% - 2.5rem);">
+    <span>Elevation Change · 2026</span>
+    <span><a href="index.html">Home</a></span>
+  </div>
+</footer>
+
+<script src="ei-data.js"></script>
+<script src="ei-engine.js"></script>
+<script>
+(function () {
+  const H = EI.history(CURRENT_WEEK), L = H.latest, W = H.weeks.length, N = L.length;
+  document.getElementById('ei-eyebrow').textContent = 'The Elevation Index · through Week ' + CURRENT_WEEK;
+
+  /* ---------- chart ---------- */
+  const svg = document.getElementById('ei-chart');
+  const pad = { l: 44, r: 150, t: 24, b: 36 }, VW = 900, VH = 640;
+  const x = w => pad.l + (W === 1 ? 0 : w * (VW - pad.l - pad.r) / (W - 1));
+  const y = r => pad.t + (r - 1) * (VH - pad.t - pad.b) / (N - 1);
+  let s = '';
+  for (let r = 1; r <= N; r++) s += '<line class="grid" x1="' + pad.l + '" y1="' + y(r) + '" x2="' + (VW - pad.r) + '" y2="' + y(r) + '"/>' +
+    '<text class="axis" x="' + (pad.l - 10) + '" y="' + (y(r) + 4) + '" text-anchor="end">' + r + '</text>';
+  for (let w = 0; w < W; w++) s += '<text class="axis" x="' + x(w) + '" y="' + (VH - 12) + '" text-anchor="middle">WEEK ' + w + '</text>';
+  L.forEach(t => {
+    const pts = t.ranks.map((r, w) => x(w) + ',' + y(r)).join(' ');
+    s += '<polyline class="line" data-id="' + t.id + '" points="' + pts + '" stroke="' + t.color + '"/>';
+    t.ranks.forEach((r, w) => { if (w < W - 1) s += '<circle class="dot" data-id="' + t.id + '" cx="' + x(w) + '" cy="' + y(r) + '" r="4.5" fill="' + t.color + '"/>'; });
+  });
+  L.forEach(t => {
+    const ex = x(W - 1), ey = y(t.rank);
+    if (t.logo) {
+      s += '<circle class="endbg" cx="' + ex + '" cy="' + ey + '" r="14" fill="#F2F1EE"/>' +
+           '<image href="' + t.logo + '" x="' + (ex - 11) + '" y="' + (ey - 11) + '" width="22" height="22"/>';
+    } else {
+      s += '<circle class="endbg" cx="' + ex + '" cy="' + ey + '" r="12" fill="' + t.color + '"/>' +
+           '<text class="end" x="' + ex + '" y="' + (ey + 3.5) + '" text-anchor="middle">' + t.id + '</text>';
+    }
+    s += '<text class="endlabel" x="' + (ex + 18) + '" y="' + (ey + 4) + '">' + t.rank + ' ' + t.name + '</text>';
+  });
+  svg.innerHTML = s;
+
+  const legend = document.getElementById('ei-legend');
+  L.forEach(t => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = '<i style="background:' + t.color + '"></i>' + t.name;
+    b.addEventListener('click', () => {
+      const on = b.getAttribute('aria-pressed') === 'true';
+      legend.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+      svg.querySelectorAll('.line, .dot').forEach(l => l.classList.remove('dim'));
+      if (!on) { b.setAttribute('aria-pressed', 'true'); svg.querySelectorAll('.line, .dot').forEach(l => { if (l.dataset.id !== t.id) l.classList.add('dim'); }); }
+    });
+    legend.appendChild(b);
+  });
+
+  /* ---------- table ---------- */
+  const mv = t => t.prevRank == null ? '<span class="flat">—</span>' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '<span class="flat">—</span>';
+  document.querySelector('#ei-table tbody').innerHTML = L.map(t =>
+    '<tr><td class="rk">' + t.rank + '</td><td class="tm"><i style="background:' + t.color + '"></i>' + t.name + '</td>' +
+    '<td>' + t.rec.w + '-' + t.rec.l + '</td><td class="mv">' + mv(t) + '</td><td class="sc">' + t.score.toFixed(1) + '</td>' +
+    '<td class="why">' + t.reason + '</td></tr>').join('');
+
+  /* ---------- cards ---------- */
+  const g = x => x ? EI.oppLabel(x) + ' ' + EI.scoreLine(x) : '—';
+  document.getElementById('ei-cards').innerHTML = L.map(t =>
+    '<article class="ei-card" style="border-top-color:' + t.color + '">' +
+    '<h3>' + t.rank + '. ' + t.name + '</h3>' +
+    '<div class="meta">' + t.rec.w + '-' + t.rec.l + ' · FBS ' + t.rec.fbsW + '-' + t.rec.fbsL + ' · FCS ' + t.rec.fcsW + '-' + t.rec.fcsL + ' · Score ' + t.score.toFixed(1) + (t.prevRank ? ' · Prev ' + t.prevRank : '') + '</div>' +
+    '<dl>' +
+    '<dt>Best win</dt><dd>' + g(t.bestWin) + '</dd>' +
+    '<dt>Worst loss</dt><dd>' + g(t.worstLoss) + '</dd>' +
+    '<dt>Why here</dt><dd>' + EI.whyRanked(t) + '</dd>' +
+    '<dt>Next</dt><dd>' + (NEXT[t.id] || 'TBD') + '</dd>' +
+    '<dt>To improve</dt><dd>' + EI.improve(t) + '</dd>' +
+    '</dl>' +
+    '<div class="games">' + t.games.map(x =>
+      '<div><span>Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span><span><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> · ' + x.label + ' · ' + (x.final >= 0 ? '+' : '') + x.final.toFixed(1) + '</span></div>').join('') + '</div>' +
+    '</article>').join('');
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js"></script>
+</body>
+</html>
