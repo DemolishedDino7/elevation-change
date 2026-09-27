@@ -20,20 +20,16 @@ const WATCH = [
 
 /* Hand-entered backup. ["Away @ Home", "Day time (MT)", "Line"] */
 const FALLBACK = [
-  ["UNLV @ Akron",                      "Sat 10:00 AM", "UNLV −13.5"],
-  ["San Diego State @ Toledo",          "Sat 10:00 AM", "TOL −2.5"],
-  ["Colorado State @ UTSA",             "Sat 10:00 AM", "UTSA −12.5"],
-  ["Northern Illinois @ Georgia State", "Sat 12:00 PM", "GSU −9.5"],
-  ["Hawai'i @ Wyoming",                 "Sat 1:00 PM",  "HAW −3"],
-  ["New Mexico @ New Mexico State",     "Sat 1:30 PM",  "UNM −12.5"],
-  ["Boise State @ Western Michigan",    "Sat 1:30 PM",  "BSU −7"],
-  ["Incarnate Word @ Texas State",      "Sat 4:00 PM",  ""],
-  ["Troy @ Utah State",                 "Sat 5:30 PM",  "USU −2.5"],
-  ["Arizona @ Washington State",        "Sat 5:30 PM",  "ARIZ −12.5"],
-  ["Oregon State @ UTEP",               "Sat 7:00 PM",  "ORST −12.5"],
-  ["UMass @ Sacramento State",          "Sat 7:00 PM",  "MASS −6"],
-  ["Rice @ Fresno State",               "Sat 8:00 PM",  "FRES −14"],
-  ["Air Force @ Nevada",                "Sat 8:30 PM",  "AFA −4"]
+  ["Western Kentucky @ New Mexico State","Thu 6:00 PM",  "NMSU −1.5"],
+  ["Navy @ Air Force",                  "Sat 10:00 AM", "AFA −2.5"],
+  ["California @ UNLV",                 "Sat 1:30 PM",  "UNLV −2.5"],
+  ["Wyoming @ North Dakota State",      "Sat 1:30 PM",  "NDSU −20.5"],
+  ["UTEP @ New Mexico",                 "Sat 2:00 PM",  "UNM −22.5"],
+  ["Oregon State @ Colorado State",     "Sat 4:00 PM",  "ORST −4.5"],
+  ["Utah State @ Boise State",          "Sat 5:30 PM",  "BSU −21"],
+  ["Fresno State @ Washington State",   "Sat 7:30 PM",  "FRES −1.5"],
+  ["Texas State @ San Diego State",     "Sat 8:30 PM",  "TXST −4"],
+  ["San José State @ Hawai'i",          "Sat TBA",      ""]
 ];
 
 /* ---- nothing below here needs editing ---- */
