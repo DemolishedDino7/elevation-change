@@ -26,16 +26,17 @@
 .ei-chart .grid { stroke: var(--line); stroke-width: 1; }
 .ei-chart .axis { fill: var(--muted); font-size: 11px; letter-spacing: 0.08em; }
 .ei-chart .line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; opacity: 0.85; }
-.ei-chart .line.dim, .ei-chart .dot.dim { opacity: 0.12; }
+.ei-chart .line.dim, .ei-chart .dot.dim { opacity: 0.08; }
 .ei-chart .dot { stroke: var(--ink-2); stroke-width: 2; }
 .ei-chart .end { font-size: 10px; font-weight: 500; fill: #fff; }
 .ei-chart .endbg { stroke: var(--ink-2); stroke-width: 2; }
 .ei-chart .endlabel { font-family: var(--display); font-size: 12px; transform: translateX(6px); font-weight: 600; fill: var(--paper); letter-spacing: 0.04em; }
 .ei-chart image { }
-.ei-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0.75rem 0 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; }
-.ei-legend button { background: none; border: 0; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0; font: inherit; }
-.ei-legend button i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-.ei-legend button[aria-pressed="true"] { color: var(--paper); }
+.ei-chart .key { cursor: pointer; outline: none; }
+.ei-chart .key .endlabel { transition: fill .15s ease, opacity .15s ease; }
+.ei-chart .key:hover .endlabel, .ei-chart .key:focus-visible .endlabel, .ei-chart .key.on .endlabel { fill: var(--purple); }
+.ei-chart .key.dim { opacity: 0.3; }
+.ei-chart .line.hot { opacity: 1; stroke-width: 4; }
 
 .ei-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-family: var(--mono); font-size: 0.8125rem; }
 .ei-table th { text-align: left; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.6875rem; color: var(--muted); padding: 0 0.75rem 0.75rem 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -92,7 +93,6 @@
     <div class="ei-chart-wrap">
       <svg class="ei-chart" id="ei-chart" viewBox="0 0 900 640" role="img" aria-label="Ranking by week for each team"></svg>
     </div>
-    <div class="ei-legend" id="ei-legend"></div>
 
     <div class="table-scroll">
       <table class="ei-table" id="ei-table">
@@ -160,6 +160,7 @@
   });
   L.forEach(t => {
     const ex = x(W - 1), ey = y(t.rank);
+    s += '<g class="key" data-id="' + t.id + '" tabindex="0" role="button" aria-label="Highlight ' + t.name + '">';
     if (t.logoSrc) {
       s += '<circle class="endbg" cx="' + ex + '" cy="' + ey + '" r="15" fill="#F2F1EE"/>' +
            '<image href="' + t.logoSrc + '" x="' + (ex - 12) + '" y="' + (ey - 12) + '" width="24" height="24"/>';
@@ -167,23 +168,35 @@
       s += '<circle class="endbg" cx="' + ex + '" cy="' + ey + '" r="12" fill="' + t.color + '"/>' +
            '<text class="end" x="' + ex + '" y="' + (ey + 3.5) + '" text-anchor="middle">' + t.id + '</text>';
     }
-    s += '<text class="endlabel" x="' + (ex + 18) + '" y="' + (ey + 4) + '">' + t.rank + ' ' + t.name + '</text>';
+    /* invisible hit area so the whole label row is easy to tap */
+    s += '<rect x="' + (ex - 16) + '" y="' + (ey - 13) + '" width="' + (VW - ex + 16) + '" height="26" fill="transparent"/>';
+    s += '<text class="endlabel" x="' + (ex + 18) + '" y="' + (ey + 4) + '">' + t.rank + ' ' + t.name + '</text></g>';
   });
   svg.innerHTML = s;
 
-  const legend = document.getElementById('ei-legend');
-  L.forEach(t => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-    b.innerHTML = '<i style="background:' + t.color + '"></i>' + t.name;
-    b.addEventListener('click', () => {
-      const on = b.getAttribute('aria-pressed') === 'true';
-      legend.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
-      svg.querySelectorAll('.line, .dot').forEach(l => l.classList.remove('dim'));
-      if (!on) { b.setAttribute('aria-pressed', 'true'); svg.querySelectorAll('.line, .dot').forEach(l => { if (l.dataset.id !== t.id) l.classList.add('dim'); }); }
+  /* team names on the right are the key: hover previews a team's path,
+     click (or Enter) locks it, clicking again or elsewhere clears it */
+  let locked = null;
+  function focus(id) {
+    svg.querySelectorAll('.line, .dot').forEach(l => {
+      l.classList.toggle('dim', !!id && l.dataset.id !== id);
+      l.classList.toggle('hot', !!id && l.dataset.id === id);
     });
-    legend.appendChild(b);
+    svg.querySelectorAll('.key').forEach(k => {
+      k.classList.toggle('dim', !!id && k.dataset.id !== id);
+      k.classList.toggle('on', !!id && k.dataset.id === id);
+    });
+    if (id) { const hot = svg.querySelector('.line[data-id="' + id + '"]'); hot.parentNode.insertBefore(hot, svg.querySelector('.key')); }
+  }
+  svg.querySelectorAll('.key').forEach(k => {
+    const id = k.dataset.id;
+    k.addEventListener('mouseenter', () => { if (!locked) focus(id); });
+    k.addEventListener('mouseleave', () => { if (!locked) focus(null); });
+    const toggle = e => { e.stopPropagation(); locked = locked === id ? null : id; focus(locked); };
+    k.addEventListener('click', toggle);
+    k.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); } });
   });
+  svg.addEventListener('click', () => { if (locked) { locked = null; focus(null); } });
 
   /* ---------- table ---------- */
   const mv = t => t.prevRank == null ? '<span class="flat">—</span>' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '<span class="flat">—</span>';
