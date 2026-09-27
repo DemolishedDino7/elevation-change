@@ -35,9 +35,16 @@
 .mini-ei-link { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.875rem; font-weight: 600; color: var(--purple); text-decoration: none; }
 .mini-ei-link:hover { color: var(--paper); }
 .mini-ei-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; }
-.mini-ei-list li { display: grid; grid-template-columns: 2.25rem 12px 1fr auto auto; align-items: center; gap: 0.75rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.mini-ei-list li { display: grid; grid-template-columns: 2.25rem 26px 1fr auto auto; align-items: center; gap: 0.75rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
 .mini-ei-list .r { font-family: var(--display); font-size: 1.25rem; font-weight: 600; color: var(--paper); }
-.mini-ei-list .c { width: 12px; height: 12px; border-radius: 2px; }
+.mini-ei-list .c { width: 12px; height: 12px; border-radius: 2px; justify-self: center; }
+.mini-ei-list .lg { width: 26px; height: 26px; object-fit: contain; background: #F2F1EE; border-radius: 50%; padding: 3px; box-sizing: border-box; }
+@media (max-width: 30rem) {
+  .mini-ei-list li { grid-template-columns: 1.75rem 26px 1fr auto auto; gap: 0.6rem; }
+  .mini-ei-list .n { font-size: 0.9375rem; line-height: 1.15; }
+  .mini-ei-list .n small { display: block; margin: 0.2rem 0 0; }
+  .mini-ei-list .sc { min-width: 2.75rem; }
+}
 .mini-ei-list .n { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.0625rem; font-weight: 500; color: var(--paper); }
 .mini-ei-list .n small { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--muted); margin-left: 0.5rem; text-transform: none; }
 .mini-ei-list .mv { white-space: nowrap; min-width: 3rem; text-align: right; }
@@ -253,7 +260,7 @@
   document.getElementById('mini-ei-title').textContent = 'Elevation Index | Week ' + (CURRENT_WEEK + 1);
   const mv = t => t.prevRank == null ? '—' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '—';
   document.getElementById('mini-ei').innerHTML = L.map(t =>
-    '<li><span class="r">' + t.rank + '</span><span class="c" style="background:' + t.color + '"></span>' +
+    '<li><span class="r">' + t.rank + '</span>' + (t.logo ? '<img class="lg" src="' + t.logo.split('|')[0].trim() + '" alt="" width="24" height="24" onerror="this.outerHTML=\'<span class=&quot;c&quot; style=&quot;background:' + t.color + '&quot;></span>\'">' : '<span class="c" style="background:' + t.color + '"></span>') +
     '<span class="n">' + t.name + '<small>' + t.rec.w + '-' + t.rec.l + '</small></span>' +
     '<span class="mv">' + mv(t) + '</span><span class="sc">' + t.score.toFixed(1) + '</span></li>').join('');
 })();
