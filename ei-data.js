@@ -15,27 +15,27 @@
    =================================================================== */
 
 const TEAMS = [
-  /* id, name, conference, color, seed national rank (preseason estimate), logo (optional URL) */
-  ["AFA",  "Air Force",          "Mountain West", "#003087", 82,  "https://a.espncdn.com/i/teamlogos/ncaa/500/2005.png"],
-  ["HAW",  "Hawai'i",            "Mountain West", "#024731", 100, "https://a.espncdn.com/i/teamlogos/ncaa/500/62.png"],
-  ["NEV",  "Nevada",             "Mountain West", "#003366", 96,  "https://a.espncdn.com/i/teamlogos/ncaa/500/2440.png"],
-  ["UNM",  "New Mexico",         "Mountain West", "#BA0C2F", 70,  "https://a.espncdn.com/i/teamlogos/ncaa/500/167.png"],
-  ["NDSU", "North Dakota State", "Mountain West", "#009A44", 78,  "https://a.espncdn.com/i/teamlogos/ncaa/500/2449.png"],
-  ["NIU",  "Northern Illinois",  "Mountain West", "#C8102E", 98,  "https://a.espncdn.com/i/teamlogos/ncaa/500/2459.png"],
-  ["SJSU", "San José State",     "Mountain West", "#0055A2", 104, "https://a.espncdn.com/i/teamlogos/ncaa/500/23.png"],
-  ["UNLV", "UNLV",               "Mountain West", "#CF0A2C", 60,  "https://a.espncdn.com/i/teamlogos/ncaa/500/2439.png"],
-  ["UTEP", "UTEP",               "Mountain West", "#FF8200", 118, "https://a.espncdn.com/i/teamlogos/ncaa/500/2638.png"],
-  ["WYO",  "Wyoming",            "Mountain West", "#492F24", 102, "https://a.espncdn.com/i/teamlogos/ncaa/500/2751.png"],
-  ["BSU",  "Boise State",        "Pac-12",        "#0033A0", 30,  "https://a.espncdn.com/i/teamlogos/ncaa/500/68.png"],
-  ["CSU",  "Colorado State",     "Pac-12",        "#1E4D2B", 84,  "https://a.espncdn.com/i/teamlogos/ncaa/500/36.png"],
-  ["FRES", "Fresno State",       "Pac-12",        "#DB0032", 66,  "https://a.espncdn.com/i/teamlogos/ncaa/500/278.png"],
-  ["ORST", "Oregon State",       "Pac-12",        "#DC4405", 90,  "https://a.espncdn.com/i/teamlogos/ncaa/500/204.png"],
-  ["SDSU", "San Diego State",    "Pac-12",        "#A6192E", 72,  "https://a.espncdn.com/i/teamlogos/ncaa/500/21.png"],
-  ["TXST", "Texas State",        "Pac-12",        "#501214", 68,  "https://a.espncdn.com/i/teamlogos/ncaa/500/326.png"],
-  ["USU",  "Utah State",         "Pac-12",        "#0F2439", 88,  "https://a.espncdn.com/i/teamlogos/ncaa/500/328.png"],
-  ["WSU",  "Washington State",   "Pac-12",        "#981E32", 76,  "https://a.espncdn.com/i/teamlogos/ncaa/500/265.png"],
-  ["NMSU", "New Mexico State",   "Independent",   "#891216", 120, "https://a.espncdn.com/i/teamlogos/ncaa/500/166.png"],
-  ["SAC",  "Sacramento State",   "MAC",           "#043927", 126, "https://a.espncdn.com/i/teamlogos/ncaa/500/16.png"]
+  /* id, name, conference, color, seed national rank (preseason estimate), logo (hosted in logos/, ESPN as fallback) */
+  ["AFA",  "Air Force",          "Mountain West", "#003087", 82,  "logos/AFA.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2005.png"],
+  ["HAW",  "Hawai'i",            "Mountain West", "#024731", 100, "logos/HAW.png|https://a.espncdn.com/i/teamlogos/ncaa/500/62.png"],
+  ["NEV",  "Nevada",             "Mountain West", "#003366", 96,  "logos/NEV.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2440.png"],
+  ["UNM",  "New Mexico",         "Mountain West", "#BA0C2F", 70,  "logos/UNM.png|https://a.espncdn.com/i/teamlogos/ncaa/500/167.png"],
+  ["NDSU", "North Dakota State", "Mountain West", "#009A44", 78,  "logos/NDSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2449.png"],
+  ["NIU",  "Northern Illinois",  "Mountain West", "#C8102E", 98,  "logos/NIU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2459.png"],
+  ["SJSU", "San José State",     "Mountain West", "#0055A2", 104, "logos/SJSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/23.png"],
+  ["UNLV", "UNLV",               "Mountain West", "#CF0A2C", 60,  "logos/UNLV.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2439.png"],
+  ["UTEP", "UTEP",               "Mountain West", "#FF8200", 118, "logos/UTEP.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2638.png"],
+  ["WYO",  "Wyoming",            "Mountain West", "#492F24", 102, "logos/WYO.png|https://a.espncdn.com/i/teamlogos/ncaa/500/2751.png"],
+  ["BSU",  "Boise State",        "Pac-12",        "#0033A0", 30,  "logos/BSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/68.png"],
+  ["CSU",  "Colorado State",     "Pac-12",        "#1E4D2B", 84,  "logos/CSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/36.png"],
+  ["FRES", "Fresno State",       "Pac-12",        "#DB0032", 66,  "logos/FRES.png|https://a.espncdn.com/i/teamlogos/ncaa/500/278.png"],
+  ["ORST", "Oregon State",       "Pac-12",        "#DC4405", 90,  "logos/ORST.png|https://a.espncdn.com/i/teamlogos/ncaa/500/204.png"],
+  ["SDSU", "San Diego State",    "Pac-12",        "#A6192E", 72,  "logos/SDSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/21.png"],
+  ["TXST", "Texas State",        "Pac-12",        "#501214", 68,  "logos/TXST.png|https://a.espncdn.com/i/teamlogos/ncaa/500/326.png"],
+  ["USU",  "Utah State",         "Pac-12",        "#0F2439", 88,  "logos/USU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/328.png"],
+  ["WSU",  "Washington State",   "Pac-12",        "#981E32", 76,  "logos/WSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/265.png"],
+  ["NMSU", "New Mexico State",   "Independent",   "#891216", 120, "logos/NMSU.png|https://a.espncdn.com/i/teamlogos/ncaa/500/166.png"],
+  ["SAC",  "Sacramento State",   "MAC",           "#043927", 126, "logos/SAC.png|https://a.espncdn.com/i/teamlogos/ncaa/500/16.png"]
 ];
 
 /* Non-tracked opponents. natRank = CURRENT national strength estimate
