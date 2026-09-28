@@ -303,7 +303,7 @@ const EI = (function () {
     else if (g.win && g.margin <= 7 && g.fcs) issue = 'finishing — an FCS opponent stayed within ' + g.margin + ' points';
     else if (g.win) issue = 'consistency — the win over ' + g.oppName + ' was the right result, and the next opponent is a step up';
     else issue = 'closing — the ' + Math.abs(g.margin) + '-point loss to ' + g.oppName + ' was competitive but not enough';
-    return 'The priority against ' + nxt.replace(/^(vs|at) /, '') + ' is ' + issue + '. Enter box-score stats for this game in ei-data.js and this section sharpens automatically.';
+    return 'The priority against ' + nxt.replace(/^(vs|at) /, '') + ' is ' + issue + '.';
   }
 
   return { compute, history, whyRanked, improve, oppLabel, scoreLine };
