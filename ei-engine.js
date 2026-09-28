@@ -291,19 +291,9 @@ const EI = (function () {
     return parts.length ? 'Because ' + t.name + ' has ' + parts.join(', ') + '.' : 'No résumé yet.';
   }
 
+  /* "To improve" comes from the latest Index article (IMPROVE in ei-data.js) */
   function improve(t) {
-    const g = t.last; if (!g) return '';
-    const nxt = NEXT[t.id] || 'TBD';
-    if (nxt === 'Bye') return t.name + ' is off this week. ' + (g.win ? 'The bye comes after a win, which is the easier kind.' : 'The bye is a chance to fix ' + (g.perfNote || 'what went wrong against ' + g.oppName) + ' before the next one.');
-    let issue;
-    if (g.stats && g.stats.to >= 3) issue = 'ball security — ' + g.stats.to + ' turnovers against ' + g.oppName + ' turned a winnable game';
-    else if (g.stats && g.stats.sacksAllowed >= 5) issue = 'pass protection — ' + g.stats.sacksAllowed + ' sacks allowed against ' + g.oppName;
-    else if (!g.win && g.pf <= 10) issue = 'scoring — ' + g.pf + ' points against ' + g.oppName + ' is not enough to win a game';
-    else if (!g.win && g.pa >= 35) issue = 'run and pass defense — ' + g.pa + ' points allowed to ' + g.oppName;
-    else if (g.win && g.margin <= 7 && g.fcs) issue = 'finishing — an FCS opponent stayed within ' + g.margin + ' points';
-    else if (g.win) issue = 'consistency — the win over ' + g.oppName + ' was the right result, and the next opponent is a step up';
-    else issue = 'closing — the ' + Math.abs(g.margin) + '-point loss to ' + g.oppName + ' was competitive but not enough';
-    return 'The priority against ' + nxt.replace(/^(vs|at) /, '') + ' is ' + issue + '.';
+    return (typeof IMPROVE !== 'undefined' && IMPROVE[t.id]) || '';
   }
 
   return { compute, history, whyRanked, improve, oppLabel, scoreLine };

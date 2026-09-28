@@ -216,6 +216,32 @@ const GAMES = [
   { team:"SAC",  week:4, date:"2026-09-26", opp:"Massachusetts",     site:"H", pf:6,  pa:35 }
 ];
 
+/* What each team needs to do next, taken from the latest Index article
+   ("What ___ needs to do"). Shown as "To improve" on the team cards.
+   Update these each week when the new article is written. */
+const IMPROVE = {
+  BSU:  "Keep winning. The No. 1 spot is now theirs to lose.",
+  NDSU: "Make the bye-week drop temporary.",
+  ORST: "Turn the quality losses into quality wins.",
+  FRES: "Keep winning and make USC look like the outlier.",
+  UNM:  "Keep stacking wins.",
+  CSU:  "Find a way to get stops.",
+  AFA:  "Start turning close games into comfortable wins.",
+  TXST: "Translate this offensive efficiency into an FBS win.",
+  WSU:  "Finish games.",
+  UNLV: "Prove the Akron performance wasn’t a one-week spike.",
+  WYO:  "Keep the rushing attack rolling.",
+  SJSU: "Come out of the bye ready to build on the Fresno State win.",
+  NEV:  "Finish one of these close games.",
+  USU:  "Show that Saturday wasn’t a fluke.",
+  HAW:  "Find some offensive consistency.",
+  NMSU: "Protect the football and find another win.",
+  UTEP: "Keep the offense out of obvious passing situations.",
+  SDSU: "Respond immediately.",
+  NIU:  "Turn yards into points and, more importantly, wins.",
+  SAC:  "Find a way to generate offense."
+};
+
 /* Next opponent for each team (used in the team cards). */
 const NEXT = {
   AFA:  "vs Navy",

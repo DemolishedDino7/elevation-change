@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202609281546">
+<link rel="stylesheet" href="styles.css?v=202609281551">
 <style>
 .ei-head { padding: 3.5rem 0 1.5rem; }
 .ei-intro { max-width: 46ch; color: var(--muted); margin: 0; }
@@ -133,8 +133,8 @@
   </div>
 </footer>
 
-<script src="ei-data.js?v=202609281546"></script>
-<script src="ei-engine.js?v=202609281546"></script>
+<script src="ei-data.js?v=202609281551"></script>
+<script src="ei-engine.js?v=202609281551"></script>
 <script>
 (function () {
   const H = EI.history(CURRENT_WEEK), L = H.latest, W = H.weeks.length, N = L.length;
@@ -245,7 +245,7 @@
     '<dt>Worst loss</dt><dd>' + g(t.worstLoss) + '</dd>' +
     '<dt>Why here</dt><dd>' + EI.whyRanked(t) + '</dd>' +
     '<dt>Next</dt><dd>' + (NEXT[t.id] || 'TBD') + '</dd>' +
-    '<dt>To improve</dt><dd>' + EI.improve(t) + '</dd>' +
+    (EI.improve(t) ? '<dt>To improve</dt><dd>' + EI.improve(t) + '</dd>' : '') +
     '</dl>' +
     '<div class="games">' + t.games.map(x =>
       '<div><span>Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span><span><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> | ' + x.label + ' | ' + (x.final >= 0 ? '+' : '') + x.final.toFixed(1) + '</span></div>').join('') + '</div>' +
@@ -255,6 +255,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202609281546"></script>
+<script src="ticker.js?v=202609281551"></script>
 </body>
 </html>
