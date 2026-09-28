@@ -78,6 +78,8 @@ const OPPONENTS = {
   "Georgia State":     { natRank: 100, fcs: false },
   "Rice":              { natRank: 105, fcs: false },
   "Akron":             { natRank: 125, fcs: false },
+  "Navy":              { natRank: 70,  fcs: false },   /* estimate — refresh */
+  "California":        { natRank: 66,  fcs: false },   /* estimate — refresh */
   "Incarnate Word":    { fcs: true, strong: false },
   "South Dakota":      { fcs: true, fcsRank: 10, strong: true },
   "Montana":           { fcs: true, fcsRank: 3,  strong: true },
@@ -241,3 +243,22 @@ const NEXT = {
 };
 
 const CURRENT_WEEK = 4;
+
+/* This week's prediction slate. home/away = tracked id or OPPONENTS
+   name; site 'N' for neutral. line = the market line, shown for
+   comparison only — the model never reads it. */
+const SLATE = {
+  week: 5, throughWeek: 4,
+  games: [
+    { away:"Western Kentucky", home:"NMSU", day:"Thu 6:00 PM",  line:"NMSU −1.5" },
+    { away:"Navy",             home:"AFA",  day:"Sat 10:00 AM", line:"AFA −2.5" },
+    { away:"California",       home:"UNLV", day:"Sat 1:30 PM",  line:"UNLV −2.5" },
+    { away:"WYO",              home:"NDSU", day:"Sat 1:30 PM",  line:"NDSU −20.5" },
+    { away:"UTEP",             home:"UNM",  day:"Sat 2:00 PM",  line:"UNM −22.5" },
+    { away:"ORST",             home:"CSU",  day:"Sat 4:00 PM",  line:"ORST −4.5" },
+    { away:"USU",              home:"BSU",  day:"Sat 5:30 PM",  line:"BSU −21" },
+    { away:"FRES",             home:"WSU",  day:"Sat 7:30 PM",  line:"FRES −1.5" },
+    { away:"TXST",             home:"SDSU", day:"Sat 8:30 PM",  line:"TXST −4" },
+    { away:"SJSU",             home:"HAW",  day:"Sat TBA",      line:"" }
+  ]
+};

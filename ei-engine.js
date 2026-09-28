@@ -306,5 +306,125 @@ const EI = (function () {
     return 'The priority against ' + nxt.replace(/^(vs|at) /, '') + ' is ' + issue + '. Enter box-score stats for this game in ei-data.js and this section sharpens automatically.';
   }
 
-  return { compute, history, whyRanked, improve, oppLabel, scoreLine };
+  /* ===================================================================
+     PREDICTION MODEL
+     The Index above is a résumé — it rewards who you beat. This is a
+     separate, forward-looking power rating built from the same games:
+     how many points better than an average FBS team each team plays
+     right now. It never touches the rankings.
+
+     Per game:  adjusted margin + opponent strength ± venue
+       · margins past 21 count at 40% (garbage time isn't signal)
+       · when yardage is entered, 30% of the margin comes from it
+       · half of the turnover swing is stripped out as luck
+     Per team:  recency-weighted average of those games, blended with
+       the preseason seed (worth PRIOR_GAMES games) so one result
+       can't swing a rating on its own.
+     Per matchup: spread = rating gap + home field; win probability
+       from a normal curve (SIGMA points of game-to-game noise).
+     =================================================================== */
+  const HFA = 2.5, SIGMA = 13.5, PRIOR_GAMES = 1.5, AVG_TOTAL = 52, TOTAL_PRIOR_GAMES = 2;
+  const FCS_UNRANKED_PTS = -24;
+  const COMMON = [0,3,6,7,10,13,14,17,20,21,23,24,27,28,30,31,34,35,37,38,41,42,44,45,48,49,52,55,56,59,62,63];
+
+  /* national rank → points vs an average FBS team (#1 ≈ +27, #68 = 0, #128 ≈ −16) */
+  function rankToPts(r) {
+    const p = Math.min(0.98, Math.max(0.02, (r - 0.5) / 136));
+    return -7 * Math.log(p / (1 - p));
+  }
+  function oppPts(opp) {
+    if (opp.fcs) return opp.fcsRank ? rankToPts(fcsEquiv(opp)) : FCS_UNRANKED_PTS;
+    return rankToPts(opp.natRank || 100);
+  }
+  function normCdf(x) {                               /* Abramowitz–Stegun erf */
+    const t = 1 / (1 + 0.3275911 * Math.abs(x) / Math.SQRT2);
+    const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x / 2);
+    return x >= 0 ? (1 + y) / 2 : (1 - y) / 2;
+  }
+
+  function gameMargin(g) {
+    let m = g.pf - g.pa;
+    const s = g.stats || {};
+    if (s.yds != null && s.oppYds != null) m = 0.7 * m + 0.3 * ((s.yds - s.oppYds) / 14);
+    else if (s.ypp != null && s.oppYpp != null) m = 0.7 * m + 0.3 * ((s.ypp - s.oppYpp) * 9);
+    if (s.to != null || s.oppTo != null) m -= 2 * ((s.oppTo || 0) - (s.to || 0));
+    const a = Math.abs(m);
+    return Math.sign(m) * (a <= 21 ? a : 21 + (a - 21) * 0.4);
+  }
+
+  /* power ratings for every tracked team through a given week */
+  function power(throughWeek) {
+    const wk = throughWeek == null ? CURRENT_WEEK : throughWeek;
+    const games = GAMES.filter(g => g.week <= wk).sort((a, b) => a.date < b.date ? -1 : 1);
+    let rating = {}; TEAMS.forEach(t => rating[t[0]] = rankToPts(t[4]));
+    const out = {};
+    for (let pass = 0; pass < 6; pass++) {             /* tracked opponents use each other's ratings */
+      const next = {};
+      TEAMS.forEach(t => {
+        const id = t[0], tg = games.filter(g => g.team === id), n = tg.length;
+        const prior = rankToPts(t[4]);
+        let sum = PRIOR_GAMES * prior, wsum = PRIOR_GAMES, tot = TOTAL_PRIOR_GAMES * AVG_TOTAL, tw = TOTAL_PRIOR_GAMES;
+        const log = [];
+        tg.forEach((g, i) => {
+          const w = recency(n - 1 - i);
+          const op = rating[g.opp] != null ? rating[g.opp] : oppPts(resolveOpp(g.opp, {}));
+          const venue = g.site === 'H' ? -HFA : g.site === 'A' ? HFA : 0;
+          const gr = gameMargin(g) + op + venue;
+          sum += w * gr; wsum += w;
+          tot += w * (g.pf + g.pa); tw += w;
+          log.push({ opp: g.opp, week: g.week, rating: gr });
+        });
+        next[id] = sum / wsum;
+        out[id] = { id, name: t[1], rating: next[id], prior, total: tot / tw, games: n, log };
+      });
+      rating = next;
+    }
+    return out;
+  }
+
+  function snap(x) {                                  /* nearest common football score */
+    return COMMON.reduce((a, b) => Math.abs(b - x) < Math.abs(a - x) ? b : a);
+  }
+
+  /* predict(home, away, { site: 'H' | 'N', week })  — ids or OPPONENTS names */
+  function predict(home, away, opts) {
+    opts = opts || {};
+    const P = opts.ratings || power(opts.week);
+    const side = key => {
+      if (P[key]) return { key, name: P[key].name, rating: P[key].rating, total: P[key].total, tracked: true };
+      const o = resolveOpp(key, {});
+      return { key, name: key, rating: oppPts(o), total: AVG_TOTAL, tracked: false, unknown: !!o.unknown };
+    };
+    const h = side(home), a = side(away);
+    const hfa = opts.site === 'N' ? 0 : HFA;
+    const spread = h.rating - a.rating + hfa;          /* + = home favored */
+    const pHome = normCdf(spread / SIGMA);
+    const total = (h.total + a.total) / 2;
+    let hs = snap(total / 2 + spread / 2), as = snap(total / 2 - spread / 2);
+    if (hs === as) { if (spread >= 0) hs = COMMON[COMMON.indexOf(hs) + 1]; else as = COMMON[COMMON.indexOf(as) + 1]; }
+    if ((hs > as) !== (spread >= 0)) { const t = hs; hs = as; as = t; }
+    const fav = spread >= 0 ? h : a, dog = spread >= 0 ? a : h;
+    const pFav = Math.max(pHome, 1 - pHome);
+    return {
+      home: h, away: a, site: opts.site === 'N' ? 'N' : 'H',
+      spread: Math.round(spread * 2) / 2,
+      favorite: fav.name, underdog: dog.name,
+      line: fav.name + ' −' + (Math.round(Math.abs(spread) * 2) / 2).toFixed(1),
+      pHome, pAway: 1 - pHome, pFavorite: pFav,
+      total: Math.round(total * 2) / 2,
+      score: { home: hs, away: as },
+      winner: hs > as ? h.name : a.name,
+      confidence: pFav >= 0.85 ? 'Lock' : pFav >= 0.7 ? 'Strong' : pFav >= 0.58 ? 'Lean' : 'Coin flip'
+    };
+  }
+
+  /* the whole slate from SLATE in ei-data.js */
+  function predictSlate(slate) {
+    slate = slate || (typeof SLATE !== 'undefined' ? SLATE : null);
+    if (!slate) return [];
+    const ratings = power(slate.throughWeek);
+    return slate.games.map(g => Object.assign({ meta: g }, predict(g.home, g.away, { site: g.site, ratings })));
+  }
+
+  return { compute, history, whyRanked, improve, oppLabel, scoreLine, power, predict, predictSlate };
 })();
