@@ -36,7 +36,9 @@
 .market b { color: var(--paper); font-weight: 700; }
 .game h2 { margin: 0 0 0.5rem !important; }
 .game h2 .vs { color: var(--muted); font-size: 0.7em; }
-.game .team-logo { width: 1.3em; height: 1.3em; object-fit: contain; vertical-align: -0.3em; margin-right: 0.4rem; }
+.matchup-logos { display: flex; align-items: center; gap: 1.25rem; margin: 0.75rem 0 1.25rem; }
+.matchup-logos .team-logo { width: 76px; height: 76px; object-fit: contain; }
+.matchup-logos .vs { font-family: var(--display); font-style: italic; font-weight: 900; font-stretch: 112%; text-transform: uppercase; color: var(--muted); font-size: 1rem; }
 .game .gsub { margin-bottom: 1.5rem; }
 .picks { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 1.25rem 0 0; }
 .pk { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.25rem 1rem; align-items: baseline; padding: 0.9rem 0; }
@@ -109,7 +111,8 @@
 
         <section class="game" id="new-mexico-state-western-kentucky">
           <p class="gmeta"><span>Game 1</span><span>By Brooks Barney</span></p>
-          <h2><img class="team-logo" alt="" data-logo="NMSU">New Mexico State <span class="vs">vs.</span> Western Kentucky</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/NMSU.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/WKU.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>New Mexico State <span class="vs">vs.</span> Western Kentucky</h2>
           <p class="gsub">New Mexico State 1-3 (0-1), Western Kentucky 1-3 (0-0)</p>
           <p>This Thursday, New Mexico State returns home looking to bounce back from a 42-18 loss to rival New Mexico in the Rio Grande Rivalry. The Aggies have shown flashes of potential through the first four games, but consistency on both sides of the ball has been an issue. After giving up 42 points last week, New Mexico State will need to tighten things up defensively and find a way to create more opportunities on offense.</p>
           <p>Western Kentucky comes into Las Cruces after facing a gauntlet of a non-conference schedule, including losses to No. 2 Georgia and No. 6 Indiana. The Hilltoppers have also shown that they can move the ball effectively when they get into a rhythm, but they have struggled to find consistency against stronger competition. That could give New Mexico State an opportunity if the Aggies can avoid the turnovers and offensive droughts that have hurt them early this season.</p>
@@ -122,7 +125,8 @@
         </section>
         <section class="game" id="air-force-navy">
           <p class="gmeta"><span>Game 2</span><span>By Brooks Barney</span><span class="split">Split pick</span></p>
-          <h2><img class="team-logo" alt="" data-logo="AFA">Air Force <span class="vs">vs.</span> Navy</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/AFA.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/NAVY.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>Air Force <span class="vs">vs.</span> Navy</h2>
           <p class="gsub">Air Force 2-1 (1-1), Navy 1-2 (0-2)</p>
           <p>Air Force returns home this weekend after a double-overtime thriller against Nevada, coming away with a 36-33 victory in a game that tested the Falcons late. Air Force has been productive offensively through the first three games, and continuing to execute after last week&rsquo;s high-scoring battle will be key against the Midshipmen. Quarterback Liam Szarka has been a key part of that production, leading the Falcons in both passing and rushing yards while accounting for six touchdowns this season. Senior linebacker Blake Fletcher has also been a major contributor on the defensive side, recording 33 total tackles while adding an 85-yard pick-6 in Air Force&rsquo;s close loss to North Dakota State.</p>
           <p>Navy brings its own option-heavy offense into Falcon Stadium, led by quarterbacks Jackson Gutierrez and Braxton Woodson, who have split reps throughout the season. Navy&rsquo;s rushing attack could create problems for the Falcons&rsquo; defense, but playing at home and coming off last week&rsquo;s emotional win should give Air Force plenty of momentum. If Air Force can limit Navy&rsquo;s big plays, continue finding success on the ground and get strong performances from Szarka, Fletcher and the defense, the Falcons should be in position to come away with another win and give themselves some leverage in the race for the Commander-in-Chief&rsquo;s Trophy.</p>
@@ -134,7 +138,8 @@
         </section>
         <section class="game" id="unlv-cal">
           <p class="gmeta"><span>Game 3</span><span>By Tyler Angerbauer</span><span class="split">Split pick</span></p>
-          <h2><img class="team-logo" alt="" data-logo="UNLV">UNLV <span class="vs">vs.</span> Cal</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/UNLV.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/CAL.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>UNLV <span class="vs">vs.</span> Cal</h2>
           <p class="gsub">UNLV 2-2 (1-0), Cal (1-1)</p>
           <p>UNLV vs. Cal is one of the most fascinating games on this week&rsquo;s slate, and it&rsquo;s not because it&rsquo;s our only G6 vs P4 matchup this week. Both teams have played well in losses, but each lacks a signature win so far this season. While that signature win won&rsquo;t be against each other, this week&rsquo;s match should help determine what the rest of the season has in store for each of these teams.</p>
           <p>Cal quarterback Jaron-Keawe Sagapolutele took over for future No. 1 NFL draft pick Fernando Mendoza in 2025, and Golden Bear fans expected similar production from the No. 7 overall quarterback recruit in that year&rsquo;s class. Needless to say, Sagapolutele has not lived up to his lofty expectations. Cal&rsquo;s offense hasn&rsquo;t looked good against any of the power teams they&rsquo;ve played this season, but there&rsquo;s a chance for things to change in their first matchup against a G6 opponent.</p>
@@ -147,7 +152,8 @@
         </section>
         <section class="game" id="north-dakota-state-wyoming">
           <p class="gmeta"><span>Game 4</span><span>By Tyler Angerbauer</span></p>
-          <h2><img class="team-logo" alt="" data-logo="NDSU">North Dakota State <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="WYO">Wyoming</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/NDSU.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/WYO.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>North Dakota State <span class="vs">vs.</span> Wyoming</h2>
           <p class="gsub">North Dakota State 4-0 (1-0), Wyoming 2-2 (1-0)</p>
           <p>The Bison and the Cowboys face off in the first-ever &ldquo;Battle of the Basins&rdquo; in Fargo this weekend. North Dakota State is on an absolute tear, scoring 30+ in each of their first four games, second-best in the Mountain West. Led by quarterback Nathan Hayes and running backs DJ Scott and Myles Mitchell, the Bison have smothered nearly every opponent on their schedule, holding all but one team to two scores or fewer. The one team to give them trouble: Air Force, a fellow Mountain West foe. Wyoming is their second conference opponent this season, and the Bison are going to need their high-powered offense and stout defense to hold against the Cowboys, who have had a turbulent start to the season.</p>
           <p>Wyoming has had a middling start to the year, but it did grab an opening conference win against Hawaii last Saturday. An offense built around its two top tight ends, Kyle Frendt and Jake Wilson, hasn&rsquo;t been consistent, but it&rsquo;s allowed several chunk plays to be made across the middle. Wyoming&rsquo;s defense has improved each week, allowing only 15.6 points per game in its past three games, but the Bison will test it. Wyoming has a shot of putting up a fight against North Dakota State, but the sheer offensive power of the Bison should easily overwhelm a weak Cowboy defense.</p>
@@ -159,7 +165,8 @@
         </section>
         <section class="game" id="new-mexico-utep">
           <p class="gmeta"><span>Game 5</span><span>By Tyler Angerbauer</span></p>
-          <h2><img class="team-logo" alt="" data-logo="UNM">New Mexico <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="UTEP">UTEP</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/UNM.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/UTEP.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>New Mexico <span class="vs">vs.</span> UTEP</h2>
           <p class="gsub">New Mexico 4-1 (1-0), UTEP 1-3 (0-0)</p>
           <p>UTEP travels straight north on the I-25 against New Mexico in their first conference matchup as a member of the Mountain West. That&rsquo;s about all the good that&rsquo;s come from El Paso this season. The Miners have had a brutal non-conference schedule with two away games at Oklahoma and Michigan while also facing one of the better G6 teams at home in Oregon State. The average score in those three games? 45-8. Luck has not been on the Miners side this season, and it looks like that bad stretch will continue against the dangerous Lobos.</p>
           <p>New Mexico has been one of the most impressive teams in college football this season, with most notably a 14-6 loss at then-No. 24 Oklahoma in Week 2. The Lobos have the best offense in the Mountain West and one of the best among all G6 schools. Hope looked lost after it was announced that starting quarterback Jack Layne would miss the season with injury, but the dual-set of quarterbacks in Luke Moga and Toa Fa&rsquo;avae have filled in remarkably, combining for 625 yards, five touchdowns, and no interceptions. The Lobo defense has also recorded twelve sacks, nine interceptions, and five forced fumbles. Needless to say, this is going to be a blowout, and unfortunately for Miner faithful, it&rsquo;s not going to be pretty.</p>
@@ -171,7 +178,8 @@
         </section>
         <section class="game" id="colorado-state-oregon-state">
           <p class="gmeta"><span>Game 6</span><span>By Tyler Angerbauer</span></p>
-          <h2><img class="team-logo" alt="" data-logo="CSU">Colorado State <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="ORST">Oregon State</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/CSU.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/ORST.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>Colorado State <span class="vs">vs.</span> Oregon State</h2>
           <p class="gsub">Colorado State 2-2 (0-0), Oregon State 2-2 (0-0)</p>
           <p>The Rams and the Beavers meet in the Elevation Change Game of the Week that is a fascinating matchup between two top Pac-12 contenders. Both teams have been in incredibly entertaining games this season, with Oregon State playing close with two top Big 12 teams and Colorado State showcasing one of the highest-powered offenses in all of college football. Both teams lie at 2-2 on the season, but their trajectories are pointing them in opposite directions.</p>
           <p>Colorado State started out 2-0, but its numbers were deceiving. Despite strong offensive play by quarterback Hauss Hejny and running back Mel Brown, the defense could not come up with stops against the weaker offenses of Wyoming and FCS Southern Utah. Notably, Southern Utah was able to gain 442 yards against a division one defense. Those defensive holes finally cracked when then-No. 11 BYU and UTSA were able to gash the Rams with 41 and 59 points in back-to-back losses. Despite their porous defense, Colorado State can still hang in games with their strong offense, but that unit&rsquo;s performance this week will be determined on if Hejny&rsquo;s hamstring is healed after it was injured two weeks ago.</p>
@@ -184,7 +192,8 @@
         </section>
         <section class="game" id="boise-state-utah-state">
           <p class="gmeta"><span>Game 7</span><span>By Preston Thompson</span></p>
-          <h2><img class="team-logo" alt="" data-logo="BSU">Boise State <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="USU">Utah State</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/BSU.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/USU.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>Boise State <span class="vs">vs.</span> Utah State</h2>
           <p class="gsub">Utah State 1-3 (0-0), Boise State 3-1 (0-0)</p>
           <p>Utah State&rsquo;s offense has looked lost for much of the season, averaging just 13 points per game and turning the ball over nine times through four games. But the Aggies finally found some life last week in a 21-10 win over Troy. Eli Wood had seven catches for 96 yards and a touchdown, while Brevin Hamblin had a monster defensive performance with 12 tackles and an interception. That was a major step forward for a team that had struggled to consistently move and contain the ball. Utah State will need last week&rsquo;s version of Wood and quarterback Grady Brosterhous again if it wants to have a chance in Boise. The problem is that head coach Bronco Mendenhall and the Aggies are walking into one of the toughest environments in the conference against a ranked Broncos team that has been playing its best football of the season.</p>
           <p>Boise State is coming off a 32-7 demolition of Western Michigan and has one of the most dangerous rushing attacks in the country. Dylan Riley has already piled up 592 rushing yards, good for third in the nation, and just ran for 138 yards and a touchdown against the Broncos&rsquo; latest opponent. Maddux Madsen has added 814 passing yards and nine touchdowns, while Rasean Jones leads the team with 271 receiving yards. On defense, Travis Anderson already has 19 tackles and three interceptions, making him a major problem for an Aggies passing game that has already thrown nine interceptions this season. Utah State looked much better last week, but we think Boise&rsquo;s ability to control the game with Riley and Madsen will eventually wear down the Aggies. We expect Utah State to show some of the improvement we saw last week, but not nearly enough to keep pace with a ranked Boise State team looking to add another strong win to its r&eacute;sum&eacute; in the CFP race.</p>
@@ -196,7 +205,8 @@
         </section>
         <section class="game" id="washington-state-fresno-state">
           <p class="gmeta"><span>Game 8</span><span>By Brooks Barney</span></p>
-          <h2><img class="team-logo" alt="" data-logo="WSU">Washington State <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="FRES">Fresno State</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/WSU.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/FRES.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>Washington State <span class="vs">vs.</span> Fresno State</h2>
           <p class="gsub">Washington State 1-3 (0-0) vs Fresno State 3-1 (0-0)</p>
           <p>Washington State enters its first Pac-12 matchup of the season at 1-3, hosting Fresno State at home. The Cougars have struggled offensively through the first four games, with the offensive line already allowing 13 sacks. Washington State will need to make adjustments up front and give quarterback Caden Pinnick more time if it wants to consistently move the ball against Fresno State&rsquo;s defense. The Cougars&rsquo; kicking game has also been an issue, converting just two of seven field-goal attempts so far this season. Against a Fresno State team that has made seven of its eight attempts, those missed opportunities could become especially important in a close game.</p>
           <p>Fresno State comes into Pullman looking to start Pac-12 play with a win and has been more reliable in the kicking game, which could give the Bulldogs an advantage if this matchup comes down to a few possessions. Defensive back Simeon Harris has been one of Fresno State&rsquo;s biggest playmakers, recording 22 tackles and three interceptions through the first four games. His ability to create turnovers could put additional pressure on a Washington State offense that has struggled to consistently capitalize on scoring opportunities. Ultimately, Fresno State&rsquo;s defensive playmaking and advantage in the kicking game should be enough to secure a win in Pullman.</p>
@@ -208,7 +218,8 @@
         </section>
         <section class="game" id="san-diego-state-texas-state">
           <p class="gmeta"><span>Game 9</span><span>By Preston Thompson</span></p>
-          <h2><img class="team-logo" alt="" data-logo="SDSU">San Diego State <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="TXST">Texas State</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/SDSU.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/TXST.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>San Diego State <span class="vs">vs.</span> Texas State</h2>
           <p class="gsub">Texas State 2-2 (0-0), San Diego State 1-3 (0-0)</p>
           <p>Texas State comes into San Diego with an offense that has really started to find its identity. After losing its first two games, the Bobcats have exploded for 49 and 63 points in their last two, with Torrance Burgess Jr. leading the rushing attack and Brad Jackson providing another dimension at quarterback. Burgess has already put together multiple huge rushing performances this season, while Jackson has shown he can hurt defenses both through the air and on the ground. Davian Jackson has also been a consistent contributor in the run game. We think that offensive explosion will continue this week, especially against a San Diego State team that just gave up 494 yards and 41 points to Toledo. However, we don&rsquo;t expect Texas State to simply run away with this one. The Bobcats&rsquo; offense should move the ball consistently, but San Diego State should settle in defensively and find more success getting off the field at home.</p>
           <p>San Diego State is coming off one of its worst performances of the season, getting dominated 41-16 at Toledo last week. The Aztecs were held to 296 total yards and struggled to stay on the field, but we expect a much better showing this week. Javion Kinnard remains a major piece of the offense, while Sione Hala and Tank Letuli will lead a defense that has the talent to make things difficult for Texas State. We think the Aztecs will settle down defensively after last week&rsquo;s performance and keep Texas State from putting up another 50-plus-point game, but with the Bobcats&rsquo; offense playing at such a high level over the last two weeks, we still think Texas State will find enough explosive plays to keep the pressure on throughout the game.</p>
@@ -220,7 +231,8 @@
         </section>
         <section class="game" id="hawaii-san-jose-state">
           <p class="gmeta"><span>Game 10</span><span>By Preston Thompson</span></p>
-          <h2><img class="team-logo" alt="" data-logo="HAW">Hawai&lsquo;i <span class="vs">vs.</span> <img class="team-logo" alt="" data-logo="SJSU">San Jos&eacute; State</h2>
+          <div class="matchup-logos" aria-hidden="true"><img class="team-logo" alt="" src="logos/HAW.png?v=202609291940" onerror="this.remove()"><span class="vs">vs.</span><img class="team-logo" alt="" src="logos/SJSU.png?v=202609291940" onerror="this.remove()"></div>
+          <h2>Hawai&lsquo;i <span class="vs">vs.</span> San Jos&eacute; State</h2>
           <p class="gsub">San Jose State 2-2 (0-0), Hawaii 1-3 (0-2)</p>
           <p>San Jose State and Hawaii both enter this matchup with offenses that have shown they can move the football, but neither has been particularly consistent at turning those yards into points. Luke Weaver has thrown for more than 1,000 yards, while Carson Clark and Cooper Hoch have emerged as two of his top receiving options. The Spartans have the pieces to put together long drives and create explosive plays, but last week&rsquo;s loss to Fresno State showed the downside, as turnovers and stalled possessions kept a productive offense to just 10 points. We expect San Jose State to move the ball again in Honolulu, but Hawaii&rsquo;s defense should be able to bend without completely breaking and force the Spartans to settle on some of those drives.</p>
           <p>Hawaii has run into many of the same problems on the other side of the ball. Micah Alejado has shown that he can move the ball through the air, but the Rainbow Warriors have struggled to finish drives and turn production into points. Hawaii moved the ball against Wyoming last week but managed only 10 points, and that inability to capitalize has been a recurring theme this season. We think Alejado will have opportunities against San Jose State and that Hawaii will put together several long drives, but the Spartans should make enough stops in critical situations to keep the Rainbow Warriors from turning every opportunity into a touchdown. With both teams capable of gaining plenty of yards but struggling to finish, we expect a close game where both defenses bend, but don&rsquo;t break.</p>
@@ -249,22 +261,6 @@
 
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ei-data.js?v=202609281551"></script>
-<script>
-(function () {
-  document.querySelectorAll('img[data-logo]').forEach(img => {
-    const t = TEAMS.find(x => x[0] === img.dataset.logo); if (!t) { img.remove(); return; }
-    const cands = (t[5] || '').split('|').map(s => s.trim()).filter(Boolean);
-    (function tryNext(i) {
-      if (i >= cands.length) { img.remove(); return; }
-      const probe = new Image();
-      probe.onload = () => { img.src = cands[i]; };
-      probe.onerror = () => tryNext(i + 1);
-      probe.src = cands[i];
-    })(0);
-  });
-})();
-</script>
 <script src="ticker.js?v=202609281551"></script>
 </body>
 </html>
