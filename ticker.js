@@ -15,12 +15,14 @@
 const WATCH = [
   "AFA","HAW","NEV","UNM","NDSU","NIU","SJSU","UNLV","UTEP","WYO",   /* Mountain West */
   "BSU","CSU","FRES","ORST","SDSU","TXST","USU","WSU",                /* Pac-12 */
-  "SAC"                                                               /* Sacramento State */
+  "SAC",                                                              /* Sacramento State */
+  "NMSU"                                                               /* New Mexico State */
 ];
 
-/* Hand-entered backup. ["Away @ Home", "Day time (MT)", "Line"] */
+/* Hand-entered backup. ["Away @ Home", "Day time (MT)", "Line", live?]
+   Put true as a 4th value to mark a game in progress (red dot + LIVE label). */
 const FALLBACK = [
-  ["Western Kentucky @ New Mexico State","Thu 6:00 PM",  "NMSU −1.5"],
+  ["Western Kentucky @ New Mexico State","Live now",     "NMSU −1.5", true],
   ["Navy @ Air Force",                  "Sat 10:00 AM", "AFA −2.5"],
   ["California @ UNLV",                 "Sat 1:30 PM",  "UNLV −2.5"],
   ["Wyoming @ North Dakota State",      "Sat 1:30 PM",  "NDSU −20.5"],
@@ -59,9 +61,9 @@ const FALLBACK = [
 
   function fallback() {
     paint(FALLBACK.map(g =>
-      '<span class="tk-item"><b>' + esc(g[0]) + '</b>' +
+      '<span class="tk-item' + (g[3] ? ' tk-in' : '') + '">' + (g[3] ? '<i class="tk-dot"></i>' : '') + '<b>' + esc(g[0]) + '</b>' +
       (g[1] ? SEP + '<em>' + esc(g[1]) + '</em>' : '') +
-      (g[2] ? SEP + '<em>' + esc(g[2]) + '</em>' : '') + '</span>'), false);
+      (g[2] ? SEP + '<em>' + esc(g[2]) + '</em>' : '') + '</span>'), FALLBACK.some(g => g[3]));
   }
 
   function mtTime(iso) {

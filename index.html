@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202609281551">
+<link rel="stylesheet" href="styles.css?v=202610011820">
 <style>
 .mini-ei { margin-top: 2.75rem; }
 .eyebrow-wide { display: block; white-space: nowrap; font-size: clamp(0.75rem, 2.25vw, 1.5rem); letter-spacing: 0.5em; margin-bottom: 1.25rem; }
@@ -86,9 +86,10 @@
     </section>
 
 
-      <div class="next-game">
-        <h2>Next kickoff</h2>
+      <div class="next-game is-live">
+        <h2><i class="tk-dot"></i>Live now</h2>
         <p class="matchup">Western Kentucky<br>at New Mexico State</p>
+        <p class="live-score" id="live-score">In progress</p>
         <div class="meta-row">
           <span>Thu Oct 1 | <b>6:00 PM MDT</b> | CBSSN</span>
           <span>Aggie Memorial Stadium, Las Cruces NM</span>
@@ -292,6 +293,35 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202609281551"></script>
+<script>
+/* Home "Live now" card: pull the score for the featured game from ESPN. */
+(function () {
+  var el = document.getElementById('live-score');
+  if (!el) return;
+  var TEAM = 'NMSU';
+  function load() {
+    fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80&limit=300', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var ev = (d.events || []).find(function (e) {
+          return e.competitions[0].competitors.some(function (c) { return c.team.abbreviation === TEAM; });
+        });
+        if (!ev) return;
+        var c = ev.competitions[0].competitors;
+        var away = c.find(function (x) { return x.homeAway === 'away'; });
+        var home = c.find(function (x) { return x.homeAway === 'home'; });
+        var st = ev.status, state = st.type.state;
+        var tail = state === 'post' ? 'Final' : state === 'in' ? ('Q' + st.period + ' ' + (st.displayClock || '')) : '';
+        if (state === 'pre') return;
+        el.textContent = away.team.location + ' ' + away.score + ' \u2013 ' + home.team.location + ' ' + home.score + '  |  ' + tail;
+        if (state === 'post') { var h = document.querySelector('.next-game.is-live h2'); if (h) h.textContent = 'Final'; return; }
+        setTimeout(load, 60000);
+      })
+      .catch(function () { setTimeout(load, 120000); });
+  }
+  load();
+})();
+</script>
+<script src="ticker.js?v=202610011820"></script>
 </body>
 </html>
