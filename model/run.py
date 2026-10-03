@@ -350,6 +350,25 @@ def main():
     # ---------------- record.json ----------------
     boys_path = OUT / "boys.json"
     boys = json.load(open(boys_path)) if boys_path.exists() else {}
+    # before launch, show the Bot picks exactly as published in The Boys vs. The Bot
+    from math import erf, sqrt
+    gidx = {(x["home"], x["away"]): x for x in games_out}
+    for wk, picks in boys.get(str(season), {}).items():
+        if int(wk) >= LAUNCH.get(season, 99):
+            continue
+        for pk in picks:
+            if "bot_home" not in pk:
+                continue
+            gx = gidx.get((pk["home"], pk["away"]))
+            flip = False
+            if not gx:
+                gx, flip = gidx.get((pk["away"], pk["home"])), True
+            if not gx:
+                continue
+            ph, pa = (pk["bot_away"], pk["bot_home"]) if flip else (pk["bot_home"], pk["bot_away"])
+            m = ph - pa
+            gx["published"] = {"pred_home": ph, "pred_away": pa, "pred_margin": m, "pred_total": ph + pa,
+                               "home_wp": round(0.5 * (1 + erf(m / 15.5 / sqrt(2))), 4), "mode": "published"}
     def grade(gs):
         n = len(gs)
         su = sum((g_["pred_margin"] > 0) == (g_["home_pts"] > g_["away_pts"]) for g_ in gs)

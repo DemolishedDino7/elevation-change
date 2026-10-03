@@ -271,6 +271,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
     const weeks = [...new Set(games.filter(g => g.type === 'regular').map(g => g.week))].sort((a, b) => a - b);
     let wk = Math.min(meta.week, weeks[weeks.length - 1]), scope = 'west';
     function card(g) {
+      if (g.published) g = Object.assign({}, g, g.published);
       const hp = g.home_wp, fav = hp >= 0.5 ? 'home' : 'away';
       const favName = fav === 'home' ? g.home : g.away, spread = Math.abs(g.pred_margin);
       const fin = g.final;
@@ -310,7 +311,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       else list = list.filter(g => (T[g.home_id] && T[g.home_id].div === 'fbs') || (T[g.away_id] && T[g.away_id].div === 'fbs'));
       list.sort((a, b) => (a.start || '').localeCompare(b.start || '') || Math.abs(a.pred_margin) - Math.abs(b.pred_margin));
       const pre = meta.launch_week && wk < meta.launch_week;
-      $('#games').innerHTML = (pre ? '<p class="note" style="grid-column:1/-1;margin:0">Week ' + wk + ' came before the new Bot launched. These are its test predictions, made using only earlier games. The picks published in The Boys vs. The Bot came from the earlier version and are the ones that count in the contest.</p>' : '') +
+      $('#games').innerHTML = (pre ? '<p class="note" style="grid-column:1/-1;margin:0">' + (list.some(g => g.published) ? 'Week ' + wk + ' shows the Bot picks as published in The Boys vs. The Bot. ' : '') + 'Games without a published pick show the new model\'s test predictions, made using only earlier games. The new Bot makes the picks from Week ' + meta.launch_week + ' on.</p>' : '') +
         (list.length ? list.map(card).join('') : '<p class="empty">No games this week' + (scope === 'west' ? ' for our teams' : '') + '.</p>');
     }
     $('#wk-prev').addEventListener('click', () => { wk = weeks[Math.max(0, weeks.indexOf(wk) - 1)]; renderPicks(); });
