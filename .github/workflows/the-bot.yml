@@ -8,8 +8,13 @@ on:
     - cron: "10 13 * 8-12,1 1"   # Mon  7:10am MT  full week of results -> next week's picks
     - cron: "10 13 * 8-12,1 3"   # Wed  7:10am MT  refresh + lock Thursday games
     - cron: "10 15 * 8-12,1 5"   # Fri  9:10am MT  refresh + lock Friday/Saturday games
-    - cron: "0 11 5 10 *"        # one-off: Mon Oct 5 5:00am MT, Elevation Index goes automatic
+    - cron: "0 11 4 10 *"        # one-off: Sun Oct 4 5:00am MT, Elevation Index goes automatic
   workflow_dispatch:
+    inputs:
+      preview:
+        description: "Also write an Index preview to bot/"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -43,6 +48,7 @@ jobs:
       - name: Run model
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}  # optional: live Vegas lines for grading
+          INDEX_PREVIEW: ${{ inputs.preview }}
         run: python model/run.py
 
       - name: Publish

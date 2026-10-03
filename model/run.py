@@ -31,13 +31,14 @@ from game_model import GameModel, add_games_played  # noqa: E402
 from ratings import Params, SeasonPriors, game_weights, run_season, season_meta, solve, walk_forward  # noqa: E402
 from simulate import simulate  # noqa: E402
 import index_feed  # noqa: E402
+import ncaa  # noqa: E402
 
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "bot"
 LAUNCH = {2026: 6}
-# Elevation Index switches from the hand-entered Week 4 data to the automatic feed (Mon Oct 5, 5am MT),
+# Elevation Index switches from the hand-entered Week 4 data to the automatic feed (Sun Oct 4, 5am MT),
 # and only once every game our teams played before then is final in the data
-INDEX_SWITCH = datetime(2026, 10, 5, 11, 0, tzinfo=timezone.utc)  # first week the bot's picks were published live; earlier weeks are walk-forward backfill
+INDEX_SWITCH = datetime(2026, 10, 4, 11, 0, tzinfo=timezone.utc)  # Sun Oct 4, 5am MT
 
 # Elevation Change coverage: site id -> data name
 WEST = {
@@ -118,6 +119,22 @@ def main():
 
     log("building games")
     g = data.build_games(season)
+    # same-night finals and official box scores from NCAA.com (the archive lags a day)
+    sg0 = g[(g.season == season) & (g.season_type == "regular")]
+    pend = sg0[~sg0.completed]
+    wk_now = int(pend.week.min()) if len(pend) else int(sg0.week.max())
+    g, ncaa_ids, ncaa_status = ncaa.patch(g, season, sorted({max(1, wk_now - 1), wk_now}), log=log)
+    if season in g.season.values:
+        # ids for every earlier week too, so the Index can use official box scores all season
+        try:
+            more = []
+            for w in range(1, max(1, wk_now - 1)):
+                more += ncaa.scoreboard(season, w)
+            for idx, m in ncaa.match(more, g[g.season == season]):
+                ncaa_ids.setdefault(int(g.at[idx, "game_id"]), {"contest": int(m["contest"]["contestId"]),
+                                                               "home_seo": m["home"]["seoname"], "away_seo": m["away"]["seoname"]})
+        except Exception as e:
+            log("NCAA history unavailable:", repr(e)[:200])
     eff = plays.efficiency_table(2014, season)
     dcoef = plays.fit_deserved(eff, g, range(2014, 2020))
     g = g.join(plays.deserved_points(eff, g, dcoef), on="game_id")
@@ -389,12 +406,16 @@ def main():
     meta = {
         "generated": now.isoformat(timespec="minutes"), "season": season, "week": int(min(cur_wk, sg.week.max())),
         "launch_week": LAUNCH.get(season), "sims": args.sims, "backtest": backtest,
-        "games_in_ratings": int(len(played)), "lines_live": lines is not None,
+        "games_in_ratings": int(len(played)), "lines_live": lines is not None, "ncaa": ncaa_status,
         "model": {"rating_params": p.__dict__, "situational": {k: round(v, 3) for k, v in gm.coef.items()},
                   "sigma_early": round(gm.sigma_early, 2), "sigma_late": round(gm.sigma_late, 2),
                   "returning": {k: round(v, 2) for k, v in ret_coef.items()}},
     }
 
+    if os.environ.get("INDEX_PREVIEW"):
+        pv = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, OUT / "ei-auto-preview.js", ncaa_ids)
+        json.dump({"feed": pv, "ncaa": ncaa_status}, open(OUT / "ei-preview-status.json", "w"))
+        log("elevation index preview", pv)
     ours = sg[(sg.home_team.isin(WEST_BY_NAME) | sg.away_team.isin(WEST_BY_NAME)) & (sg.start < now - pd.Timedelta(hours=6))]
     missing = int((~ours.completed).sum())
     if now < INDEX_SWITCH or missing:
@@ -402,7 +423,7 @@ def main():
         shutil.copyfile(Path(__file__).resolve().parent / "ei-manual.js", SITE / "ei-auto.js")
         log("elevation index: holding hand-entered data until", INDEX_SWITCH.isoformat(), f"({missing} of our games not final yet)")
     else:
-        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js")
+        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js", ncaa_ids)
         log("elevation index feed", feed)
 
     def dump(name, obj):
