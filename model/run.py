@@ -372,7 +372,8 @@ def main():
     for wk in sorted({x["week"] for x in west_f}):
         gw = [x for x in west_f if x["week"] == wk]
         record["weeks"].append({"week": wk, "mode": gw[0]["mode"], **grade(gw)})
-    # The Boys vs. The Bot (contest rules: lower combined point miss wins the game)
+    # The Boys vs. The Bot: picking the right winner comes first; if both (or neither) did,
+    # the lower combined point miss wins, then closeness on the winner's points
     by_names = {(x["home"], x["away"]): x for x in finals}
     for wk, picks in sorted(boys.get(str(season), {}).items(), key=lambda kv: int(kv[0])):
         bw = {"week": int(wk), "boys": 0, "bot": 0, "games": []}
@@ -388,7 +389,11 @@ def main():
                 th, ta = gx["pred_home"], gx["pred_away"]
             mb = contest_points(bh, ba, gx["home_pts"], gx["away_pts"])
             mt = contest_points(th, ta, gx["home_pts"], gx["away_pts"])
-            if mb == mt:  # tiebreak: closer on the winner's points
+            hw = gx["home_pts"] > gx["away_pts"]
+            boys_right, bot_right = (bh > ba) == hw, (th > ta) == hw
+            if boys_right != bot_right:
+                winner = "boys" if boys_right else "bot"
+            elif mb == mt:  # tiebreak: closer on the winner's points
                 wh = gx["home_pts"] > gx["away_pts"]
                 mb2 = abs((bh if wh else ba) - (gx["home_pts"] if wh else gx["away_pts"]))
                 mt2 = abs((th if wh else ta) - (gx["home_pts"] if wh else gx["away_pts"]))

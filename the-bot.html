@@ -365,7 +365,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
     if (bw.length) {
       html += '<div class="table-scroll"><table class="bt"><thead><tr><th>Week</th><th>Game</th><th class="n">Final</th><th class="n">Boys</th><th class="n">Bot</th><th class="n">Point</th></tr></thead><tbody>' +
         bw.map(w => w.games.map((g, i) => '<tr><td>' + (i ? '' : w.week) + '</td><td style="white-space:normal">' + esc(short(g.away)) + ' at ' + esc(short(g.home)) + '</td><td class="n">' + g.final[1] + '-' + g.final[0] + '</td><td class="n">' + g.boys[1] + '-' + g.boys[0] + ' <span class="sub">' + g.boys_miss + '</span></td><td class="n">' + g.bot[1] + '-' + g.bot[0] + ' <span class="sub">' + g.bot_miss + '</span></td><td class="n ' + (g.point === 'bot' ? 'up' : g.point === 'boys' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Push') + '</td></tr>').join('')).join('') + '</tbody></table></div>';
-      html += '<p class="note">Scores listed away-home. Small numbers are each side\'s combined points missed; closer wins the point.</p>';
+      html += '<p class="note">Scores listed away-home. Picking the right winner earns the point first. If both sides (or neither) got the winner, the smaller combined miss (the small numbers) wins it.</p>';
     } else html += '<p class="note">Results post here once the week\'s games are final.</p>';
 
     html += '<h2 class="sh dv">' + meta.season + ' scorecard</h2><div class="cards2">' +
