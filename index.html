@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610011820">
+<link rel="stylesheet" href="styles.css?v=202610022125">
 <style>
 .mini-ei { margin-top: 2.75rem; }
 .eyebrow-wide { display: block; white-space: nowrap; font-size: clamp(0.75rem, 2.25vw, 1.5rem); letter-spacing: 0.5em; margin-bottom: 1.25rem; }
@@ -313,7 +313,17 @@
         var st = ev.status, state = st.type.state;
         var tail = state === 'post' ? 'Final' : state === 'in' ? ('Q' + st.period + ' ' + (st.displayClock || '')) : '';
         if (state === 'pre') return;
-        el.textContent = away.team.location + ' ' + away.score + ' \u2013 ' + home.team.location + ' ' + home.score + '  |  ' + tail;
+        var win = state === 'post' ? (Number(away.score) > Number(home.score) ? 'away' : 'home') : '';
+        el.innerHTML = '';
+        [away, home].forEach(function (t) {
+          var row = document.createElement('span');
+          row.className = 'ls-row' + (win && t.homeAway !== win ? ' ls-lose' : '');
+          var n = document.createElement('span'); n.textContent = t.team.location;
+          var s = document.createElement('b'); s.textContent = t.score;
+          row.appendChild(n); row.appendChild(s); el.appendChild(row);
+        });
+        var st2 = document.createElement('span'); st2.className = 'ls-status'; st2.textContent = tail;
+        el.appendChild(st2);
         if (state === 'post') { var h = document.querySelector('.next-game.is-live h2'); if (h) h.textContent = 'Final'; return; }
         setTimeout(load, 60000);
       })
