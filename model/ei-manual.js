@@ -1,7 +1,7 @@
 /* ===================================================================
    ELEVATION INDEX — HAND-ENTERED WEEK 4 DATA (temporary)
    Served as ei-auto.js until the automatic feed takes over on
-   Sunday Oct 4, 2026 at 5am MT (see SWITCH in model/run.py).
+   Monday Oct 5, 2026 at 5am MT (see SWITCH in model/run.py).
    =================================================================== */
 /* Non-tracked opponents. natRank = CURRENT national strength estimate
    (~1-135 FBS) — refresh these each week from the AP poll and power

@@ -35,8 +35,9 @@ import index_feed  # noqa: E402
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "bot"
 LAUNCH = {2026: 6}
-# Elevation Index switches from the hand-entered Week 4 data to the automatic feed (Sun Oct 4, 5am MT)
-INDEX_SWITCH = datetime(2026, 10, 4, 11, 0, tzinfo=timezone.utc)  # first week the bot's picks were published live; earlier weeks are walk-forward backfill
+# Elevation Index switches from the hand-entered Week 4 data to the automatic feed (Mon Oct 5, 5am MT),
+# and only once every game our teams played before then is final in the data
+INDEX_SWITCH = datetime(2026, 10, 5, 11, 0, tzinfo=timezone.utc)  # first week the bot's picks were published live; earlier weeks are walk-forward backfill
 
 # Elevation Change coverage: site id -> data name
 WEST = {
@@ -394,10 +395,12 @@ def main():
                   "returning": {k: round(v, 2) for k, v in ret_coef.items()}},
     }
 
-    if now < INDEX_SWITCH:
+    ours = sg[(sg.home_team.isin(WEST_BY_NAME) | sg.away_team.isin(WEST_BY_NAME)) & (sg.start < now - pd.Timedelta(hours=6))]
+    missing = int((~ours.completed).sum())
+    if now < INDEX_SWITCH or missing:
         # hold the published hand-entered Index until the automatic feed goes live
         shutil.copyfile(Path(__file__).resolve().parent / "ei-manual.js", SITE / "ei-auto.js")
-        log("elevation index: holding hand-entered data until", INDEX_SWITCH.isoformat())
+        log("elevation index: holding hand-entered data until", INDEX_SWITCH.isoformat(), f"({missing} of our games not final yet)")
     else:
         feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js")
         log("elevation index feed", feed)
