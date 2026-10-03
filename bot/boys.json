@@ -1,0 +1,17 @@
+{
+  "_how_to": "Each week add the analysts' score picks before kickoff. Team names must match the schedule (e.g. \"Hawai'i\", \"San José State\", \"California\"). bot_home/bot_away are optional: leave them out and the contest uses the Bot's locked pick from bot/locked.json.",
+  "2026": {
+    "5": [
+      {"home": "New Mexico State", "away": "Western Kentucky", "home_pts": 20, "away_pts": 14, "bot_home": 28, "bot_away": 27},
+      {"home": "Air Force", "away": "Navy", "home_pts": 31, "away_pts": 21, "bot_home": 27, "bot_away": 28},
+      {"home": "UNLV", "away": "California", "home_pts": 24, "away_pts": 20, "bot_home": 24, "bot_away": 27},
+      {"home": "North Dakota State", "away": "Wyoming", "home_pts": 40, "away_pts": 10, "bot_home": 31, "bot_away": 14},
+      {"home": "New Mexico", "away": "UTEP", "home_pts": 40, "away_pts": 7, "bot_home": 37, "bot_away": 17},
+      {"home": "Colorado State", "away": "Oregon State", "home_pts": 28, "away_pts": 38, "bot_home": 27, "bot_away": 34},
+      {"home": "Boise State", "away": "Utah State", "home_pts": 35, "away_pts": 7, "bot_home": 34, "bot_away": 14},
+      {"home": "Washington State", "away": "Fresno State", "home_pts": 21, "away_pts": 27, "bot_home": 24, "bot_away": 27},
+      {"home": "San Diego State", "away": "Texas State", "home_pts": 13, "away_pts": 38, "bot_home": 27, "bot_away": 31},
+      {"home": "Hawai'i", "away": "San José State", "home_pts": 20, "away_pts": 24, "bot_home": 23, "bot_away": 27}
+    ]
+  }
+}
