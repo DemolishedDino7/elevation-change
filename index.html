@@ -86,16 +86,14 @@
     </section>
 
 
-      <div class="next-game is-live">
-        <h2><i class="tk-dot"></i>Live now</h2>
-        <p class="matchup">Western Kentucky<br>at New Mexico State</p>
-        <p class="live-score" id="live-score">In progress</p>
+      <div class="next-game">
+        <h2>Next kickoff</h2>
+        <p class="matchup">Navy<br>at Air Force</p>
         <div class="meta-row">
-          <span>Thu Oct 1 | <b>6:00 PM MDT</b> | CBSSN</span>
-          <span>Aggie Memorial Stadium, Las Cruces NM</span>
-          <span>Elevation <b>3,900 ft</b></span>
-          <span>Spread <b>NMSU &minus;1.5</b> | O/U 52.5</span>
-          <span>Win prob. <b>NMSU 52% / Western Kentucky 48%</b></span>
+          <span>Sat Oct 3 | <b>10:00 AM MDT</b></span>
+          <span>Falcon Stadium, Colorado Springs CO</span>
+          <span>Elevation <b>6,621 ft</b></span>
+          <span>Spread <b>AFA &minus;2.5</b></span>
         </div>
       </div>
       </div>
@@ -293,45 +291,7 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script>
-/* Home "Live now" card: pull the score for the featured game from ESPN. */
-(function () {
-  var el = document.getElementById('live-score');
-  if (!el) return;
-  var TEAM = 'NMSU';
-  function load() {
-    fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80&limit=300', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        var ev = (d.events || []).find(function (e) {
-          return e.competitions[0].competitors.some(function (c) { return c.team.abbreviation === TEAM; });
-        });
-        if (!ev) return;
-        var c = ev.competitions[0].competitors;
-        var away = c.find(function (x) { return x.homeAway === 'away'; });
-        var home = c.find(function (x) { return x.homeAway === 'home'; });
-        var st = ev.status, state = st.type.state;
-        var tail = state === 'post' ? 'Final' : state === 'in' ? ('Q' + st.period + ' ' + (st.displayClock || '')) : '';
-        if (state === 'pre') return;
-        var win = state === 'post' ? (Number(away.score) > Number(home.score) ? 'away' : 'home') : '';
-        el.innerHTML = '';
-        [away, home].forEach(function (t) {
-          var row = document.createElement('span');
-          row.className = 'ls-row' + (win && t.homeAway !== win ? ' ls-lose' : '');
-          var n = document.createElement('span'); n.textContent = t.team.location;
-          var s = document.createElement('b'); s.textContent = t.score;
-          row.appendChild(n); row.appendChild(s); el.appendChild(row);
-        });
-        var st2 = document.createElement('span'); st2.className = 'ls-status'; st2.textContent = tail;
-        el.appendChild(st2);
-        if (state === 'post') { var h = document.querySelector('.next-game.is-live h2'); if (h) h.textContent = 'Final'; return; }
-        setTimeout(load, 60000);
-      })
-      .catch(function () { setTimeout(load, 120000); });
-  }
-  load();
-})();
-</script>
-<script src="ticker.js?v=202610011820"></script>
+<script src="ticker.js?v=202610022131"></script>
+<script src="home-card.js?v=202610022131"></script>
 </body>
 </html>

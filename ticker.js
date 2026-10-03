@@ -22,7 +22,6 @@ const WATCH = [
 /* Hand-entered backup. ["Away @ Home", "Day time (MT)", "Line", live?]
    Put true as a 4th value to mark a game in progress (red dot + LIVE label). */
 const FALLBACK = [
-  ["Western Kentucky @ New Mexico State","Live now",     "NMSU −1.5", true],
   ["Navy @ Air Force",                  "Sat 10:00 AM", "AFA −2.5"],
   ["California @ UNLV",                 "Sat 1:30 PM",  "UNLV −2.5"],
   ["Wyoming @ North Dakota State",      "Sat 1:30 PM",  "NDSU −20.5"],
