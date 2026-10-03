@@ -226,3 +226,10 @@ table.standings .next { color: var(--purple); font-weight: 600; }
 .live-score .ls-row b { font-weight: 900; }
 .live-score .ls-lose { color: var(--muted); }
 .live-score .ls-status { font-size: 0.8125rem; letter-spacing: 0.08em; color: var(--muted); }
+
+/* five-item nav on phones */
+.nav a { white-space: nowrap; }
+@media (max-width: 30rem) {
+  .nav { flex-wrap: wrap; gap: 0.6rem 1.1rem; }
+  .nav a { font-size: 0.8125rem; letter-spacing: 0.06em; }
+}

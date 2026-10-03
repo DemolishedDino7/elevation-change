@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610022125">
+<link rel="stylesheet" href="styles.css?v=202610031335">
 <style>
 .ei-head { padding: 3.5rem 0 1.5rem; }
 .ei-intro { max-width: 46ch; color: var(--muted); margin: 0; }
@@ -123,6 +123,7 @@
     <section class="ei-method">
       <h2>How it works</h2>
       <p>Every game gets a score. Wins earn points for opponent quality, a win bonus that scales with the opponent, and a margin bonus with diminishing returns. Losses to elite teams earn real credit if they're close — a near-upset of a ranked team is worth more than most wins over bad ones. Losses to bad teams cost more the wider they get, and a 28-point-plus loss to a non-elite team takes an extra hit. FCS wins are capped low. FCS losses start at −35 before margin. Recent games count noticeably more — last week is worth 100%, the week before 82%, and it keeps sliding — but nothing ages out. The season score is the sum, and ties break on quality wins, strength of wins, quality losses, fewer bad losses, point differential and the most recent result — never on record.</p>
+      <p>Everything here is computed by Elevation Change. Results and box-score stats (yards per play, third downs, explosive plays, turnovers, sacks) are calculated from play-by-play, and how good each opponent is comes from <a href="the-bot.html#ratings">The Bot's</a> current national ratings, not the AP poll or ESPN. FCS opponents are placed where their rating would rank among FBS teams. Rankings update automatically after every weekend.</p>
     </section>
   </div>
 </main>
@@ -134,8 +135,9 @@
   </div>
 </footer>
 
-<script src="ei-data.js?v=202609281551"></script>
-<script src="ei-engine.js?v=202609281551"></script>
+<script src="ei-data.js?v=202610031330"></script>
+<script src="ei-auto.js"></script>
+<script src="ei-engine.js?v=202610031330"></script>
 <script>
 (function () {
   const H = EI.history(CURRENT_WEEK), L = H.latest, W = H.weeks.length, N = L.length;

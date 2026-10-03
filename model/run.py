@@ -29,6 +29,7 @@ import returning  # noqa: E402
 from game_model import GameModel, add_games_played  # noqa: E402
 from ratings import Params, SeasonPriors, game_weights, run_season, season_meta, solve, walk_forward  # noqa: E402
 from simulate import simulate  # noqa: E402
+import index_feed  # noqa: E402
 
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "bot"
@@ -389,6 +390,9 @@ def main():
                   "sigma_early": round(gm.sigma_early, 2), "sigma_late": round(gm.sigma_late, 2),
                   "returning": {k: round(v, 2) for k, v in ret_coef.items()}},
     }
+
+    feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js")
+    log("elevation index feed", feed)
 
     def dump(name, obj):
         with open(OUT / name, "w") as f:

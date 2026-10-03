@@ -29,6 +29,37 @@ def download(first: int, current: int, refresh_current: bool = True):
         _fetch(f"rosters/parquet/cfb_rosters_{y}.parquet", CACHE / f"ro_{y}.parquet", live)
 
 
+def _player_teams(p: pd.DataFrame, season: int) -> dict:
+    """(game_id, player_id) -> team, from rows where the player clearly had the ball, else the roster."""
+    rows = []
+    for c in ("rush_player_id", "completion_player_id", "reception_player_id"):
+        d = p[p[c].notna()][["game_id", c, "team"]].rename(columns={c: "pid"})
+        rows.append(d)
+    d = pd.concat(rows)
+    d["pid"] = pd.to_numeric(d.pid, errors="coerce")
+    m = d.dropna().groupby(["game_id", "pid"]).team.agg(lambda s: s.mode().iat[0])
+    out = m.to_dict()
+    try:
+        ro = pd.read_parquet(CACHE / f"ro_{season}.parquet", columns=["athlete_id", "team"])
+        ro["pid"] = pd.to_numeric(ro.athlete_id, errors="coerce")
+        roster = dict(zip(ro.pid, ro.team))
+    except Exception:
+        roster = {}
+    class _M(dict):
+        def get(self, k, default=None):
+            v = dict.get(self, k)
+            if v is None:
+                gid, pid = k
+                opp = None
+                v = roster.get(pid, default)
+                # roster team only counts if that team actually played in this game
+                if v is not None and v not in games_teams.get(gid, ()):
+                    v = default
+            return v
+    games_teams = p.groupby("game_id").apply(lambda x: set(x.team) | set(x.opponent)).to_dict()
+    return _M(out)
+
+
 def load_plays(season: int) -> pd.DataFrame:
     """One row per offensive scrimmage play."""
     p = pd.read_parquet(CACHE / f"ps_{season}.parquet")
@@ -42,6 +73,16 @@ def load_plays(season: int) -> pd.DataFrame:
         [o.rush_player_id.notna(), o.completion_player_id.notna(), o.sack_taken_player_id.notna(),
          o.interception_thrown_player_id.notna(), o.incompletion_player_id.notna()],
         ["rush", "pass", "sack", "int", "inc"], "other")
+    # The feed's `team` column is unreliable on some rows (interceptions in particular are
+    # sometimes filed under the defense), so re-derive the offense from who had the ball.
+    pmap = _player_teams(p, season)
+    actor = (o.rush_player_id.fillna(o.completion_player_id).fillna(o.sack_taken_player_id)
+             .fillna(o.interception_thrown_player_id).fillna(o.incompletion_player_id))
+    key = list(zip(o.game_id, pd.to_numeric(actor, errors="coerce")))
+    true_team = pd.Series([pmap.get(k) for k in key], index=o.index)
+    swap = true_team.notna() & (true_team == o.opponent) & (true_team != o.team)
+    o.loc[swap, ["team", "opponent"]] = o.loc[swap, ["opponent", "team"]].to_numpy()
+    o.loc[swap, ["team_score", "opponent_score"]] = o.loc[swap, ["opponent_score", "team_score"]].to_numpy()
     o["yds"] = np.select([o.kind == "rush", o.kind == "pass", o.kind == "sack"],
                          [o.rush_yds, o.completion_yds, -7.0], 0.0)
     o["yds"] = o.yds.fillna(0.0)
@@ -49,13 +90,22 @@ def load_plays(season: int) -> pd.DataFrame:
     o["_o"] = o.kind.map(order)
     o = o.sort_values(["play_id", "_o"]).drop_duplicates("play_id")
     # turnovers: interceptions, and fumbles recovered by the defense
-    fum = p[p.fumble_recovered_player_id.notna()][["play_id", "team"]].rename(columns={"team": "rec_team"})
-    fum = fum.drop_duplicates("play_id")
-    o = o.merge(fum, on="play_id", how="left")
-    o["to"] = ((o.kind == "int") | (o.rec_team.notna() & (o.rec_team != o.team))).astype(int)
+    fr = p[p.fumble_recovered_player_id.notna()][["play_id", "game_id", "team", "fumble_recovered_player_id"]].drop_duplicates("play_id")
+    fr["rec_team"] = [pmap.get((gid, pid), rt) for gid, pid, rt in
+                      zip(fr.game_id, pd.to_numeric(fr.fumble_recovered_player_id, errors="coerce"), fr.team)]
+    o = o.merge(fr[["play_id", "rec_team"]], on="play_id", how="left")
+    # fumbles: use the recovery when the feed has it; otherwise infer a lost fumble when the
+    # very next scrimmage play belongs to the other team (and it wasn't 4th down or a score)
+    fum_ids = set(p.loc[p.fumble_player_id.notna(), "play_id"])
+    o = o.sort_values(["game_id", "play_id"])
+    nxt = o.groupby("game_id").team.shift(-1)
+    fumbled = o.play_id.isin(fum_ids)
+    inferred = fumbled & o.rec_team.isna() & nxt.notna() & (nxt != o.team) & (o.down.fillna(1) != 4)
+    o["to"] = ((o.kind == "int") | (o.rec_team.notna() & (o.rec_team != o.team)) | inferred).astype(int)
     tds = p[p.touchdown_player_id.notna()][["play_id", "team"]].drop_duplicates("play_id").rename(columns={"team": "td_team"})
     o = o.merge(tds, on="play_id", how="left")
     o["td"] = (o.td_team == o.team).astype(int)
+    o.loc[(o.td == 1) & (o.kind != "int"), "to"] = 0  # offense scored: not a giveaway
     d = o.down.fillna(1).astype(int)
     need = np.select([d == 1, d == 2], [0.5, 0.7], 1.0) * o.distance.fillna(10).clip(lower=1)
     o["success"] = ((o.yds >= need) | (o.td == 1)).astype(int) * (o.to == 0)
@@ -169,3 +219,16 @@ def attach_pace(games: pd.DataFrame, eff: pd.DataFrame) -> pd.DataFrame:
                            for t, s, done in zip(g[f"{side}_id"], g.season, g.completed)])
             g[f"{side}_{c}"] = np.where(np.isnan(v), fb, v)
     return g
+
+
+def box_scores(season: int) -> pd.DataFrame:
+    """Per team, per game: the box-score numbers the Elevation Index uses (all plays, no garbage filter)."""
+    o = load_plays(season)
+    third = o.down == 3
+    conv = third & ((o.yds >= o.distance.fillna(10)) | (o.td == 1)) & (o.to == 0)
+    o = o.assign(third=third.astype(int), conv=conv.astype(int), sack=(o.kind == "sack").astype(int))
+    b = o.groupby(["game_id", "team"]).agg(yds=("yds", "sum"), plays=("yds", "size"), explosive=("explosive", "sum"),
+                                          to=("to", "sum"), sacked=("sack", "sum"), third_att=("third", "sum"),
+                                          third_conv=("conv", "sum")).reset_index()
+    b["ypp"] = b.yds / b.plays
+    return b

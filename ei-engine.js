@@ -42,7 +42,10 @@ const EI = (function () {
      The best FCS teams beat mid-tier FBS teams every year, so a
      ranked FCS opponent is treated like the FBS team it plays like:
      No. 1 FCS ≈ FBS #72, No. 10 ≈ #90, No. 25 ≈ #120, unranked #128. */
-  function fcsEquiv(opp) { return opp.fcsRank ? 70 + 2 * opp.fcsRank : 128; }
+  /* FBS-equivalent rank of an FCS team: The Bot places it where its rating
+     would rank among FBS teams (equivRank). Old hand-entered poll ranks
+     fall back to the original 70 + 2 x poll-rank mapping. */
+  function fcsEquiv(opp) { return opp.equivRank || (opp.fcsRank ? 70 + 2 * opp.fcsRank : 128); }
   function effRank(opp) { return opp.fcs ? fcsEquiv(opp) : (opp.natRank || 100); }
 
   /* ---- schedule-strength factor (season body-of-work add-on) ----
@@ -163,7 +166,10 @@ const EI = (function () {
 
     /* seed national ranks, then iterate: tracked opponents take on ranks
        derived from the previous pass's ordering (mapped onto 28–125). */
-    let ratings = {}; TEAMS.forEach(t => ratings[t[0]] = t[4]);
+    /* national ranks for tracked teams: The Bot's current rank when the
+       automatic feed is loaded; otherwise the old seed-and-iterate method */
+    const botRanks = (typeof BOT_NATRANK !== 'undefined') ? BOT_NATRANK : null;
+    let ratings = {}; TEAMS.forEach(t => ratings[t[0]] = (botRanks && botRanks[t[0]]) || t[4]);
     let result;
     for (let pass = 0; pass < 4; pass++) {
       result = TEAMS.map(t => {
@@ -197,7 +203,7 @@ const EI = (function () {
       /* re-derive national ranks for tracked teams from this ordering */
       const next = {};
       result.forEach((t, i) => next[t.id] = t.games.length ? Math.round(28 + i * (97 / 19)) : t.seed);
-      ratings = next;
+      if (!botRanks) ratings = next;
     }
     result.forEach((t, i) => { t.rank = i + 1; t.natRank = ratings[t.id]; });
     return result;
