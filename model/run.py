@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -33,7 +34,9 @@ import index_feed  # noqa: E402
 
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "bot"
-LAUNCH = {2026: 6}  # first week the bot's picks were published live; earlier weeks are walk-forward backfill
+LAUNCH = {2026: 6}
+# Elevation Index switches from the hand-entered Week 4 data to the automatic feed (Sun Oct 4, 5am MT)
+INDEX_SWITCH = datetime(2026, 10, 4, 11, 0, tzinfo=timezone.utc)  # first week the bot's picks were published live; earlier weeks are walk-forward backfill
 
 # Elevation Change coverage: site id -> data name
 WEST = {
@@ -391,8 +394,13 @@ def main():
                   "returning": {k: round(v, 2) for k, v in ret_coef.items()}},
     }
 
-    feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js")
-    log("elevation index feed", feed)
+    if now < INDEX_SWITCH:
+        # hold the published hand-entered Index until the automatic feed goes live
+        shutil.copyfile(Path(__file__).resolve().parent / "ei-manual.js", SITE / "ei-auto.js")
+        log("elevation index: holding hand-entered data until", INDEX_SWITCH.isoformat())
+    else:
+        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js")
+        log("elevation index feed", feed)
 
     def dump(name, obj):
         with open(OUT / name, "w") as f:
