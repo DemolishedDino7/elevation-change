@@ -309,7 +309,9 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       if (scope === 'west') list = list.filter(g => g.home_west || g.away_west);
       else list = list.filter(g => (T[g.home_id] && T[g.home_id].div === 'fbs') || (T[g.away_id] && T[g.away_id].div === 'fbs'));
       list.sort((a, b) => (a.start || '').localeCompare(b.start || '') || Math.abs(a.pred_margin) - Math.abs(b.pred_margin));
-      $('#games').innerHTML = list.length ? list.map(card).join('') : '<p class="empty">No games this week' + (scope === 'west' ? ' for our teams' : '') + '.</p>';
+      const pre = meta.launch_week && wk < meta.launch_week;
+      $('#games').innerHTML = (pre ? '<p class="note" style="grid-column:1/-1;margin:0">Week ' + wk + ' came before the new Bot launched. These are its test predictions, made using only earlier games. The picks published in The Boys vs. The Bot came from the earlier version and are the ones that count in the contest.</p>' : '') +
+        (list.length ? list.map(card).join('') : '<p class="empty">No games this week' + (scope === 'west' ? ' for our teams' : '') + '.</p>');
     }
     $('#wk-prev').addEventListener('click', () => { wk = weeks[Math.max(0, weeks.indexOf(wk) - 1)]; renderPicks(); });
     $('#wk-next').addEventListener('click', () => { wk = weeks[Math.min(weeks.length - 1, weeks.indexOf(wk) + 1)]; renderPicks(); });
