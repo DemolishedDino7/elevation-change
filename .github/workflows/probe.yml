@@ -1,0 +1,17 @@
+name: probe
+on: workflow_dispatch
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in \
+            "https://data.ncaa.com/casablanca/scoreboard/football/fbs/2026/05/scoreboard.json" \
+            "https://data.ncaa.com/casablanca/scoreboard/football/fbs/2026/5/scoreboard.json" \
+            "https://data.ncaa.com/casablanca/scoreboard/football/fbs/2025/05/scoreboard.json" \
+            "https://data.ncaa.com/casablanca/scoreboard/football/fbs/2026/05/all-conf.json" \
+            "https://www.ncaa.com/scoreboard/football/fbs/2026/05/all-conf" \
+            "https://ncaa-api.henrygd.me/scoreboard/football/fbs/2026/05/all-conf" \
+            "https://api.collegefootballdata.com/games?year=2026&week=5" \
+            "https://sdataprod.ncaa.com/?meta=GetContests_web&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%227287cda610a9326931931080cb3a604828febe6fe3c9016a7e4a36db99efdb7c%22%7D%7D&variables=%7B%22sportCode%22%3A%22MFB%22%2C%22division%22%3A11%2C%22seasonYear%22%3A2026%2C%22contestDate%22%3Anull%2C%22week%22%3A5%7D" \
+            ; do echo "=== $u"; curl -sL -m 30 -A "Mozilla/5.0" -w "\nHTTP %{http_code} %{size_download}\n" "$u" | head -c 1500; echo; done
