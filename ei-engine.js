@@ -123,7 +123,10 @@ const EI = (function () {
     /* legacy grading: who you played and by how much (no expectations) */
     const legacy = (out => {
       if (win) {
-      out.base = t.q + t.w + winMargin(am);
+      /* same rules as the rest of the season: opponent value scaled by WIN_Q, and the
+         margin bonus shrinks against weak opponents (a 49-point win over a bottom team proves little) */
+      { const oq = r <= 40 ? 1 : r <= 80 ? 0.7 : r <= 110 ? 0.4 : 0.2;
+        out.base = WIN_Q * (t.q + t.w) + winMargin(am) * oq; }
       if (am >= 21 && r <= 100) out.base += 2;                       /* dominance */
       out.label = r <= 25 ? 'Elite win' : r <= 60 ? 'Quality win' : r <= 90 ? 'Solid win' : 'Expected win';
       out.qualityWin = r <= 60;
