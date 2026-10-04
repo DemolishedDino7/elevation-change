@@ -324,7 +324,7 @@ const EI = (function () {
 
   function sortTeams(arr, wk) {
     arr.sort((a, b) => {
-      if (Math.abs(a.score - b.score) > 0.5) return b.score - a.score;
+      if (Math.abs(a.score - b.score) > 0.05) return b.score - a.score;
       if (a.qualityWins !== b.qualityWins) return b.qualityWins - a.qualityWins;
       if (a.winStrength !== b.winStrength) return b.winStrength - a.winStrength;
       if (a.qualityLosses !== b.qualityLosses) return b.qualityLosses - a.qualityLosses;
@@ -338,6 +338,7 @@ const EI = (function () {
        just above it when the loser's score is within H2H_WINDOW of the winner's.
        Lifts are measured on the original scores, so they can't chain a team past
        anyone more than H2H_WINDOW better than it. */
+    arr.forEach(t => { t.rawScore = t.score; t.h2h = 0; t.h2hOver = null; });
     const adj = new Map(arr.map(t => [t.id, t.score]));
     for (const b of arr)
         for (const a of arr) {
@@ -346,10 +347,12 @@ const EI = (function () {
           /* the head-to-head pull is strongest right after the game and fades each week */
           const last = Math.max(...b.games.filter(g => g.opp === a.id).map(g => g.week));
           const window = H2H_WINDOW * Math.pow(H2H_DECAY, Math.max(0, (wk == null ? last : wk) - last));
-          if (a.score - b.score <= window) adj.set(b.id, Math.max(adj.get(b.id), a.score + 0.01));
+          if (a.score - b.score <= window && a.score + 0.1 > adj.get(b.id)) { adj.set(b.id, a.score + 0.1); b.h2hOver = a.name; }
         }
+    /* the head-to-head bump is real points, so the ranking always follows the score */
+    arr.forEach(t => { t.h2h = adj.get(t.id) - t.rawScore; t.score = adj.get(t.id); });
     const pos = new Map(arr.map((t, i) => [t.id, i]));
-    arr.sort((a, b) => (adj.get(b.id) - adj.get(a.id)) || (pos.get(a.id) - pos.get(b.id)));
+    arr.sort((a, b) => (b.score - a.score) || (pos.get(a.id) - pos.get(b.id)));
   }
 
   function displayName(opp) { const t = TEAMS.find(x => x[0] === opp); return t ? t[1] : opp; }
@@ -368,7 +371,7 @@ const EI = (function () {
       t.prevRank = p ? p.rank : null;
       t.prevScore = p ? p.score : 0;
       t.move = p ? p.rank - t.rank : 0;
-      t.reason = reason(t, throughWeek);
+      t.reason = reason(t, throughWeek) + adjNote(t);
       t.bestWin = best(t.games.filter(g => g.win));
       t.worstLoss = worst(t.games.filter(g => !g.win));
       t.ranks = weeks.map(wk => wk.find(x => x.id === t.id).rank);
@@ -388,7 +391,8 @@ const EI = (function () {
       let k = i + 1;
       if (onBye) {
         /* schedule got weaker: its own games are worth less than last week (bye credit aside) */
-        const weakened = (t.score - (t.byeCredit || 0)) < (p.score - (p.byeCredit || 0)) - 3;
+        const raw = x => (x.rawScore != null ? x.rawScore : x.score) - (x.byeCredit || 0);
+        const weakened = raw(t) < raw(p) - 3;
         const lo = p.rank - BYE_MAX, hi = weakened ? cur.length : p.rank + BYE_MAX;
         k = Math.max(lo, Math.min(hi, k)) - 0.5;                /* held teams win ties */
         t.byeHeld = k + 0.5 !== i + 1;
@@ -397,7 +401,22 @@ const EI = (function () {
       key.set(t.id, k);
     });
     cur.sort((a, b) => key.get(a.id) - key.get(b.id));
+    /* a held team's spot is expressed in points: it gets just enough (+/-) to sit between its neighbors */
+    cur.forEach((t, i) => {
+      t.byeAdj = 0;
+      if (!t.byeHeld) return;
+      const hi = i > 0 ? cur[i - 1].score - 0.1 : Infinity, lo = i < cur.length - 1 ? cur[i + 1].score + 0.1 : -Infinity;
+      const s = lo <= hi ? Math.max(lo, Math.min(hi, t.score)) : (cur[i - 1].score + cur[i + 1].score) / 2;
+      t.byeAdj = s - t.score; t.score = s;
+    });
+    cur.sort((a, b) => b.score - a.score);
     cur.forEach((t, i) => t.rank = i + 1);
+  }
+  function adjNote(t) {
+    const n = [];
+    if (t.h2h > 0.05) n.push('+' + t.h2h.toFixed(1) + ' head-to-head for beating ' + t.h2hOver);
+    if (Math.abs(t.byeAdj || 0) > 0.05) n.push((t.byeAdj > 0 ? '+' : '') + t.byeAdj.toFixed(1) + ' bye-week hold');
+    return n.length ? ' Score includes ' + n.join(' and ') + '.' : '';
   }
   function best(list) { return list.length ? list.reduce((a, b) => b.base > a.base ? b : a) : null; }
   function worst(list) { return list.length ? list.reduce((a, b) => b.base < a.base ? b : a) : null; }
@@ -469,7 +488,7 @@ const EI = (function () {
       t.prevRank = p ? p.rank : null;
       t.prevScore = p ? p.score : 0;
       t.move = p ? p.rank - t.rank : 0;
-      t.reason = reason(t, wk);
+      t.reason = reason(t, wk) + adjNote(t);
       t.ranks = weeks.map(w => { const x = w.find(y => y.id === t.id); return x ? x.rank : null; });
     });
     return { weeks, latest };
