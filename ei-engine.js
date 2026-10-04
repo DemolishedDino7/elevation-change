@@ -59,13 +59,17 @@ const EI = (function () {
   function effRank(opp) { return opp.fcs ? fcsEquiv(opp) : (opp.natRank || 100); }
 
   /* ---- schedule-strength factor (season body-of-work add-on) ----
-     Opponent quality, not margin: the average effective rank of every
-     opponent faced (FCS mapped through fcsEquiv) earns a bounded
-     bonus or discount against a #85 baseline. */
-  const SOS_BASELINE = 85, SOS_WEIGHT = 0.5, SOS_CLAMP = 20;
-  function sosAdjust(oppRankSum, n) {
+     Opponent quality, not margin. Each opponent is worth a strength that
+     falls off steeply with rank (No. 1 = 100, No. 25 ≈ 55, No. 60 ≈ 23,
+     No. 100 ≈ 8, FCS ≈ 3), so playing an elite team counts for far more
+     than dodging a bad one. The average strength faced earns a bounded
+     bonus or discount against a typical schedule (an average opponent of about No. 60). */
+  const SOS_SCALE = 40, SOS_WEIGHT = 0.9, SOS_CLAMP = 25;
+  function oppStrength(r) { return 100 * Math.exp(-(Math.max(1, r) - 1) / SOS_SCALE); }
+  const SOS_BASE_STR = oppStrength(60);
+  function sosAdjust(strSum, n) {
     if (!n) return 0;
-    const a = (SOS_BASELINE - oppRankSum / n) * SOS_WEIGHT;
+    const a = (strSum / n - SOS_BASE_STR) * SOS_WEIGHT;
     return Math.max(-SOS_CLAMP, Math.min(SOS_CLAMP, a));
   }
 
@@ -271,7 +275,7 @@ const EI = (function () {
     for (let pass = 0; pass < 4; pass++) {
       result = TEAMS.map(t => {
         const id = t[0], tg = byTeam[id], n = tg.length;
-        let sosN = 0, score = 0, rows = [], qualityWins = 0, qualityLosses = 0, badLosses = 0, winStrength = 0, pd = 0, oppRankSum = 0;
+        let sosN = 0, score = 0, rows = [], qualityWins = 0, qualityLosses = 0, badLosses = 0, winStrength = 0, pd = 0, oppRankSum = 0, strSum = 0;
         let rec = { w: 0, l: 0, fbsW: 0, fbsL: 0, fcsW: 0, fcsL: 0, confW: 0, confL: 0 };
         tg.forEach((g, i) => {
           const opp = resolveOpp(g.opp, ratings, RW);
@@ -287,7 +291,7 @@ const EI = (function () {
           const final = (s.base + p.perf) * rc;   /* the box score fades with time like the result */
           score += final; pd += s.margin;
           /* getting blown out doesn't earn schedule credit */
-          if (!(s.win === false && Math.abs(s.margin) >= 21)) { oppRankSum += effRank(opp); sosN++; }
+          if (!(s.win === false && Math.abs(s.margin) >= 21)) { oppRankSum += effRank(opp); strSum += oppStrength(effRank(opp)); sosN++; }
           if (s.win) { rec.w++; opp.fcs ? rec.fcsW++ : rec.fbsW++; if (s.qualityWin) qualityWins++; winStrength += s.base; }
           else       { rec.l++; opp.fcs ? rec.fcsL++ : rec.fbsL++; if (s.qualityLoss) qualityLosses++; if (s.badLoss) badLosses++; }
           rows.push(Object.assign({}, g, s, { recency: rc, perf: p.perf, turnover: p.turnover, perfNote: p.note, final, oppName: displayName(g.opp),
@@ -296,7 +300,7 @@ const EI = (function () {
         const byes = n ? byesOf(tg) : 0;
         const byeCredit = n ? byes * (score / n) : 0;
         score += byeCredit;
-        const sosAdj = sosAdjust(oppRankSum, sosN);
+        const sosAdj = sosAdjust(strSum, sosN);
         score += sosAdj;
         /* a résumé with no FBS win — whether the wins were all FCS or
            there are no wins at all — hasn't proven it can beat anyone
@@ -525,10 +529,10 @@ const EI = (function () {
   function lines(t, throughWeek) {
     const wk = throughWeek != null ? throughWeek : Math.max(0, ...t.games.map(g => g.week));
     const sosGames = t.games.filter(g => g.inSos);
-    const rawSum = sosGames.reduce((s, g) => s + (SOS_BASELINE - g.effRank), 0);
+    const rawSum = sosGames.reduce((s, g) => s + (oppStrength(g.effRank) - SOS_BASE_STR), 0);
     const out = t.games.map(g => {
       let sched = 0;
-      if (g.inSos && sosGames.length) sched = Math.abs(rawSum) > 1e-9 ? t.sosAdj * (SOS_BASELINE - g.effRank) / rawSum : t.sosAdj / sosGames.length;
+      if (g.inSos && sosGames.length) sched = Math.abs(rawSum) > 1e-9 ? t.sosAdj * (oppStrength(g.effRank) - SOS_BASE_STR) / rawSum : t.sosAdj / sosGames.length;
       const h2h = (t.h2h > 0.05 && g.win && g.oppName === t.h2hOver) ? t.h2h : 0;
       return { week: g.week, bye: false, game: g, result: g.final, schedule: sched, h2h: h2h, value: g.final + sched + h2h };
     });
