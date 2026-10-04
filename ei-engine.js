@@ -38,7 +38,7 @@ const EI = (function () {
   const H2H_DECAY = 0.75;      /* the head-to-head window shrinks 25% for every week since the game */      /* a head-to-head winner within this many points always ranks ahead */
   const OPP_BLEND = 0.7;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
 
-  const FCS_PERF_CAP = 2;
+  const FCS_PERF_CAP = 1;
   const FCS_LOSS_BASE = -35;
   const FCS_LOSS_MARGIN = [3, 7, 11, 15];
 
@@ -94,22 +94,11 @@ const EI = (function () {
       const fr = opp.fcsRank || null;
       out.oppFcsRank = fr;
       if (win) {
-        if (fr) {
-          /* ranked FCS win: scored like a win over its FBS equivalent,
-             but still capped — an FCS win never carries a full FBS win */
-          const t = tier(fcsEquiv(opp));
-          out.base = Math.min(fr <= 10 ? 16 : 14, t.q + t.w + winMargin(am));
-          out.label = fr <= 10 ? 'Ranked FCS win' : 'FCS win';
-        } else if (am < 10) {
-          /* scraping past an unranked FCS team is a warning sign, not a win:
-             it banks almost nothing */
-          out.base = 1;
-          out.label = 'Narrow FCS win';
-        } else {
-          let v = 3 + Math.min(4, Math.floor(am / 7)) + (opp.strong ? 2 : 0);
-          out.base = Math.min(opp.strong ? 10 : 8, v);
-          out.label = 'FCS win';
-        }
+        /* FCS wins are worth less than any FBS win: a top-10 FCS team at most 5,
+           other ranked FCS teams 3.5, everyone else 2 (and barely anything if it was close) */
+        const cap = fr && fr <= 10 ? 5 : fr ? 3.5 : 2;
+        if (!fr && am < 10) { out.base = 0.5; out.label = 'Narrow FCS win'; }
+        else { out.base = Math.min(cap, cap * 0.4 + am / 20); out.label = fr && fr <= 10 ? 'Ranked FCS win' : 'FCS win'; }
       } else {
         if (fr) {
           /* loss to a RANKED FCS team: judged like a loss to its FBS
@@ -166,9 +155,13 @@ const EI = (function () {
       const exp = g.exp, diff = margin - exp;
       out.exp = exp; out.diff = diff;
       if (win) {
-        out.base = WIN_Q * (t.q + t.w) + Math.max(-8, Math.min(8, 0.4 * diff));
-        if (exp < 0) {
-          /* upset: won as the underdog — the bigger the underdog, the bigger the reward */
+        /* beating expectations counts more against good teams: the bonus for winning by
+           more than expected scales with opponent strength (falling short always counts fully) */
+        const beat = Math.max(-8, Math.min(8, 0.4 * diff));
+        const oq = r <= 40 ? 1 : r <= 80 ? 0.7 : r <= 110 ? 0.4 : 0.2;
+        out.base = WIN_Q * (t.q + t.w) + (beat > 0 ? beat * oq : beat);
+        if (exp <= -3) {
+          /* upset: won as a real underdog (3+ points) — the bigger the underdog, the bigger the reward */
           out.upset = Math.min(UPSET.cap, UPSET.base + UPSET.slope * -exp);
           out.base += out.upset;
           out.label = 'Upset win';
@@ -201,6 +194,12 @@ const EI = (function () {
           out.badLoss = diff <= -14;
           out.label = out.badLoss ? 'Blowout loss' : 'Expected loss';
         }
+        /* getting blown out costs extra no matter who it was against or what was expected */
+        if (am >= 21) {
+          out.blowout = Math.min(15, 0.5 * (am - 20));
+          out.base -= out.blowout;
+          if (am >= 28 && out.label !== 'Upset loss') { out.label = 'Blowout loss'; out.badLoss = true; }
+        }
       }
         return out;
       })(Object.assign({}, out));
@@ -217,7 +216,7 @@ const EI = (function () {
     }
     /* shutout: getting blanked is a statement about you, not the
        opponent — extra penalty on top of the loss, whoever it was */
-    if (!win && g.pf === 0) { out.shutout = true; out.base -= 6; }
+    if (!win && g.pf === 0) { out.shutout = true; out.base -= 10; }
     /* venue: road games are harder, so a road win earns more and a road
        loss hurts less. FBS opponents only — the FCS branch returns above,
        so venue never inflates an FCS result. */
@@ -264,7 +263,7 @@ const EI = (function () {
     for (let pass = 0; pass < 4; pass++) {
       result = TEAMS.map(t => {
         const id = t[0], tg = byTeam[id], n = tg.length;
-        let score = 0, rows = [], qualityWins = 0, qualityLosses = 0, badLosses = 0, winStrength = 0, pd = 0, oppRankSum = 0;
+        let sosN = 0, score = 0, rows = [], qualityWins = 0, qualityLosses = 0, badLosses = 0, winStrength = 0, pd = 0, oppRankSum = 0;
         let rec = { w: 0, l: 0, fbsW: 0, fbsL: 0, fcsW: 0, fcsL: 0, confW: 0, confL: 0 };
         tg.forEach((g, i) => {
           const opp = resolveOpp(g.opp, ratings, RW);
@@ -278,7 +277,9 @@ const EI = (function () {
              box-score bonus scales with opponent strength (a poor box score still costs fully) */
           else if (!opp.fcs && p.perf > 0) { const r = opp.natRank || 100; p.perf *= r <= 40 ? 1 : r <= 80 ? 0.7 : r <= 110 ? 0.4 : 0.2; }
           const final = s.base * rc + p.perf;
-          score += final; pd += s.margin; oppRankSum += effRank(opp);
+          score += final; pd += s.margin;
+          /* getting blown out doesn't earn schedule credit */
+          if (!(s.win === false && Math.abs(s.margin) >= 21)) { oppRankSum += effRank(opp); sosN++; }
           if (s.win) { rec.w++; opp.fcs ? rec.fcsW++ : rec.fbsW++; if (s.qualityWin) qualityWins++; winStrength += s.base; }
           else       { rec.l++; opp.fcs ? rec.fcsL++ : rec.fbsL++; if (s.qualityLoss) qualityLosses++; if (s.badLoss) badLosses++; }
           rows.push(Object.assign({}, g, s, { recency: rc, perf: p.perf, turnover: p.turnover, perfNote: p.note, final, oppName: displayName(g.opp) }));
@@ -286,7 +287,7 @@ const EI = (function () {
         const byes = n ? byesOf(tg) : 0;
         const byeCredit = n ? byes * (score / n) : 0;
         score += byeCredit;
-        const sosAdj = sosAdjust(oppRankSum, n);
+        const sosAdj = sosAdjust(oppRankSum, sosN);
         score += sosAdj;
         /* a résumé with no FBS win — whether the wins were all FCS or
            there are no wins at all — hasn't proven it can beat anyone
@@ -295,7 +296,7 @@ const EI = (function () {
         if (fcsOnlyWins) score -= 3;
         return { id, name: t[1], conf: t[2], color: t[3], logo: t[5], seed: t[4], games: rows, score,
                  rec, qualityWins, qualityLosses, badLosses, winStrength, pd,
-                 sos: n ? oppRankSum / n : null, sosAdj, fcsOnlyWins, byeCredit, byes, gamesPlayed: n,
+                 sos: sosN ? oppRankSum / sosN : null, sosAdj, fcsOnlyWins, byeCredit, byes, gamesPlayed: n,
                  last: rows.length ? rows[rows.length - 1] : null };
       });
       sortTeams(result, throughWeek);
