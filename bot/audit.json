@@ -1,0 +1,35 @@
+{
+ "ok": true,
+ "weeks": [
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "score_mismatch": [
+  "Wk 3: Southern Illinois at Illinois: ours 10-48, NCAA 13-49"
+ ],
+ "missing_in_ours": [],
+ "missing_on_ncaa": [
+  "Wk 1: UT Rio Grande Valley 16 at UTSA 45",
+  "Wk 1: Alcorn State 3 at Southern Miss 49",
+  "Wk 1: SE Louisiana 14 at South Alabama 39",
+  "Wk 3: Northern Iowa 0 at Iowa 55",
+  "Wk 3: SE Louisiana 38 at UL Monroe 35",
+  "Wk 4: Incarnate Word 10 at Texas State 63"
+ ],
+ "home_away": [],
+ "division": [],
+ "games_played": [
+  "Illinois: ours 5, matched to NCAA 6",
+  "Iowa: ours 5, matched to NCAA 4",
+  "South Alabama: ours 5, matched to NCAA 4",
+  "Southern Miss: ours 4, matched to NCAA 3",
+  "Texas State: ours 5, matched to NCAA 4",
+  "UL Monroe: ours 5, matched to NCAA 4",
+  "UTSA: ours 5, matched to NCAA 4"
+ ],
+ "checked": 385,
+ "generated": "2026-10-04T17:06+00:00"
+}
