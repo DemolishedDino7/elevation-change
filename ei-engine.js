@@ -338,7 +338,8 @@ const EI = (function () {
       const onBye = p && t.games.length > 0 && !t.games.some(g => g.week === w);
       let k = i + 1;
       if (onBye) {
-        const weakened = t.score < p.score - 3;                 /* schedule got weaker */
+        /* schedule got weaker: its own games are worth less than last week (bye credit aside) */
+        const weakened = (t.score - (t.byeCredit || 0)) < (p.score - (p.byeCredit || 0)) - 3;
         const lo = p.rank - BYE_MAX, hi = weakened ? cur.length : p.rank + BYE_MAX;
         k = Math.max(lo, Math.min(hi, k)) - 0.5;                /* held teams win ties */
         t.byeHeld = k + 0.5 !== i + 1;
@@ -363,7 +364,7 @@ const EI = (function () {
     const dir = t.move > 0 ? 'Moved up ' + t.move : t.move < 0 ? 'Dropped ' + (-t.move) : 'Held';
     if (wk != null && g.week < wk) {
       const lead = t.move > 0 ? 'Moved up ' + t.move + ' on' : t.move < 0 ? 'Slipped ' + (-t.move) + ' on' : 'Held steady through';
-      if (t.byeWeakened) return lead + ' a bye week. Teams it beat earlier were re-rated weaker, so its résumé lost value.';
+      if (t.byeWeakened && t.move < 0) return lead + ' a bye week. Teams it beat earlier were re-rated weaker, so its résumé lost value.';
       return lead + ' a bye week. A team on a bye moves at most ' + BYE_MAX + ' spots unless its schedule weakens.';
     }
     const fcsLoss = t.games.find(x => x.label === 'FCS loss');
