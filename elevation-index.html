@@ -86,6 +86,12 @@
 .ei-scope a[aria-current="page"] { background: var(--purple); color: var(--ink); }
 .ei-card .games small { color: var(--muted); font-size: 0.6875rem; margin-left: 0.25rem; }
 .ei-card .games div { flex-wrap: wrap; }
+.ei-table .tm a.jump { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--muted); }
+.ei-table .tm a.jump:hover { color: var(--purple); border-bottom-color: var(--purple); }
+.ei-card { scroll-margin-top: 1rem; }
+#ei-table { scroll-margin-top: 1rem; }
+.ei-card .back { display: inline-block; margin-top: 0.9rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); text-decoration: none; }
+.ei-card .back:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -244,14 +250,14 @@
   /* ---------- table ---------- */
   const mv = t => t.prevRank == null ? '<span class="flat">—</span>' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '<span class="flat">—</span>';
   document.querySelector('#ei-table tbody').innerHTML = L.map(t =>
-    '<tr><td class="rk">' + t.rank + '</td><td class="tm"><span class="tmx">' + (t.logoSrc ? logoImg(t, 22) : '<i style="background:' + t.color + '"></i>') + '<span>' + t.name + '</span></span></td>' +
+    '<tr><td class="rk">' + t.rank + '</td><td class="tm"><span class="tmx">' + (t.logoSrc ? logoImg(t, 22) : '<i style="background:' + t.color + '"></i>') + '<span><a class="jump" href="#card-' + t.id + '">' + t.name + '</a></span></span></td>' +
     '<td>' + t.rec.w + '-' + t.rec.l + '</td><td class="mv">' + mv(t) + '</td><td class="sc">' + t.score.toFixed(1) + '</td>' +
     '<td class="why">' + t.reason + '</td></tr>').join('');
 
   /* ---------- cards ---------- */
   const g = x => x ? EI.oppLabel(x) + ' ' + EI.scoreLine(x) : '—';
   document.getElementById('ei-cards').innerHTML = L.map(t =>
-    '<article class="ei-card" style="border-top-color:' + t.color + '">' +
+    '<article class="ei-card" id="card-' + t.id + '" style="border-top-color:' + t.color + '">' +
     '<h3>' + t.rank + '. ' + logoImg(t, 32) + t.name + '</h3>' +
     '<div class="meta">' + t.rec.w + '-' + t.rec.l + ' | FBS ' + t.rec.fbsW + '-' + t.rec.fbsL + ' | FCS ' + t.rec.fcsW + '-' + t.rec.fcsL + ' | Score ' + t.score.toFixed(1) + (t.prevRank ? ' | Prev ' + t.prevRank : '') + '</div>' +
     '<dl>' +
@@ -271,7 +277,7 @@
         const parts = '';
         return '<div><span>Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span><span><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> | ' + x.label + ' | ' + v + parts + '</span></div>';
       }).join('') + '<div class="tot"><span>Total</span><span><b>' + t.score.toFixed(1) + '</b></span></div></div>' +
-    '</article>').join('');
+    '<a class="back" href="#ei-table">↑ Back to rankings</a>' + '</article>').join('');
   });
 })();
 </script>
