@@ -62,5 +62,10 @@ jobs:
           git add bot/ ei-auto.js
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
           git commit -m "The Bot: update $(date -u +%Y-%m-%d)"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          # if another run published first, keep this run's (newer) data files
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push origin HEAD:main && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          exit 1
