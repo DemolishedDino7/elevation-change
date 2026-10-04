@@ -33,6 +33,7 @@ from simulate import simulate  # noqa: E402
 import index_feed  # noqa: E402
 import ncaa  # noqa: E402
 import audit  # noqa: E402
+import standings  # noqa: E402
 
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "bot"
@@ -534,6 +535,9 @@ def main():
     dump("ratings.json", team_list)
     dump("predictions.json", games_out)
     dump("record.json", record)
+    st = standings.build(sg, tinfo)
+    st["generated"] = now.isoformat(timespec="minutes")
+    dump("standings.json", st)
     with open(OUT / "audit.json", "w") as f:
         json.dump(aud, f, indent=1, ensure_ascii=False)
     log("done: week", meta["week"], "|", len(team_list), "teams |", len(games_out), "games")
