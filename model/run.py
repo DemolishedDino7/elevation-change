@@ -119,12 +119,19 @@ def main():
         plays.download(2014, season)
 
     log("building games")
-    g = data.build_games(season)
+    # FCS-vs-FCS results from NCAA.com (the archive doesn't carry them for the current season)
+    ti0, _ = data.team_info(season)
+    sch0 = pd.read_parquet(data.CACHE / f"sch_{season}.parquet")
+    reg0 = sch0[sch0.season_type == "regular"]
+    done_wk = int(reg0[reg0.completed.fillna(False).astype(bool)].week.max() or 1) if len(reg0) else 1
+    fcs_extra = ncaa.fcs_rows(season, list(range(1, done_wk + 2)), ti0[ti0.season == season], sch0, log=log)
+    g = data.build_games(season, extra=fcs_extra)
     # same-night finals and official box scores from NCAA.com (the archive lags a day)
     sg0 = g[(g.season == season) & (g.season_type == "regular")]
     pend = sg0[~sg0.completed]
     wk_now = int(pend.week.min()) if len(pend) else int(sg0.week.max())
     g, ncaa_ids, ncaa_status = ncaa.patch(g, season, sorted({max(1, wk_now - 1), wk_now}), log=log)
+    ncaa_ids.update(fcs_extra.attrs.get("ncaa_ids", {}))
     if season in g.season.values:
         # ids for every earlier week too, so the Index can use official box scores all season
         try:
@@ -336,6 +343,7 @@ def main():
             "id": gid, "week": int(x.week), "type": x.season_type, "start": x.start.isoformat() if pd.notna(x.start) else None,
             "neutral": bool(x.neutral_site), "conf_game": bool(x.conference_game), "venue": x.venue,
             "home": x.home_team, "away": x.away_team, "home_id": int(x.home_id), "away_id": int(x.away_id),
+            "fbs": bool(x.home_division == "fbs" or x.away_division == "fbs"),
             "home_west": x.home_team in WEST_BY_NAME, "away_west": x.away_team in WEST_BY_NAME,
             "pred_home": ph, "pred_away": pa, "pred_margin": pm, "pred_total": pt, "home_wp": wp,
             "vegas_spread": vs, "vegas_total": vt,
@@ -379,7 +387,7 @@ def main():
         ats = sum(np.sign(g_["home_pts"] - g_["away_pts"] + g_["vegas_spread"]) == np.sign(g_["pred_margin"] + g_["vegas_spread"]) for g_ in lined)
         return {"games": n, "su_w": int(su), "su_l": int(n - su), "mae": r1(mae, 2),
                 "ats_w": int(ats), "ats_l": int(len(lined) - ats)}
-    finals = [x for x in games_out if x["final"]]
+    finals = [x for x in games_out if x["final"] and x["fbs"]]  # the scorecard covers games with an FBS team
     west_f = [x for x in finals if x["home_west"] or x["away_west"]]
     record = {
         "live": {"all": grade([x for x in finals if x["mode"] == "live"]),
@@ -458,15 +466,30 @@ def main():
         return out
     sw = pd.Series(index_feed.site_week(sg.start, sg.week), index=sg.index)
     last_sw = int(sw[sg.completed].max()) if sg.completed.any() else 0
-    rank_by_week = {}
+    fcs_ids = set(T.loc[T["div"] == "fcs", "team_id"])
+
+    def fcs_ranks_from(net: pd.Series) -> dict:
+        fc = net[net.index.isin(fcs_ids)].sort_values(ascending=False)
+        fcv = fc.to_numpy()
+        out = {name_of[t]: i + 1 for i, t in enumerate(fc.index) if t in name_of}
+        for t, v in net.items():
+            if t in fbs_ids and t in name_of:
+                out[name_of[t]] = int(1 + (fcv > v).sum())
+        return out
+    rank_by_week, fcs_rank_by_week = {}, {}
     for w in range(0, last_sw + 1):
         snap = snaps.get(w + 1)
-        rank_by_week[w] = ranks_from(T.set_index("team_id").net if (w == last_sw or snap is None) else snap.net)
+        net_w = T.set_index("team_id").net if (w == last_sw or snap is None) else snap.net
+        rank_by_week[w] = ranks_from(net_w)
+        fcs_rank_by_week[w] = fcs_ranks_from(net_w)
     try:
         tinfo_now = ti[ti.season == season].drop_duplicates("team_id").set_index("team_id")
         nat = index_feed.build_national(season, sg, T[["team_id", "name", "div", "net", "conf"]], tinfo_now, WEST,
                                         SITE / "ei-national.js", ncaa_ids, pregame=pregame, rank_by_week=rank_by_week)
         log("national index", nat)
+        fcs_feed = index_feed.build_fcs(season, sg, T[["team_id", "name", "div", "net", "conf"]], tinfo_now,
+                                        SITE / "ei-fcs.js", ncaa_ids, pregame=pregame, rank_by_week=fcs_rank_by_week)
+        log("FCS index", fcs_feed)
     except Exception as e:
         log("national index failed:", repr(e)[:300])
     if os.environ.get("INDEX_PREVIEW"):

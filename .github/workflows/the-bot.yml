@@ -59,7 +59,7 @@ jobs:
         run: |
           git config user.name "The Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bot/ ei-auto.js ei-national.js
+          git add bot/ ei-auto.js ei-national.js ei-fcs.js
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
           git commit -m "The Bot: update $(date -u +%Y-%m-%d)"
           # if another run published first, keep this run's (newer) data files

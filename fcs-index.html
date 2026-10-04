@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCS Index — Elevation Change</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Every FCS team ranked by résumé with the Elevation Index formula, computed entirely by Elevation Change.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Elevation Index: FCS">
+<meta property="og:description" content="The FCS, ranked by résumé. Our formula, our numbers.">
+<meta property="og:url" content="https://elevationchange.co/fcs-index.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610031335">
+<style>
+.ei-head { padding: 3.5rem 0 1.5rem; }
+.ei-intro { max-width: 46ch; color: var(--muted); margin: 0; }
+.ei-chart-wrap { margin: 2rem 0 0; border: 1px solid var(--line); border-radius: 4px; background: var(--ink-2); padding: 1rem 0.5rem 0.5rem; }
+.ei-chart { display: block; width: 100%; height: auto; font-family: var(--mono); }
+.ei-chart.narrow .axis { font-size: 9px; letter-spacing: 0.04em; }
+.ei-chart.narrow .endlabel { font-size: 10.5px; transform: none; letter-spacing: 0.02em; }
+.ei-chart.narrow .line { stroke-width: 2; }
+.ei-chart.narrow .line.hot { stroke-width: 3.5; }
+.ei-chart.narrow .dot { stroke-width: 1.5; }
+.ei-chart.narrow .endbg { stroke-width: 1.5; }
+.ei-chart .grid { stroke: var(--line); stroke-width: 1; }
+.ei-chart .axis { fill: var(--muted); font-size: 11px; letter-spacing: 0.08em; }
+.ei-chart .line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; opacity: 0.85; }
+.ei-chart .line.dim, .ei-chart .dot.dim { opacity: 0.08; }
+.ei-chart .dot { stroke: var(--ink-2); stroke-width: 2; }
+.ei-chart .end { font-size: 10px; font-weight: 500; fill: #fff; }
+.ei-chart .endbg { stroke: var(--ink-2); stroke-width: 2; }
+.ei-chart .endlabel { font-family: var(--display); font-size: 12px; transform: translateX(6px); font-weight: 600; fill: var(--paper); letter-spacing: 0.04em; }
+.ei-chart image { }
+.ei-chart .key { cursor: pointer; outline: none; }
+.ei-chart .key .endlabel { transition: fill .15s ease, opacity .15s ease; }
+.ei-chart .key:hover .endlabel, .ei-chart .key:focus-visible .endlabel, .ei-chart .key.on .endlabel { fill: var(--purple); }
+.ei-chart .key.dim { opacity: 0.3; }
+.ei-chart .line.hot { opacity: 1; stroke-width: 4; }
+
+.ei-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-family: var(--mono); font-size: 0.8125rem; }
+.ei-table th { text-align: left; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.6875rem; color: var(--muted); padding: 0 0.75rem 0.75rem 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ei-table td { padding: 0.8rem 0.75rem 0.8rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ei-table .rk { font-family: var(--display); font-size: 1.25rem; font-weight: 600; width: 2.5rem; }
+.ei-table .tm { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.0625rem; font-weight: 500; white-space: nowrap; }
+.ei-table .tm i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 0.5rem; vertical-align: -1px; }
+.ei-table .mv { white-space: nowrap; }
+.up { color: #78BE8C; } .down { color: #D25F5F; } .flat { color: var(--muted); }
+.ei-table .sc { color: var(--purple); }
+.ei-table .why { color: var(--muted); font-family: var(--body); font-size: 0.9375rem; line-height: 1.45; max-width: 40ch; }
+.ei-table .tmx { display: flex; align-items: center; gap: 0.55rem; }
+.ei-table .tm .tmx img { width: 26px; height: 26px; flex: none; margin: 0; padding: 3px; box-sizing: border-box; background: #F2F1EE; border-radius: 50%; vertical-align: 0; }
+.ei-table .tm .tmx i { flex: none; margin: 0; }
+@media (max-width: 46rem) {
+  .ei-table .why, .ei-table th:last-child { display: none; }
+  .ei-table { font-size: 0.75rem; }
+  .ei-table th, .ei-table td { padding-right: 0.5rem; }
+  .ei-table th:last-of-type, .ei-table td:last-of-type { padding-right: 0; }
+  .ei-table .rk { width: 1.75rem; font-size: 1.0625rem; }
+  .ei-table .tm { white-space: normal; font-size: 0.875rem; line-height: 1.15; }
+}
+
+.ei-cards { display: grid; gap: 1.25rem; margin: 3rem 0 2rem; grid-template-columns: 1fr; }
+@media (min-width: 46rem) { .ei-cards { grid-template-columns: 1fr 1fr; } }
+.ei-card { border: 1px solid var(--line); border-radius: 4px; background: var(--ink-2); padding: 1.25rem 1.25rem 1.5rem; border-top: 4px solid var(--purple); }
+.ei-card h3 { font-family: var(--display); text-transform: uppercase; font-style: italic; font-weight: 600; font-size: 1.5rem; margin: 0; line-height: 1.1; }
+.ei-card .meta { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0.35rem 0 1rem; }
+.ei-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 1rem; font-size: 0.9375rem; }
+.ei-card dt { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); padding-top: 0.2rem; }
+.ei-card dd { margin: 0; }
+.ei-card .games { margin: 1rem 0 0; padding: 0.75rem 0 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.ei-card .games div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.2rem 0; }
+.ei-card .games b { color: var(--paper); font-weight: 500; }
+.ei-method { max-width: 44rem; margin: 3rem 0 4rem; }
+.ei-method h2 { font-family: var(--display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; font-size: 1.5rem; margin: 0 0 0.75rem; }
+.ei-method p { color: var(--muted); }
+.ei-scope { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; margin-top: 1.5rem; }
+.ei-scope a { padding: 0.45rem 1rem; font-family: var(--display); font-style: italic; font-weight: 700; font-stretch: 108%; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; color: var(--muted); text-decoration: none; }
+.ei-scope a[aria-current="page"] { background: var(--purple); color: var(--ink); }
+.ei-ctl { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; margin: 1.5rem 0 0; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.seg button { background: none; border: 0; color: var(--muted); padding: 0.45rem 0.9rem; cursor: pointer; font-family: var(--display); font-style: italic; font-weight: 700; font-stretch: 108%; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; }
+.seg button[aria-pressed="true"] { background: var(--purple); color: var(--ink); }
+select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 0.45rem 0.6rem; font: inherit; font-size: 0.875rem; }
+.ei-table .tm small.cf { display: block; font-family: var(--body); font-style: normal; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="elevation-index.html" aria-current="page">Index</a>
+      <a href="standings.html">Standings</a>
+      <a href="the-bot.html">The Bot</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="ei-head">
+      <p class="eyebrow" id="ei-eyebrow">The Elevation Index: FCS</p>
+      <h1 class="page-title">FCS Index</h1>
+      <p class="ei-intro">The Elevation Index formula applied to the FCS. Every team ranked by résumé, not record, with every game graded against The Bot's pre-game expectation. Opponent strength is on an FCS scale: an FBS opponent counts as the FCS team it plays like.</p>
+      <nav class="ei-scope" aria-label="Index scope"><a href="elevation-index.html">Western 20</a><a href="national-index.html">National</a><a href="fcs-index.html" aria-current="page">FCS</a></nav>
+    </section>
+
+    <div class="ei-ctl"><div class="seg" id="nat-scope"><button data-v="25" aria-pressed="true">Top 25</button><button data-v="all" aria-pressed="false">All FCS</button></div><select class="sel" id="nat-conf" aria-label="Conference"><option value="">All conferences</option></select></div>
+    <div class="table-scroll">
+      <table class="ei-table" id="ei-table">
+        <thead><tr><th>#</th><th>Team</th><th>Rec</th><th>Move</th><th>Score</th><th>Why</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="ei-cards" id="ei-cards"></div>
+
+    <section class="ei-method">
+      <h2>How it works</h2>
+      <p>Every game gets a score. Wins earn points for opponent quality, a win bonus that scales with the opponent, and a margin bonus with diminishing returns. Losses to elite teams earn real credit if they're close — a near-upset of a ranked team is worth more than most wins over bad ones. Losses to bad teams cost more the wider they get, and a 28-point-plus loss to a non-elite team takes an extra hit. FCS wins are capped low, and the box-score bonus for outgaining an FCS team is capped at +2 (struggling against one still costs the full amount). FCS losses start at −35 before margin. Recent games count noticeably more — last week is worth 100%, the week before 82%, and it keeps sliding — but nothing ages out. The season score is the sum, and ties break on quality wins, strength of wins, quality losses, fewer bad losses, point differential and the most recent result — never on record. Byes never cost a team: each bye week counts as that team's average game, and a team on a bye moves at most 5 spots, unless teams it beat earlier are re-rated weaker. Every week is judged with opponent strength as it stood that week.</p>
+      <p><b>Judged against expectations.</b> Before every game, The Bot sets an expected margin using only what was known at kickoff, and each result is graded against it. An <b>upset win</b> as the underdog earns a bonus that grows with the size of the upset. Winning by far less than expected (an <b>unconvincing win</b>) counts for less, though a win never costs points. Losing as the favorite is an <b>upset loss</b> and a real penalty. A <b>quality loss</b> only goes to the underdog that played the game at least 3 points closer than expected. An underdog that loses by about as much as expected gets an <b>expected loss</b>, and one that loses by 14 or more beyond expectations gets a <b>blowout loss</b>. A loss never adds points on its own. Early-season expectations are mostly preseason guesswork, so they phase in: Week 0–1 games are graded 25% on expectations and 75% on who you played and by how much, Week 2 games 60/40, and everything from Week 3 on fully against expectations. Every team starts the season at zero.</p>
+      <p>This is the same formula as the <a href="elevation-index.html">Western 20</a> and <a href="national-index.html">National Index</a>, run across the FCS. It's a résumé ranking: it rewards what a team has done, and it will disagree with <a href="the-bot.html#ratings">The Bot's power ratings</a>, which measure how strong a team is going forward. Everything here is computed by Elevation Change. Results and box-score stats (yards per play, third downs, explosive plays, turnovers, sacks) are calculated from play-by-play, and how good each opponent is comes from <a href="the-bot.html#ratings">The Bot's</a> current national ratings, not the AP poll or ESPN. FCS opponents are placed where their rating would rank among FBS teams. Rankings update automatically after every weekend.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;width:min(68rem,100% - 2.5rem);">
+    <span>Elevation Change | 2026</span>
+    <span><a href="index.html">Home</a></span>
+  </div>
+</footer>
+
+<script src="ei-fcs.js"></script>
+<script src="ei-engine.js?v=202610041220"></script>
+<script>
+(function () {
+  const H = EI.history(CURRENT_WEEK), L = H.latest, W = H.weeks.length, N = L.length;
+
+  /* resolve each team's logo: local file, then fallback URL, then none */
+  function resolveLogos(cb) {
+    let pending = L.length;
+    L.forEach(t => {
+      const LIGHT = { 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' };  /* colored versions for the light circles */
+      const cands = (t.logo || '').split('|').map(s => s.trim()).filter(Boolean).map(s => LIGHT[s] || s);
+      t.logoSrc = '';
+      (function tryNext(i) {
+        if (i >= cands.length) { if (--pending === 0) cb(); return; }
+        const im = new Image();
+        im.onload = () => { t.logoSrc = cands[i]; if (--pending === 0) cb(); };
+        im.onerror = () => tryNext(i + 1);
+        im.src = cands[i];
+      })(0);
+    });
+    if (!L.length) cb();
+  }
+  const logoImg = (t, size) => t.logoSrc ? '<img src="' + t.logoSrc + '" alt="" width="' + size + '" height="' + size + '">' : '';
+
+  document.getElementById('ei-eyebrow').textContent = 'The Elevation Index: FCS | Through Week ' + CURRENT_WEEK;
+  resolveLogos(function () {
+
+  /* ---------- table ---------- */
+  const mv = t => t.prevRank == null ? '<span class="flat">—</span>' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '<span class="flat">—</span>';
+  const g = x => x ? EI.oppLabel(x) + ' ' + EI.scoreLine(x) : '—';
+  const confs = [...new Set(L.map(t => t.conf))].filter(Boolean).sort();
+  document.getElementById('nat-conf').innerHTML += confs.map(c => '<option>' + c.replace('FBS Independents', 'Independents') + '</option>').join('');
+  let scope = '25', conf = '';
+  function render() {
+    let list = L;
+    if (conf) list = list.filter(t => t.conf.replace('FBS Independents', 'Independents') === conf);
+    else if (scope === '25') list = list.slice(0, 25);
+    document.querySelector('#ei-table tbody').innerHTML = list.map(t =>
+      '<tr><td class="rk">' + t.rank + '</td><td class="tm"><span class="tmx">' + (t.logoSrc ? logoImg(t, 22) : '<i style="background:' + t.color + '"></i>') + '<span>' + t.name + '<small class="cf">' + t.conf.replace('FBS Independents', 'Independent') + '</small></span></span></td>' +
+      '<td>' + t.rec.w + '-' + t.rec.l + '</td><td class="mv">' + mv(t) + '</td><td class="sc">' + t.score.toFixed(1) + '</td>' +
+      '<td class="why">' + t.reason + '</td></tr>').join('');
+    /* résumé cards for the teams shown (top 25 by default) */
+    document.getElementById('ei-cards').innerHTML = list.slice(0, 25).map(t =>
+      '<article class="ei-card" style="border-top-color:' + t.color + '">' +
+      '<h3>' + t.rank + '. ' + logoImg(t, 32) + t.name + '</h3>' +
+      '<div class="meta">' + t.rec.w + '-' + t.rec.l + ' | ' + t.conf.replace('FBS Independents', 'Independent') + ' | Score ' + t.score.toFixed(1) + (t.prevRank ? ' | Prev ' + t.prevRank : '') + '</div>' +
+      '<dl>' +
+      '<dt>Best win</dt><dd>' + g(t.bestWin) + '</dd>' +
+      '<dt>Worst loss</dt><dd>' + g(t.worstLoss) + '</dd>' +
+      '<dt>Why here</dt><dd>' + EI.whyRanked(t) + '</dd>' +
+      '<dt>Next</dt><dd>' + (NEXT[t.id] || 'TBD') + '</dd>' +
+      '</dl>' +
+      '<div class="games">' + t.games.map(x =>
+        '<div><span>Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span><span><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> | ' + x.label + ' | ' + (x.final >= 0 ? '+' : '') + x.final.toFixed(1) + '</span></div>').join('') + '</div>' +
+      '</article>').join('');
+  }
+  document.getElementById('nat-scope').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    document.querySelectorAll('#nat-scope button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    scope = b.dataset.v; render();
+  });
+  document.getElementById('nat-conf').addEventListener('change', e => { conf = e.target.value; render(); });
+  render();
+  });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610022131"></script>
+</body>
+</html>

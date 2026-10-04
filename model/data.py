@@ -134,10 +134,12 @@ def closing_lines(g: pd.DataFrame, current: int) -> pd.DataFrame:
     return cons
 
 
-def build_games(current: int) -> pd.DataFrame:
+def build_games(current: int, extra: pd.DataFrame | None = None) -> pd.DataFrame:
     frames = []
     for y in range(FIRST_SEASON, current + 1):
         s = pd.read_parquet(CACHE / f"sch_{y}.parquet")
+        if y == current and extra is not None and len(extra):
+            s = pd.concat([s, extra[~extra.game_id.isin(s.game_id)]], ignore_index=True)
         frames.append(s)
     g = pd.concat(frames, ignore_index=True)
     g = g[g.home_division.isin(DIVS) & g.away_division.isin(DIVS)].copy()

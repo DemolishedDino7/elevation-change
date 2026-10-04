@@ -87,7 +87,7 @@ def team_stats(contest_id: int) -> dict | None:
 
 # ---------- matching NCAA names to ours ----------
 SUBS = [("st.", "state"), ("st ", "state "), ("ky.", "kentucky"), ("mich.", "michigan"), ("fla.", "florida"),
-        ("ga.", "georgia"), ("ill.", "illinois"), ("ala.", "alabama"), ("miss.", "mississippi"), ("tenn.", "tennessee"),
+        ("ga.", "georgia"), ("caro.", "carolina"), ("ill.", "illinois"), ("ala.", "alabama"), ("miss.", "mississippi"), ("tenn.", "tennessee"),
         ("la.", "louisiana"), ("ark.", "arkansas"), ("ariz.", "arizona"), ("calif.", "california"), ("colo.", "colorado"),
         ("n.c.", "north carolina"), ("s.c.", "south carolina"), ("ind.", "indiana"), ("conn.", "connecticut"),
         ("wash.", "washington"), ("okla.", "oklahoma"), ("ore.", "oregon"), ("mo.", "missouri"), ("va.", "virginia"),
@@ -112,7 +112,8 @@ ALIAS = {"USC": "southern california", "Florida International": "fiu", "Long Isl
          "Texas A&M-Commerce": "east texas a and m", "Mississippi Valley State": "mississippi val",
          "Arkansas-Pine Bluff": "arkansas pine bluff", "Prairie View A&M": "prairie view", "Houston Christian": "houston christian",
          "Florida Atlantic": "florida atlantic", "Middle Tennessee": "middle tennessee", "UMass": "umass",
-         "Southern Illinois": "southern illinois", "Northern Arizona": "northern arizona", "North Alabama": "north alabama"}
+         "Southern Illinois": "southern illinois", "Northern Arizona": "northern arizona", "North Alabama": "north alabama",
+         "Pennsylvania": "penn", "Western Carolina": "western carolina", "East Tennessee State": "etsu"}
 
 
 def _sim(a: str, b: str) -> float:
@@ -196,3 +197,78 @@ def patch(g: pd.DataFrame, season: int, weeks: list[int], log=print) -> tuple[pd
         status["error"] = repr(e)[:300]
         log("NCAA feed unavailable:", status["error"])
     return g, ids, status
+
+
+# ---------- FCS-vs-FCS results (the public archive doesn't carry them for the current season) ----------
+def _team_lookup(ti: pd.DataFrame):
+    """Our FBS/FCS schools, for matching ncaa.com names."""
+    t = ti[ti.classification.isin(["fbs", "fcs"])].drop_duplicates("team_id")
+    return list(zip(t.team_id.astype(int), t.school, t.classification, t.conference))
+
+
+def _resolve(team: dict, lookup, cache: dict):
+    key = team["seoname"]
+    if key in cache:
+        return cache[key]
+    best, best_s = None, 0.0
+    names = [n for n in _names(team) if n]
+    for tid, school, cls, conf in lookup:
+        for n in names:
+            s = _sim(n, school)
+            # a fuzzy match must agree on the first word (Northeastern St. is not Northwestern State)
+            if s < 1.0 and norm(n).split()[:1] != norm(ALIAS.get(school, school)).split()[:1]:
+                continue
+            if s > best_s:
+                best, best_s = (tid, school, cls, conf), s
+    cache[key] = best if best_s >= 0.86 else None
+    return cache[key]
+
+
+def fcs_rows(season: int, weeks: list[int], ti: pd.DataFrame, fbs_sched: pd.DataFrame, log=print) -> pd.DataFrame:
+    """Schedule-shaped rows for every final FCS-vs-FCS game on ncaa.com (best-effort)."""
+    cols = ["game_id", "season", "week", "season_type", "start_date", "completed", "neutral_site", "conference_game",
+            "venue_id", "home_id", "home_team", "home_division", "home_conference", "home_points",
+            "away_id", "away_team", "away_division", "away_conference", "away_points"]
+    try:
+        lookup = _team_lookup(ti)
+        cache_f = CACHE / "ncaa" / "team_map.json"
+        cache = json.load(open(cache_f)) if cache_f.exists() else {}
+        cache = {k: (tuple(v) if v else None) for k, v in cache.items()}
+        # our week numbers by date, from the FBS schedule
+        fs = fbs_sched[fbs_sched.season_type == "regular"].copy()
+        fs["d"] = pd.to_datetime(fs.start_date, utc=True) - pd.Timedelta(hours=6)
+        wk_mid = fs.groupby("week").d.median()
+        rows, seen, ids = [], set(), {}
+        for w in weeks:
+            data = _get(Q_SCOREBOARD, {"sportCode": "MFB", "division": 12, "seasonYear": season, "contestDate": None, "week": w})
+            for c in (data.get("data") or {}).get("contests") or []:
+                if c.get("gameState") != "F" or len(c.get("teams", [])) != 2 or c["contestId"] in seen:
+                    continue
+                seen.add(c["contestId"])
+                home = next((t for t in c["teams"] if t.get("isHome")), c["teams"][0])
+                away = next(t for t in c["teams"] if t is not home)
+                h, a = _resolve(home, lookup, cache), _resolve(away, lookup, cache)
+                if not h or not a or h[2] != "fcs" or a[2] != "fcs":
+                    continue  # FBS games come from the archive; non-Division I opponents are skipped
+                start = pd.Timestamp(int(c["startTimeEpoch"]), unit="s", tz="UTC")
+                our_wk = int((wk_mid - (start - pd.Timedelta(hours=6))).abs().idxmin())
+                ids[900000000 + int(c["contestId"])] = {"contest": int(c["contestId"]), "home_seo": home["seoname"], "away_seo": away["seoname"]}
+                rows.append({"game_id": 900000000 + int(c["contestId"]), "season": season, "week": our_wk,
+                             "season_type": "regular", "start_date": start.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+                             "completed": True, "neutral_site": False, "conference_game": bool(h[3] and h[3] == a[3]),
+                             "venue_id": None, "home_id": h[0], "home_team": h[1], "home_division": "fcs",
+                             "home_conference": h[3], "home_points": float(home.get("score")),
+                             "away_id": a[0], "away_team": a[1], "away_division": "fcs",
+                             "away_conference": a[3], "away_points": float(away.get("score"))})
+        cache_f.parent.mkdir(exist_ok=True)
+        json.dump({k: list(v) if v else None for k, v in cache.items()}, open(cache_f, "w"))
+        unresolved = sorted(k for k, v in cache.items() if v is None)
+        log(f"NCAA FCS: {len(rows)} FCS-vs-FCS finals added" + (f"; unmatched names: {', '.join(unresolved[:12])}" if unresolved else ""))
+        out = pd.DataFrame(rows, columns=cols)
+        out.attrs["ncaa_ids"] = ids
+        return out
+    except Exception as e:
+        log("NCAA FCS results unavailable:", repr(e)[:200])
+        out = pd.DataFrame(columns=cols)
+        out.attrs["ncaa_ids"] = {}
+        return out
