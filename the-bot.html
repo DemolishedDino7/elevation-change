@@ -93,6 +93,8 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
 .bt tr.west .tm { color: var(--paper); }
 .bt tr.dim td { color: var(--muted); }
 .bt .net { color: var(--purple); font-weight: 700; }
+.bt .why { display: block; font-size: 0.6875rem; color: var(--muted); font-weight: 400; letter-spacing: 0.02em; }
+.bt .ok { color: var(--up); } .bt .no { color: var(--down); }
 .bt .sub { color: var(--muted); font-size: 0.75rem; margin-left: 0.15rem; }
 .up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--muted); }
 .pc { position: relative; min-width: 3.25rem; }
@@ -367,8 +369,8 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
     const bw = bvb.weeks.filter(w => w.games.length);
     if (bw.length) {
       html += '<div class="table-scroll"><table class="bt"><thead><tr><th>Week</th><th>Game</th><th class="n">Final</th><th class="n">Boys</th><th class="n">Bot</th><th class="n">Point</th></tr></thead><tbody>' +
-        bw.map(w => w.games.map((g, i) => '<tr><td>' + (i ? '' : w.week) + '</td><td style="white-space:normal">' + esc(short(g.away)) + ' at ' + esc(short(g.home)) + '</td><td class="n">' + g.final[1] + '-' + g.final[0] + '</td><td class="n">' + g.boys[1] + '-' + g.boys[0] + ' <span class="sub">' + g.boys_miss + '</span></td><td class="n">' + g.bot[1] + '-' + g.bot[0] + ' <span class="sub">' + g.bot_miss + '</span></td><td class="n ' + (g.point === 'bot' ? 'up' : g.point === 'boys' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Push') + '</td></tr>').join('')).join('') + '</tbody></table></div>';
-      html += '<p class="note">Scores listed away-home. Picking the right winner earns the point first. If both sides (or neither) got the winner, the smaller combined miss (the small numbers) wins it.</p>';
+        bw.map(w => w.games.map((g, i) => '<tr><td>' + (i ? '' : w.week) + '</td><td style="white-space:normal">' + esc(short(g.away)) + ' at ' + esc(short(g.home)) + '</td><td class="n">' + g.final[1] + '-' + g.final[0] + '</td><td class="n">' + (g.boys_right ? '<span class="ok">✓</span> ' : '<span class="no">✗</span> ') + g.boys[1] + '-' + g.boys[0] + ' <span class="sub">' + g.boys_miss + '</span></td><td class="n">' + (g.bot_right ? '<span class="ok">✓</span> ' : '<span class="no">✗</span> ') + g.bot[1] + '-' + g.bot[0] + ' <span class="sub">' + g.bot_miss + '</span></td><td class="n ' + (g.point === 'bot' ? 'up' : g.point === 'boys' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Push') + '<span class="why">' + ({ winner: 'Picked winner', score: 'Closer score', tiebreak: 'Tiebreaker' }[g.how] || '') + '</span></td></tr>').join('')).join('') + '</tbody></table></div>';
+      html += '<p class="note">Scores listed away-home. ✓ / ✗ = picked the right winner. Picking the right winner earns the point first. If both sides (or neither) got the winner, the smaller combined miss (the small numbers) wins it.</p>';
     } else html += '<p class="note">Results post here once the week\'s games are final.</p>';
 
     html += '<h2 class="sh dv">' + meta.season + ' scorecard</h2><div class="cards2">' +

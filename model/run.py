@@ -412,17 +412,21 @@ def main():
             boys_right, bot_right = (bh > ba) == hw, (th > ta) == hw
             if boys_right != bot_right:
                 winner = "boys" if boys_right else "bot"
+                how = "winner"
             elif mb == mt:  # tiebreak: closer on the winner's points
                 wh = gx["home_pts"] > gx["away_pts"]
                 mb2 = abs((bh if wh else ba) - (gx["home_pts"] if wh else gx["away_pts"]))
                 mt2 = abs((th if wh else ta) - (gx["home_pts"] if wh else gx["away_pts"]))
                 winner = "boys" if mb2 < mt2 else ("bot" if mt2 < mb2 else "push")
+                how = "tiebreak"
             else:
                 winner = "boys" if mb < mt else "bot"
+                how = "score"
             if winner != "push":
                 bw[winner] += 1
             bw["games"].append({"home": gx["home"], "away": gx["away"], "final": [gx["home_pts"], gx["away_pts"]],
-                                "boys": [bh, ba], "bot": [th, ta], "boys_miss": mb, "bot_miss": mt, "point": winner})
+                                "boys": [bh, ba], "bot": [th, ta], "boys_miss": mb, "bot_miss": mt, "point": winner, "how": how,
+                                "boys_right": boys_right, "bot_right": bot_right})
         record["boys_vs_bot"]["boys"] += bw["boys"]
         record["boys_vs_bot"]["bot"] += bw["bot"]
         record["boys_vs_bot"]["weeks"].append(bw)
