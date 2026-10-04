@@ -35,9 +35,6 @@ def run(g: pd.DataFrame, season: int, last_week: int, log=print) -> dict:
                         for t in c["teams"]:
                             div_of.setdefault(t["seoname"], set()).add(11)
         uniq = {c["contestId"]: c for c in contests}
-        out["_ncaa_finals"] = [{"id": c["contestId"], "date": c.get("startDate"), "teams": [
-            {"name": t["nameShort"], "seo": t["seoname"], "home": t.get("isHome"), "score": t.get("score"),
-             "conf": t.get("conferenceSeo")} for t in c.get("teams", [])]} for c in uniq.values() if c.get("gameState") == "F"]
         finals = [c for c in uniq.values() if c.get("gameState") == "F" and len(c.get("teams", [])) == 2]
         pairs = ncaa.match(finals, sg)
         matched_rows = set()

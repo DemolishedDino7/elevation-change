@@ -106,7 +106,13 @@ def norm(s: str) -> str:
 ALIAS = {"USC": "southern california", "Florida International": "fiu", "Long Island University": "long island",
          "UL Monroe": "ulm", "Louisiana": "louisiana", "Miami": "miami fl", "Miami (OH)": "miami oh",
          "Northern Illinois": "niu", "Massachusetts": "umass", "Sam Houston": "sam houston state",
-         "App State": "appalachian state", "Southern Miss": "southern mississippi"}
+         "App State": "appalachian state", "Southern Miss": "southern mississippi",
+         "UT Rio Grande Valley": "utrgv", "Alcorn State": "alcorn", "SE Louisiana": "southeastern louisiana",
+         "Northern Iowa": "uni", "Incarnate Word": "uiw", "Stephen F. Austin": "sfa", "East Texas A&M": "east texas a and m",
+         "Texas A&M-Commerce": "east texas a and m", "Mississippi Valley State": "mississippi val",
+         "Arkansas-Pine Bluff": "arkansas pine bluff", "Prairie View A&M": "prairie view", "Houston Christian": "houston christian",
+         "Florida Atlantic": "florida atlantic", "Middle Tennessee": "middle tennessee", "UMass": "umass",
+         "Southern Illinois": "southern illinois", "Northern Arizona": "northern arizona", "North Alabama": "north alabama"}
 
 
 def _sim(a: str, b: str) -> float:
@@ -125,29 +131,36 @@ def _names(team: dict) -> list[str]:
 
 
 def match(contests: list[dict], games: pd.DataFrame) -> list[tuple[int, dict]]:
-    """Pair NCAA contests with schedule rows (same day, best name match on both sides)."""
+    """Pair NCAA contests with schedule rows: same day (±1), both team names must match well,
+    and every contest and every game is used at most once (best pairs first)."""
     g = games.copy()
     g["day"] = (g.start - pd.Timedelta(hours=6)).dt.date
-    out = []
+    cands = []
     for c in contests:
         if len(c.get("teams", [])) != 2:
             continue
         home = next((t for t in c["teams"] if t.get("isHome")), c["teams"][0])
         away = next(t for t in c["teams"] if t is not home)
         day = pd.Timestamp(int(c["startTimeEpoch"]), unit="s", tz="UTC") - pd.Timedelta(hours=6)
-        cand = g[(g.day >= (day - pd.Timedelta(days=1)).date()) & (g.day <= (day + pd.Timedelta(days=1)).date())]
-        best, best_s, flip = None, 0.0, False
-        for i, r in cand.iterrows():
+        near = g[(g.day >= (day - pd.Timedelta(days=1)).date()) & (g.day <= (day + pd.Timedelta(days=1)).date())]
+        for i, r in near.iterrows():
             sh = max(_sim(n, r.home_team) for n in _names(home))
             sa = max(_sim(n, r.away_team) for n in _names(away))
             fh = max(_sim(n, r.away_team) for n in _names(home))
             fa = max(_sim(n, r.home_team) for n in _names(away))
             s1, s2 = min(sh, sa), min(fh, fa)
-            if max(s1, s2) > best_s:
-                best, best_s, flip = i, max(s1, s2), s2 > s1
-        if best is not None and best_s >= 0.72:
-            out.append((best, {"contest": c, "flip": flip, "home": away if flip else home, "away": home if flip else away,
-                               "score": round(best_s, 3)}))
+            sc, flip = (s2, True) if s2 > s1 else (s1, False)
+            if sc >= 0.82:
+                cands.append((sc, i, c["contestId"], flip, c, home, away))
+    cands.sort(key=lambda x: -x[0])
+    used_rows, used_contests, out = set(), set(), []
+    for sc, i, cid, flip, c, home, away in cands:
+        if i in used_rows or cid in used_contests:
+            continue
+        used_rows.add(i)
+        used_contests.add(cid)
+        out.append((i, {"contest": c, "flip": flip, "home": away if flip else home, "away": home if flip else away,
+                        "score": round(sc, 3)}))
     return out
 
 
