@@ -34,7 +34,8 @@ const EI = (function () {
   const LOSS_EXP = { top5: -10, t6_15: -13, t16_30: -16, t31_60: -20, t61: -25 };
   const WIN_Q = 0.6;            /* scale on the opponent-quality value of a win */
   const UPSET = { base: 2, slope: 0.3, cap: 6 };
-  const H2H_WINDOW = 20;      /* a head-to-head winner within this many points always ranks ahead */
+  const H2H_WINDOW = 20;
+  const H2H_DECAY = 0.75;      /* the head-to-head window shrinks 25% for every week since the game */      /* a head-to-head winner within this many points always ranks ahead */
   const OPP_BLEND = 0.5;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
 
   const FCS_PERF_CAP = 2;
@@ -293,7 +294,7 @@ const EI = (function () {
                  sos: n ? oppRankSum / n : null, sosAdj, fcsOnlyWins, byeCredit, byes, gamesPlayed: n,
                  last: rows.length ? rows[rows.length - 1] : null };
       });
-      sortTeams(result);
+      sortTeams(result, throughWeek);
       /* re-derive national ranks for tracked teams from this ordering */
       const next = {};
       result.forEach((t, i) => next[t.id] = t.games.length ? Math.round(28 + i * (97 / 19)) : t.seed);
@@ -316,7 +317,7 @@ const EI = (function () {
     return ms.length > 0 && ms.every(g => g.win);
   }
 
-  function sortTeams(arr) {
+  function sortTeams(arr, wk) {
     arr.sort((a, b) => {
       if (Math.abs(a.score - b.score) > 0.5) return b.score - a.score;
       if (a.qualityWins !== b.qualityWins) return b.qualityWins - a.qualityWins;
@@ -336,7 +337,11 @@ const EI = (function () {
     for (const b of arr)
         for (const a of arr) {
           if (a === b || a.score <= b.score || a.score - b.score > H2H_WINDOW) continue;
-          if (beat(b, a) && !beat(a, b)) adj.set(b.id, Math.max(adj.get(b.id), a.score + 0.01));
+          if (!beat(b, a) || beat(a, b)) continue;
+          /* the head-to-head pull is strongest right after the game and fades each week */
+          const last = Math.max(...b.games.filter(g => g.opp === a.id).map(g => g.week));
+          const window = H2H_WINDOW * Math.pow(H2H_DECAY, Math.max(0, (wk == null ? last : wk) - last));
+          if (a.score - b.score <= window) adj.set(b.id, Math.max(adj.get(b.id), a.score + 0.01));
         }
     const pos = new Map(arr.map((t, i) => [t.id, i]));
     arr.sort((a, b) => (adj.get(b.id) - adj.get(a.id)) || (pos.get(a.id) - pos.get(b.id)));
