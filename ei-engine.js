@@ -33,6 +33,7 @@ const EI = (function () {
   /* loss starting values when the game is judged against expectations */
   const LOSS_EXP = { top5: 0, t6_15: -2, t16_30: -5, t31_60: -9, t61: -13 };
 
+  const FCS_PERF_CAP = 2;
   const FCS_LOSS_BASE = -35;
   const FCS_LOSS_MARGIN = [3, 7, 11, 15];
 
@@ -100,8 +101,8 @@ const EI = (function () {
           out.base = 1;
           out.label = 'Narrow FCS win';
         } else {
-          let v = 4 + Math.min(6, Math.floor(am / 7) * 1.5) + (opp.strong ? 2 : 0);
-          out.base = Math.min(opp.strong ? 14 : 12, v);
+          let v = 3 + Math.min(4, Math.floor(am / 7)) + (opp.strong ? 2 : 0);
+          out.base = Math.min(opp.strong ? 10 : 8, v);
           out.label = 'FCS win';
         }
       } else {
@@ -263,6 +264,9 @@ const EI = (function () {
           const s = scoreGame(g, opp, ratings[id]);
           const rc = recency(n - 1 - i);
           const p = performance(g);
+          /* box-score bonus against FCS teams is capped at +2: outgaining an FCS
+             team proves little. Struggling against one still costs the full amount. */
+          if (opp.fcs && p.perf > FCS_PERF_CAP) p.perf = FCS_PERF_CAP;
           const final = s.base * rc + p.perf;
           score += final; pd += s.margin; oppRankSum += effRank(opp);
           if (s.win) { rec.w++; opp.fcs ? rec.fcsW++ : rec.fbsW++; if (s.qualityWin) qualityWins++; winStrength += s.base; }
