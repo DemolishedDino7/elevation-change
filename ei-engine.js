@@ -282,7 +282,8 @@ const EI = (function () {
           if (!(s.win === false && Math.abs(s.margin) >= 21)) { oppRankSum += effRank(opp); sosN++; }
           if (s.win) { rec.w++; opp.fcs ? rec.fcsW++ : rec.fbsW++; if (s.qualityWin) qualityWins++; winStrength += s.base; }
           else       { rec.l++; opp.fcs ? rec.fcsL++ : rec.fbsL++; if (s.qualityLoss) qualityLosses++; if (s.badLoss) badLosses++; }
-          rows.push(Object.assign({}, g, s, { recency: rc, perf: p.perf, turnover: p.turnover, perfNote: p.note, final, oppName: displayName(g.opp) }));
+          rows.push(Object.assign({}, g, s, { recency: rc, perf: p.perf, turnover: p.turnover, perfNote: p.note, final, oppName: displayName(g.opp),
+                                              effRank: effRank(opp), inSos: !(s.win === false && Math.abs(s.margin) >= 21) }));
         });
         const byes = n ? byesOf(tg) : 0;
         const byeCredit = n ? byes * (score / n) : 0;
@@ -507,5 +508,30 @@ const EI = (function () {
     return parts.join(', ') + ' = <b>' + t.score.toFixed(1) + '</b>';
   }
 
-  return { compute, history, subset, whyRanked, improve, oppLabel, scoreLine, breakdown };
+  /* Every point a team has, as lines that add up to its total: each game carries its
+     share of the schedule adjustment (by how tough that opponent was) and any head-to-head
+     bump; each bye week is its own line (average game, plus any bye-week hold). */
+  function lines(t, throughWeek) {
+    const wk = throughWeek != null ? throughWeek : Math.max(0, ...t.games.map(g => g.week));
+    const sosGames = t.games.filter(g => g.inSos);
+    const rawSum = sosGames.reduce((s, g) => s + (SOS_BASELINE - g.effRank), 0);
+    const out = t.games.map(g => {
+      let sched = 0;
+      if (g.inSos && sosGames.length) sched = Math.abs(rawSum) > 1e-9 ? t.sosAdj * (SOS_BASELINE - g.effRank) / rawSum : t.sosAdj / sosGames.length;
+      const h2h = (t.h2h > 0.05 && g.win && g.oppName === t.h2hOver) ? t.h2h : 0;
+      return { week: g.week, bye: false, game: g, result: g.final, schedule: sched, h2h: h2h, value: g.final + sched + h2h };
+    });
+    const avg = t.games.length ? t.games.reduce((s, g) => s + g.final, 0) / t.games.length : 0;
+    const byeWeeks = [];
+    for (let w = 1; w <= wk; w++) if (t.games.length && !t.games.some(g => g.week === w)) byeWeeks.push(w);
+    byeWeeks.forEach((w, i) => {
+      const hold = (i === byeWeeks.length - 1 && w === wk) ? (t.byeAdj || 0) : 0;
+      out.push({ week: w, bye: true, result: avg, hold: hold, value: avg + hold });
+    });
+    if (t.fcsOnlyWins) out.push({ week: wk, bye: false, note: 'No FBS win yet', value: -3 });
+    out.sort((a, b) => a.week - b.week || (a.bye ? 1 : 0) - (b.bye ? 1 : 0));
+    return out;
+  }
+
+  return { compute, history, subset, whyRanked, improve, oppLabel, scoreLine, breakdown, lines };
 })();
