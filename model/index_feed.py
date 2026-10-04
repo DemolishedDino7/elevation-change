@@ -28,7 +28,8 @@ def site_week(start: pd.Series, week: pd.Series) -> pd.Series:
     return np.where((week == 1) & (local < cutoff), 0, week)
 
 
-def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, ncaa_ids: dict | None = None) -> dict:
+def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, ncaa_ids: dict | None = None,
+          teams_js: str = "", scope_js: str = "") -> dict:
     """
     sg:   this season's games (from data.build_games)
     T:    team ratings (team_id, name, div, net, rank) for every team in the season
@@ -157,6 +158,7 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
           "   Bot's current national rank (FCS teams are placed where their\n"
           "   rating would rank among FBS teams).\n"
           "   =================================================================== */\n"
+          + teams_js + scope_js +
           f"const BOT_NATRANK = {json.dumps(bot_rank)};\n"
           f"const OPPONENTS = {json.dumps(opps, ensure_ascii=False, indent=1)};\n"
           f"const GAMES = {json.dumps(games, ensure_ascii=False, separators=(',', ':')).replace('},{', '},\n{')};\n"
@@ -165,3 +167,28 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
     with open(out_path, "w") as f:
         f.write(js)
     return {"games": len(games), "with_stats": sum("stats" in g_ for g_ in games), "stats_source": src, "opponents": len(opps), "week": cur_week}
+
+
+def build_national(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.DataFrame, west: dict, out_path,
+                   ncaa_ids: dict | None = None) -> dict:
+    """The Elevation Index résumé rules applied to every FBS team (ei-national.js)."""
+    west_by_name = {v: k for k, v in west.items()}
+    fbs = T[T["div"] == "fbs"].sort_values("net", ascending=False).reset_index(drop=True)
+    ids, rows, used = {}, [], set()
+    for i, r in fbs.iterrows():
+        name = r["name"]
+        tid = int(r.team_id)
+        sid = west_by_name.get(name)
+        if not sid:
+            ab = str(tinfo.abbreviation.get(tid) or "").upper().replace(" ", "")
+            sid = ab if ab and ab not in used and ab not in west else f"T{tid}"
+        used.add(sid)
+        ids[sid] = name
+        logo = f"logos/{sid}.png" if name in west_by_name else str(tinfo.logo.get(tid) or "")
+        color = str(tinfo.color.get(tid) or "#8B6BB8")
+        if not color.startswith("#") or len(color) not in (4, 7):
+            color = "#8B6BB8"
+        rows.append([sid, name, r.conf or "", color, i + 1, logo])
+    teams_js = "const TEAMS = " + json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("],[", "],\n[") + ";\n"
+    scope_js = 'const EI_SCOPE = "nationally";\nconst IMPROVE = {};\n'
+    return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js)

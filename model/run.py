@@ -440,6 +440,13 @@ def main():
                   "returning": {k: round(v, 2) for k, v in ret_coef.items()}},
     }
 
+    try:
+        tinfo_now = ti[ti.season == season].drop_duplicates("team_id").set_index("team_id")
+        nat = index_feed.build_national(season, sg, T[["team_id", "name", "div", "net", "conf"]], tinfo_now, WEST,
+                                        SITE / "ei-national.js", ncaa_ids)
+        log("national index", nat)
+    except Exception as e:
+        log("national index failed:", repr(e)[:300])
     if os.environ.get("INDEX_PREVIEW"):
         pv = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, OUT / "ei-auto-preview.js", ncaa_ids)
         json.dump({"feed": pv, "ncaa": ncaa_status}, open(OUT / "ei-preview-status.json", "w"))

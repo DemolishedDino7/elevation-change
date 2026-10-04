@@ -272,7 +272,7 @@ const EI = (function () {
     if (!g.win && g.fcs && g.label === 'Respectable loss') return dir + '. Losing ' + scoreLine(g) + ' to ' + oppLabel(g) + ' is judged like losing to the FBS team they play like — the top of the FCS is better than the bottom of the FBS.';
     if (g.win && g.label === 'Ranked FCS win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ' — a top-10 FCS scalp counts for more than a routine FCS win, though it is still capped.';
     if (g.win && g.label === 'Narrow FCS win') return dir + '. Beating ' + g.oppName + ' ' + scoreLine(g) + ' avoided disaster, but a one-score game against an unranked FCS team banks almost nothing in the Index.';
-    if (g.win && g.label === 'Elite win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ', the best win on any résumé in the West.';
+    if (g.win && g.label === 'Elite win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ', the best win on any résumé ' + (typeof EI_SCOPE !== 'undefined' ? EI_SCOPE : 'in the West') + '.';
     if (g.win && g.label === 'Quality win') return dir + ' after a quality win over ' + oppLabel(g) + ' ' + scoreLine(g) + '.';
     if (g.win && g.fcs) return dir + (fcsLoss ? ' — the FCS win over ' + g.oppName + ' counts, but the earlier FCS loss to ' + fcsLoss.oppName + ' still dominates the résumé.' : '. An FCS win over ' + g.oppName + ' carries limited value, so the ranking barely moved.');
     if (g.win) return dir + ' after beating ' + g.oppName + ' ' + scoreLine(g) + (g.margin >= 21 ? ' — a dominant margin, though the opponent limits how much it counts.' : '.');
