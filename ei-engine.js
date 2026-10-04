@@ -37,7 +37,7 @@ const EI = (function () {
   const BONUS_CAP = 8;        /* upset + beat-expectation bonuses combined, per game */
   const H2H_WINDOW = 20;
   const H2H_DECAY = 0.75;      /* the head-to-head window shrinks 25% for every week since the game */      /* a head-to-head winner within this many points always ranks ahead */
-  const OPP_BLEND = 0.7;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
+  const OPP_BLEND = 0.85;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
 
   const FCS_PERF_CAP = 1;
   const FCS_LOSS_BASE = -35;
