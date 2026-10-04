@@ -36,7 +36,7 @@ const EI = (function () {
   const UPSET = { base: 2, slope: 0.3, cap: 6 };
   const H2H_WINDOW = 20;
   const H2H_DECAY = 0.75;      /* the head-to-head window shrinks 25% for every week since the game */      /* a head-to-head winner within this many points always ranks ahead */
-  const OPP_BLEND = 0.5;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
+  const OPP_BLEND = 0.7;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
 
   const FCS_PERF_CAP = 2;
   const FCS_LOSS_BASE = -35;
@@ -61,7 +61,7 @@ const EI = (function () {
      Opponent quality, not margin: the average effective rank of every
      opponent faced (FCS mapped through fcsEquiv) earns a bounded
      bonus or discount against a #85 baseline. */
-  const SOS_BASELINE = 85, SOS_WEIGHT = 0.25, SOS_CLAMP = 10;
+  const SOS_BASELINE = 85, SOS_WEIGHT = 0.5, SOS_CLAMP = 20;
   function sosAdjust(oppRankSum, n) {
     if (!n) return 0;
     const a = (SOS_BASELINE - oppRankSum / n) * SOS_WEIGHT;
@@ -206,7 +206,8 @@ const EI = (function () {
       })(Object.assign({}, out));
       /* early-season expectations are mostly preseason guesswork, so they phase in:
          Weeks 0-1 count 25%, Week 2 60%, Week 3 on 100% */
-      const c = g.week <= 1 ? 0.25 : g.week === 2 ? 0.6 : 1;
+      /* (losses always count in full: losing to a weak team is bad no matter the week) */
+      const c = !win ? 1 : g.week <= 1 ? 0.25 : g.week === 2 ? 0.6 : 1;
       const lead = c >= 0.5 ? E : legacy;
       Object.assign(out, lead);
       out.base = c * E.base + (1 - c) * legacy.base;
