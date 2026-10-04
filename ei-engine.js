@@ -125,7 +125,34 @@ const EI = (function () {
     }
 
     const r = opp.natRank, t = tier(r);
-    if (g.exp != null) {
+    /* legacy grading: who you played and by how much (no expectations) */
+    const legacy = (out => {
+      if (win) {
+      out.base = t.q + t.w + winMargin(am);
+      if (am >= 21 && r <= 100) out.base += 2;                       /* dominance */
+      out.label = r <= 25 ? 'Elite win' : r <= 60 ? 'Quality win' : r <= 90 ? 'Solid win' : 'Expected win';
+      out.qualityWin = r <= 60;
+    } else {
+      out.base = LOSS[lossBand(r)][marginBand(am)];
+      /* quality-loss bonus: opponent clearly better, and it was close —
+         a one-score loss (≤8) to a top-30 team earns real credit */
+      const gap = (ownNatRank || 90) - r;
+      if (r <= 30 && gap >= 25 && am <= 10) { out.qualityLoss = am <= 3 ? 16 : am <= 8 ? 10 : 5; out.base += out.qualityLoss; }
+      /* bad-loss detection */
+      if (r >= 61 && am >= 15) out.badLoss = true;
+      if (r > 30 && am >= 28) { out.base -= 10; out.badLoss = true; }   /* blowout by a non-elite team */
+      if (ownNatRank && r - ownNatRank >= 40) out.badLoss = true;
+      out.label = out.base > 0 ? 'Quality loss' : out.badLoss ? 'Bad loss' : r <= 30 ? 'Respectable loss' : 'Loss';
+    }
+      /* venue: road games are harder, so a road win earns more and a road loss hurts less */
+      if (g.site === 'A') { out.venue = 3; out.base += 3; }
+      else if (g.site === 'N') { out.venue = 1; out.base += 1; }
+      return out;
+    })(Object.assign({}, out));
+    if (g.exp == null) { Object.assign(out, legacy); }
+    else {
+      /* graded against the Bot's pre-game expectation (home field is already inside it) */
+      const E = (out => {
       /* ---- judged against expectations ----
          exp = the Bot's pre-game margin for this team (positive = favored),
          made using only what was known before kickoff. diff = how much
@@ -169,22 +196,17 @@ const EI = (function () {
           out.label = out.badLoss ? 'Blowout loss' : 'Expected loss';
         }
       }
-    } else if (win) {
-      out.base = t.q + t.w + winMargin(am);
-      if (am >= 21 && r <= 100) out.base += 2;                       /* dominance */
-      out.label = r <= 25 ? 'Elite win' : r <= 60 ? 'Quality win' : r <= 90 ? 'Solid win' : 'Expected win';
-      out.qualityWin = r <= 60;
-    } else {
-      out.base = LOSS[lossBand(r)][marginBand(am)];
-      /* quality-loss bonus: opponent clearly better, and it was close —
-         a one-score loss (≤8) to a top-30 team earns real credit */
-      const gap = (ownNatRank || 90) - r;
-      if (r <= 30 && gap >= 25 && am <= 10) { out.qualityLoss = am <= 3 ? 16 : am <= 8 ? 10 : 5; out.base += out.qualityLoss; }
-      /* bad-loss detection */
-      if (r >= 61 && am >= 15) out.badLoss = true;
-      if (r > 30 && am >= 28) { out.base -= 10; out.badLoss = true; }   /* blowout by a non-elite team */
-      if (ownNatRank && r - ownNatRank >= 40) out.badLoss = true;
-      out.label = out.base > 0 ? 'Quality loss' : out.badLoss ? 'Bad loss' : r <= 30 ? 'Respectable loss' : 'Loss';
+        return out;
+      })(Object.assign({}, out));
+      /* early-season expectations are mostly preseason guesswork, so they phase in:
+         Weeks 0-1 count 25%, Week 2 60%, Week 3 on 100% */
+      const c = g.week <= 1 ? 0.25 : g.week === 2 ? 0.6 : 1;
+      const lead = c >= 0.5 ? E : legacy;
+      Object.assign(out, lead);
+      out.base = c * E.base + (1 - c) * legacy.base;
+      out.expWeight = c;
+      out.exp = E.exp; out.diff = E.diff;
+      if (c < 1 && E.upset) out.upset = E.upset * c;
     }
     /* shutout: getting blanked is a statement about you, not the
        opponent — extra penalty on top of the loss, whoever it was */
@@ -192,11 +214,7 @@ const EI = (function () {
     /* venue: road games are harder, so a road win earns more and a road
        loss hurts less. FBS opponents only — the FCS branch returns above,
        so venue never inflates an FCS result. */
-    /* (with an expectation, home field is already inside it) */
-    if (g.exp == null) {
-      if (g.site === 'A') { out.venue = 3; out.base += 3; }
-      else if (g.site === 'N') { out.venue = 1; out.base += 1; }
-    }
+
     return out;
   }
 
