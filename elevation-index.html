@@ -263,12 +263,12 @@
     '</dl>' +
       '<div class="games">' + EI.lines(t, CURRENT_WEEK).map(l => {
         const v = (l.value >= 0 ? '+' : '−') + Math.abs(l.value).toFixed(1);
-        if (l.bye) return '<div><span>Wk ' + l.week + ' Bye</span><span>Average game | ' + v + (Math.abs(l.hold || 0) >= 0.05 ? ' <small>(average ' + (l.result >= 0 ? '+' : '−') + Math.abs(l.result).toFixed(1) + ', bye-week hold ' + (l.hold >= 0 ? '+' : '−') + Math.abs(l.hold).toFixed(1) + ')</small>' : '') + '</span></div>';
+        if (l.bye) return '<div><span>Wk ' + l.week + ' Bye</span><span>Average game | ' + v + '</span></div>';
         if (l.note) return '<div><span>' + l.note + '</span><span>' + v + '</span></div>';
         const x = l.game, extra = [];
         if (Math.abs(l.schedule) >= 0.05) extra.push('schedule ' + (l.schedule >= 0 ? '+' : '−') + Math.abs(l.schedule).toFixed(1));
         if (l.h2h) extra.push('head-to-head +' + l.h2h.toFixed(1));
-        const parts = extra.length ? ' <small>(game ' + (x.final >= 0 ? '+' : '−') + Math.abs(x.final).toFixed(1) + ', ' + extra.join(', ') + ')</small>' : '';
+        const parts = '';
         return '<div><span>Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span><span><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> | ' + x.label + ' | ' + v + parts + '</span></div>';
       }).join('') + '<div class="tot"><span>Total</span><span><b>' + t.score.toFixed(1) + '</b></span></div></div>' +
     '</article>').join('');
