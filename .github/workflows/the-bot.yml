@@ -9,6 +9,10 @@ on:
     - cron: "10 13 * 8-12,1 3"   # Wed  7:10am MT  refresh + lock Thursday games
     - cron: "10 15 * 8-12,1 5"   # Fri  9:10am MT  refresh + lock Friday/Saturday games
     - cron: "0 11 4 10 *"        # one-off: Sun Oct 4 5:00am MT, Elevation Index goes automatic
+    # game nights: hourly so finals (from NCAA.com) show up the same night
+    - cron: "40 18-23 * 8-12,1 6"  # Sat 12:40pm-5:40pm MT
+    - cron: "40 0-9 * 8-12,1 0"    # Sat 6:40pm - Sun 3:40am MT (covers Hawai'i kickoffs)
+    - cron: "40 2-7 * 8-12,1 5,6"  # Thu + Fri nights 8:40pm-1:40am MT
   workflow_dispatch:
     inputs:
       preview:
