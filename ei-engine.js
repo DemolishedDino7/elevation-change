@@ -31,7 +31,11 @@ const EI = (function () {
   function lossBand(r) { return r <= 5 ? 'top5' : r <= 15 ? 't6_15' : r <= 30 ? 't16_30' : r <= 60 ? 't31_60' : 't61'; }
 
   /* loss starting values when the game is judged against expectations */
-  const LOSS_EXP = { top5: 0, t6_15: -2, t16_30: -5, t31_60: -9, t61: -13 };
+  const LOSS_EXP = { top5: -10, t6_15: -13, t16_30: -16, t31_60: -20, t61: -25 };
+  const WIN_Q = 0.6;            /* scale on the opponent-quality value of a win */
+  const UPSET = { base: 2, slope: 0.3, cap: 6 };
+  const H2H_WINDOW = 20;      /* a head-to-head winner within this many points always ranks ahead */
+  const OPP_BLEND = 0.5;       /* share of an opponent's strength taken from its résumé rank (vs power rank) */
 
   const FCS_PERF_CAP = 2;
   const FCS_LOSS_BASE = -35;
@@ -161,10 +165,10 @@ const EI = (function () {
       const exp = g.exp, diff = margin - exp;
       out.exp = exp; out.diff = diff;
       if (win) {
-        out.base = t.q + t.w + Math.max(-8, Math.min(8, 0.4 * diff));
+        out.base = WIN_Q * (t.q + t.w) + Math.max(-8, Math.min(8, 0.4 * diff));
         if (exp < 0) {
           /* upset: won as the underdog — the bigger the underdog, the bigger the reward */
-          out.upset = Math.min(14, 4 + 0.6 * -exp);
+          out.upset = Math.min(UPSET.cap, UPSET.base + UPSET.slope * -exp);
           out.base += out.upset;
           out.label = 'Upset win';
           out.qualityWin = true;
@@ -253,6 +257,7 @@ const EI = (function () {
     const botRanks = (typeof BOT_NATRANK !== 'undefined') ? BOT_NATRANK : null;
     const RW = ranksAt(throughWeek);
     let ratings = {}; TEAMS.forEach(t => ratings[t[0]] = (RW && RW[t[1]]) || (botRanks && botRanks[t[0]]) || t[4]);
+    const base0 = Object.assign({}, ratings);
     let result;
     for (let pass = 0; pass < 4; pass++) {
       result = TEAMS.map(t => {
@@ -293,6 +298,13 @@ const EI = (function () {
       const next = {};
       result.forEach((t, i) => next[t.id] = t.games.length ? Math.round(28 + i * (97 / 19)) : t.seed);
       if (!botRanks && !RW) ratings = next;
+      else if (OPP_BLEND > 0 && TEAMS.length >= 60) {
+        /* judge opponents partly by what they've done (résumé rank), not only by
+           the power rating, which still carries some preseason weight early on */
+        const nr = {};
+        result.forEach((t, i) => nr[t.id] = Math.round((1 - OPP_BLEND) * base0[t.id] + OPP_BLEND * (i + 1)));
+        ratings = nr;
+      }
     }
     result.forEach((t, i) => { t.rank = i + 1; t.natRank = ratings[t.id]; });
     return result;
@@ -316,13 +328,18 @@ const EI = (function () {
       if (la !== lb) return lb - la;
       return a.seed - b.seed;
     });
-    /* head-to-head override: two teams essentially tied (within 4 pts)
-       who met on the field never rank with the loser ahead */
-    for (let pass = 0; pass < 2; pass++)
-      for (let i = 0; i + 1 < arr.length; i++) {
-        const a = arr[i], b = arr[i + 1];
-        if (Math.abs(a.score - b.score) <= 4 && beat(b, a)) { arr[i] = b; arr[i + 1] = a; }
-      }
+    /* head-to-head: a team that beat another (and didn't also lose to it) never
+       ranks behind it when their scores are within H2H_WINDOW */
+    for (let pass = 0; pass < 6; pass++) {
+      let moved = false;
+      for (let i = 0; i < arr.length && !moved; i++)
+        for (let j = i + 1; j < arr.length; j++) {
+          const a = arr[i], b = arr[j];
+          if (a.score - b.score > H2H_WINDOW) break;
+          if (beat(b, a) && !beat(a, b)) { arr.splice(j, 1); arr.splice(i, 0, b); moved = true; break; }
+        }
+      if (!moved) break;
+    }
   }
 
   function displayName(opp) { const t = TEAMS.find(x => x[0] === opp); return t ? t[1] : opp; }
