@@ -213,10 +213,10 @@ const EI = (function () {
     const games = GAMES.filter(g => g.week <= throughWeek).sort((a, b) => a.date < b.date ? -1 : 1);
     const byTeam = {}; TEAMS.forEach(t => byTeam[t[0]] = []);
     games.forEach(g => byTeam[g.team] && byTeam[g.team].push(g));
-    /* bye-week credit: every team is scored as if it had played as many
-       games as the busiest team, with each missing game worth its own
-       average game, so an idle weekend never costs a team ground */
-    const maxGames = Math.max(0, ...Object.values(byTeam).map(a => a.length));
+    /* bye-week credit: each actual bye (a week from Week 1 on with no game)
+       is worth the team's own average game, so an idle weekend never costs
+       a team ground. The optional Week 0 opener is not counted as a bye. */
+    const byesOf = tg => { let b = 0; for (let w = 1; w <= throughWeek; w++) if (!tg.some(g => g.week === w)) b++; return b; };
 
     /* seed national ranks, then iterate: tracked opponents take on ranks
        derived from the previous pass's ordering (mapped onto 28–125). */
@@ -241,7 +241,8 @@ const EI = (function () {
           else       { rec.l++; opp.fcs ? rec.fcsL++ : rec.fbsL++; if (s.qualityLoss) qualityLosses++; if (s.badLoss) badLosses++; }
           rows.push(Object.assign({}, g, s, { recency: rc, perf: p.perf, turnover: p.turnover, perfNote: p.note, final, oppName: displayName(g.opp) }));
         });
-        const byeCredit = n ? (maxGames - n) * (score / n) : 0;
+        const byes = n ? byesOf(tg) : 0;
+        const byeCredit = n ? byes * (score / n) : 0;
         score += byeCredit;
         const sosAdj = sosAdjust(oppRankSum, n);
         score += sosAdj;
@@ -252,7 +253,7 @@ const EI = (function () {
         if (fcsOnlyWins) score -= 3;
         return { id, name: t[1], conf: t[2], color: t[3], logo: t[5], seed: t[4], games: rows, score,
                  rec, qualityWins, qualityLosses, badLosses, winStrength, pd,
-                 sos: n ? oppRankSum / n : null, sosAdj, fcsOnlyWins, byeCredit, gamesPlayed: n,
+                 sos: n ? oppRankSum / n : null, sosAdj, fcsOnlyWins, byeCredit, byes, gamesPlayed: n,
                  last: rows.length ? rows[rows.length - 1] : null };
       });
       sortTeams(result);
