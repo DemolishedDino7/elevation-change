@@ -273,6 +273,9 @@ const EI = (function () {
           /* box-score bonus against FCS teams is capped at +2: outgaining an FCS
              team proves little. Struggling against one still costs the full amount. */
           if (opp.fcs && p.perf > FCS_PERF_CAP) p.perf = FCS_PERF_CAP;
+          /* outgaining a bad FBS team proves less than outgaining a good one: the
+             box-score bonus scales with opponent strength (a poor box score still costs fully) */
+          else if (!opp.fcs && p.perf > 0) { const r = opp.natRank || 100; p.perf *= r <= 40 ? 1 : r <= 80 ? 0.7 : r <= 110 ? 0.4 : 0.2; }
           const final = s.base * rc + p.perf;
           score += final; pd += s.margin; oppRankSum += effRank(opp);
           if (s.win) { rec.w++; opp.fcs ? rec.fcsW++ : rec.fbsW++; if (s.qualityWin) qualityWins++; winStrength += s.base; }
