@@ -186,8 +186,8 @@ const EI = (function () {
       } else {
         /* a loss never adds points on its own; losing to a great team just costs less */
         out.base = LOSS_EXP[lossBand(r)];
-        if (exp > 0) {
-          /* lost as the favorite */
+        if (exp >= 3) {
+          /* lost as a real favorite (3+ points); losing a coin flip isn't an upset loss */
           out.base += Math.max(-15, 0.6 * diff) - Math.min(12, 4 + 0.5 * exp);
           out.badLoss = true;
           out.label = 'Upset loss';
@@ -284,7 +284,7 @@ const EI = (function () {
           /* outgaining a bad FBS team proves less than outgaining a good one: the
              box-score bonus scales with opponent strength (a poor box score still costs fully) */
           else if (!opp.fcs && p.perf > 0) { const r = opp.natRank || 100; p.perf *= r <= 40 ? 1 : r <= 80 ? 0.7 : r <= 110 ? 0.4 : 0.2; }
-          const final = s.base * rc + p.perf;
+          const final = (s.base + p.perf) * rc;   /* the box score fades with time like the result */
           score += final; pd += s.margin;
           /* getting blown out doesn't earn schedule credit */
           if (!(s.win === false && Math.abs(s.margin) >= 21)) { oppRankSum += effRank(opp); sosN++; }
