@@ -91,13 +91,25 @@
 select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 0.45rem 0.6rem; font: inherit; font-size: 0.875rem; }
 .ei-table .tm small.cf { display: block; font-family: var(--body); font-style: normal; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
 .ei-card .games small { color: var(--muted); font-size: 0.6875rem; margin-left: 0.25rem; }
-.ei-card .games div { flex-wrap: wrap; }
-.ei-table .tm a.jump { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--muted); }
-.ei-table .tm a.jump:hover { color: var(--purple); border-bottom-color: var(--purple); }
-.ei-card { scroll-margin-top: 1rem; }
+.ei-table .tm a.tmlink { color: inherit; text-decoration: none; }
+.ei-table tr.has-card { cursor: pointer; }
+.ei-table tr.has-card:hover .tm a.tmlink, .ei-table .tm a.tmlink:focus-visible { color: var(--purple); }
+.ei-card { scroll-margin-top: 1rem; min-width: 0; }
 #ei-table { scroll-margin-top: 1rem; }
+.ei-card h3 { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; overflow-wrap: anywhere; }
+.ei-card h3 img { flex: none; }
+.ei-card dd { min-width: 0; overflow-wrap: anywhere; }
+.ei-card .games .gl { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: 0.1rem; padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.ei-card .games .gl:last-child { border-bottom: 0; }
+.ei-card .games .go { color: var(--paper); overflow-wrap: anywhere; }
+.ei-card .games .gv { grid-row: 1 / span 2; grid-column: 2; align-self: center; text-align: right; font-variant-numeric: tabular-nums; color: var(--paper); font-weight: 500; }
+.ei-card .games .gr { grid-column: 1; color: var(--muted); font-size: 0.6875rem; }
+.ei-card .games .gr b { color: var(--muted); font-weight: 500; }
+.ei-card .games .gl.tot { border-top: 1px solid var(--line); border-bottom: 0; margin-top: 0.2rem; padding-top: 0.6rem; }
+.ei-card .games .gl.tot .go, .ei-card .games .gl.tot .gv { font-weight: 600; }
 .ei-card .back { display: inline-block; margin-top: 0.9rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); text-decoration: none; }
 .ei-card .back:hover { text-decoration: underline; }
+.wk-note { color: var(--muted); font-size: 0.875rem; margin: 0.75rem 0 0; }
 </style>
 </head>
 <body>
@@ -126,7 +138,8 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
       <nav class="ei-scope" aria-label="Index scope"><a href="elevation-index.html">Western 20</a><a href="national-index.html" aria-current="page">National</a></nav>
     </section>
 
-    <div class="ei-ctl"><div class="seg" id="nat-scope"><button data-v="25" aria-pressed="true">Top 25</button><button data-v="all" aria-pressed="false">All FBS</button></div><select class="sel" id="nat-conf" aria-label="Conference"><option value="">All conferences</option></select></div>
+    <div class="ei-ctl"><div class="seg" id="nat-scope"><button data-v="25" aria-pressed="true">Top 25</button><button data-v="all" aria-pressed="false">All FBS</button></div><select class="sel" id="nat-conf" aria-label="Conference"><option value="">All conferences</option></select><select class="sel" id="nat-week" aria-label="Week"></select></div>
+    <p class="wk-note" id="wk-note" hidden></p>
     <div class="table-scroll">
       <table class="ei-table" id="ei-table">
         <thead><tr><th>#</th><th>Team</th><th>Rec</th><th>Move</th><th>Score</th><th>Why</th></tr></thead>
@@ -140,7 +153,7 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
       <h2>How it works</h2>
       <p>Every game gets a score. Wins earn points for opponent quality, a win bonus that scales with the opponent, and a margin bonus with diminishing returns. Losses to elite teams earn real credit if they're close — a near-upset of a ranked team is worth more than most wins over bad ones. Losses to bad teams cost more the wider they get, and a 28-point-plus loss to a non-elite team takes an extra hit. An FCS win is always worth less than any FBS win (at most 5 points for a top-10 FCS team, 3.5 for other ranked FCS teams, 2 otherwise), and the box-score bonus for outgaining an opponent scales with how good that opponent is: full value against top-40 teams, 70% against teams 41–80, 40% against 81–110, 20% below that, and at most +1 against FCS teams. A poor box score always costs the full amount. FCS losses start at −35 before margin. Recent games count noticeably more — last week is worth 100%, the week before 82%, and it keeps sliding — but nothing ages out. The season score is the sum, and ties break on quality wins, strength of wins, quality losses, fewer bad losses, point differential and the most recent result — never on record. Byes never cost a team: each bye week counts as that team's average game, and a team on a bye moves at most 5 spots either way (it gets just enough points to stay there), unless teams it beat earlier are re-rated weaker. Every week is judged with opponent strength as it stood that week.</p>
       <p><b>Judged against expectations.</b> Before every game, The Bot sets an expected margin using only what was known at kickoff, and each result is graded against it. An <b>upset win</b> as a real underdog (3+ points) earns a bonus that grows with the size of the upset; winning a coin flip isn't an upset. Winning by more than expected earns extra, scaled by how good the opponent is, so blowing out a mediocre team counts for less than beating a good one soundly. The upset bonus and the winning-big bonus together are capped at 8 points in any one game. Winning by far less than expected (an <b>unconvincing win</b>) counts for less, though a win never costs points. Losing as a real favorite (3+ points) is an <b>upset loss</b> and a real penalty; losing a coin flip is not. A <b>quality loss</b> only goes to the underdog that played the game at least 3 points closer than expected. An underdog that loses by about as much as expected gets an <b>expected loss</b>, and one that loses by 14 or more beyond expectations gets a <b>blowout loss</b>. Any loss by 21 or more costs extra no matter who it was against, getting shut out costs 10 more, and a blowout loss earns no strength-of-schedule credit. Every loss costs points, even a close one to a great team (a quality loss just costs less). Upset bonuses are modest so one big day can't carry a résumé, and an opponent's strength is judged about 70% on what that team has actually won and lost this season and 30% on The Bot's power rating (the power rating connects conferences that rarely play each other, like the SEC and Big 12). Head-to-head counts most right after the game: a team ranks ahead of a team it beat if it's within 20 points of it, and that window shrinks by a quarter each week after the game (about 6 points a month later). Head-to-head and the bye-week limit are applied as points, so the ranking always follows the score exactly. On each team card every point lives on a line: each game carries its share of the strength-of-schedule adjustment (tougher opponents add, weaker ones subtract) and any head-to-head bump, and each bye week has its own line. The lines add up to the total. Early-season expectations are mostly preseason guesswork, so for wins they phase in: Week 0–1 wins are graded 25% on expectations and 75% on who you played and by how much, Week 2 wins 60/40, and everything from Week 3 on fully against expectations. Losses always count in full. Every team starts the season at zero.</p>
-      <p><b>Strength of schedule.</b> On top of each game, a team's schedule is compared with a typical one. Opponents count on a steep curve, so playing a top-5 team counts for far more than skipping a bad one, and two cupcakes can't cancel out a game against an elite team. A tougher-than-average slate earns up to +25, an easier one costs up to −25. A team that has only beaten weak opponents can't ride its record alone.</p>
+      <p><b>Strength of schedule.</b> On top of each game, a team's schedule is compared with a typical one. Opponents count on a steep curve, so playing a top-5 team counts for far more than skipping a bad one, and two cupcakes can't cancel out a game against an elite team. A tougher-than-average slate earns up to +25, an easier one costs up to −25. Because one or two games say little about a schedule, this phases in and counts fully from a team's fourth game. A team that has only beaten weak opponents can't ride its record alone.</p>
       <p>This is the same formula as the <a href="elevation-index.html">Western 20</a>, run across all of FBS. It's a résumé ranking: it rewards what a team has done, and it will disagree with <a href="the-bot.html#ratings">The Bot's power ratings</a>, which measure how strong a team is going forward. Everything here is computed by Elevation Change. Results and box-score stats (yards per play, third downs, explosive plays, turnovers, sacks) are calculated from play-by-play, and how good each opponent is comes from <a href="the-bot.html#ratings">The Bot's</a> current national ratings, not the AP poll or ESPN. FCS opponents are placed where their rating would rank among FBS teams. Rankings update automatically after every weekend.</p>
     </section>
   </div>
@@ -154,10 +167,12 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
 </footer>
 
 <script src="ei-national.js"></script>
-<script src="ei-engine.js?v=202610042013"></script>
+<script src="ei-engine.js?v=202610042042"></script>
 <script>
 (function () {
   const H = EI.history(CURRENT_WEEK), L = H.latest, W = H.weeks.length, N = L.length;
+  const BYWEEK = { [CURRENT_WEEK]: L };   /* each week's index, computed on first view */
+  let WK = CURRENT_WEEK, LW = L;
 
   /* resolve each team's logo: local file, then fallback URL, then none */
   function resolveLogos(cb) {
@@ -178,7 +193,8 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
   }
   const logoImg = (t, size) => t.logoSrc ? '<img src="' + t.logoSrc + '" alt="" width="' + size + '" height="' + size + '">' : '';
 
-  document.getElementById('ei-eyebrow').textContent = 'The Elevation Index: National | Through Week ' + CURRENT_WEEK;
+  const eyebrow = () => document.getElementById('ei-eyebrow').textContent = 'The Elevation Index: National | ' + (WK === CURRENT_WEEK ? 'Through Week ' + WK : 'As of Week ' + WK);
+  eyebrow();
   resolveLogos(function () {
 
   /* ---------- table ---------- */
@@ -186,13 +202,24 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
   const g = x => x ? EI.oppLabel(x) + ' ' + EI.scoreLine(x) : '—';
   const confs = [...new Set(L.map(t => t.conf))].filter(Boolean).sort();
   document.getElementById('nat-conf').innerHTML += confs.map(c => '<option>' + c.replace('FBS Independents', 'Independents') + '</option>').join('');
-  let scope = '25', conf = '';
+  let scope = '25', conf = '', HASCARD = () => false;
+  const logoOf = {}; L.forEach(t => logoOf[t.id] = t.logoSrc);
   function render() {
-    let list = L;
+    /* a past week: rank only the teams that had played by then */
+    let base = LW.filter(t => t.games.length);
+    const unplayed = LW.length - base.length;
+    base = base.map((t, i) => Object.assign(t, { rank: i + 1, logoSrc: logoOf[t.id] }));
+    const note = document.getElementById('wk-note');
+    note.hidden = WK === CURRENT_WEEK && !unplayed;
+    note.textContent = (WK === CURRENT_WEEK ? '' : 'The Index as it stood after Week ' + WK + ', using only games played through that week. ') +
+      (unplayed ? unplayed + ' teams had not played yet and are not ranked.' : '');
+    let list = base;
     if (conf) list = list.filter(t => t.conf.replace('FBS Independents', 'Independents') === conf);
     else if (scope === '25') list = list.slice(0, 25);
+    const carded = new Set(list.slice(0, 25).map(t => t.id));
+    HASCARD = t => carded.has(t.id);
     document.querySelector('#ei-table tbody').innerHTML = list.map(t =>
-      '<tr><td class="rk">' + t.rank + '</td><td class="tm"><span class="tmx">' + (t.logoSrc ? logoImg(t, 22) : '<i style="background:' + t.color + '"></i>') + '<span>' + (list.indexOf(t) < 25 ? '<a class="jump" href="#card-' + t.id + '">' + t.name + '</a>' : t.name) + '<small class="cf">' + t.conf.replace('FBS Independents', 'Independent') + '</small></span></span></td>' +
+      '<tr' + (HASCARD(t) ? ' class="has-card" data-card="card-' + t.id + '"' : '') + '><td class="rk">' + t.rank + '</td><td class="tm"><span class="tmx">' + (t.logoSrc ? logoImg(t, 22) : '<i style="background:' + t.color + '"></i>') + '<span>' + (HASCARD(t) ? '<a class="tmlink" href="#card-' + t.id + '">' + t.name + '</a>' : t.name) + '<small class="cf">' + t.conf.replace('FBS Independents', 'Independent') + '</small></span></span></td>' +
       '<td>' + t.rec.w + '-' + t.rec.l + '</td><td class="mv">' + mv(t) + '</td><td class="sc">' + t.score.toFixed(1) + '</td>' +
       '<td class="why">' + t.reason + '</td></tr>').join('');
     /* résumé cards for the teams shown (top 25 by default) */
@@ -204,18 +231,16 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
       '<dt>Best win</dt><dd>' + g(t.bestWin) + '</dd>' +
       '<dt>Worst loss</dt><dd>' + g(t.worstLoss) + '</dd>' +
       '<dt>Why here</dt><dd>' + EI.whyRanked(t) + '</dd>' +
-            '<dt>Next</dt><dd>' + (NEXT[t.id] || 'TBD') + '</dd>' +
+            (WK === CURRENT_WEEK ? '<dt>Next</dt><dd>' + (NEXT[t.id] || 'TBD') + '</dd>' : '') +
       '</dl>' +
-      '<div class="games">' + EI.lines(t, CURRENT_WEEK).map(l => {
-        const v = (l.value >= 0 ? '+' : '−') + Math.abs(l.value).toFixed(1);
-        if (l.bye) return '<div><span>Wk ' + l.week + ' Bye</span><span>Average game | ' + v + '</span></div>';
-        if (l.note) return '<div><span>' + l.note + '</span><span>' + v + '</span></div>';
-        const x = l.game, extra = [];
-        if (Math.abs(l.schedule) >= 0.05) extra.push('schedule ' + (l.schedule >= 0 ? '+' : '−') + Math.abs(l.schedule).toFixed(1));
-        if (l.h2h) extra.push('head-to-head +' + l.h2h.toFixed(1));
-        const parts = '';
-        return '<div><span>Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span><span><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> | ' + x.label + ' | ' + v + parts + '</span></div>';
-      }).join('') + '<div class="tot"><span>Total</span><span><b>' + t.score.toFixed(1) + '</b></span></div></div>' +
+      '<div class="games">' + EI.lines(t, WK).map(l => {
+        const v = '<span class="gv">' + (l.value >= 0 ? '+' : '−') + Math.abs(l.value).toFixed(1) + '</span>';
+        if (l.bye) return '<div class="gl"><span class="go">Wk ' + l.week + ' Bye</span>' + v + '<span class="gr">Average game</span></div>';
+        if (l.note) return '<div class="gl"><span class="go">' + l.note + '</span>' + v + '</div>';
+        const x = l.game;
+        return '<div class="gl"><span class="go">Wk ' + x.week + ' ' + (x.site === 'A' ? '@ ' : 'vs ') + x.oppName + (x.fcs ? ' (FCS)' : '') + '</span>' + v +
+          '<span class="gr"><b>' + (x.win ? 'W' : 'L') + ' ' + x.pf + '–' + x.pa + '</b> · ' + x.label + '</span></div>';
+      }).join('') + '<div class="gl tot"><span class="go">Total</span><span class="gv">' + t.score.toFixed(1) + '</span></div></div>' +
       '<a class="back" href="#ei-table">↑ Back to rankings</a>' + '</article>').join('');
   }
   document.getElementById('nat-scope').addEventListener('click', e => {
@@ -224,6 +249,14 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
     scope = b.dataset.v; render();
   });
   document.getElementById('nat-conf').addEventListener('change', e => { conf = e.target.value; render(); });
+  const wsel = document.getElementById('nat-week');
+  for (let w = CURRENT_WEEK; w >= 0; w--) wsel.innerHTML += '<option value="' + w + '">' + (w === CURRENT_WEEK ? 'Week ' + w + ' (latest)' : 'Week ' + w) + '</option>';
+  wsel.addEventListener('change', e => {
+    WK = +e.target.value;
+    if (!BYWEEK[WK]) BYWEEK[WK] = EI.history(WK).latest;
+    LW = BYWEEK[WK]; eyebrow(); render();
+  });
+  document.querySelector('#ei-table tbody').addEventListener('click', e => { const tr = e.target.closest('tr.has-card'); if (tr && !e.target.closest('a')) location.hash = tr.dataset.card; });
   render();
   });
 })();

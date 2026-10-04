@@ -300,7 +300,8 @@ const EI = (function () {
         const byes = n ? byesOf(tg) : 0;
         const byeCredit = n ? byes * (score / n) : 0;
         score += byeCredit;
-        const sosAdj = sosAdjust(strSum, sosN);
+        /* schedule strength means little after one or two games, so it phases in: full weight from a team's 4th game */
+        const sosAdj = sosAdjust(strSum, sosN) * Math.min(1, sosN / 4);
         score += sosAdj;
         /* a résumé with no FBS win — whether the wins were all FCS or
            there are no wins at all — hasn't proven it can beat anyone
@@ -445,7 +446,7 @@ const EI = (function () {
 
   function reason(t, wk) {
     const g = t.last; if (!g) return 'No games played yet.';
-    const dir = t.move > 0 ? 'Moved up ' + t.move : t.move < 0 ? 'Dropped ' + (-t.move) : 'Held';
+    const dir = t.move > 0 ? 'Moved up ' + t.move : t.move < 0 ? 'Dropped ' + (-t.move) : (t.prevRank == null ? 'Opened the season' : 'Held');
     if (wk != null && g.week < wk) {
       const lead = t.move > 0 ? 'Moved up ' + t.move + ' on' : t.move < 0 ? 'Slipped ' + (-t.move) + ' on' : 'Held steady through';
       if (t.byeWeakened && t.move < 0) return lead + ' a bye week. Teams it beat earlier were re-rated weaker, so its résumé lost value.';
