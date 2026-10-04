@@ -7,10 +7,10 @@
    Bot's current national rank (FCS teams are placed where their
    rating would rank among FBS teams).
    =================================================================== */
-const BOT_NATRANK = {"AFA": 94, "HAW": 127, "NEV": 103, "UNM": 55, "NDSU": 63, "NIU": 124, "SJSU": 110, "UNLV": 89, "UTEP": 132, "WYO": 126, "BSU": 40, "CSU": 105, "FRES": 69, "ORST": 51, "SDSU": 85, "TXST": 73, "USU": 88, "WSU": 83, "NMSU": 113, "SAC": 138};
+const BOT_NATRANK = {"AFA": 95, "HAW": 125, "NEV": 103, "UNM": 55, "NDSU": 64, "NIU": 124, "SJSU": 110, "UNLV": 90, "UTEP": 132, "WYO": 126, "BSU": 41, "CSU": 106, "FRES": 71, "ORST": 51, "SDSU": 85, "TXST": 69, "USU": 87, "WSU": 83, "NMSU": 113, "SAC": 138};
 const OPPONENTS = {
  "USC": {
-  "natRank": 22,
+  "natRank": 23,
   "fcs": false
  },
  "Jacksonville State": {
@@ -18,11 +18,11 @@ const OPPONENTS = {
   "fcs": false
  },
  "Eastern Michigan": {
-  "natRank": 125,
+  "natRank": 127,
   "fcs": false
  },
  "Stanford": {
-  "natRank": 104,
+  "natRank": 105,
   "fcs": false
  },
  "Florida State": {
@@ -30,7 +30,7 @@ const OPPONENTS = {
   "fcs": false
  },
  "Memphis": {
-  "natRank": 61,
+  "natRank": 62,
   "fcs": false
  },
  "Oklahoma": {
@@ -51,7 +51,7 @@ const OPPONENTS = {
   "fcs": false
  },
  "Oregon": {
-  "natRank": 7,
+  "natRank": 6,
   "fcs": false
  },
  "Fordham": {
@@ -60,7 +60,7 @@ const OPPONENTS = {
   "strong": false
  },
  "Iowa": {
-  "natRank": 15,
+  "natRank": 14,
   "fcs": false
  },
  "Idaho State": {
@@ -89,7 +89,7 @@ const OPPONENTS = {
   "strong": false
  },
  "Western Kentucky": {
-  "natRank": 118,
+  "natRank": 116,
   "fcs": false
  },
  "Washington": {
@@ -101,11 +101,11 @@ const OPPONENTS = {
   "fcs": false
  },
  "UTSA": {
-  "natRank": 72,
+  "natRank": 73,
   "fcs": false
  },
  "North Texas": {
-  "natRank": 66,
+  "natRank": 67,
   "fcs": false
  },
  "Northern Colorado": {
@@ -125,11 +125,11 @@ const OPPONENTS = {
   "fcsRank": 8
  },
  "UCLA": {
-  "natRank": 12,
+  "natRank": 11,
   "fcs": false
  },
  "Texas Tech": {
-  "natRank": 11,
+  "natRank": 12,
   "fcs": false
  },
  "Cal Poly": {
@@ -144,12 +144,12 @@ const OPPONENTS = {
  },
  "Montana State": {
   "fcs": true,
-  "equivRank": 70,
+  "equivRank": 74,
   "strong": true,
   "fcsRank": 1
  },
  "Utah": {
-  "natRank": 6,
+  "natRank": 5,
   "fcs": false
  },
  "Michigan": {
@@ -161,7 +161,7 @@ const OPPONENTS = {
   "fcs": false
  },
  "BYU": {
-  "natRank": 18,
+  "natRank": 21,
   "fcs": false
  },
  "South Dakota": {
@@ -175,7 +175,7 @@ const OPPONENTS = {
   "fcs": false
  },
  "Arizona": {
-  "natRank": 35,
+  "natRank": 36,
   "fcs": false
  },
  "Montana": {
@@ -185,7 +185,7 @@ const OPPONENTS = {
   "fcsRank": 6
  },
  "Toledo": {
-  "natRank": 58,
+  "natRank": 60,
   "fcs": false
  },
  "Akron": {
@@ -206,7 +206,7 @@ const OPPONENTS = {
   "strong": false
  },
  "Troy": {
-  "natRank": 96,
+  "natRank": 97,
   "fcs": false
  },
  "Massachusetts": {
@@ -214,7 +214,7 @@ const OPPONENTS = {
   "fcs": false
  },
  "Rice": {
-  "natRank": 116,
+  "natRank": 119,
   "fcs": false
  },
  "Navy": {
@@ -222,7 +222,7 @@ const OPPONENTS = {
   "fcs": false
  },
  "California": {
-  "natRank": 82,
+  "natRank": 79,
   "fcs": false
  }
 };
@@ -308,21 +308,21 @@ const GAMES = [{"team":"SJSU","week":0,"date":"2026-08-29","opp":"USC","site":"A
 {"team":"AFA","week":4,"date":"2026-09-26","opp":"NEV","site":"A","pf":36,"pa":33,"stats":{"yds":455,"oppYds":411,"to":1,"oppTo":0,"sacks":4,"sacksAllowed":1,"ypp":5.5,"oppYpp":6.2,"thirdPct":44,"oppThirdPct":33,"explosive":10,"oppExplosive":9}},
 {"team":"NMSU","week":5,"date":"2026-10-01","opp":"Western Kentucky","site":"H","pf":34,"pa":13,"stats":{"yds":352,"oppYds":361,"to":1,"oppTo":1,"sacks":6,"sacksAllowed":1,"ypp":5.9,"oppYpp":4.8,"thirdPct":17,"oppThirdPct":39,"explosive":9,"oppExplosive":7}},
 {"team":"AFA","week":5,"date":"2026-10-03","opp":"Navy","site":"H","pf":14,"pa":9,"stats":{"yds":270,"oppYds":253,"to":2,"oppTo":1,"sacks":1,"sacksAllowed":0,"ypp":3.8,"oppYpp":5.3,"thirdPct":50,"oppThirdPct":9,"explosive":4,"oppExplosive":4}},
-{"team":"UNLV","week":5,"date":"2026-10-03","opp":"California","site":"H","pf":39,"pa":31,"stats":{"yds":345,"oppYds":464,"to":2,"oppTo":1,"sacks":4,"sacksAllowed":3,"ypp":5.7,"oppYpp":5.6,"thirdPct":38,"oppThirdPct":28}},
+{"team":"UNLV","week":5,"date":"2026-10-03","opp":"California","site":"H","pf":39,"pa":31,"stats":{"yds":345,"oppYds":464,"to":2,"oppTo":1,"sacks":4,"sacksAllowed":3,"ypp":5.7,"oppYpp":5.6,"thirdPct":38,"oppThirdPct":28,"explosive":8,"oppExplosive":10}},
 {"team":"NDSU","week":5,"date":"2026-10-03","opp":"WYO","site":"H","pf":28,"pa":0,"stats":{"yds":407,"oppYds":162,"to":1,"oppTo":1,"sacks":3,"sacksAllowed":2,"ypp":5.8,"oppYpp":3.3,"thirdPct":46,"oppThirdPct":18,"explosive":10,"oppExplosive":2}},
 {"team":"WYO","week":5,"date":"2026-10-03","opp":"NDSU","site":"A","pf":0,"pa":28,"stats":{"yds":162,"oppYds":407,"to":1,"oppTo":1,"sacks":2,"sacksAllowed":3,"ypp":3.3,"oppYpp":5.8,"thirdPct":18,"oppThirdPct":46,"explosive":2,"oppExplosive":10}},
 {"team":"UNM","week":5,"date":"2026-10-03","opp":"UTEP","site":"H","pf":61,"pa":7,"stats":{"yds":492,"oppYds":270,"to":1,"oppTo":5,"sacks":4,"sacksAllowed":1,"ypp":7.6,"oppYpp":5.1,"thirdPct":58,"oppThirdPct":33,"explosive":9,"oppExplosive":7}},
 {"team":"UTEP","week":5,"date":"2026-10-03","opp":"UNM","site":"A","pf":7,"pa":61,"stats":{"yds":270,"oppYds":492,"to":5,"oppTo":1,"sacks":1,"sacksAllowed":4,"ypp":5.1,"oppYpp":7.6,"thirdPct":33,"oppThirdPct":58,"explosive":7,"oppExplosive":9}},
 {"team":"CSU","week":5,"date":"2026-10-03","opp":"ORST","site":"H","pf":26,"pa":56,"stats":{"yds":366,"oppYds":653,"to":1,"oppTo":1,"sacks":1,"sacksAllowed":0,"ypp":6.4,"oppYpp":9.3,"thirdPct":55,"oppThirdPct":88}},
 {"team":"ORST","week":5,"date":"2026-10-03","opp":"CSU","site":"A","pf":56,"pa":26,"stats":{"yds":653,"oppYds":366,"to":1,"oppTo":1,"sacks":0,"sacksAllowed":1,"ypp":9.3,"oppYpp":6.4,"thirdPct":88,"oppThirdPct":55}},
-{"team":"BSU","week":5,"date":"2026-10-03","opp":"USU","site":"H","pf":37,"pa":18,"stats":{"yds":429,"oppYds":345,"to":1,"oppTo":1,"sacks":6,"sacksAllowed":1,"ypp":6.9,"oppYpp":5.9,"thirdPct":62,"oppThirdPct":31}},
-{"team":"USU","week":5,"date":"2026-10-03","opp":"BSU","site":"A","pf":18,"pa":37,"stats":{"yds":345,"oppYds":429,"to":1,"oppTo":1,"sacks":1,"sacksAllowed":6,"ypp":5.9,"oppYpp":6.9,"thirdPct":31,"oppThirdPct":62}},
-{"team":"WSU","week":5,"date":"2026-10-03","opp":"FRES","site":"H","pf":6,"pa":26,"stats":{"yds":182,"oppYds":375,"to":2,"oppTo":1,"sacks":1,"sacksAllowed":5,"ypp":3.1,"oppYpp":5.5,"thirdPct":21,"oppThirdPct":35}},
-{"team":"FRES","week":5,"date":"2026-10-03","opp":"WSU","site":"A","pf":26,"pa":6,"stats":{"yds":375,"oppYds":182,"to":1,"oppTo":2,"sacks":5,"sacksAllowed":1,"ypp":5.5,"oppYpp":3.1,"thirdPct":35,"oppThirdPct":21}},
-{"team":"SDSU","week":5,"date":"2026-10-03","opp":"TXST","site":"H","pf":31,"pa":29,"stats":{"yds":239,"oppYds":565,"to":0,"oppTo":2,"sacks":3,"sacksAllowed":0,"ypp":4.6,"oppYpp":5.5,"thirdPct":10,"oppThirdPct":42}},
-{"team":"TXST","week":5,"date":"2026-10-03","opp":"SDSU","site":"A","pf":29,"pa":31,"stats":{"yds":565,"oppYds":239,"to":2,"oppTo":0,"sacks":0,"sacksAllowed":3,"ypp":5.5,"oppYpp":4.6,"thirdPct":42,"oppThirdPct":10}},
-{"team":"HAW","week":5,"date":"2026-10-03","opp":"SJSU","site":"H","pf":16,"pa":20,"stats":{"yds":438,"oppYds":324,"to":2,"oppTo":0,"sacks":2,"sacksAllowed":3,"ypp":7.0,"oppYpp":5.2,"thirdPct":31,"oppThirdPct":27}},
-{"team":"SJSU","week":5,"date":"2026-10-03","opp":"HAW","site":"A","pf":20,"pa":16,"stats":{"yds":324,"oppYds":438,"to":0,"oppTo":2,"sacks":3,"sacksAllowed":2,"ypp":5.2,"oppYpp":7.0,"thirdPct":27,"oppThirdPct":31}}];
+{"team":"BSU","week":5,"date":"2026-10-03","opp":"USU","site":"H","pf":37,"pa":18,"stats":{"yds":429,"oppYds":345,"to":1,"oppTo":1,"sacks":6,"sacksAllowed":1,"ypp":6.9,"oppYpp":5.9,"thirdPct":62,"oppThirdPct":31,"explosive":6,"oppExplosive":9}},
+{"team":"USU","week":5,"date":"2026-10-03","opp":"BSU","site":"A","pf":18,"pa":37,"stats":{"yds":345,"oppYds":429,"to":1,"oppTo":1,"sacks":1,"sacksAllowed":6,"ypp":5.9,"oppYpp":6.9,"thirdPct":31,"oppThirdPct":62,"explosive":9,"oppExplosive":6}},
+{"team":"WSU","week":5,"date":"2026-10-03","opp":"FRES","site":"H","pf":6,"pa":26,"stats":{"yds":182,"oppYds":375,"to":2,"oppTo":1,"sacks":1,"sacksAllowed":5,"ypp":3.1,"oppYpp":5.5,"thirdPct":21,"oppThirdPct":35,"explosive":3,"oppExplosive":7}},
+{"team":"FRES","week":5,"date":"2026-10-03","opp":"WSU","site":"A","pf":26,"pa":6,"stats":{"yds":375,"oppYds":182,"to":1,"oppTo":2,"sacks":5,"sacksAllowed":1,"ypp":5.5,"oppYpp":3.1,"thirdPct":35,"oppThirdPct":21,"explosive":7,"oppExplosive":3}},
+{"team":"SDSU","week":5,"date":"2026-10-03","opp":"TXST","site":"H","pf":31,"pa":29,"stats":{"yds":239,"oppYds":565,"to":0,"oppTo":2,"sacks":3,"sacksAllowed":0,"ypp":4.6,"oppYpp":5.5,"thirdPct":10,"oppThirdPct":42,"explosive":6,"oppExplosive":13}},
+{"team":"TXST","week":5,"date":"2026-10-03","opp":"SDSU","site":"A","pf":29,"pa":31,"stats":{"yds":565,"oppYds":239,"to":2,"oppTo":0,"sacks":0,"sacksAllowed":3,"ypp":5.5,"oppYpp":4.6,"thirdPct":42,"oppThirdPct":10,"explosive":13,"oppExplosive":6}},
+{"team":"HAW","week":5,"date":"2026-10-03","opp":"SJSU","site":"H","pf":16,"pa":20,"stats":{"yds":438,"oppYds":324,"to":2,"oppTo":0,"sacks":2,"sacksAllowed":3,"ypp":7.0,"oppYpp":5.2,"thirdPct":31,"oppThirdPct":27,"explosive":7,"oppExplosive":4}},
+{"team":"SJSU","week":5,"date":"2026-10-03","opp":"HAW","site":"A","pf":20,"pa":16,"stats":{"yds":324,"oppYds":438,"to":0,"oppTo":2,"sacks":3,"sacksAllowed":2,"ypp":5.2,"oppYpp":7.0,"thirdPct":27,"oppThirdPct":31,"explosive":4,"oppExplosive":7}}];
 const NEXT = {
  "AFA": "at Northern Illinois",
  "HAW": "at Arizona State",
