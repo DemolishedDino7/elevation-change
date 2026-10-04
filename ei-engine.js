@@ -316,8 +316,11 @@ const EI = (function () {
       else if (OPP_BLEND > 0 && TEAMS.length >= 60) {
         /* judge opponents partly by what they've done (résumé rank), not only by
            the power rating, which still carries some preseason weight early on */
-        const nr = {};
-        result.forEach((t, i) => nr[t.id] = Math.round((1 - OPP_BLEND) * base0[t.id] + OPP_BLEND * (i + 1)));
+        /* the résumé side uses results only (no schedule credit, no head-to-head lift):
+           schedule credit is itself built from opponents' ranks, and letting it feed back
+           in lets a cluster of teams that played each other prop one another up */
+        const nr = {}, res = result.slice().sort((a, b) => (b.rawScore - b.sosAdj) - (a.rawScore - a.sosAdj));
+        res.forEach((t, i) => nr[t.id] = Math.round((1 - OPP_BLEND) * base0[t.id] + OPP_BLEND * (i + 1)));
         ratings = nr;
       }
     }
