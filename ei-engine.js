@@ -328,18 +328,18 @@ const EI = (function () {
       if (la !== lb) return lb - la;
       return a.seed - b.seed;
     });
-    /* head-to-head: a team that beat another (and didn't also lose to it) never
-       ranks behind it when their scores are within H2H_WINDOW */
-    for (let pass = 0; pass < 6; pass++) {
-      let moved = false;
-      for (let i = 0; i < arr.length && !moved; i++)
-        for (let j = i + 1; j < arr.length; j++) {
-          const a = arr[i], b = arr[j];
-          if (a.score - b.score > H2H_WINDOW) break;
-          if (beat(b, a) && !beat(a, b)) { arr.splice(j, 1); arr.splice(i, 0, b); moved = true; break; }
+    /* head-to-head: a team that beat another (and didn't also lose to it) ranks
+       just above it when the loser's score is within H2H_WINDOW of the winner's.
+       Lifts are measured on the original scores, so they can't chain a team past
+       anyone more than H2H_WINDOW better than it. */
+    const adj = new Map(arr.map(t => [t.id, t.score]));
+    for (const b of arr)
+        for (const a of arr) {
+          if (a === b || a.score <= b.score || a.score - b.score > H2H_WINDOW) continue;
+          if (beat(b, a) && !beat(a, b)) adj.set(b.id, Math.max(adj.get(b.id), a.score + 0.01));
         }
-      if (!moved) break;
-    }
+    const pos = new Map(arr.map((t, i) => [t.id, i]));
+    arr.sort((a, b) => (adj.get(b.id) - adj.get(a.id)) || (pos.get(a.id) - pos.get(b.id)));
   }
 
   function displayName(opp) { const t = TEAMS.find(x => x[0] === opp); return t ? t[1] : opp; }
@@ -418,7 +418,7 @@ const EI = (function () {
     if (!g.win && g.label === 'Blowout loss') return dir + ' after a ' + Math.abs(g.margin) + '-point loss to ' + oppLabel(g) + fav(g) + ', much worse than expected.';
     if (!g.win && g.label === 'Expected loss') return dir + ' after losing ' + scoreLine(g) + ' to ' + oppLabel(g) + fav(g) + ', about as expected.';
     if (!g.win && g.label === 'Quality loss' && g.exp != null) return dir + '. Lost ' + scoreLine(g) + ' to ' + oppLabel(g) + fav(g) + ' but played them closer than expected, which earns credit.' + (fcsLoss ? ' The FCS loss to ' + fcsLoss.oppName + ' still dominates the résumé.' : '');
-    if (g.win && g.label === 'Elite win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ', the best win on any résumé ' + (typeof EI_SCOPE !== 'undefined' ? EI_SCOPE : 'in the West') + '.';
+    if (g.win && g.label === 'Elite win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ', the best win on any résumé ' + (typeof EI_SCOPE_OVERRIDE !== 'undefined' ? EI_SCOPE_OVERRIDE : typeof EI_SCOPE !== 'undefined' ? EI_SCOPE : 'in the West') + '.';
     if (g.win && g.label === 'Quality win') return dir + ' after a quality win over ' + oppLabel(g) + ' ' + scoreLine(g) + '.';
     if (g.win && g.fcs) return dir + (fcsLoss ? ' — the FCS win over ' + g.oppName + ' counts, but the earlier FCS loss to ' + fcsLoss.oppName + ' still dominates the résumé.' : '. An FCS win over ' + g.oppName + ' carries limited value, so the ranking barely moved.');
     if (g.win) return dir + ' after beating ' + g.oppName + ' ' + scoreLine(g) + (g.margin >= 21 ? ' — a dominant margin, though the opponent limits how much it counts.' : '.');
@@ -448,5 +448,22 @@ const EI = (function () {
     return (typeof IMPROVE !== 'undefined' && IMPROVE[t.id]) || '';
   }
 
-  return { compute, history, whyRanked, improve, oppLabel, scoreLine };
+  /* a ranking of a subset of teams (e.g. the Western 20 from the National Index):
+     same scores and order, renumbered 1..n, with movement and reasons recomputed */
+  function subset(H, ids) {
+    const set = new Set(ids);
+    const weeks = H.weeks.map(wk => wk.filter(t => set.has(t.id)).map((t, i) => Object.assign({}, t, { natRank: t.natRank, nationalRank: t.rank, rank: i + 1 })));
+    const latest = weeks[weeks.length - 1], prev = weeks.length > 1 ? weeks[weeks.length - 2] : null, wk = weeks.length - 1;
+    latest.forEach(t => {
+      const p = prev ? prev.find(x => x.id === t.id) : null;
+      t.prevRank = p ? p.rank : null;
+      t.prevScore = p ? p.score : 0;
+      t.move = p ? p.rank - t.rank : 0;
+      t.reason = reason(t, wk);
+      t.ranks = weeks.map(w => { const x = w.find(y => y.id === t.id); return x ? x.rank : null; });
+    });
+    return { weeks, latest };
+  }
+
+  return { compute, history, subset, whyRanked, improve, oppLabel, scoreLine };
 })();

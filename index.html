@@ -277,12 +277,13 @@
   </div>
 </footer>
 
-<script src="ei-data.js?v=202610031330"></script>
-<script src="ei-auto.js"></script>
-<script src="ei-engine.js?v=202610041235"></script>
+<script src="ei-west.js?v=202610041240"></script>
+<script src="ei-national.js"></script>
+<script>var EI_SCOPE_OVERRIDE = "in the West";</script>
+<script src="ei-engine.js?v=202610041240"></script>
 <script>
 (function () {
-  const L = EI.history(CURRENT_WEEK).latest.slice(0, 10);
+  const L = EI.subset(EI.history(CURRENT_WEEK), WEST_IDS).latest.slice(0, 10);
   document.getElementById('mini-ei-title').textContent = 'Elevation Index | Week ' + (CURRENT_WEEK + 1);
   const mv = t => t.prevRank == null ? '—' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '—';
   document.getElementById('mini-ei').innerHTML = L.map(t =>

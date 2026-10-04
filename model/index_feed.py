@@ -199,7 +199,7 @@ def build_national(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.Dat
             color = "#8B6BB8"
         rows.append([sid, name, r.conf or "", color, i + 1, logo])
     teams_js = "const TEAMS = " + json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("],[", "],\n[") + ";\n"
-    scope_js = 'const EI_SCOPE = "nationally";\nconst IMPROVE = {};\n'
+    scope_js = 'const EI_SCOPE = "nationally";\nvar IMPROVE = (typeof IMPROVE !== "undefined") ? IMPROVE : {};\n'
     return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js, pregame=pregame,
                  rank_by_week=rank_by_week)
 
@@ -225,6 +225,6 @@ def build_fcs(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.DataFram
             color = "#8B6BB8"
         rows.append([sid, r["name"], r.conf or "", color, i + 1, str(tinfo.logo.get(tid) or "")])
     teams_js = "const TEAMS = " + json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("],[", "],\n[") + ";\n"
-    scope_js = 'const EI_SCOPE = "in the FCS";\nconst IMPROVE = {};\n'
+    scope_js = 'const EI_SCOPE = "in the FCS";\nvar IMPROVE = (typeof IMPROVE !== "undefined") ? IMPROVE : {};\n'
     return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js, pregame=pregame,
                  rank_by_week=rank_by_week, scale=scale)
