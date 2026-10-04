@@ -509,9 +509,27 @@ def main():
     aud = audit.run(g, season, max(1, int(sg[sg.completed & (sg.season_type == "regular")].week.max() or 1)), log=log)
     aud["generated"] = now.isoformat(timespec="minutes")
 
+    def clean(o):
+        """Browser-safe JSON: NaN/inf and pandas NA become null; numpy scalars become plain numbers."""
+        if isinstance(o, dict):
+            return {k: clean(v) for k, v in o.items()}
+        if isinstance(o, (list, tuple)):
+            return [clean(v) for v in o]
+        if o is pd.NA or o is None:
+            return None
+        if hasattr(o, "item") and not isinstance(o, (str, bytes)):
+            try:
+                o = o.item()
+            except Exception:
+                pass
+        if isinstance(o, float) and (o != o or o in (float("inf"), float("-inf"))):
+            return None
+        return o
+
     def dump(name, obj):
         with open(OUT / name, "w") as f:
-            json.dump(obj, f, separators=(",", ":"), default=lambda o: None if o is pd.NA else (o.item() if hasattr(o, "item") else str(o)))
+            json.dump(clean(obj), f, separators=(",", ":"), allow_nan=False,
+                      default=lambda o: None if o is pd.NA else (o.item() if hasattr(o, "item") else str(o)))
     dump("meta.json", meta)
     dump("ratings.json", team_list)
     dump("predictions.json", games_out)
