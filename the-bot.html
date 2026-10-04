@@ -76,6 +76,7 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
 .chip.alt { border-color: var(--purple-deep); color: var(--purple); }
 .res { margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8125rem; color: var(--muted); }
 .res b { color: var(--paper); }
+.res2 { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
 .hit { color: var(--up); font-weight: 700; } .miss { color: var(--down); font-weight: 700; }
 .empty { color: var(--muted); padding: 2rem 0; }
 
@@ -303,7 +304,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       if (fin) {
         const right = (g.pred_margin > 0) === (g.home_pts > g.away_pts);
         const miss = Math.abs(g.pred_margin - (g.home_pts - g.away_pts));
-        res = '<div class="res"><span>Bot said <b>' + esc(short(favName)) + ' ' + Math.max(g.pred_home, g.pred_away) + '-' + Math.min(g.pred_home, g.pred_away) + '</b>' + (g.mode === 'backfill' ? ' (test)' : '') + '</span><span class="' + (right ? 'hit' : 'miss') + '">' + (right ? '✓ Winner' : '✗ Miss') + ' · off ' + miss.toFixed(0) + '</span></div>';
+        res = '<div class="res"><span>Bot said <b>' + esc(short(favName)) + ' ' + Math.max(g.pred_home, g.pred_away) + '-' + Math.min(g.pred_home, g.pred_away) + '</b>' + (g.mode === 'backfill' ? ' (test)' : '') + '</span><span class="' + (right ? 'hit' : 'miss') + '">' + (right ? '✓ Right winner' : '✗ Wrong winner') + '</span></div><div class="res2">Margin off by ' + miss.toFixed(0) + ' · score off by ' + (Math.abs(g.pred_home - g.home_pts) + Math.abs(g.pred_away - g.away_pts)) + ' combined</div>';
       }
       return '<article class="g">' + top + row('away') + row('home') + bar + line + (chips.length ? '<div class="chips">' + chips.join('') + '</div>' : '') + res + '</article>';
     }
