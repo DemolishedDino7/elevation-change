@@ -29,7 +29,7 @@ def site_week(start: pd.Series, week: pd.Series) -> pd.Series:
 
 
 def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, ncaa_ids: dict | None = None,
-          teams_js: str = "", scope_js: str = "") -> dict:
+          teams_js: str = "", scope_js: str = "", pregame: dict | None = None) -> dict:
     """
     sg:   this season's games (from data.build_games)
     T:    team ratings (team_id, name, div, net, rank) for every team in the season
@@ -126,6 +126,9 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
                    "date": (x.start - timedelta(hours=6)).strftime("%Y-%m-%d"), "opp": opp,
                    "site": "N" if x.neutral_site else ("H" if side == "home" else "A"),
                    "pf": int(x[f"{side}_points"]), "pa": int(x[f"{other}_points"])}
+            pm = (pregame or {}).get(int(x.game_id))
+            if pm is not None:  # the Bot's pre-game margin, from this team's side
+                rec["exp"] = round(pm if side == "home" else -pm, 1)
             st = stats(int(x.game_id), name, oname, side == "home")
             if st:
                 rec["stats"] = st
@@ -170,7 +173,7 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
 
 
 def build_national(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.DataFrame, west: dict, out_path,
-                   ncaa_ids: dict | None = None) -> dict:
+                   ncaa_ids: dict | None = None, pregame: dict | None = None) -> dict:
     """The Elevation Index résumé rules applied to every FBS team (ei-national.js)."""
     west_by_name = {v: k for k, v in west.items()}
     fbs = T[T["div"] == "fbs"].sort_values("net", ascending=False).reset_index(drop=True)
@@ -191,4 +194,4 @@ def build_national(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.Dat
         rows.append([sid, name, r.conf or "", color, i + 1, logo])
     teams_js = "const TEAMS = " + json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("],[", "],\n[") + ";\n"
     scope_js = 'const EI_SCOPE = "nationally";\nconst IMPROVE = {};\n'
-    return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js)
+    return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js, pregame=pregame)

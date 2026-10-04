@@ -441,15 +441,17 @@ def main():
                   "returning": {k: round(v, 2) for k, v in ret_coef.items()}},
     }
 
+    # the Bot's pre-game margin for every game (locked picks when live, walk-forward otherwise)
+    pregame = {x["id"]: x["pred_margin"] for x in games_out if x.get("pred_margin") is not None}
     try:
         tinfo_now = ti[ti.season == season].drop_duplicates("team_id").set_index("team_id")
         nat = index_feed.build_national(season, sg, T[["team_id", "name", "div", "net", "conf"]], tinfo_now, WEST,
-                                        SITE / "ei-national.js", ncaa_ids)
+                                        SITE / "ei-national.js", ncaa_ids, pregame=pregame)
         log("national index", nat)
     except Exception as e:
         log("national index failed:", repr(e)[:300])
     if os.environ.get("INDEX_PREVIEW"):
-        pv = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, OUT / "ei-auto-preview.js", ncaa_ids)
+        pv = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, OUT / "ei-auto-preview.js", ncaa_ids, pregame=pregame)
         json.dump({"feed": pv, "ncaa": ncaa_status}, open(OUT / "ei-preview-status.json", "w"))
         log("elevation index preview", pv)
     ours = sg[(sg.home_team.isin(WEST_BY_NAME) | sg.away_team.isin(WEST_BY_NAME)) & (sg.start < now - pd.Timedelta(hours=6))]
@@ -459,7 +461,7 @@ def main():
         shutil.copyfile(Path(__file__).resolve().parent / "ei-manual.js", SITE / "ei-auto.js")
         log("elevation index: holding hand-entered data until", INDEX_SWITCH.isoformat(), f"({missing} of our games not final yet)")
     else:
-        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js", ncaa_ids)
+        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js", ncaa_ids, pregame=pregame)
         log("elevation index feed", feed)
 
     aud = audit.run(g, season, max(1, int(sg[sg.completed & (sg.season_type == "regular")].week.max() or 1)), log=log)

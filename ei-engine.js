@@ -30,6 +30,9 @@ const EI = (function () {
   };
   function lossBand(r) { return r <= 5 ? 'top5' : r <= 15 ? 't6_15' : r <= 30 ? 't16_30' : r <= 60 ? 't31_60' : 't61'; }
 
+  /* loss starting values when the game is judged against expectations */
+  const LOSS_EXP = { top5: 0, t6_15: -2, t16_30: -5, t31_60: -9, t61: -13 };
+
   const FCS_LOSS_BASE = -35;
   const FCS_LOSS_MARGIN = [3, 7, 11, 15];
 
@@ -122,7 +125,51 @@ const EI = (function () {
     }
 
     const r = opp.natRank, t = tier(r);
-    if (win) {
+    if (g.exp != null) {
+      /* ---- judged against expectations ----
+         exp = the Bot's pre-game margin for this team (positive = favored),
+         made using only what was known before kickoff. diff = how much
+         better (+) or worse (-) the team did than expected. */
+      const exp = g.exp, diff = margin - exp;
+      out.exp = exp; out.diff = diff;
+      if (win) {
+        out.base = t.q + t.w + Math.max(-8, Math.min(8, 0.4 * diff));
+        if (exp < 0) {
+          /* upset: won as the underdog — the bigger the underdog, the bigger the reward */
+          out.upset = Math.min(14, 4 + 0.6 * -exp);
+          out.base += out.upset;
+          out.label = 'Upset win';
+          out.qualityWin = true;
+        } else {
+          /* a quality win has to be over a good team you weren't expected to roll */
+          out.qualityWin = r <= 60 && exp <= 10;
+          out.base = Math.max(1, out.base);  /* a win never costs a team points */
+          out.label = (exp >= 10 && diff <= -10) ? 'Unconvincing win'
+            : r <= 25 && exp <= 10 ? 'Elite win'
+            : out.qualityWin ? 'Quality win'
+            : r <= 90 ? 'Solid win' : 'Expected win';
+        }
+      } else {
+        /* a loss never adds points on its own; losing to a great team just costs less */
+        out.base = LOSS_EXP[lossBand(r)];
+        if (exp > 0) {
+          /* lost as the favorite */
+          out.base += Math.max(-15, 0.6 * diff) - Math.min(12, 4 + 0.5 * exp);
+          out.badLoss = true;
+          out.label = 'Upset loss';
+        } else if (diff >= 3) {
+          /* underdog that made it closer than expected: credit for the fight */
+          out.qualityLoss = Math.min(12, 2 + 0.6 * diff);
+          out.base += out.qualityLoss;
+          out.label = 'Quality loss';
+        } else {
+          /* underdog that lost by about as much as expected, or worse */
+          out.base += Math.max(-15, 0.6 * Math.min(0, diff));
+          out.badLoss = diff <= -14;
+          out.label = out.badLoss ? 'Blowout loss' : 'Expected loss';
+        }
+      }
+    } else if (win) {
       out.base = t.q + t.w + winMargin(am);
       if (am >= 21 && r <= 100) out.base += 2;                       /* dominance */
       out.label = r <= 25 ? 'Elite win' : r <= 60 ? 'Quality win' : r <= 90 ? 'Solid win' : 'Expected win';
@@ -145,8 +192,11 @@ const EI = (function () {
     /* venue: road games are harder, so a road win earns more and a road
        loss hurts less. FBS opponents only — the FCS branch returns above,
        so venue never inflates an FCS result. */
-    if (g.site === 'A') { out.venue = 3; out.base += 3; }
-    else if (g.site === 'N') { out.venue = 1; out.base += 1; }
+    /* (with an expectation, home field is already inside it) */
+    if (g.exp == null) {
+      if (g.site === 'A') { out.venue = 3; out.base += 3; }
+      else if (g.site === 'N') { out.venue = 1; out.base += 1; }
+    }
     return out;
   }
 
@@ -279,6 +329,13 @@ const EI = (function () {
     if (!g.win && g.fcs && g.label === 'Respectable loss') return dir + '. Losing ' + scoreLine(g) + ' to ' + oppLabel(g) + ' is judged like losing to the FBS team they play like — the top of the FCS is better than the bottom of the FBS.';
     if (g.win && g.label === 'Ranked FCS win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ' — a top-10 FCS scalp counts for more than a routine FCS win, though it is still capped.';
     if (g.win && g.label === 'Narrow FCS win') return dir + '. Beating ' + g.oppName + ' ' + scoreLine(g) + ' avoided disaster, but a one-score game against an unranked FCS team banks almost nothing in the Index.';
+    const fav = x => x.exp > 0 ? ' as a ' + Math.round(x.exp) + '-point favorite' : x.exp < 0 ? ' as a ' + Math.round(-x.exp) + '-point underdog' : '';
+    if (g.win && g.label === 'Upset win') return dir + ' after an upset of ' + oppLabel(g) + ' ' + scoreLine(g) + fav(g) + '.';
+    if (g.win && g.label === 'Unconvincing win') return dir + '. Beat ' + g.oppName + ' ' + scoreLine(g) + fav(g) + ', well short of expectations, so the win counted for less.';
+    if (!g.win && g.label === 'Upset loss') return dir + ' after losing ' + scoreLine(g) + ' to ' + oppLabel(g) + fav(g) + ', a penalty for losing a game it was expected to win.';
+    if (!g.win && g.label === 'Blowout loss') return dir + ' after a ' + Math.abs(g.margin) + '-point loss to ' + oppLabel(g) + fav(g) + ', much worse than expected.';
+    if (!g.win && g.label === 'Expected loss') return dir + ' after losing ' + scoreLine(g) + ' to ' + oppLabel(g) + fav(g) + ', about as expected.';
+    if (!g.win && g.label === 'Quality loss' && g.exp != null) return dir + '. Lost ' + scoreLine(g) + ' to ' + oppLabel(g) + fav(g) + ' but played them closer than expected, which earns credit.' + (fcsLoss ? ' The FCS loss to ' + fcsLoss.oppName + ' still dominates the résumé.' : '');
     if (g.win && g.label === 'Elite win') return dir + ' after beating ' + oppLabel(g) + ' ' + scoreLine(g) + ', the best win on any résumé ' + (typeof EI_SCOPE !== 'undefined' ? EI_SCOPE : 'in the West') + '.';
     if (g.win && g.label === 'Quality win') return dir + ' after a quality win over ' + oppLabel(g) + ' ' + scoreLine(g) + '.';
     if (g.win && g.fcs) return dir + (fcsLoss ? ' — the FCS win over ' + g.oppName + ' counts, but the earlier FCS loss to ' + fcsLoss.oppName + ' still dominates the résumé.' : '. An FCS win over ' + g.oppName + ' carries limited value, so the ranking barely moved.');
