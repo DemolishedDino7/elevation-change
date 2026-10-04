@@ -201,11 +201,20 @@ const EI = (function () {
   }
 
   /* ---- resolve an opponent (tracked team id or OPPONENTS entry) ---- */
-  function resolveOpp(name, ratings) {
+  function resolveOpp(name, ratings, RW) {
     if (ratings[name]) return { natRank: ratings[name], fcs: false, tracked: true };
-    const o = OPPONENTS[name];
-    if (!o) return { natRank: 100, fcs: false, unknown: true };
+    let o = OPPONENTS[name];
+    if (!o) return { natRank: (RW && RW[name]) || 100, fcs: false, unknown: true };
+    /* opponent strength as it stood that week (RANK_BY_WEEK), when available */
+    if (RW && RW[name] != null) { o = Object.assign({}, o); if (o.fcs) o.equivRank = RW[name]; else o.natRank = RW[name]; }
     return o;
+  }
+  /* The Bot's national ranks as they stood after a given week (null if not provided) */
+  function ranksAt(w) {
+    if (typeof RANK_BY_WEEK === 'undefined') return null;
+    if (RANK_BY_WEEK[w]) return RANK_BY_WEEK[w];
+    const ks = Object.keys(RANK_BY_WEEK).map(Number).filter(k => k <= w);
+    return ks.length ? RANK_BY_WEEK[Math.max(...ks)] : null;
   }
 
   /* ---- compute the full index through a given week ---- */
@@ -223,7 +232,8 @@ const EI = (function () {
     /* national ranks for tracked teams: The Bot's current rank when the
        automatic feed is loaded; otherwise the old seed-and-iterate method */
     const botRanks = (typeof BOT_NATRANK !== 'undefined') ? BOT_NATRANK : null;
-    let ratings = {}; TEAMS.forEach(t => ratings[t[0]] = (botRanks && botRanks[t[0]]) || t[4]);
+    const RW = ranksAt(throughWeek);
+    let ratings = {}; TEAMS.forEach(t => ratings[t[0]] = (RW && RW[t[1]]) || (botRanks && botRanks[t[0]]) || t[4]);
     let result;
     for (let pass = 0; pass < 4; pass++) {
       result = TEAMS.map(t => {
@@ -231,7 +241,7 @@ const EI = (function () {
         let score = 0, rows = [], qualityWins = 0, qualityLosses = 0, badLosses = 0, winStrength = 0, pd = 0, oppRankSum = 0;
         let rec = { w: 0, l: 0, fbsW: 0, fbsL: 0, fcsW: 0, fcsL: 0, confW: 0, confL: 0 };
         tg.forEach((g, i) => {
-          const opp = resolveOpp(g.opp, ratings);
+          const opp = resolveOpp(g.opp, ratings, RW);
           const s = scoreGame(g, opp, ratings[id]);
           const rc = recency(n - 1 - i);
           const p = performance(g);
@@ -260,7 +270,7 @@ const EI = (function () {
       /* re-derive national ranks for tracked teams from this ordering */
       const next = {};
       result.forEach((t, i) => next[t.id] = t.games.length ? Math.round(28 + i * (97 / 19)) : t.seed);
-      if (!botRanks) ratings = next;
+      if (!botRanks && !RW) ratings = next;
     }
     result.forEach((t, i) => { t.rank = i + 1; t.natRank = ratings[t.id]; });
     return result;
@@ -298,7 +308,11 @@ const EI = (function () {
   /* ---- snapshots for every week, with movement + auto-generated reasons ---- */
   function history(throughWeek) {
     const weeks = [];
-    for (let w = 0; w <= throughWeek; w++) weeks.push(compute(w));
+    for (let w = 0; w <= throughWeek; w++) {
+      const cur = compute(w);
+      if (w >= 1 && weeks.length) limitByeMoves(cur, weeks[weeks.length - 1], w);
+      weeks.push(cur);
+    }
     const latest = weeks[weeks.length - 1], prev = weeks.length > 1 ? weeks[weeks.length - 2] : null;
     latest.forEach(t => {
       const p = prev ? prev.find(x => x.id === t.id) : null;
@@ -312,6 +326,29 @@ const EI = (function () {
     });
     return { weeks, latest };
   }
+  /* A team on a bye holds its ground: it can move at most BYE_MAX spots,
+     unless its own score fell because the teams it beat have since been
+     re-rated weaker (its schedule weakened), which can drop it further. */
+  const BYE_MAX = 5;
+  function limitByeMoves(cur, prev, w) {
+    const prevById = {}; prev.forEach(t => prevById[t.id] = t);
+    const key = new Map();
+    cur.forEach((t, i) => {
+      const p = prevById[t.id];
+      const onBye = p && t.games.length > 0 && !t.games.some(g => g.week === w);
+      let k = i + 1;
+      if (onBye) {
+        const weakened = t.score < p.score - 3;                 /* schedule got weaker */
+        const lo = p.rank - BYE_MAX, hi = weakened ? cur.length : p.rank + BYE_MAX;
+        k = Math.max(lo, Math.min(hi, k)) - 0.5;                /* held teams win ties */
+        t.byeHeld = k + 0.5 !== i + 1;
+        t.byeWeakened = weakened;
+      }
+      key.set(t.id, k);
+    });
+    cur.sort((a, b) => key.get(a.id) - key.get(b.id));
+    cur.forEach((t, i) => t.rank = i + 1);
+  }
   function best(list) { return list.length ? list.reduce((a, b) => b.base > a.base ? b : a) : null; }
   function worst(list) { return list.length ? list.reduce((a, b) => b.base < a.base ? b : a) : null; }
 
@@ -324,7 +361,11 @@ const EI = (function () {
   function reason(t, wk) {
     const g = t.last; if (!g) return 'No games played yet.';
     const dir = t.move > 0 ? 'Moved up ' + t.move : t.move < 0 ? 'Dropped ' + (-t.move) : 'Held';
-    if (wk != null && g.week < wk) return (t.move > 0 ? 'Moved up ' + t.move + ' on' : t.move < 0 ? 'Slipped ' + (-t.move) + ' on' : 'Held steady through') + ' a bye week. Idle weeks are credited with the team\u2019s average game, so only other teams\u2019 results moved it.';
+    if (wk != null && g.week < wk) {
+      const lead = t.move > 0 ? 'Moved up ' + t.move + ' on' : t.move < 0 ? 'Slipped ' + (-t.move) + ' on' : 'Held steady through';
+      if (t.byeWeakened) return lead + ' a bye week. Teams it beat earlier were re-rated weaker, so its résumé lost value.';
+      return lead + ' a bye week. A team on a bye moves at most ' + BYE_MAX + ' spots unless its schedule weakens.';
+    }
     const fcsLoss = t.games.find(x => x.label === 'FCS loss');
     if (g.label === 'FCS loss') return dir + ' after losing ' + scoreLine(g) + ' to ' + (g.oppFcsRank ? oppLabel(g) + ' — a ranked FCS team softens the blow, but an FCS loss still stings in the Elevation Index.' : g.oppName + ', an FCS opponent — the largest single penalty in the Elevation Index.');
     if (!g.win && g.fcs && g.label === 'Respectable loss') return dir + '. Losing ' + scoreLine(g) + ' to ' + oppLabel(g) + ' is judged like losing to the FBS team they play like — the top of the FCS is better than the bottom of the FBS.';

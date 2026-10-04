@@ -29,7 +29,8 @@ def site_week(start: pd.Series, week: pd.Series) -> pd.Series:
 
 
 def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, ncaa_ids: dict | None = None,
-          teams_js: str = "", scope_js: str = "", pregame: dict | None = None) -> dict:
+          teams_js: str = "", scope_js: str = "", pregame: dict | None = None,
+          rank_by_week: dict | None = None) -> dict:
     """
     sg:   this season's games (from data.build_games)
     T:    team ratings (team_id, name, div, net, rank) for every team in the season
@@ -163,6 +164,7 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
           "   =================================================================== */\n"
           + teams_js + scope_js +
           f"const BOT_NATRANK = {json.dumps(bot_rank)};\n"
+          + (f"const RANK_BY_WEEK = {json.dumps(rank_by_week, ensure_ascii=False, separators=(',', ':'))};\n" if rank_by_week else "") +
           f"const OPPONENTS = {json.dumps(opps, ensure_ascii=False, indent=1)};\n"
           f"const GAMES = {json.dumps(games, ensure_ascii=False, separators=(',', ':')).replace('},{', '},\n{')};\n"
           f"const NEXT = {json.dumps(nxt, ensure_ascii=False, indent=1)};\n"
@@ -173,7 +175,7 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
 
 
 def build_national(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.DataFrame, west: dict, out_path,
-                   ncaa_ids: dict | None = None, pregame: dict | None = None) -> dict:
+                   ncaa_ids: dict | None = None, pregame: dict | None = None, rank_by_week: dict | None = None) -> dict:
     """The Elevation Index résumé rules applied to every FBS team (ei-national.js)."""
     west_by_name = {v: k for k, v in west.items()}
     fbs = T[T["div"] == "fbs"].sort_values("net", ascending=False).reset_index(drop=True)
@@ -194,4 +196,5 @@ def build_national(season: int, sg: pd.DataFrame, T: pd.DataFrame, tinfo: pd.Dat
         rows.append([sid, name, r.conf or "", color, i + 1, logo])
     teams_js = "const TEAMS = " + json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("],[", "],\n[") + ";\n"
     scope_js = 'const EI_SCOPE = "nationally";\nconst IMPROVE = {};\n'
-    return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js, pregame=pregame)
+    return build(season, sg, T, ids, out_path, ncaa_ids, teams_js=teams_js, scope_js=scope_js, pregame=pregame,
+                 rank_by_week=rank_by_week)

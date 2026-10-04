@@ -443,15 +443,34 @@ def main():
 
     # the Bot's pre-game margin for every game (locked picks when live, walk-forward otherwise)
     pregame = {x["id"]: x["pred_margin"] for x in games_out if x.get("pred_margin") is not None}
+    # the Bot's national ranks as they stood after each week, so the Index judges every
+    # past week with what was known then (FCS teams placed on the FBS scale)
+    fbs_ids = set(T.loc[T["div"] == "fbs", "team_id"])
+    name_of = dict(zip(T.team_id, T.name))
+
+    def ranks_from(net: pd.Series) -> dict:
+        fb = net[net.index.isin(fbs_ids)].sort_values(ascending=False)
+        fbv = fb.to_numpy()
+        out = {name_of[t]: i + 1 for i, t in enumerate(fb.index) if t in name_of}
+        for t, v in net.items():
+            if t not in fbs_ids and t in name_of:
+                out[name_of[t]] = int(1 + (fbv > v).sum())
+        return out
+    sw = pd.Series(index_feed.site_week(sg.start, sg.week), index=sg.index)
+    last_sw = int(sw[sg.completed].max()) if sg.completed.any() else 0
+    rank_by_week = {}
+    for w in range(0, last_sw + 1):
+        snap = snaps.get(w + 1)
+        rank_by_week[w] = ranks_from(T.set_index("team_id").net if (w == last_sw or snap is None) else snap.net)
     try:
         tinfo_now = ti[ti.season == season].drop_duplicates("team_id").set_index("team_id")
         nat = index_feed.build_national(season, sg, T[["team_id", "name", "div", "net", "conf"]], tinfo_now, WEST,
-                                        SITE / "ei-national.js", ncaa_ids, pregame=pregame)
+                                        SITE / "ei-national.js", ncaa_ids, pregame=pregame, rank_by_week=rank_by_week)
         log("national index", nat)
     except Exception as e:
         log("national index failed:", repr(e)[:300])
     if os.environ.get("INDEX_PREVIEW"):
-        pv = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, OUT / "ei-auto-preview.js", ncaa_ids, pregame=pregame)
+        pv = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, OUT / "ei-auto-preview.js", ncaa_ids, pregame=pregame, rank_by_week=rank_by_week)
         json.dump({"feed": pv, "ncaa": ncaa_status}, open(OUT / "ei-preview-status.json", "w"))
         log("elevation index preview", pv)
     ours = sg[(sg.home_team.isin(WEST_BY_NAME) | sg.away_team.isin(WEST_BY_NAME)) & (sg.start < now - pd.Timedelta(hours=6))]
@@ -461,7 +480,7 @@ def main():
         shutil.copyfile(Path(__file__).resolve().parent / "ei-manual.js", SITE / "ei-auto.js")
         log("elevation index: holding hand-entered data until", INDEX_SWITCH.isoformat(), f"({missing} of our games not final yet)")
     else:
-        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js", ncaa_ids, pregame=pregame)
+        feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js", ncaa_ids, pregame=pregame, rank_by_week=rank_by_week)
         log("elevation index feed", feed)
 
     aud = audit.run(g, season, max(1, int(sg[sg.completed & (sg.season_type == "regular")].week.max() or 1)), log=log)
