@@ -90,7 +90,7 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
 .bt td.n, .bt th.n { text-align: right; }
 .bt .rk { font-family: var(--display); font-style: italic; font-weight: 900; font-stretch: 112%; font-size: 1.15rem; width: 2.25rem; }
 .bt .tm { display: flex; align-items: center; gap: 0.55rem; font-family: var(--display); font-style: italic; font-weight: 900; font-stretch: 108%; text-transform: uppercase; font-size: 0.95rem; white-space: normal; line-height: 1.1; }
-.bt .tm img { width: 24px; height: 24px; flex: none; }
+.bt .tm img { width: 26px; height: 26px; flex: none; object-fit: contain; background: #F2F1EE; border-radius: 50%; padding: 3px; box-sizing: border-box; }
 .bt .tm small { display: block; font-style: normal; font-weight: 500; font-stretch: 100%; text-transform: none; font-size: 0.7rem; color: var(--muted); }
 .bt tr.west .tm { color: var(--paper); }
 .bt tr.dim td { color: var(--muted); }
@@ -109,7 +109,7 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
   .bt .hide-s, .bt .sub, .bt .tm small .cf { display: none; }
   .bt td, .bt th { padding-right: 0.45rem; }
   .bt .tm { font-size: 0.85rem; gap: 0.4rem; }
-  .bt .tm img { width: 20px; height: 20px; }
+  .bt .tm img { width: 24px; height: 24px; }
   .pc { min-width: 2.75rem; }
 }
 
@@ -246,7 +246,8 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
 
   Promise.all([get('meta.json'), get('ratings.json'), get('predictions.json'), get('record.json')]).then(([meta, teams, games, record]) => {
     const T = {}; teams.forEach(t => T[t.id] = t);
-    const logo = (id, name) => { const t = T[id]; const src = t && t.logo; return src ? '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '<img alt="" style="visibility:hidden">'; };
+    const LIGHT = { 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' };  /* colored versions read better on the light circle */
+    const logo = (id, name) => { const t = T[id]; const src = t && (LIGHT[t.logo] || t.logo); return src ? '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '<img alt="" style="visibility:hidden">'; };
     const short = name => name.replace('San José State', 'San José St.').replace('North Dakota State', 'North Dakota St.');
 
     /* ---------- strip ---------- */

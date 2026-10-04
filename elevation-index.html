@@ -146,7 +146,8 @@
   function resolveLogos(cb) {
     let pending = L.length;
     L.forEach(t => {
-      const cands = (t.logo || '').split('|').map(s => s.trim()).filter(Boolean);
+      const LIGHT = { 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' };  /* colored versions for the light circles */
+      const cands = (t.logo || '').split('|').map(s => s.trim()).filter(Boolean).map(s => LIGHT[s] || s);
       t.logoSrc = '';
       (function tryNext(i) {
         if (i >= cands.length) { if (--pending === 0) cb(); return; }
