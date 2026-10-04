@@ -144,7 +144,7 @@
 <script src="ei-west.js?v=202610041240"></script>
 <script src="ei-national.js"></script>
 <script>var EI_SCOPE_OVERRIDE = "in the West";</script>
-<script src="ei-engine.js?v=202610041325"></script>
+<script src="ei-engine.js?v=202610041335"></script>
 <script>
 (function () {
   const H = EI.subset(EI.history(CURRENT_WEEK), WEST_IDS), L = H.latest, W = H.weeks.length, N = L.length;
@@ -255,6 +255,7 @@
     '<dt>Best win</dt><dd>' + g(t.bestWin) + '</dd>' +
     '<dt>Worst loss</dt><dd>' + g(t.worstLoss) + '</dd>' +
     '<dt>Why here</dt><dd>' + EI.whyRanked(t) + '</dd>' +
+      '<dt>Score</dt><dd>' + EI.breakdown(t) + '</dd>' +
     '<dt>Next</dt><dd>' + (NEXT[t.id] || 'TBD') + '</dd>' +
     (EI.improve(t) ? '<dt>To improve</dt><dd>' + EI.improve(t) + '</dd>' : '') +
     '</dl>' +

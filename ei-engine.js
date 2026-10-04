@@ -494,5 +494,18 @@ const EI = (function () {
     return { weeks, latest };
   }
 
-  return { compute, history, subset, whyRanked, improve, oppLabel, scoreLine };
+  /* how a team's total is built, so the card adds up */
+  function breakdown(t) {
+    const f = x => (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(1);
+    const games = t.games.reduce((s, g) => s + g.final, 0);
+    const parts = ['Games ' + games.toFixed(1)];
+    if (Math.abs(t.byeCredit || 0) >= 0.05) parts.push('bye credit ' + f(t.byeCredit));
+    if (Math.abs(t.sosAdj || 0) >= 0.05) parts.push('schedule ' + f(t.sosAdj));
+    if (t.fcsOnlyWins) parts.push('no FBS win −3.0');
+    if (Math.abs(t.h2h || 0) >= 0.05) parts.push('head-to-head ' + f(t.h2h));
+    if (Math.abs(t.byeAdj || 0) >= 0.05) parts.push('bye-week hold ' + f(t.byeAdj));
+    return parts.join(', ') + ' = <b>' + t.score.toFixed(1) + '</b>';
+  }
+
+  return { compute, history, subset, whyRanked, improve, oppLabel, scoreLine, breakdown };
 })();
