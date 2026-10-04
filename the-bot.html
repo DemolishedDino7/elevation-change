@@ -223,7 +223,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       <h3>4. Season simulations</h3>
       <ul>
         <li>Every remaining game is played 10,000 times. Each simulated season first decides how good every team <i>really</i> is, so a team that's secretly better wins several more games, not just one.</li>
-        <li>Conference title games are seated from the simulated standings, champions are crowned, and the highest-ranked Group of Six champion takes the CFP's automatic bid (committee proxy: fewest losses, then strength).</li>
+        <li>Conference title games are seated from the simulated standings, champions are crowned, and and the 12-team playoff field is picked: the SEC, Big Ten, ACC and Big 12 champions, the highest-ranked Group of Six champion, Notre Dame if it finishes in the top 12, then at-large teams. The committee's ranking is estimated from record first, then how good a team really is, with credit for winning the conference.</li>
       </ul>
       <h3>5. Keeping it honest</h3>
       <ul>
@@ -345,18 +345,22 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
     /* ---------- odds ---------- */
     const confs = [...new Set(teams.filter(t => t.div === 'fbs').map(t => t.conf))].filter(c => c && c !== 'FBS Independents').sort();
     const G6 = ['American Athletic', 'Conference USA', 'Mid-American', 'Mountain West', 'Pac-12', 'Sun Belt'];
-    $('#odds-conf').innerHTML = '<option value="west">Our teams</option>' + confs.map(c => '<option>' + esc(c) + '</option>').join('');
+    $('#odds-conf').innerHTML = '<option value="west">Our teams</option><option value="cfp">Playoff race (top 25)</option>' + confs.map(c => '<option>' + esc(c) + '</option>').join('') + '<option value="ind">Independents</option>';
     function renderOdds() {
       const c = $('#odds-conf').value;
-      let list = c === 'west' ? teams.filter(t => t.west) : teams.filter(t => t.conf === c && t.div === 'fbs');
-      list = list.slice().sort((a, b) => (b.title - a.title) || (b.exp_w - a.exp_w));
+      let list = c === 'west' ? teams.filter(t => t.west)
+        : c === 'cfp' ? teams.filter(t => t.div === 'fbs')
+        : c === 'ind' ? teams.filter(t => t.conf === 'FBS Independents' && t.div === 'fbs')
+        : teams.filter(t => t.conf === c && t.div === 'fbs');
+      list = c === 'cfp' ? list.slice().sort((a, b) => (b.cfp - a.cfp) || (b.net - a.net)).slice(0, 25)
+        : list.slice().sort((a, b) => (b.title - a.title) || (b.cfp - a.cfp) || (b.exp_w - a.exp_w));
       const g6 = c === 'west' || G6.includes(c);
-      $('#odds-note').textContent = 'From ' + meta.sims.toLocaleString() + ' simulated seasons. Projected records include games already played. ' + (g6 ? 'CFP = the Group of Six automatic bid, which goes to the highest-ranked G6 champion.' : '');
+      $('#odds-note').textContent = 'From ' + meta.sims.toLocaleString() + ' simulated seasons. Projected records include games already played. CFP = chance to make the 12-team playoff: the SEC, Big Ten, ACC and Big 12 champions, ' + (g6 ? 'the highest-ranked Group of Six champion' : 'the top Group of Six champion') + ', Notre Dame if it finishes top 12, and at-large teams in the committee\'s order.';
       const bar = (x, c) => '<td class="n pc ' + (c || '') + '"><i style="width:' + Math.min(100, x * 100).toFixed(0) + '%"></i><span>' + pct(x) + '</span></td>';
-      $('#odds-table').innerHTML = '<thead><tr><th>Team</th><th class="n">Proj.</th><th class="n hide-s">Conf.</th><th class="n">Bowl</th><th class="n hide-s">Title game</th><th class="n">Champ</th>' + (g6 ? '<th class="n">CFP</th>' : '') + '</tr></thead><tbody>' +
+      $('#odds-table').innerHTML = '<thead><tr><th>Team</th><th class="n">Proj.</th><th class="n hide-s">Conf.</th><th class="n">Bowl</th><th class="n hide-s">Title game</th><th class="n">Champ</th>' + '<th class="n">CFP</th>' + '</tr></thead><tbody>' +
         list.map(t => '<tr class="' + (t.west ? 'west' : '') + '"><td><span class="tm">' + logo(t.id) + '<span>' + esc(short(t.name)) + '<small>' + t.w + '-' + t.l + ' now' + (c === 'west' ? '<span class="cf"> · ' + esc(t.conf) + '</span>' : '') + '</small></span></span></td>' +
           '<td class="n">' + t.exp_w.toFixed(1) + '-' + t.exp_l.toFixed(1) + '</td><td class="n hide-s">' + t.exp_cw.toFixed(1) + '-' + t.exp_cl.toFixed(1) + '</td>' +
-          bar(t.bowl) + bar(t.ccg, 'hide-s') + bar(t.title) + (g6 ? bar(t.cfp) : '') + '</tr>').join('') + '</tbody>';
+          bar(t.bowl) + bar(t.ccg, 'hide-s') + bar(t.title) + bar(t.cfp) + '</tr>').join('') + '</tbody>';
     }
     $('#odds-conf').addEventListener('change', renderOdds);
     renderOdds();

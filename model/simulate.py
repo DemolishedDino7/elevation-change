@@ -14,10 +14,13 @@ import pandas as pd
 
 G6 = {"American Athletic", "Conference USA", "Mid-American", "Mountain West", "Pac-12", "Sun Belt"}
 P4 = {"SEC", "Big Ten", "ACC", "Big 12"}
-SCORE_SD = 11.0  # points of noise per team-score observation (scales rating uncertainty)
+SCORE_SD = 11.0
+# CFP committee proxy (tuned so Group of Six teams average ~1.15 bids a season, as in the 12-team era)
+CMT_REC, CMT_NET, CMT_CHAMP = 2.0, 1.2, 2.0  # points of noise per team-score observation (scales rating uncertainty)
 
 
 def simulate(teams: pd.DataFrame, done: pd.DataFrame, remaining: pd.DataFrame, n: int = 10000, seed: int = 7):
+    names = teams["name"].to_numpy() if "name" in teams else None
     """
     teams:     index team_id; columns name, conf, div, net, sd
     done:      completed games (home_id, away_id, margin, conference_game)
@@ -110,13 +113,46 @@ def simulate(teams: pd.DataFrame, done: pd.DataFrame, remaining: pd.DataFrame, n
         wins[rows, win_t] += 1
         losses[rows, lose_t] += 1
 
-    # CFP auto-bid: highest-ranked G6 champion (committee proxy: fewest losses, then quality)
+    # ---- College Football Playoff (2026 format, 12 teams) ----
+    # Committee proxy: record matters most, then how good the team really is,
+    # plus credit for a conference title.
+    committee = CMT_REC * (wins - losses) + CMT_NET * true_net + CMT_CHAMP * champ
+    committee = np.where(fbs[None, :], committee, -1e9)
+    order = np.argsort(-committee, axis=1)
+    rank = np.empty_like(order)
+    rows = np.arange(n)[:, None]
+    rank[rows, order] = np.arange(T)[None, :] + 1
+    cfp = np.zeros((n, T), bool)
+    # auto bids: SEC, Big Ten, ACC and Big 12 champions
+    for c in P4:
+        cfp |= champ & (conf_of == c)[None, :]
+    # the highest-ranked Group of Six champion
     g6 = np.isin(conf_of, list(G6)) & fbs
     g6champ = champ & g6[None, :]
-    key = np.where(g6champ, -losses * 100 + true_net, -1e9)
+    key = np.where(g6champ, committee, -1e9)
     auto = np.zeros((n, T), bool)
     auto[np.arange(n), np.argmax(key, axis=1)] = True
     auto &= g6champ
+    cfp |= auto
+    # Notre Dame if it finishes in the committee's top 12
+    nd = np.where(np.asarray(names) == "Notre Dame")[0] if names is not None else []
+    for t in nd:
+        cfp[:, t] |= rank[:, t] <= 12
+    # at-large: fill the remaining spots in committee order
+    for i in range(n):
+        need = 12 - int(cfp[i].sum())
+        if need > 0:
+            for t in order[i]:
+                if not cfp[i, t]:
+                    cfp[i, t] = True
+                    need -= 1
+                    if need == 0:
+                        break
+    seed_top4 = np.zeros((n, T), bool)
+    # top four seeds (byes) go to the four highest-ranked teams in the field
+    for i in range(n):
+        field = [t for t in order[i] if cfp[i, t]][:4]
+        seed_top4[i, field] = True
 
     out = pd.DataFrame(index=ids)
     out["exp_wins"] = wins.mean(0)
@@ -127,6 +163,8 @@ def simulate(teams: pd.DataFrame, done: pd.DataFrame, remaining: pd.DataFrame, n
     out["ccg"] = in_ccg.mean(0)
     out["conf_title"] = champ.mean(0)
     out["cfp_autobid"] = auto.mean(0)
+    out["cfp"] = cfp.mean(0)
+    out["cfp_bye"] = seed_top4.mean(0)
     out["undefeated"] = (losses == 0).mean(0)
     # win distribution (0..15)
     dist = np.stack([(wins == k).mean(0) for k in range(16)], axis=1)

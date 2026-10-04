@@ -306,7 +306,7 @@ def main():
             "def_rank": None if pd.isna(r.def_rank) else int(r.def_rank),
             "w": rec[t][0], "l": rec[t][1], "cw": rec[t][2], "cl": rec[t][3],
             "exp_w": r1(r.exp_wins), "exp_l": r1(r.exp_losses), "exp_cw": r1(r.exp_conf_wins), "exp_cl": r1(r.exp_conf_losses),
-            "bowl": r1(r.bowl_elig, 4), "ccg": r1(r.ccg, 4), "title": r1(r.conf_title, 4), "cfp": r1(r.cfp_autobid, 4),
+            "bowl": r1(r.bowl_elig, 4), "ccg": r1(r.ccg, 4), "title": r1(r.conf_title, 4), "cfp": r1(r.cfp, 4), "cfp_auto": r1(r.cfp_autobid, 4), "cfp_bye": r1(r.cfp_bye, 4),
             "unbeaten": r1(r.undefeated, 4),
             "win_dist": [r1(v, 4) for v in r.win_dist] if isinstance(r.win_dist, (list, np.ndarray)) else None,
         }
