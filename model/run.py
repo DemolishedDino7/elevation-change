@@ -32,6 +32,7 @@ from ratings import Params, SeasonPriors, game_weights, run_season, season_meta,
 from simulate import simulate  # noqa: E402
 import index_feed  # noqa: E402
 import ncaa  # noqa: E402
+import audit  # noqa: E402
 
 SITE = Path(__file__).resolve().parent.parent
 OUT = SITE / "bot"
@@ -461,6 +462,9 @@ def main():
         feed = index_feed.build(season, sg, T[["team_id", "name", "div", "net"]], WEST, SITE / "ei-auto.js", ncaa_ids)
         log("elevation index feed", feed)
 
+    aud = audit.run(g, season, max(1, int(sg[sg.completed & (sg.season_type == "regular")].week.max() or 1)), log=log)
+    aud["generated"] = now.isoformat(timespec="minutes")
+
     def dump(name, obj):
         with open(OUT / name, "w") as f:
             json.dump(obj, f, separators=(",", ":"), default=lambda o: None if o is pd.NA else (o.item() if hasattr(o, "item") else str(o)))
@@ -468,6 +472,8 @@ def main():
     dump("ratings.json", team_list)
     dump("predictions.json", games_out)
     dump("record.json", record)
+    with open(OUT / "audit.json", "w") as f:
+        json.dump(aud, f, indent=1, ensure_ascii=False)
     log("done: week", meta["week"], "|", len(team_list), "teams |", len(games_out), "games")
 
 
