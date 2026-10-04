@@ -162,7 +162,11 @@ const EI = (function () {
   function compute(throughWeek) {
     const games = GAMES.filter(g => g.week <= throughWeek).sort((a, b) => a.date < b.date ? -1 : 1);
     const byTeam = {}; TEAMS.forEach(t => byTeam[t[0]] = []);
-    games.forEach(g => byTeam[g.team].push(g));
+    games.forEach(g => byTeam[g.team] && byTeam[g.team].push(g));
+    /* bye-week credit: every team is scored as if it had played as many
+       games as the busiest team, with each missing game worth its own
+       average game, so an idle weekend never costs a team ground */
+    const maxGames = Math.max(0, ...Object.values(byTeam).map(a => a.length));
 
     /* seed national ranks, then iterate: tracked opponents take on ranks
        derived from the previous pass's ordering (mapped onto 28–125). */
@@ -187,6 +191,8 @@ const EI = (function () {
           else       { rec.l++; opp.fcs ? rec.fcsL++ : rec.fbsL++; if (s.qualityLoss) qualityLosses++; if (s.badLoss) badLosses++; }
           rows.push(Object.assign({}, g, s, { recency: rc, perf: p.perf, turnover: p.turnover, perfNote: p.note, final, oppName: displayName(g.opp) }));
         });
+        const byeCredit = n ? (maxGames - n) * (score / n) : 0;
+        score += byeCredit;
         const sosAdj = sosAdjust(oppRankSum, n);
         score += sosAdj;
         /* a résumé with no FBS win — whether the wins were all FCS or
@@ -196,7 +202,7 @@ const EI = (function () {
         if (fcsOnlyWins) score -= 3;
         return { id, name: t[1], conf: t[2], color: t[3], logo: t[5], seed: t[4], games: rows, score,
                  rec, qualityWins, qualityLosses, badLosses, winStrength, pd,
-                 sos: n ? oppRankSum / n : null, sosAdj, fcsOnlyWins,
+                 sos: n ? oppRankSum / n : null, sosAdj, fcsOnlyWins, byeCredit, gamesPlayed: n,
                  last: rows.length ? rows[rows.length - 1] : null };
       });
       sortTeams(result);
@@ -248,7 +254,7 @@ const EI = (function () {
       t.prevRank = p ? p.rank : null;
       t.prevScore = p ? p.score : 0;
       t.move = p ? p.rank - t.rank : 0;
-      t.reason = reason(t);
+      t.reason = reason(t, throughWeek);
       t.bestWin = best(t.games.filter(g => g.win));
       t.worstLoss = worst(t.games.filter(g => !g.win));
       t.ranks = weeks.map(wk => wk.find(x => x.id === t.id).rank);
@@ -264,9 +270,10 @@ const EI = (function () {
   }
   function scoreLine(g) { return g.pf + '–' + g.pa; }
 
-  function reason(t) {
+  function reason(t, wk) {
     const g = t.last; if (!g) return 'No games played yet.';
     const dir = t.move > 0 ? 'Moved up ' + t.move : t.move < 0 ? 'Dropped ' + (-t.move) : 'Held';
+    if (wk != null && g.week < wk) return (t.move > 0 ? 'Moved up ' + t.move + ' on' : t.move < 0 ? 'Slipped ' + (-t.move) + ' on' : 'Held steady through') + ' a bye week. Idle weeks are credited with the team\u2019s average game, so only other teams\u2019 results moved it.';
     const fcsLoss = t.games.find(x => x.label === 'FCS loss');
     if (g.label === 'FCS loss') return dir + ' after losing ' + scoreLine(g) + ' to ' + (g.oppFcsRank ? oppLabel(g) + ' — a ranked FCS team softens the blow, but an FCS loss still stings in the Elevation Index.' : g.oppName + ', an FCS opponent — the largest single penalty in the Elevation Index.');
     if (!g.win && g.fcs && g.label === 'Respectable loss') return dir + '. Losing ' + scoreLine(g) + ' to ' + oppLabel(g) + ' is judged like losing to the FBS team they play like — the top of the FCS is better than the bottom of the FBS.';
