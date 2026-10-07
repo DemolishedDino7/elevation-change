@@ -5,7 +5,8 @@
   2,
   3,
   4,
-  5
+  5,
+  6
  ],
  "score_mismatch": [],
  "missing_in_ours": [],
@@ -13,6 +14,6 @@
  "home_away": [],
  "division": [],
  "games_played": [],
- "checked": 645,
- "generated": "2026-10-04T19:52+00:00"
+ "checked": 646,
+ "generated": "2026-10-07T19:19+00:00"
 }
