@@ -1,0 +1,35 @@
+name: Fetch logos
+
+# Downloads team logos into logos/ so the site hosts them itself.
+# Edit the list below (ID=CollegeFootballData team number) and push, or run it by hand.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [".github/workflows/fetch-logos.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: |
+          for pair in ASU=9 FIU=2229 BGSU=189; do
+            id="${pair%%=*}"; n="${pair##*=}"
+            [ -f "logos/$id.png" ] && continue
+            curl -fsSL "https://cdn.collegefootballdata.com/logos/500/$n.png" -o "logos/$id.png" || curl -fsSL "https://a.espncdn.com/i/teamlogos/ncaa/500/$n.png" -o "logos/$id.png"
+          done
+          ls -la logos
+      - name: Commit
+        run: |
+          git config user.name "The Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add logos/
+          git diff --cached --quiet && exit 0
+          git commit -m "Add team logos"
+          for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && exit 0; sleep 5; done
+          exit 1
