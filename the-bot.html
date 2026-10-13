@@ -253,10 +253,13 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
     /* ---------- strip ---------- */
     const bt = meta.backtest, live = record.live.west, bf = record.backfill.west, bvb = record.boys_vs_bot;
     const done = live.games ? live : bf;
+    const lastWk = (bvb.weeks || []).filter(w => w.games && w.games.length).slice(-1)[0];
     $('#strip').innerHTML =
       '<div><span class="lbl">Avg miss vs. Vegas</span><b>' + bt.model_mae.toFixed(1) + '<small> / ' + bt.vegas_mae.toFixed(1) + ' pts</small></b><p>Backtest, ' + bt.games.toLocaleString() + ' FBS games ' + bt.seasons + '</p></div>' +
       '<div><span class="lbl">Winners picked</span><b>' + bt.model_su.toFixed(0) + '%</b><p>Vegas favorites: ' + bt.vegas_su.toFixed(0) + '% in the same games</p></div>' +
-      '<div><span class="lbl">' + meta.season + ' Western games</span><b class="p">' + done.su_w + '-' + done.su_l + '</b><p>' + (live.games ? 'Live picks since Week ' + meta.launch_week : 'Weeks 1-' + (meta.launch_week - 1) + ' walk-forward test') + '</p></div>' +
+      (lastWk
+        ? '<div><span class="lbl">Week ' + lastWk.week + ' · Boys vs. Bot</span><b>' + lastWk.boys + '<small> – </small><span style="color:var(--purple)">' + lastWk.bot + '</span></b><p>' + (lastWk.boys > lastWk.bot ? 'The Boys took the week' : lastWk.bot > lastWk.boys ? 'The Bot took the week' : 'Week ended in a tie') + '</p></div>'
+        : '<div><span class="lbl">' + meta.season + ' Western games</span><b class="p">' + done.su_w + '-' + done.su_l + '</b><p>' + (live.games ? 'Live picks since Week ' + meta.launch_week : 'Weeks 1-' + (meta.launch_week - 1) + ' walk-forward test') + '</p></div>') +
       '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>Running contest tally</p></div>';
     const up = new Date(meta.generated);
     $('#updated').textContent = 'Updated ' + up.toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' · ' + meta.games_in_ratings + ' games this season in the ratings · ' + meta.sims.toLocaleString() + ' simulated seasons';
