@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610132100">
-<link rel="stylesheet" href="hoops.css?v=202610132100">
+<link rel="stylesheet" href="styles.css?v=202610132300">
+<link rel="stylesheet" href="hoops.css?v=202610132300">
 </head>
 <body>
 
@@ -41,6 +41,7 @@
     <a href="basketball.html" aria-current="page">Hub</a>
     <a href="hoops-index.html">Index</a>
     <a href="hoops-standings.html">Standings</a>
+    <a href="hoops-bracket.html">Bracket</a>
     <a href="hoops-bot.html">The Bot</a>
   </div>
 </nav>
@@ -74,6 +75,11 @@
       </section>
     </div>
 
+    <section aria-labelledby="mm-h">
+      <div class="sec-head"><h2 id="mm-h">March Madness projection</h2><a href="hoops-bracket.html">Full bracket &rarr;</a></div>
+      <div id="mm"></div>
+    </section>
+
     <section aria-labelledby="our-h">
       <div class="sec-head"><h2 id="our-h">Our 23</h2><a href="hoops-bot.html">The Bot &rarr;</a></div>
       <div class="leagues" id="leagues"></div>
@@ -82,7 +88,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610132100"></script>
+<script src="hoops.js?v=202610132300"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -151,10 +157,22 @@
     const up = new Date(meta.generated);
     $('#updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT';
   }).catch(err => { document.getElementById('games').innerHTML = '<p class="empty">The basketball Bot is warming up. Check back shortly.</p>'; console.error(err); });
+  HB.get('bracket.json').then(B => {
+    const F = {}; B.field.forEach(t => F[t.id] = t);
+    const ch = F[B.champion] || {};
+    const ff = B.rounds[4].games.flatMap(g => [g.a, g.b]).map(id => F[id] || {});
+    const ours = B.ours.filter(o => o.seed);
+    const near = B.ours.filter(o => !o.seed && o.p_bid >= 0.2);
+    const pc = p => Math.round(100 * p) + '%';
+    document.getElementById('mm').innerHTML =
+      '<p style="margin:0 0 1rem;color:var(--muted)">The Bot’s champion: <b style="color:var(--paper)">' + HB.esc(ch.name || '') + '</b>. Final Four: ' + ff.map(t => HB.esc(t.name || '')).join(', ') + '. Rebuilt every Monday.</p>' +
+      '<div class="tchips">' + ours.map(o => '<span class="tchip">' + HB.img(o.logo) + HB.esc(o.name) + ' <small>' + o.seed + ' seed · ' + pc(o.p_bid) + ' in</small></span>').join('') +
+      near.map(o => '<span class="tchip" style="border-style:dashed">' + HB.img(o.logo) + HB.esc(o.name) + ' <small>bubble · ' + pc(o.p_bid) + ' in</small></span>').join('') + '</div>';
+  }).catch(() => { document.getElementById('mm').innerHTML = '<p class="note">The bracket is being built.</p>'; });
 })();
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610132100"></script>
+<script src="ticker.js?v=202610132300"></script>
 </body>
 </html>

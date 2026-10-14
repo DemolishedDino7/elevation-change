@@ -24,7 +24,9 @@ The basketball pages (`basketball.html`, `hoops-bot.html`, `hoops-index.html`,
 | `prior.py` | Preseason start: last season's ratings + returning minutes + transfers + conference |
 | `walk.py` | Walk-forward predictions (each day predicted from games before it) |
 | `game_model.py` | Margin, total and win chance from ratings + home court, altitude, travel, rest |
-| `run.py` | Daily pipeline: picks, pick locking, scorecard, Boys vs. Bot, standings |
+| `bracket.py` | March Madness: Selection Sunday résumés 2013-2026, selection + seed models, season simulation, 76-team bracket, tournament picks |
+| `ncaa_fields.json` | Every NCAA Tournament field and seed since 2013 (from ESPN game files) |
+| `run.py` | Daily pipeline: picks, pick locking, scorecard, Boys vs. Bot, standings; bracket every Monday |
 
 ## Weekly chores
 * **The Boys vs. The Bot:** add the analysts' picks to `hoops/boys.json` before tip,
@@ -36,9 +38,17 @@ The basketball pages (`basketball.html`, `hoops-bot.html`, `hoops-index.html`,
   `bot_home`/`bot_away` and the contest uses the Bot's locked pick.
 * Our 23 teams are listed in `WEST` at the top of `run.py`.
 
+## March Madness projection
+Rebuilt in the Monday morning run (or `python model/hoops/run.py --bracket` any time) and written to
+`hoops/bracket.json`; `hoops-bracket.html` shows it. Each week's seeds are kept in
+`hoops/bracket_history.json` for the movement column. Tested leave-one-season-out on 13
+tournaments: 94% of at-large teams picked, 86% of seeds within one line. Format: 76 teams from
+2027 (32 automatic, 44 at-large, 12 Opening Round games). After each tournament, add that year's
+field to `ncaa_fields.json` so the model keeps learning.
+
 ## Not yet
-* **Season odds** (conference titles, NCAA bids) switch on once both league
-  schedules are in the data. Pac-12 league games weren't posted as of mid-October.
+* **Season odds tab** (conference titles) switches on once both league schedules are
+  in the data. NCAA bid odds already live on the bracket page.
 * **Résumé Elevation Index** like football's, once teams have a few games in.
 
 ## Backtest (D-I vs D-I, 2021-22 to 2025-26, walk-forward)

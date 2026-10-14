@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>March Madness · Bracket — Elevation Change</title>
+<meta name="description" content="The Bot's projected 76-team NCAA Tournament field and bracket, rebuilt every week from what it has historically taken to get in.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="March Madness · Bracket — Elevation Change">
+<meta property="og:description" content="The Bot's projected 76-team NCAA Tournament field and bracket, rebuilt every week from what it has historically taken to get in.">
+<meta property="og:url" content="https://elevationchange.co/hoops-bracket.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610132300">
+<link rel="stylesheet" href="hoops.css?v=202610132300">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="elevation-index.html">Football</a>
+      <a href="basketball.html" aria-current="page">Basketball</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav" aria-label="Basketball">
+  <div class="wrap">
+    <a href="basketball.html">Hub</a>
+    <a href="hoops-index.html">Index</a>
+    <a href="hoops-standings.html">Standings</a>
+    <a href="hoops-bracket.html" aria-current="page">Bracket</a>
+    <a href="hoops-bot.html">The Bot</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="bot-head">
+      <p class="eyebrow" id="br-eyebrow">The Bot · Basketball</p>
+      <h1 class="page-title">March Madness</h1>
+      <p class="bot-intro" id="br-intro">The Bot’s projected 76-team field: who it expects to win each league, the 44 at-large teams a Selection Committee would most likely take, where they’d be seeded, and who it picks to cut down the nets. Rebuilt every Monday.</p>
+      <div class="strip" id="br-strip"></div>
+      <p class="updated" id="br-updated"></p>
+    </section>
+
+    <div class="tabs bot-tabs" role="tablist" aria-label="Bracket">
+      <button class="tab" role="tab" id="t-bracket" aria-controls="p-bracket" aria-selected="true">Bracket</button>
+      <button class="tab" role="tab" id="t-seeds" aria-controls="p-seeds" aria-selected="false">Seed list</button>
+      <button class="tab" role="tab" id="t-bubble" aria-controls="p-bubble" aria-selected="false">Bubble</button>
+      <button class="tab" role="tab" id="t-ours" aria-controls="p-ours" aria-selected="false">Our teams</button>
+      <button class="tab" role="tab" id="t-takes" aria-controls="p-takes" aria-selected="false">What it takes</button>
+    </div>
+
+    <section class="panel" id="p-bracket" role="tabpanel" aria-labelledby="t-bracket">
+      <div class="ctl"><div class="seg" id="reg"></div></div>
+      <div id="or-wrap"></div>
+      <div class="bk-scroll"><div class="bk" id="bk"></div></div>
+      <p class="note" style="margin-top:1rem">Highlighted = the Bot’s pick. Percentages are each team’s chance to win that game on a neutral floor using today’s ratings. OR = Opening Round winner (the 12 games in Dayton and Wichita).</p>
+    </section>
+
+    <section class="panel" id="p-seeds" role="tabpanel" aria-labelledby="t-seeds" hidden>
+      <p class="note">All 76 teams in the committee’s order (the S-curve). In = how often the team made the field in 1,000 simulated seasons. Title = chance to win it all.</p>
+      <div class="table-scroll"><table class="bt" id="seeds"></table></div>
+    </section>
+
+    <section class="panel" id="p-bubble" role="tabpanel" aria-labelledby="t-bubble" hidden>
+      <div class="cards2" id="bubble"></div>
+      <h2 class="sh dv">Bids by league</h2>
+      <div class="tchips" id="confbids"></div>
+    </section>
+
+    <section class="panel" id="p-ours" role="tabpanel" aria-labelledby="t-ours" hidden>
+      <p class="note">Every team we cover: chance to make the field (as league champion or at-large), projected seed if the season ended the way the Bot expects, and projected Selection Sunday record.</p>
+      <div class="table-scroll"><table class="bt" id="ours"></table></div>
+    </section>
+
+    <section class="panel how" id="p-takes" role="tabpanel" aria-labelledby="t-takes" hidden>
+      <div id="takes"></div>
+    </section>
+  </div>
+</main>
+
+<script src="hoops.js?v=202610132300"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = HB.esc;
+  const pct = (p, d) => p == null ? '—' : p >= 0.995 ? '>99%' : p > 0 && p < 0.005 ? '<1%' : (100 * p).toFixed(d || 0) + '%';
+  HB.get('bracket.json').then(B => {
+    const F = {}; B.field.forEach(t => F[t.id] = t);
+    const T = id => F[id] || {};
+    const nm = id => HB.short(T(id).name || '');
+    const lg = id => HB.img(T(id).logo);
+    $('#br-eyebrow').textContent = 'The Bot · Basketball · ' + B.season_label.replace('-', '–') + (B.week > 0 ? ' · Week ' + B.week : ' · Preseason') + ' projection';
+    const ff = B.rounds[4].games.flatMap(g => [g.a, g.b]);
+    const ch = B.champion;
+    const ours = B.ours.filter(o => o.seed);
+    const bt = B.backtest;
+    $('#br-strip').innerHTML =
+      '<div><span class="lbl">Champion pick</span><b>' + esc(nm(ch)) + '</b><p>' + pct(T(ch).adv ? T(ch).adv[6] : null) + ' to win it all</p></div>' +
+      '<div><span class="lbl">Final Four</span><b style="font-size:1.1rem;line-height:1.25">' + ff.map(id => esc(T(id).abbr || nm(id))).join(' · ') + '</b><p>' + B.rounds[4].games.map(g => esc(T(g.a).region) + ' vs. ' + esc(T(g.b).region)).join(', ') + '</p></div>' +
+      '<div><span class="lbl">Our teams in</span><b class="p">' + ours.length + '<small> of 23</small></b><p>' + (ours.length ? ours.map(o => esc(o.site) + ' (' + o.seed + ')').join(', ') : 'None projected yet') + '</p></div>' +
+      '<div><span class="lbl">Tested on 13 tournaments</span><b>' + Math.round(100 * bt.hit / bt.at_large) + '%</b><p>of at-large teams picked; ' + Math.round(100 * bt.within1 / bt.seeds) + '% of seeds within one line</p></div>';
+    const up = new Date(B.generated);
+    $('#br-updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT · ' + B.sims.toLocaleString() + ' simulated seasons · next update Monday';
+
+    /* tabs */
+    const tabs = [...document.querySelectorAll('.bot-tabs .tab')];
+    function show(id) { tabs.forEach(t => { const on = t.id === 't-' + id; t.setAttribute('aria-selected', on); $('#' + t.getAttribute('aria-controls')).hidden = !on; }); try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+    tabs.forEach(t => t.addEventListener('click', () => show(t.id.slice(2))));
+    if (location.hash && $('#t-' + location.hash.slice(1))) show(location.hash.slice(1));
+
+    /* ---------- bracket ---------- */
+    const REG = ['East', 'South', 'Midwest', 'West'];
+    let reg = 'East';
+    $('#reg').innerHTML = REG.map(r => '<button data-v="' + r + '" aria-pressed="' + (r === reg) + '">' + r + '</button>').join('') + '<button data-v="ff" aria-pressed="false">Final Four</button>';
+    const orBy = {}; B.opening_round.forEach((g, i) => orBy[g.region + '|' + g.seed + '|' + i] = g);
+    const team = (id, seed, p, win) => '<div class="bk-t' + (win ? ' win' : '') + '"><span class="sd">' + seed + '</span>' + lg(id) + '<span class="tn">' + esc(nm(id)) + '</span><span class="tp">' + pct(p) + '</span></div>';
+    const game = g => '<div class="bk-g">' + team(g.a, g.sa, g.pa, g.pick === g.a) + team(g.b, g.sb, 1 - g.pa, g.pick === g.b) + '</div>';
+    function drawRegion() {
+      [...$('#reg').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === reg));
+      if (reg === 'ff') {
+        const semis = B.rounds[4].games, fin = B.rounds[5].games[0];
+        $('#or-wrap').innerHTML = '';
+        $('#bk').innerHTML = '<div class="bk-col"><h3 class="lbl">Final Four</h3>' + semis.map(game).join('') + '</div>' +
+          '<div class="bk-col"><h3 class="lbl">Championship</h3>' + game(fin) + '</div>' +
+          '<div class="bk-col bk-champ"><h3 class="lbl">Champion</h3><div class="bk-g"><div class="bk-t win">' + lg(ch) + '<span class="tn">' + esc(nm(ch)) + '</span></div></div><p class="note">' + pct(T(ch).adv[6], 1) + ' to win the title in 10,000 simulated tournaments</p></div>';
+        return;
+      }
+      const ors = B.opening_round.filter(g => g.region === reg);
+      $('#or-wrap').innerHTML = ors.length ? '<h3 class="lbl" style="margin:0 0 0.5rem">Opening Round · ' + reg + '</h3><div class="or-row">' +
+        ors.map(g => '<div class="bk-g">' + team(g.a, g.seed, g.p_a, g.pick === g.a) + team(g.b, g.seed, 1 - g.p_a, g.pick === g.b) + '<p class="or-to">Winner: ' + g.seed + '-seed line</p></div>').join('') + '</div>' : '';
+      const names = ['Round of 64', 'Round of 32', 'Sweet 16', 'Elite 8'];
+      $('#bk').innerHTML = names.map((n, k) => '<div class="bk-col"><h3 class="lbl">' + n + '</h3>' + B.rounds[k].games.filter(g => g.region === reg).map(game).join('') + '</div>').join('');
+    }
+    $('#reg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { reg = b.dataset.v; drawRegion(); } });
+    drawRegion();
+
+    /* ---------- seed list ---------- */
+    const mv = t => t.prev_seed == null ? (B.previous ? '<span class="up">New</span>' : '—') : t.prev_seed > t.seed ? '<span class="up">▲ ' + (t.prev_seed - t.seed) + '</span>' : t.prev_seed < t.seed ? '<span class="down">▼ ' + (t.seed - t.prev_seed) + '</span>' : '<span class="flat">—</span>';
+    $('#seeds').innerHTML = '<thead><tr><th>#</th><th class="n">Seed</th><th>Team</th><th class="hide-s">Region</th><th class="n">Proj.</th><th class="n">In</th><th class="n hide-s">Final Four</th><th class="n">Title</th><th class="n hide-s">Move</th></tr></thead><tbody>' +
+      B.field.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + t.overall + '</td><td class="n"><b>' + t.seed + '</b></td><td><span class="tm">' + HB.img(t.logo) + '<span>' + esc(HB.short(t.name)) + '<small>' + esc(t.conf) + (t.auto ? ' · league champ' : ' · at-large') + (t.opening_round ? ' · Opening Round' : '') + '</small></span></span></td>' +
+        '<td class="hide-s">' + esc(t.region) + '</td><td class="n">' + Math.round(t.exp_w) + '-' + Math.round(t.exp_l) + '</td><td class="n net">' + pct(t.p_bid) + '</td><td class="n hide-s">' + pct(t.adv && t.adv[4], 1) + '</td><td class="n">' + pct(t.adv && t.adv[6], 1) + '</td><td class="n hide-s">' + mv(t) + '</td></tr>').join('') + '</tbody>';
+
+    /* ---------- bubble ---------- */
+    const blist = (title, list, note) => '<div class="card"><h3 class="dv">' + title + '</h3><div class="kv">' +
+      list.map(t => '<span>' + esc(HB.short(t.name)) + ' <small style="color:var(--muted)">' + esc(t.conf) + ' · Bot No. ' + t.rank + '</small></span><b>' + pct(t.p_bid) + '</b>').join('') + '</div><p class="note" style="margin:0.75rem 0 0">' + note + '</p></div>';
+    $('#bubble').innerHTML = blist('Last four in', B.bubble.last_in, 'The final at-large teams in, last one first.') +
+      blist('First four out', B.bubble.first_out, 'Next in line if a bid thief steals a spot.') + blist('Next four out', B.bubble.next_out, 'Still very much alive.');
+    $('#confbids').innerHTML = Object.entries(B.conf_bids).filter(([c, n]) => n > 1).map(([c, n]) => '<span class="tchip" style="padding-left:0.7rem">' + esc(c) + ' <small>' + n + ' bids</small></span>').join('');
+
+    /* ---------- our teams ---------- */
+    $('#ours').innerHTML = '<thead><tr><th>Team</th><th class="n">In</th><th class="n hide-s">League title</th><th class="n">Seed</th><th class="n">Proj.</th><th class="n hide-s">Q1 wins</th><th class="n hide-s">Sweet 16</th></tr></thead><tbody>' +
+      B.ours.map(o => '<tr class="west"><td><span class="tm">' + HB.img(o.logo) + '<span>' + esc(HB.short(o.name)) + '<small>' + esc(o.conf) + '</small></span></span></td><td class="n net">' + pct(o.p_bid) + '</td><td class="n hide-s">' + pct(o.p_auto) + '</td>' +
+        '<td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td><td class="n">' + Math.round(o.exp_w) + '-' + Math.round(o.exp_l) + '</td><td class="n hide-s">' + (o.exp_q1w == null ? '—' : o.exp_q1w.toFixed(1)) + '</td><td class="n hide-s">' + (o.adv ? pct(o.adv[2], 1) : '—') + '</td></tr>').join('') + '</tbody>';
+
+    /* ---------- what it takes ---------- */
+    const W = B.what_it_takes, ty = W.typical;
+    const rate = r => r.teams ? Math.round(100 * r.in / r.teams) + '%' : '—';
+    let h = '<p>Thirteen Selection Sundays (2013–2026), every Division I team’s résumé rebuilt the way it looked that morning, using the Bot’s own rankings in place of the NET. Here is what separated the teams that got at-large bids from the ones that didn’t.</p>';
+    h += '<h3 class="dv">Quad 1 wins are the currency</h3><p>The typical at-large team had <b>' + ty.q1w + ' Quad 1 wins</b> (home games against the top 30, neutral against the top 50, road games against the top 75). Teams in the Bot’s top 75 with seven or more got in ' + rate(W.by_q1[4]) + ' of the time; with one or two, ' + rate(W.by_q1[1]) + '.</p>';
+    h += '<div class="table-scroll"><table class="bt"><thead><tr><th>Quad 1 wins (top-75 teams)</th><th class="n">Teams</th><th class="n">Got at-large bid</th></tr></thead><tbody>' + W.by_q1.map(r => '<tr><td>' + r.q1w + '</td><td class="n">' + r.teams + '</td><td class="n net">' + rate(r) + '</td></tr>').join('') + '</tbody></table></div>';
+    h += '<h3 class="dv">Ranking still matters</h3><p>Non-champions ranked in the Bot’s top 25 on Selection Sunday almost always got in. The cut line usually falls in the 40s. The lowest-ranked at-large team in 13 years was No. ' + ty.worst_rank_ever + '.</p>';
+    h += '<div class="table-scroll"><table class="bt"><thead><tr><th>Bot rank on Selection Sunday</th><th class="n">Teams</th><th class="n">Got at-large bid</th></tr></thead><tbody>' + W.by_rank.map(r => '<tr><td>' + r.bucket + '</td><td class="n">' + r.teams + '</td><td class="n net">' + rate(r) + '</td></tr>').join('') + '</tbody></table></div>';
+    h += '<h3 class="dv">Bad losses sink you</h3><p>At-large teams averaged just <b>' + ty.badl + '</b> Quad 3 or Quad 4 losses. In the selection model a Quad 3 or 4 loss costs about twice as much as a Quad 1 loss, and a Quad 1 win is worth about twice a Quad 2 win.</p>';
+    h += '<h3 class="dv">Year by year</h3><div class="table-scroll"><table class="bt"><thead><tr><th>Season</th><th class="n">Lowest-ranked at-large</th><th class="n">Avg. Q1 wins</th><th class="n">Fewest wins</th><th class="n">Bot picked</th><th class="n hide-s">Seeds within 1</th></tr></thead><tbody>' +
+      W.seasons.map((s, i) => { const b = bt.seasons[i] || {}; return '<tr><td>' + s.season + '</td><td class="n">No. ' + s.worst_rank_in + '</td><td class="n">' + s.avg_q1w + '</td><td class="n">' + s.min_wins + '</td><td class="n net">' + (b.hit != null ? b.hit + '/' + b.at_large : '—') + '</td><td class="n hide-s">' + (b.within1 != null ? b.within1 + '/' + b.seeds : '—') + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    h += '<h3 class="dv">How the projection works</h3><ul>' +
+      '<li><b>Learn the committee.</b> A selection model weighs Quad 1 and 2 wins and losses, bad losses, winning percentage, strength of schedule and the Bot’s rating, fit on 13 years of real at-large decisions. A seed model does the same for seed lines. Each year was tested with a model that never saw it.</li>' +
+      '<li><b>Play out the season.</b> The rest of the regular season and all 32 conference tournaments are simulated 1,000 times with the Bot’s current ratings. Games not on the schedule yet are filled in from each team’s usual league and non-conference slate.</li>' +
+      '<li><b>Pick the field.</b> The most likely champion of each league gets the automatic bid; the 44 teams selected most often get at-large bids (the 76-team format starts in 2027). The 12 lowest automatic qualifiers and 12 lowest at-large teams meet in the Opening Round.</li>' +
+      '<li><b>Seed and bracket it.</b> Teams are ordered on an S-curve and placed in regions, keeping a conference’s top teams apart. Then the Bot picks every game and plays the tournament 10,000 times.</li>' +
+      '<li><b>What it can’t know:</b> injuries, postseason bans and committee quirks. Early in the season the projection leans on the Bot’s ratings; it sharpens as real résumés fill in.</li></ul>';
+    $('#takes').innerHTML = h;
+  }).catch(err => { document.getElementById('br-strip').innerHTML = '<p class="note">The bracket is being built. Check back shortly.</p>'; console.error(err); });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610132300"></script>
+</body>
+</html>

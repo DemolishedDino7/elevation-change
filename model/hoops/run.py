@@ -145,6 +145,7 @@ def main():
     ap.add_argument("--no-espn", action="store_true")
     ap.add_argument("--quick", action="store_true", help="reuse model.json (game-night refresh)")
     ap.add_argument("--now", help="pretend it is this UTC time (testing)")
+    ap.add_argument("--bracket", action="store_true", help="rebuild the March Madness projection now (otherwise Mondays)")
     args = ap.parse_args()
     now = pd.Timestamp(args.now, tz="UTC") if args.now else pd.Timestamp.now(tz="UTC")
     season = args.season or current_season(now.to_pydatetime())
@@ -421,6 +422,14 @@ def main():
                   "prior_weight_games": PARAMS.lam},
         "conf_schedule": {"pac": int(((cur.home_conf == PAC12) & cur.conf_game).sum()), "mw": int(((cur.home_conf == MW) & cur.conf_game).sum())},
     }
+    # ---------------- March Madness projection (weekly: Monday morning runs) ----------------
+    if args.bracket or (not args.quick and pd.Timestamp(today).weekday() == 0) or not (OUT / "bracket.json").exists():
+        try:
+            bracket_step(g, season, fin, ro, mins, pri, ids, idx, rnow, conf_of, gm, teams, now, today, meta)
+        except Exception as e:  # the rest of the site never waits on the bracket
+            import traceback
+            traceback.print_exc()
+            log("bracket step failed:", repr(e)[:200])
     dump("meta.json", meta, indent=1)
     dump("teams.json", teams)
     dump("games_west.json", west_games)
@@ -433,6 +442,98 @@ def main():
     if not (OUT / "boys.json").exists():
         dump("boys.json", {**boys, str(season): {}}, indent=2)
     log(f"done: {len(teams)} teams, {len(west_games)} games for our teams, {len(all_games)} D-I games")
+
+
+def bracket_step(g, season, fin, ro, mins, pri, ids, idx, rnow, conf_of, gm, teams, now, today, meta):
+    import bracket as BK
+    log("  bracket: learning what it takes from past Selection Sundays")
+    cache = {}
+
+    def asof(y, day):
+        if y not in cache:
+            cache[y] = W.season_priors(y, g, fin, ro, mins, pri, season)
+        ids_, idx_, P_, _ = cache[y]
+        r = R.solve(g[g.season == y], ids_, idx_, P_["O"].to_numpy(), P_["D"].to_numpy(), P_["T"].to_numpy(), PARAMS, as_of=day)
+        net = {int(t): float(r["O"][i] - r["D"][i]) for i, t in enumerate(ids_) if t != data.NON_D1}
+        order = sorted(net, key=lambda t: -net[t])
+        return {t: i + 1 for i, t in enumerate(order)}, net
+
+    H = BK.history(g, asof, season)
+    sel, seed = BK.fit_models(H)
+    bt = BK.backtest(H)
+    wit = BK.what_it_takes(H)
+    auto_confs = {c for c in set(conf_of.values()) if c in CONF and c != 43}
+    log(f"  bracket: {len(auto_confs)} automatic-bid conferences; simulating the season")
+    Pj = BK.project(g, season, rnow, idx, ids, conf_of, gm, sel, seed, auto_confs, sims=1000, log=log)
+    B = BK.build_bracket(Pj, season, auto_confs)
+    or_games, rounds, champ, adv = BK.play(B, Pj, sims=10000)
+    tb = {x["id"]: x for x in teams}
+    hist = load("bracket_history.json", {})
+    prev_key = max([k for k in hist if k < str(today)], default=None)
+    prev = hist.get(prev_key, {})
+    field = B["field"]
+    pj = Pj.set_index("team")
+    n_field, n_auto, n_al, n_or = BK.fmt(season)
+    or_set = {o for gm_ in B["games"] for o in gm_}
+    seeds_now = {}
+    rows = []
+    for _, x in field.iterrows():
+        t = int(x.team)
+        line, reg = B["seed_of"][int(x.overall)]
+        seeds_now[str(t)] = line
+        tm = tb.get(t, {})
+        pv = prev.get(str(t))
+        rows.append({"overall": int(x.overall), "id": t, "name": tm.get("name"), "abbr": tm.get("abbr"), "logo": tm.get("logo"),
+                     "conf": tm.get("conf"), "west": tm.get("west", False), "seed": line, "region": reg, "auto": bool(x.auto),
+                     "opening_round": int(x.overall) in or_set, "p_bid": r1(pj.at[t, "p_bid"], 3), "p_auto": r1(pj.at[t, "p_auto"], 3),
+                     "rank": tm.get("rank"), "net": tm.get("net"), "w": tm.get("w"), "l": tm.get("l"),
+                     "exp_w": r1(pj.at[t, "exp_w"]), "exp_l": r1(pj.at[t, "exp_l"]), "exp_q1w": r1(pj.at[t, "exp_q1w"]),
+                     "prev_seed": pv, "adv": adv.get(t)})
+    hist[str(today)] = seeds_now
+    hist = {k: v for k, v in sorted(hist.items())[-30:]}
+
+    def brief(t):
+        tm = tb.get(t, {})
+        return {"id": t, "name": tm.get("name"), "abbr": tm.get("abbr"), "logo": tm.get("logo"), "conf": tm.get("conf"),
+                "p_bid": r1(pj.at[t, "p_bid"], 3), "rank": tm.get("rank"), "exp_w": r1(pj.at[t, "exp_w"]), "exp_l": r1(pj.at[t, "exp_l"])}
+    ours = []
+    for t in WEST.values():
+        if t in pj.index:
+            o = brief(t)
+            line = seeds_now.get(str(t))
+            o.update(site=SITE_ID[t], seed=line, p_auto=r1(pj.at[t, "p_auto"], 3), west=True,
+                     adv=adv.get(t), exp_q1w=r1(pj.at[t, "exp_q1w"]))
+            ours.append(o)
+    ours.sort(key=lambda o: -o["p_bid"])
+    regions = {}
+    for reg, lines in B["regions"].items():
+        regions[reg] = [{"seed": ln, "slot": (["team", int(field.team[field.overall == s_[1]].iloc[0])] if s_[0] == "team" else ["or", s_[1]])}
+                        for ln, s_ in sorted(lines.items())]
+    conf_bids = {}
+    for r_ in rows:
+        conf_bids[r_["conf"]] = conf_bids.get(r_["conf"], 0) + 1
+    out = {
+        "generated": now.isoformat(timespec="minutes"), "season": season, "season_label": f"{season - 1}-{str(season)[2:]}",
+        "week": meta.get("week"), "previous": prev_key,
+        "format": {"field": n_field, "auto": n_auto, "at_large": n_al, "opening_round_games": n_or},
+        "field": rows, "regions": regions,
+        "opening_round": [{"a": g_["a"], "b": g_["b"], "p_a": r1(g_["p"], 3), "pick": g_["pick"],
+                           "seed": B["seed_of"][B["games"][i][0]][0], "region": B["seed_of"][B["games"][i][0]][1]} for i, g_ in enumerate(or_games)],
+        "rounds": rounds, "champion": champ,
+        "bubble": {"last_in": [brief(t) for t in B["last_in"]], "first_out": [brief(t) for t in B["first_out"]],
+                   "next_out": [brief(t) for t in B["next_out"]]},
+        "ours": ours, "conf_bids": dict(sorted(conf_bids.items(), key=lambda kv: -kv[1])),
+        "backtest": {"hit": bt["hit"], "at_large": bt["at_large"], "exact": bt["exact"], "within1": bt["within1"], "seeds": bt["seeds"],
+                     "seasons": [{k: v for k, v in x.items() if k not in ("missed_in", "wrong_in")} for x in bt["seasons"]]},
+        "what_it_takes": wit,
+        "model": {"selection": dict(zip(BK.FEATS, [round(float(b), 3) for b in sel.beta[:-1]])),
+                  "seed": dict(zip(BK.FEATS, [round(float(b), 3) for b in seed.beta[:-1]]))},
+        "sims": 1000,
+    }
+    dump("bracket.json", out)
+    dump("bracket_history.json", hist)
+    meta["bracket"] = {"generated": out["generated"], "champion": champ}
+    log(f"  bracket: field of {len(rows)}, champion pick {tb.get(champ, {}).get('name')}")
 
 
 if __name__ == "__main__":
