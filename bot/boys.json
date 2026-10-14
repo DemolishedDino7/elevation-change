@@ -24,6 +24,17 @@
       {"home": "Northern Illinois", "away": "Air Force", "home_pts": 7, "away_pts": 27, "bot_home": 23, "bot_away": 27},
       {"home": "Fresno State", "away": "Boise State", "home_pts": 24, "away_pts": 31, "bot_home": 21, "bot_away": 29},
       {"home": "Arizona State", "away": "Hawai'i", "home_pts": 42, "away_pts": 13, "bot_home": 39, "bot_away": 15}
+    ],
+    "7": [
+      {"home": "Texas State", "away": "Colorado State", "home_pts": 38, "away_pts": 27, "bot_home": 41, "bot_away": 29},
+      {"home": "Air Force", "away": "UNLV", "home_pts": 21, "away_pts": 24, "bot_home": 26, "bot_away": 23},
+      {"home": "Wyoming", "away": "Northern Illinois", "home_pts": 17, "away_pts": 10, "bot_home": 23, "bot_away": 18},
+      {"home": "Oregon State", "away": "Washington State", "home_pts": 42, "away_pts": 10, "bot_home": 35, "bot_away": 18},
+      {"home": "North Dakota State", "away": "Nevada", "home_pts": 30, "away_pts": 14, "bot_home": 29, "bot_away": 16},
+      {"home": "UTEP", "away": "San José State", "home_pts": 7, "away_pts": 17, "bot_home": 23, "bot_away": 27},
+      {"home": "Sacramento State", "away": "Ohio", "home_pts": 7, "away_pts": 35, "bot_home": 18, "bot_away": 33},
+      {"home": "San Diego State", "away": "Fresno State", "home_pts": 20, "away_pts": 30, "bot_home": 20, "bot_away": 27},
+      {"home": "Hawai'i", "away": "New Mexico", "home_pts": 14, "away_pts": 38, "bot_home": 17, "bot_away": 36}
     ]
   }
 }
