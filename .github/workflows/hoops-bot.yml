@@ -13,6 +13,10 @@ on:
         description: "Full refit (otherwise a quick refresh outside the morning run)"
         required: false
         default: "yes"
+      bracket:
+        description: "Also rebuild the March Madness bracket now (otherwise Mondays)"
+        required: false
+        default: "no"
 
 permissions:
   contents: write
@@ -45,10 +49,12 @@ jobs:
 
       - name: Run model
         run: |
+          extra=""
+          if [ "${{ inputs.bracket }}" = "yes" ]; then extra="--bracket"; fi
           if [ "${{ github.event.schedule }}" = "10 13 * 10-12,1-4 *" ] || [ "${{ inputs.full }}" = "yes" ]; then
-            python model/hoops/run.py
+            python model/hoops/run.py $extra
           else
-            python model/hoops/run.py --quick
+            python model/hoops/run.py --quick $extra
           fi
 
       - name: Publish
