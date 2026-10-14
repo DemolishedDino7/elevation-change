@@ -225,6 +225,19 @@ def rosters_and_minutes(current: int):
             r = pd.read_parquet(f, columns=["team_id", "athlete_id"])
             r = r.apply(pd.to_numeric, errors="coerce").dropna().astype("int64")
             ro[y] = r
+    # ESPN's live rosters (fetched each morning) replace the mirror's for the teams ESPN has
+    live = CACHE / "ro_live.json"
+    if live.exists():
+        try:
+            lv = json.load(open(live))
+            if lv.get("season") == current and lv.get("teams"):
+                rows = [(int(t), int(a)) for t, ath in lv["teams"].items() for a in ath]
+                L = pd.DataFrame(rows, columns=["team_id", "athlete_id"])
+                base = ro.get(current, L.iloc[0:0])
+                ro[current] = pd.concat([base[~base.team_id.isin(L.team_id)], L], ignore_index=True)
+        except Exception:
+            pass
+    for y in range(FIRST_SEASON, current + 1):
         f = CACHE / f"pb_{y}.parquet"
         if f.exists():
             p = pd.read_parquet(f, columns=["athlete_id", "team_id", "minutes"])

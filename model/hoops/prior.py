@@ -20,6 +20,13 @@ import ratings as R
 FEATS = ["last", "last_x_ret", "ret", "last2", "xfer", "conf", "new"]
 
 
+def trusted(now_ids: set, last_ids: set | None) -> bool:
+    """A current roster we believe: at least 8 players and at least 3 newcomers."""
+    if not now_ids or len(now_ids) < 8:
+        return False
+    return last_ids is None or len(now_ids - last_ids) >= 3
+
+
 def final_ratings(g: pd.DataFrame, current: int) -> dict:
     """Season -> DataFrame(team, O, D, T, net, conf) from each season's full results (light prior)."""
     out = {}
@@ -49,14 +56,14 @@ def returning(season: int, ro: dict, mins: dict, fin: dict, current: int) -> pd.
     tot = last.groupby("team_id").minutes.sum()
     if season >= current and season in ro:
         now = ro[season].rename(columns={"team_id": "now_team"})
-        # ESPN refreshes rosters team by team; a roster identical to last season's file hasn't been
-        # updated yet, so it says nothing about who is back (those teams get typical values instead)
+        # ESPN refreshes rosters team by team, and early in the fall a "new" roster is often last
+        # season's with a few players removed. Only a roster that has added newcomers says who is back;
+        # every other team gets typical values instead.
         stale = set()
         if season - 1 in ro:
             old = ro[season - 1].groupby("team_id").athlete_id.agg(set)
             for t, ath in now.groupby("now_team").athlete_id.agg(set).items():
-                o = old.get(t)
-                if o and len(ath & o) / len(ath | o) > 0.95:
+                if not trusted(ath, old.get(t)):
                     stale.add(t)
         now = now[~now.now_team.isin(stale)]
     elif season in mins:

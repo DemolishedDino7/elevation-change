@@ -172,6 +172,8 @@ def main():
             fb, st = ncaa_mbb.finals(sched, season, [today - timedelta(days=1), today], log=log)
             espn_status["ncaa"] = st
             patch = fb
+    if not args.no_espn and not args.quick:
+        espn.rosters(sorted(data.d1_teams(season, season)), season, data.CACHE / "ro_live.json", log=log)
     g = data.games(season, patch=patch)
     g = g.join(W.games_played_before(g), on="game_id")
     fin = PR.final_ratings(g, season)
@@ -490,7 +492,7 @@ def main():
         old_sets = ro[season - 1].groupby("team_id").athlete_id.agg(set) if season - 1 in ro else {}
         for t, ath in now_sets.items():
             o = old_sets.get(t) if len(old_sets) else None
-            if not (o and len(ath & o) / len(ath | o) > 0.95):
+            if PR.trusted(ath, o):
                 roster_now[int(t)] = ath
     prev_team = vals_prev.sort_values("mins").drop_duplicates("athlete_id", keep="last").set_index("athlete_id") if len(vals_prev) else None
     for t in [x["id"] for x in teams]:
@@ -502,7 +504,7 @@ def main():
                 label = "last season's numbers, this season's roster"
             else:
                 src = vals_prev[vals_prev.team_id == t] if len(vals_prev) else vals_prev
-                label = "last season (this season's roster isn't posted yet)"
+                label = "last season (this season's roster isn't posted yet, so some of these players may be gone)"
         src = src.sort_values("mpg", ascending=False).head(10)
         rows = []
         for _, r in src.iterrows():

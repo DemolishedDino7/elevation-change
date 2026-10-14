@@ -150,3 +150,24 @@ def fetch(days: list[date], season: int, log=print) -> tuple[pd.DataFrame, dict,
 
 def window(today: date, back: int = 2, ahead: int = 7) -> list[date]:
     return [today + timedelta(days=i) for i in range(-back, ahead + 1)]
+
+
+def rosters(team_ids, season: int, dest, log=print, pause=0.15) -> dict:
+    """ESPN's current roster for each team -> {team_id: [athlete ids]}, saved to dest (best effort)."""
+    out, err = {}, None
+    for t in team_ids:
+        try:
+            js = _get(f"/apis/site/v2/sports/basketball/mens-college-basketball/teams/{int(t)}/roster", tries=1)
+            ath = js.get("athletes") or []
+            if ath and isinstance(ath[0], dict) and "items" in ath[0]:  # grouped by position
+                ath = [a for grp in ath for a in grp.get("items", [])]
+            ids = [int(a["id"]) for a in ath if a.get("id")]
+            if ids:
+                out[str(int(t))] = ids
+        except Exception as e:
+            err = repr(e)[:120]
+        time.sleep(pause)
+    if out:
+        json.dump({"season": season, "teams": out}, open(dest, "w"))
+    log(f"ESPN rosters: {len(out)} of {len(team_ids)} teams" + (f" (last error {err})" if err and not out else ""))
+    return out

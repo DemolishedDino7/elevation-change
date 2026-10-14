@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-14T05:15+00:00",
+ "generated": "2026-10-14T05:42+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-10-13",
@@ -86,12 +86,8 @@
   "inj_k": 0.212
  },
  "espn": {
-  "ok": true,
-  "days": 10,
-  "events": 0,
-  "finals": 0,
-  "lines": 0,
-  "error": null
+  "ok": false,
+  "error": "skipped"
  },
  "lines_seen": 0,
  "next_west": "2026-11-02",
@@ -115,7 +111,7 @@
   "hand": 0
  },
  "bracket": {
-  "generated": "2026-10-14T05:15+00:00",
-  "champion": 57
+  "generated": "2026-10-14T05:42+00:00",
+  "champion": 150
  }
 }
