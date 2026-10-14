@@ -156,6 +156,14 @@ def main():
     today = (now + data.MT).date()
     patch, new_lines, espn_status = (pd.DataFrame(), {}, {"ok": False, "error": "skipped"}) if args.no_espn else \
         espn.fetch(espn.window(today), season, log=log)
+    if not args.no_espn and not espn_status.get("ok"):
+        import ncaa_mbb
+        sched = data.schedule(season)
+        if not sched.empty:
+            sched = sched.assign(home=sched.home.map(lambda n: NAME.get(n, n)), away=sched.away.map(lambda n: NAME.get(n, n)))
+            fb, st = ncaa_mbb.finals(sched, season, [today - timedelta(days=1), today], log=log)
+            espn_status["ncaa"] = st
+            patch = fb
     g = data.games(season, patch=patch)
     g = g.join(W.games_played_before(g), on="game_id")
     fin = PR.final_ratings(g, season)

@@ -19,20 +19,37 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-URL = ("https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
-       "?dates={d}&groups=50&limit=500")
+PATH = "/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates={d}&groups=50&limit=500"
+HOSTS = ["https://site.api.espn.com", "https://site.web.api.espn.com"]
+URL = HOSTS[0] + PATH
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.espn.com/mens-college-basketball/scoreboard",
+    "Origin": "https://www.espn.com",
+}
+_host = {"ok": None}
 
 
-def _get(url: str, tries: int = 3) -> dict:
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (ElevationChange TheBot)"})
-    for i in range(tries):
-        try:
-            return json.load(urllib.request.urlopen(req, timeout=30))
-        except Exception:
-            if i == tries - 1:
-                raise
-            time.sleep(2 * (i + 1))
-    return {}
+def _get(url: str, tries: int = 2) -> dict:
+    """Fetch with browser-like headers; if a host refuses (403), try ESPN's other host."""
+    hosts = [_host["ok"]] if _host["ok"] else HOSTS
+    path = url.split(".com", 1)[1] if url.startswith("http") else url
+    last = None
+    for h in hosts:
+        for i in range(tries):
+            try:
+                req = urllib.request.Request(h + path, headers=HEADERS)
+                data = json.load(urllib.request.urlopen(req, timeout=30))
+                _host["ok"] = h
+                return data
+            except Exception as e:
+                last = e
+                if "403" in repr(e):
+                    break
+                time.sleep(2 * (i + 1))
+    raise last
 
 
 def _num(x):
