@@ -254,3 +254,4 @@ a.tl:hover { color: var(--purple); text-decoration: underline; text-underline-of
 #p-bracket .bk-scroll { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 0 1.25rem 0.75rem; }
 #p-bracket .bk-full { min-width: 72rem; max-width: 96rem; margin: 0 auto; }
 #p-bracket .bk { max-width: 68rem; margin: 0 auto; }
+[hidden] { display: none !important; }

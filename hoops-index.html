@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610140000">
-<link rel="stylesheet" href="hoops.css?v=202610140000">
+<link rel="stylesheet" href="styles.css?v=202610140015">
+<link rel="stylesheet" href="hoops.css?v=202610140015">
 </head>
 <body>
 
@@ -54,16 +54,19 @@
       <p class="bot-intro" id="idx-intro"></p>
     </section>
     <div class="ctl">
+      <div class="seg" id="view"><button data-v="ours" aria-pressed="true">Our 23</button><button data-v="top" aria-pressed="false">Top 25</button><button data-v="conf" aria-pressed="false">Conferences</button><button data-v="all" aria-pressed="false">All D-I</button></div>
       <div class="seg" id="lg"><button data-v="" aria-pressed="true">All 23</button><button data-v="pac" aria-pressed="false">Pac-12</button><button data-v="mw" aria-pressed="false">MW</button><button data-v="oth" aria-pressed="false">Other</button></div>
+      <select class="sel" id="conf" aria-label="Conference" hidden></select>
     </div>
-    <div class="table-scroll"><table class="bt" id="tbl"></table></div>
-    <p class="note" style="margin-top:1rem">Net = points per 100 possessions better than an average Division I team. Off and Def: points scored and prevented per 100 possessions (higher is better for both). Nat = the Bot’s national rank. NCAA = chance to make the 76-team field; Seed = projected seed (from the weekly bracket). Click a team for its card, or its name for the full team page.</p>
+    <div class="table-scroll" id="tbl-wrap"><table class="bt" id="tbl"></table></div>
+    <div id="confs" hidden></div>
+    <p class="note" style="margin-top:1rem">Net = points per 100 possessions better than an average Division I team. Off and Def: points scored and prevented per 100 possessions (higher is better for both). Nat = the Bot’s national rank. NCAA = chance to make the 76-team field; Seed = projected seed (from the weekly bracket); Title = regular-season league title. In Our 23, click a rank for that team’s card, or any name for its full team page.</p>
     <div class="hcards" id="cards"></div>
     <p class="updated" id="updated"></p>
   </div>
 </main>
 
-<script src="hoops.js?v=202610140000"></script>
+<script src="hoops.js?v=202610140015"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -94,7 +97,54 @@
         }).join('') + '</tbody>';
     }
     $('#lg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; lg = b.dataset.v; [...$('#lg').children].forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
-    draw();
+
+    /* national and conference views */
+    const mvN = t => { const m = t.prev_rank - t.rank; return !played ? '' : m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '<span class="flat">—</span>'; };
+    const natRow = (t, r) => { const o = OD[t.id] || {};
+      return '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + r + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
+        '<td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + HB.sgn(t.net) + '</td><td class="n hide-s">' + HB.sgn(t.off) + '<span class="sub">' + t.off_rank + '</span></td><td class="n hide-s">' + HB.sgn(t.def) + '<span class="sub">' + t.def_rank + '</span></td>' +
+        '<td class="n">' + pct(o.p_bid) + '</td><td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td>' + (played ? '<td class="n hide-s">' + mvN(t) + '</td>' : '') + '</tr>'; };
+    const natHead = '<thead><tr><th>#</th><th>Team</th><th class="n">W-L</th><th class="n">Net</th><th class="n hide-s">Off</th><th class="n hide-s">Def</th><th class="n">NCAA</th><th class="n">Seed</th>' + (played ? '<th class="n hide-s">Move</th>' : '') + '</tr></thead>';
+    const confs = [...new Set(teams.map(t => t.conf).filter(Boolean))].sort((a, b) => (a !== 'Pac-12') - (b !== 'Pac-12') || (a !== 'Mountain West') - (b !== 'Mountain West') || a.localeCompare(b));
+    $('#conf').innerHTML = '<option value="">All 32 conferences</option>' + confs.map(c => '<option>' + esc(c) + '</option>').join('');
+    const confTable = c => {
+      const ts = teams.filter(t => t.conf === c).sort((a, b) => a.rank - b.rank);
+      const avg = ts.reduce((a, t) => a + t.net, 0) / ts.length;
+      return '<h2 class="sh dv">' + esc(c) + ' <small class="lbl" style="vertical-align:middle;margin-left:0.5rem">Avg. rating ' + HB.sgn(avg) + '</small></h2><div class="table-scroll"><table class="bt"><thead><tr><th>#</th><th>Team</th><th class="n">Nat</th><th class="n">W-L</th><th class="n hide-s">League</th><th class="n">Net</th><th class="n hide-s">Title</th><th class="n">NCAA</th><th class="n">Seed</th></tr></thead><tbody>' +
+        ts.map((t, i) => { const o = OD[t.id] || {};
+          return '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + (i + 1) + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '</span></span></td><td class="n">' + t.rank + '</td><td class="n">' + t.w + '-' + t.l + '</td><td class="n hide-s">' + t.cw + '-' + t.cl + '</td>' +
+            '<td class="n net">' + HB.sgn(t.net) + '</td><td class="n hide-s">' + pct(o.p_rs_title) + '</td><td class="n">' + pct(o.p_bid) + '</td><td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    };
+    let view = 'ours';
+    function show() {
+      [...$('#view').children].forEach(x => x.setAttribute('aria-pressed', x.dataset.v === view));
+      $('#lg').hidden = view !== 'ours';
+      $('#conf').hidden = view !== 'conf';
+      $('#cards').hidden = view !== 'ours';
+      $('#tbl-wrap').hidden = view === 'conf';
+      $('#confs').hidden = view !== 'conf';
+      if (view === 'ours') draw();
+      else if (view === 'top') $('#tbl').innerHTML = natHead + '<tbody>' + teams.slice(0, 25).map(t => natRow(t, t.rank)).join('') + '</tbody>';
+      else if (view === 'all') $('#tbl').innerHTML = natHead + '<tbody>' + teams.map(t => natRow(t, t.rank)).join('') + '</tbody>';
+      else {
+        let top = '';
+        if (!$('#conf').value) {
+          const rows = confs.map(c => { const ts = teams.filter(t => t.conf === c);
+            return { c, n: ts.length, avg: ts.reduce((a, t) => a + t.net, 0) / ts.length, best: ts.reduce((a, t) => t.rank < a.rank ? t : a, ts[0]),
+                     bids: ts.reduce((a, t) => a + ((OD[t.id] || {}).p_bid || 0), 0) }; }).sort((a, b) => b.avg - a.avg);
+          top = '<h2 class="sh dv" style="margin-top:0.5rem">Conference rankings</h2><div class="table-scroll"><table class="bt"><thead><tr><th>#</th><th>Conference</th><th class="n">Teams</th><th class="n">Avg. rating</th><th class="n hide-s">Best team</th><th class="n">Proj. NCAA bids</th></tr></thead><tbody>' +
+            rows.map((r, i) => '<tr class="' + (r.c === 'Pac-12' || r.c === 'Mountain West' ? 'west' : 'dim') + '"><td class="rk">' + (i + 1) + '</td><td><a class="tl" href="#" data-conf="' + esc(r.c) + '"><b>' + esc(r.c) + '</b></a></td><td class="n">' + r.n + '</td><td class="n net">' + HB.sgn(r.avg) + '</td>' +
+              '<td class="n hide-s">' + HB.tlink(r.best.id, esc(HB.short(r.best.name))) + ' <span class="sub">' + r.best.rank + '</span></td><td class="n">' + r.bids.toFixed(1) + '</td></tr>').join('') + '</tbody></table></div>';
+        }
+        $('#confs').innerHTML = top + ($('#conf').value ? [$('#conf').value] : confs).map(confTable).join('');
+        $('#confs').querySelectorAll('[data-conf]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); $('#conf').value = a.dataset.conf; show(); }));
+      }
+      try { history.replaceState(null, '', view === 'ours' ? location.pathname : '#' + view); } catch (e) {}
+    }
+    $('#view').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { view = b.dataset.v; show(); } });
+    $('#conf').addEventListener('change', show);
+    if (['top', 'conf', 'all'].includes(location.hash.slice(1))) view = location.hash.slice(1);
+    show();
 
     /* ---------- team cards (like the football Index) ---------- */
     const today = HB.today();
@@ -151,6 +201,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610140000"></script>
+<script src="ticker.js?v=202610140015"></script>
 </body>
 </html>
