@@ -133,6 +133,13 @@ def fit_all(g, fin, ro, mins, season):
                 "by_season": by, "calibration": cal}
     # live model: game model on every season, prior on every season
     gm = GameModel.fit(r)
+    # injuries: what a missing regular costs, from games since 2021-22
+    import injuries as INJ
+    rr = r[r.season > TRAIN_LAST].join(gm.predict(r[r.season > TRAIN_LAST]))
+    rr["resid"] = rr.margin - rr.pred_margin
+    boxes = {y: INJ.load_box(data.CACHE / f"pb_{y}.parquet") for y in range(TRAIN_LAST + 1, season)}
+    inj_k = INJ.calibrate(boxes, rr, log=log)
+    backtest["inj_k"] = round(inj_k, 3)
     pri = PR.Prior.fit(g, fin, ro, mins, season, range(2014, season))
     log(f"  backtest {backtest['games']} games: miss {backtest['mae']} pts, winners {backtest['su']}%")
     return pri, gm, backtest
@@ -193,6 +200,56 @@ def main():
     wf = W.run_season(season, g, ids, idx, P, PARAMS, days=done_days) if done_days else pd.DataFrame()
     now_pred = gm.predict(cur.join(raw))
     wf_pred = gm.predict(cur.join(wf, how="inner")) if len(wf) else pd.DataFrame(columns=now_pred.columns)
+
+    # ---------------- injuries and absences ----------------
+    import injuries as INJ
+    from bracket import ncdf
+    inj_k = float(backtest.get("inj_k", 0.21))
+    box = INJ.load_box(data.CACHE / f"pb_{season}.parquet")
+    box_prev = INJ.load_box(data.CACHE / f"pb_{season - 1}.parquet")
+    tg_now = box.drop_duplicates(["team_id", "game_id"]).groupby("team_id").size() if len(box) else pd.Series(dtype=int)
+    vals = INJ.values(box, tg_now) if len(box) else pd.DataFrame(columns=["team_id", "athlete_id", "name", "gp", "mpg", "v", "share", "regular"])
+    tg_prev = box_prev.drop_duplicates(["team_id", "game_id"]).groupby("team_id").size() if len(box_prev) else pd.Series(dtype=int)
+    vals_prev = INJ.values(box_prev, tg_prev) if len(box_prev) else vals.iloc[0:0]
+    name_to_id = {}
+    for side in ("home", "away"):
+        for t, n in zip(cur[f"{side}_id"], cur[side]):
+            name_to_id[str(NAME.get(n, n)).lower()] = int(t)
+    hand = INJ.manual(OUT / "injuries.json")
+    for h in hand:
+        h["team_id"] = name_to_id.get(str(h.get("team", "")).lower(), h.get("team_id", -1))
+        # before a player has games this season, use last season's numbers (wherever he played)
+        have = (vals.team_id == h["team_id"]) & (vals.name.str.lower() == str(h.get("player", "")).lower()) if len(vals) else pd.Series(dtype=bool)
+        if not len(vals) or not have.any():
+            m = vals_prev[vals_prev.name.str.lower() == str(h.get("player", "")).lower()]
+            if len(m):
+                row = m.sort_values("mins", ascending=False).iloc[[0]].copy()
+                row["team_id"], row["share"], row["regular"] = h["team_id"], 1.0, True
+                vals = pd.concat([vals, row], ignore_index=True)
+    soon = cur[~cur.completed & (cur.day >= pd.Timestamp(today)) & (cur.day <= pd.Timestamp(today) + pd.Timedelta(days=1))
+               & (cur.home_id.isin(SITE_ID) | cur.away_id.isin(SITE_ID))]
+    espn_inj = {} if args.no_espn or soon.empty else INJ.espn_injuries([int(x) for x in soon.game_id], log=log)
+    st = INJ.status_now(vals, box if len(box) else box_prev.iloc[0:0], espn_inj, hand, str(today)) if len(vals) else pd.DataFrame()
+    inj = INJ.team_adjust(st, inj_k) if len(st) else {}
+    inj_games = {}
+    for i, x in cur.iterrows():
+        if x.completed or not len(inj):
+            continue
+        ahead = (x.day - pd.Timestamp(today)).days
+        if ahead < 0:
+            continue
+        key = "near" if ahead <= 6 else "long"
+        a_h, a_a = inj.get(int(x.home_id), {}), inj.get(int(x.away_id), {})
+        d = a_h.get(key, 0.0) - a_a.get(key, 0.0)
+        if abs(d) < 0.05:
+            continue
+        now_pred.at[i, "pred_margin"] += d
+        now_pred.at[i, "pred_home"] += d / 2
+        now_pred.at[i, "pred_away"] -= d / 2
+        now_pred.at[i, "home_wp"] = float(ncdf(now_pred.at[i, "pred_margin"] / gm.sigma_late))
+        pick = lambda a_: [q for q in a_.get("players", []) if (key == "near" or q["long"]) and abs(q["pts"]) >= 0.3][:3]
+        inj_games[int(x.game_id)] = {"home": pick(a_h), "away": pick(a_a), "pts": round(d, 1)}
+    log(f"  injuries: {int((st.p_out >= 0.3).sum()) if len(st) else 0} regulars flagged, {len(inj_games)} games adjusted")
 
     # lock picks until tip: a game's pick is the last one published before it started
     locked = load("locked.json", {})
@@ -336,6 +393,7 @@ def main():
             "home_rank": team_by.get(hid, {}).get("rank"), "away_rank": team_by.get(aid, {}).get("rank"),
             **{k: pk.get(k) for k in ("pred_home", "pred_away", "pred_margin", "pred_total", "home_wp", "pace")},
             "vegas_spread": ln.get("spread"), "vegas_total": ln.get("total"),
+            "inj": inj_games.get(int(x.game_id)) if not x.completed else None,
             "final": bool(x.completed), "home_pts": int(x.home_pts) if x.completed else None,
             "away_pts": int(x.away_pts) if x.completed else None, "mode": mode,
             "factors": {"altitude_ft": int(round(x.away_climb - x.home_climb)) if not x.neutral else 0,
@@ -422,10 +480,58 @@ def main():
                   "prior_weight_games": PARAMS.lam},
         "conf_schedule": {"pac": int(((cur.home_conf == PAC12) & cur.conf_game).sum()), "mw": int(((cur.home_conf == MW) & cur.conf_game).sum())},
     }
+    # ---------------- players (team pages) ----------------
+    players = {}
+    status_by = {(int(r.team_id), int(r.athlete_id)): r for _, r in st.iterrows()} if len(st) else {}
+    # this season's roster, where ESPN has updated it (an unchanged file means it hasn't been)
+    roster_now = {}
+    if season in ro:
+        now_sets = ro[season].groupby("team_id").athlete_id.agg(set)
+        old_sets = ro[season - 1].groupby("team_id").athlete_id.agg(set) if season - 1 in ro else {}
+        for t, ath in now_sets.items():
+            o = old_sets.get(t) if len(old_sets) else None
+            if not (o and len(ath & o) / len(ath | o) > 0.95):
+                roster_now[int(t)] = ath
+    prev_team = vals_prev.sort_values("mins").drop_duplicates("athlete_id", keep="last").set_index("athlete_id") if len(vals_prev) else None
+    for t in [x["id"] for x in teams]:
+        src = vals[vals.team_id == t] if len(vals) else vals
+        label = "this season"
+        if not len(src) or src.gp.max() < 1:
+            if t in roster_now and prev_team is not None:
+                src = prev_team[prev_team.index.isin(roster_now[t])].reset_index()
+                label = "last season's numbers, this season's roster"
+            else:
+                src = vals_prev[vals_prev.team_id == t] if len(vals_prev) else vals_prev
+                label = "last season (this season's roster isn't posted yet)"
+        src = src.sort_values("mpg", ascending=False).head(10)
+        rows = []
+        for _, r in src.iterrows():
+            stt = status_by.get((t, int(r.athlete_id)))
+            frm = int(r.team_id) if int(r.team_id) != t else None
+            rows.append({"name": r["name"], "from": frm, "gp": int(r.gp), "mpg": r1(r.mpg), "ppg": r1(r.get("ppg")), "rpg": r1(r.get("rpg")),
+                         "apg": r1(r.get("apg")), "impact": r1(inj_k * r.v), "regular": bool(r.regular),
+                         "p_out": r1(stt.p_out, 2) if stt is not None else None, "note": stt.note if stt is not None else None})
+        if rows:
+            players[str(t)] = {"season": label, "players": rows, "adjust": inj.get(t)}
+    dump("players.json", players)
+    if not (OUT / "injuries.json").exists():
+        dump("injuries.json", {"_how_to": "Players our writers know are out (or back). team = school name as on the site, player = full name as "
+                                          "in box scores. status: out, doubtful, questionable, available. until: last date out (optional). "
+                                          "season: true if out for the year. Remove entries when they no longer apply.",
+                               "players": []}, indent=2)
+    meta["injuries"] = {"k": round(inj_k, 3), "flagged": int((st.p_out >= 0.3).sum()) if len(st) else 0, "games_adjusted": len(inj_games),
+                        "espn_reports": len(espn_inj), "hand": len(hand)}
+
     # ---------------- March Madness projection (weekly: Monday morning runs) ----------------
     if args.bracket or (not args.quick and pd.Timestamp(today).weekday() == 0) or not (OUT / "bracket.json").exists():
         try:
-            bracket_step(g, season, fin, ro, mins, pri, ids, idx, rnow, conf_of, gm, teams, now, today, meta)
+            rb = dict(rnow)
+            rb["O"] = rnow["O"].copy()
+            for t, a_ in inj.items():  # long-term absences carry into the season simulation
+                if t in idx and abs(a_["long"]) >= 0.05:
+                    i_ = idx[t]
+                    rb["O"][i_] += a_["long"] * 100 / (rnow["tmu"] + rnow["T"][i_]) / gm.coef["r_margin"]
+            bracket_step(g, season, fin, ro, mins, pri, ids, idx, rb, conf_of, gm, teams, now, today, meta)
         except Exception as e:  # the rest of the site never waits on the bracket
             import traceback
             traceback.print_exc()
@@ -476,20 +582,23 @@ def bracket_step(g, season, fin, ro, mins, pri, ids, idx, rnow, conf_of, gm, tea
     n_field, n_auto, n_al, n_or = BK.fmt(season)
     or_set = {o for gm_ in B["games"] for o in gm_}
     seeds_now = {}
+    prev_seed = lambda v: (v[0] if isinstance(v, list) else v) if v is not None else None
+    prev_p = lambda v: v[1] if isinstance(v, list) else None
     rows = []
     for _, x in field.iterrows():
         t = int(x.team)
         line, reg = B["seed_of"][int(x.overall)]
-        seeds_now[str(t)] = line
         tm = tb.get(t, {})
-        pv = prev.get(str(t))
+        pv = prev_seed(prev.get(str(t)))
         rows.append({"overall": int(x.overall), "id": t, "name": tm.get("name"), "abbr": tm.get("abbr"), "logo": tm.get("logo"),
                      "conf": tm.get("conf"), "west": tm.get("west", False), "seed": line, "region": reg, "auto": bool(x.auto),
                      "opening_round": int(x.overall) in or_set, "p_bid": r1(pj.at[t, "p_bid"], 3), "p_auto": r1(pj.at[t, "p_auto"], 3),
                      "rank": tm.get("rank"), "net": tm.get("net"), "w": tm.get("w"), "l": tm.get("l"),
                      "exp_w": r1(pj.at[t, "exp_w"]), "exp_l": r1(pj.at[t, "exp_l"]), "exp_q1w": r1(pj.at[t, "exp_q1w"]),
                      "prev_seed": pv, "adv": adv.get(t)})
-    hist[str(today)] = seeds_now
+    for _, x in field.iterrows():
+        seeds_now[str(int(x.team))] = B["seed_of"][int(x.overall)][0]
+    hist[str(today)] = {str(int(t)): [seeds_now.get(str(int(t))), round(float(p_), 3)] for t, p_ in zip(Pj.team, Pj.p_bid) if p_ >= 0.005 or str(int(t)) in seeds_now}
     hist = {k: v for k, v in sorted(hist.items())[-30:]}
 
     def brief(t):
@@ -531,6 +640,28 @@ def bracket_step(g, season, fin, ro, mins, pri, ids, idx, rnow, conf_of, gm, tea
         "sims": 1000,
     }
     dump("bracket.json", out)
+    # ---- odds for every Division I team, grouped by league (Season odds tab, team pages)
+    sp = Pj.attrs.get("sched_posted", {})
+    odds = []
+    for t in Pj.team:
+        t = int(t)
+        tm = tb.get(t)
+        if not tm:
+            continue
+        x = pj.loc[t]
+        pv = prev.get(str(t))
+        odds.append({"id": t, "name": tm["name"], "abbr": tm["abbr"], "logo": tm["logo"], "conf": tm["conf"], "west": tm["west"],
+                     "rank": tm["rank"], "net": tm["net"], "w": tm["w"], "l": tm["l"], "cw": tm["cw"], "cl": tm["cl"],
+                     "exp_w": r1(x.exp_w), "exp_l": r1(x.exp_l), "exp_cw": r1(x.exp_cw), "exp_cl": r1(x.exp_cl),
+                     "p_rs_title": r1(x.p_rs_title, 3), "p_tourney": r1(x.p_auto, 3), "p_bid": r1(x.p_bid, 3), "p_atlarge": r1(x.p_atlarge, 3),
+                     "seed": seeds_now.get(str(t)), "adv": adv.get(t), "exp_q1w": r1(x.exp_q1w),
+                     "q1w": int(x.q1w_now), "q1l": int(x.q1l_now), "q2w": int(x.q2w_now), "q2l": int(x.q2l_now), "badl": int(x.badl_now),
+                     "safe_q1w": None if np.isnan(x.safe_q1w) else int(x.safe_q1w),
+                     "prev_p_bid": prev_p(pv), "prev_seed": prev_seed(pv)})
+    conf_list = sorted({o["conf"] for o in odds if o["conf"]}, key=lambda c: (c not in ("Pac-12", "Mountain West"), c != "Pac-12", c))
+    est = {CONF.get(c): v for c, v in sp.items() if CONF.get(c)}
+    dump("odds.json", {"generated": out["generated"], "previous": prev_key, "season_label": out["season_label"], "conferences": conf_list,
+                       "schedule_posted": est, "teams": sorted(odds, key=lambda o: (o["conf"] or "", -(o["p_bid"] or 0), o["rank"]))})
     dump("bracket_history.json", hist)
     meta["bracket"] = {"generated": out["generated"], "champion": champ}
     log(f"  bracket: field of {len(rows)}, champion pick {tb.get(champ, {}).get('name')}")

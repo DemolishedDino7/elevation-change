@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610132300">
-<link rel="stylesheet" href="hoops.css?v=202610132300">
+<link rel="stylesheet" href="styles.css?v=202610132345">
+<link rel="stylesheet" href="hoops.css?v=202610132345">
 </head>
 <body>
 
@@ -88,7 +88,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610132300"></script>
+<script src="hoops.js?v=202610132345"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -139,20 +139,20 @@
     const ourRankPrev = {}; [...ours].sort((a, b) => a.prev_rank - b.prev_rank).forEach((t, i) => ourRankPrev[t.id] = i + 1);
     $('#idx').innerHTML = ours.slice(0, 10).map((t, i) => {
       const m = ourRankPrev[t.id] - (i + 1);
-      return '<li><span class="r">' + (i + 1) + '</span>' + HB.img(t.logo, 'lg') + '<span class="n">' + HB.esc(HB.short(t.name)) + '<small>' + (t.w + t.l ? t.w + '-' + t.l : 'No. ' + t.rank) + '</small></span>' +
+      return '<li><span class="r">' + (i + 1) + '</span>' + HB.img(t.logo, 'lg') + '<span class="n">' + HB.tlink(t.id, HB.esc(HB.short(t.name))) + '<small>' + (t.w + t.l ? t.w + '-' + t.l : 'No. ' + t.rank) + '</small></span>' +
         '<span class="mv">' + (pre ? '' : (m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—')) + '</span><span class="sc">' + HB.sgn(t.net) + '</span></li>';
     }).join('');
 
     /* standings, compact */
     const tbl = (name, rows) => '<h3 class="lbl" style="margin:0 0 0.4rem;color:var(--purple)">' + name + '</h3><table class="bt" style="margin-bottom:1.5rem"><thead><tr><th>Team</th><th class="n">League</th><th class="n">All</th><th class="n hide-s">Bot</th></tr></thead><tbody>' +
-      rows.map(t => '<tr><td><span class="tm">' + HB.img(t.logo) + HB.esc(HB.short(t.name)) + '</span></td><td class="n">' + t.cw + '-' + t.cl + '</td><td class="n">' + t.w + '-' + t.l + '</td><td class="n hide-s">' + t.rank + '</td></tr>').join('') + '</tbody></table>';
+      rows.map(t => '<tr><td><span class="tm">' + HB.img(t.logo) + HB.tlink(t.id, HB.esc(HB.short(t.name))) + '</span></td><td class="n">' + t.cw + '-' + t.cl + '</td><td class="n">' + t.w + '-' + t.l + '</td><td class="n hide-s">' + t.rank + '</td></tr>').join('') + '</tbody></table>';
     $('#stand').innerHTML = tbl('Pac-12', st.pac) + tbl('Mountain West', st.mw);
 
     /* our 23 by league */
     $('#leagues').innerHTML = ['pac', 'mw', 'oth'].map(k => {
       const ts = ours.filter(t => t.league === k).sort((a, b) => a.name.localeCompare(b.name));
       return '<div><h3>' + HB.LEAGUE[k] + ' · ' + ts.length + '</h3><div class="tchips">' +
-        ts.map(t => '<span class="tchip">' + HB.img(t.logo) + HB.esc(t.name) + (k === 'oth' ? ' <small>' + HB.esc(t.conf) + '</small>' : '') + '</span>').join('') + '</div></div>';
+        ts.map(t => '<span class="tchip">' + HB.img(t.logo) + HB.tlink(t.id, HB.esc(t.name)) + (k === 'oth' ? ' <small>' + HB.esc(t.conf) + '</small>' : '') + '</span>').join('') + '</div></div>';
     }).join('');
     const up = new Date(meta.generated);
     $('#updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT';
@@ -173,6 +173,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610132300"></script>
+<script src="ticker.js?v=202610132345"></script>
 </body>
 </html>

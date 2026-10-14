@@ -1,0 +1,4 @@
+{
+  "_how_to": "Players our writers know are out (or back). team = school name as on the site, player = full name as in box scores. status: out, doubtful, questionable, available. until: last date out (optional). season: true if out for the year. Remove entries when they no longer apply.",
+  "players": []
+}

@@ -277,6 +277,7 @@ def project(g, season, cur_rating, idx, ids, conf_of, gm, sel, seed, auto_confs,
     usual = lastc.groupby(["c", "t"]).size().groupby("c").median().to_dict()
     posted = s[s.conf_game & s.home_d1 & s.away_d1]
     syn = []
+    sched_posted = {}
     members = {}
     for t, c in conf_of.items():
         if t in tix and c in auto_confs:
@@ -290,6 +291,7 @@ def project(g, season, cur_rating, idx, ids, conf_of, gm, sel, seed, auto_confs,
         pairs = [(h, a) for h in mem for a in mem if h != a and (h, a) not in have]
         if need_total <= 0 or not pairs:
             continue
+        sched_posted[c] = round(float(len(pc) / max(target * n / 2, 1)), 2)
         p_incl = min(1.0, need_total / len(pairs))
         for h, a in pairs:
             syn.append((h, a, p_incl))
@@ -376,6 +378,14 @@ def project(g, season, cur_rating, idx, ids, conf_of, gm, sel, seed, auto_confs,
     PW = ncdf(gm.coef["r_margin"] * (netv[:, None] - netv[None, :]) * (pace_t[:, None] + pace_t[None, :] - cur_rating["tmu"]) / 100 / gm.sigma_late)
 
     qn = _quad(rk, np.array(["neutral"] * T))  # quadrant of a neutral-site game against each team
+    # regular-season league titles (ties shared) and projected league records, before the tournaments
+    rs_title = np.zeros((sims, T))
+    for c, mem in members.items():
+        mi = np.array([tix[t] for t in mem])
+        pct = feats["cw"][:, mi] / np.maximum(feats["cw"][:, mi] + feats["cl"][:, mi], 1)
+        best = pct >= pct.max(1, keepdims=True) - 1e-9
+        rs_title[:, mi] = best / best.sum(1, keepdims=True)
+    exp_cw, exp_cl = feats["cw"].mean(0), feats["cl"].mean(0)
     auto = np.zeros((sims, T), bool)
     cw, cl = feats["cw"], feats["cl"]
     for c, mem in members.items():
@@ -429,6 +439,20 @@ def project(g, season, cur_rating, idx, ids, conf_of, gm, sel, seed, auto_confs,
                         "seed_score": avg_seed, "sel_score": selp.mean(0),
                         "exp_w": feats["w"].mean(0), "exp_l": feats["l"].mean(0), "exp_q1w": feats["q1w"].mean(0),
                         "exp_q1l": feats["q1l"].mean(0), "rank": rk, "net": netv, "conf": [conf_of.get(t) for t in d1]})
+    out["p_rs_title"], out["exp_cw"], out["exp_cl"] = rs_title.mean(0), exp_cw, exp_cl
+    for k in ("q1w", "q1l", "q2w", "q2l", "badl", "w", "l"):
+        out[k + "_now"] = base[k].to_numpy()
+    out.attrs["sched_posted"] = {c: sched_posted.get(c, 1.0) for c in members}
+    # "to be safe": Quad 1 wins an at-large résumé like this one needs for a 90% chance
+    Xm = X.mean(0)
+    qi = FEATS.index("q1w")
+    safe = np.full(T, np.nan)
+    for q in range(0, 16):
+        Xq = Xm.copy()
+        Xq[:, qi] = q
+        ok = (sel.prob(Xq) >= 0.9) & np.isnan(safe)
+        safe[ok] = q
+    out["safe_q1w"] = safe
     out.attrs["PW"] = PW
     out.attrs["tix"] = tix
     return out

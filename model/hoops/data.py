@@ -48,8 +48,8 @@ def download(current: int, refresh_current: bool = True) -> None:
         _fetch(f"schedules/parquet/mbb_schedule_{y}.parquet", CACHE / f"sch_{y}.parquet", live)
         _fetch(f"team_box/parquet/team_box_{y}.parquet", CACHE / f"tb_{y}.parquet", live)
         _fetch(f"rosters/parquet/rosters_{y}.parquet", CACHE / f"ro_{y}.parquet", live)
-        if y < current:
-            _fetch(f"player_box/parquet/player_box_{y}.parquet", CACHE / f"pb_{y}.parquet", y == current - 1 and refresh_current)
+        # player box scores: past seasons once, the current season every run (who's playing, injuries)
+        _fetch(f"player_box/parquet/player_box_{y}.parquet", CACHE / f"pb_{y}.parquet", y >= current - 1 and refresh_current)
 
 
 def haversine_mi(lat1, lon1, lat2, lon2):

@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610132300">
-<link rel="stylesheet" href="hoops.css?v=202610132300">
+<link rel="stylesheet" href="styles.css?v=202610132345">
+<link rel="stylesheet" href="hoops.css?v=202610132345">
 </head>
 <body>
 
@@ -93,7 +93,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610132300"></script>
+<script src="hoops.js?v=202610132345"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -128,7 +128,7 @@
     let reg = 'East';
     $('#reg').innerHTML = REG.map(r => '<button data-v="' + r + '" aria-pressed="' + (r === reg) + '">' + r + '</button>').join('') + '<button data-v="ff" aria-pressed="false">Final Four</button>';
     const orBy = {}; B.opening_round.forEach((g, i) => orBy[g.region + '|' + g.seed + '|' + i] = g);
-    const team = (id, seed, p, win) => '<div class="bk-t' + (win ? ' win' : '') + '"><span class="sd">' + seed + '</span>' + lg(id) + '<span class="tn">' + esc(nm(id)) + '</span><span class="tp">' + pct(p) + '</span></div>';
+    const team = (id, seed, p, win) => '<div class="bk-t' + (win ? ' win' : '') + '"><span class="sd">' + seed + '</span>' + lg(id) + '<span class="tn">' + HB.tlink(id, esc(nm(id))) + '</span><span class="tp">' + pct(p) + '</span></div>';
     const game = g => '<div class="bk-g">' + team(g.a, g.sa, g.pa, g.pick === g.a) + team(g.b, g.sb, 1 - g.pa, g.pick === g.b) + '</div>';
     function drawRegion() {
       [...$('#reg').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === reg));
@@ -152,19 +152,19 @@
     /* ---------- seed list ---------- */
     const mv = t => t.prev_seed == null ? (B.previous ? '<span class="up">New</span>' : '—') : t.prev_seed > t.seed ? '<span class="up">▲ ' + (t.prev_seed - t.seed) + '</span>' : t.prev_seed < t.seed ? '<span class="down">▼ ' + (t.seed - t.prev_seed) + '</span>' : '<span class="flat">—</span>';
     $('#seeds').innerHTML = '<thead><tr><th>#</th><th class="n">Seed</th><th>Team</th><th class="hide-s">Region</th><th class="n">Proj.</th><th class="n">In</th><th class="n hide-s">Final Four</th><th class="n">Title</th><th class="n hide-s">Move</th></tr></thead><tbody>' +
-      B.field.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + t.overall + '</td><td class="n"><b>' + t.seed + '</b></td><td><span class="tm">' + HB.img(t.logo) + '<span>' + esc(HB.short(t.name)) + '<small>' + esc(t.conf) + (t.auto ? ' · league champ' : ' · at-large') + (t.opening_round ? ' · Opening Round' : '') + '</small></span></span></td>' +
+      B.field.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + t.overall + '</td><td class="n"><b>' + t.seed + '</b></td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + (t.auto ? ' · league champ' : ' · at-large') + (t.opening_round ? ' · Opening Round' : '') + '</small></span></span></td>' +
         '<td class="hide-s">' + esc(t.region) + '</td><td class="n">' + Math.round(t.exp_w) + '-' + Math.round(t.exp_l) + '</td><td class="n net">' + pct(t.p_bid) + '</td><td class="n hide-s">' + pct(t.adv && t.adv[4], 1) + '</td><td class="n">' + pct(t.adv && t.adv[6], 1) + '</td><td class="n hide-s">' + mv(t) + '</td></tr>').join('') + '</tbody>';
 
     /* ---------- bubble ---------- */
     const blist = (title, list, note) => '<div class="card"><h3 class="dv">' + title + '</h3><div class="kv">' +
-      list.map(t => '<span>' + esc(HB.short(t.name)) + ' <small style="color:var(--muted)">' + esc(t.conf) + ' · Bot No. ' + t.rank + '</small></span><b>' + pct(t.p_bid) + '</b>').join('') + '</div><p class="note" style="margin:0.75rem 0 0">' + note + '</p></div>';
+      list.map(t => '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + ' <small style="color:var(--muted)">' + esc(t.conf) + ' · Bot No. ' + t.rank + '</small></span><b>' + pct(t.p_bid) + '</b>').join('') + '</div><p class="note" style="margin:0.75rem 0 0">' + note + '</p></div>';
     $('#bubble').innerHTML = blist('Last four in', B.bubble.last_in, 'The final at-large teams in, last one first.') +
       blist('First four out', B.bubble.first_out, 'Next in line if a bid thief steals a spot.') + blist('Next four out', B.bubble.next_out, 'Still very much alive.');
     $('#confbids').innerHTML = Object.entries(B.conf_bids).filter(([c, n]) => n > 1).map(([c, n]) => '<span class="tchip" style="padding-left:0.7rem">' + esc(c) + ' <small>' + n + ' bids</small></span>').join('');
 
     /* ---------- our teams ---------- */
     $('#ours').innerHTML = '<thead><tr><th>Team</th><th class="n">In</th><th class="n hide-s">League title</th><th class="n">Seed</th><th class="n">Proj.</th><th class="n hide-s">Q1 wins</th><th class="n hide-s">Sweet 16</th></tr></thead><tbody>' +
-      B.ours.map(o => '<tr class="west"><td><span class="tm">' + HB.img(o.logo) + '<span>' + esc(HB.short(o.name)) + '<small>' + esc(o.conf) + '</small></span></span></td><td class="n net">' + pct(o.p_bid) + '</td><td class="n hide-s">' + pct(o.p_auto) + '</td>' +
+      B.ours.map(o => '<tr class="west"><td><span class="tm">' + HB.img(o.logo) + '<span>' + HB.tlink(o.id, esc(HB.short(o.name))) + '<small>' + esc(o.conf) + '</small></span></span></td><td class="n net">' + pct(o.p_bid) + '</td><td class="n hide-s">' + pct(o.p_auto) + '</td>' +
         '<td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td><td class="n">' + Math.round(o.exp_w) + '-' + Math.round(o.exp_l) + '</td><td class="n hide-s">' + (o.exp_q1w == null ? '—' : o.exp_q1w.toFixed(1)) + '</td><td class="n hide-s">' + (o.adv ? pct(o.adv[2], 1) : '—') + '</td></tr>').join('') + '</tbody>';
 
     /* ---------- what it takes ---------- */
@@ -190,6 +190,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610132300"></script>
+<script src="ticker.js?v=202610132345"></script>
 </body>
 </html>

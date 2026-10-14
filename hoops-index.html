@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610132300">
-<link rel="stylesheet" href="hoops.css?v=202610132300">
+<link rel="stylesheet" href="styles.css?v=202610132345">
+<link rel="stylesheet" href="hoops.css?v=202610132345">
 </head>
 <body>
 
@@ -57,16 +57,23 @@
       <div class="seg" id="lg"><button data-v="" aria-pressed="true">All 23</button><button data-v="pac" aria-pressed="false">Pac-12</button><button data-v="mw" aria-pressed="false">MW</button><button data-v="oth" aria-pressed="false">Other</button></div>
     </div>
     <div class="table-scroll"><table class="bt" id="tbl"></table></div>
-    <p class="note" style="margin-top:1rem">Net = points per 100 possessions better than an average Division I team. Off and Def: points scored and prevented per 100 possessions (higher is better for both). Tempo = possessions per 40 minutes. Nat = the Bot’s national rank among all Division I teams. Back = share of last season’s minutes returning, once a team’s roster is updated.</p>
+    <p class="note" style="margin-top:1rem">Net = points per 100 possessions better than an average Division I team. Off and Def: points scored and prevented per 100 possessions (higher is better for both). Nat = the Bot’s national rank. NCAA = chance to make the 76-team field; Seed = projected seed (from the weekly bracket). Click a team for its card, or its name for the full team page.</p>
+    <div class="hcards" id="cards"></div>
     <p class="updated" id="updated"></p>
   </div>
 </main>
 
-<script src="hoops.js?v=202610132300"></script>
+<script src="hoops.js?v=202610132345"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
-  Promise.all([HB.get('meta.json'), HB.get('teams.json')]).then(([meta, teams]) => {
+  const esc = HB.esc;
+  const pct = p => p == null ? '—' : p >= 0.995 ? '>99%' : p > 0 && p < 0.005 ? '<1%' : Math.round(100 * p) + '%';
+  const opt = n => HB.get(n).catch(() => null);
+  Promise.all([HB.get('meta.json'), HB.get('teams.json'), HB.get('games_west.json'), opt('odds.json'), opt('players.json')]).then(([meta, teams, games, odds, players]) => {
+    const T = {}; teams.forEach(t => T[t.id] = t);
+    const OD = {}; (odds ? odds.teams : []).forEach(o => OD[o.id] = o);
+    const PL = players || {};
     const ours = teams.filter(t => t.west).sort((a, b) => a.rank - b.rank);
     const played = ours.some(t => t.w + t.l > 0);
     $('#idx-eyebrow').textContent = 'Basketball · ' + meta.season_label.replace('-', '–') + ' · ' + (played ? 'Week ' + Math.max(1, meta.week) : 'Preseason');
@@ -77,17 +84,66 @@
     let lg = '';
     function draw() {
       const list = ours.filter(t => !lg || t.league === lg);
-      $('#tbl').innerHTML = '<thead><tr><th>#</th><th>Team</th><th class="hide-s">League</th><th class="n">W-L</th><th class="n">Net</th><th class="n">Off</th><th class="n">Def</th><th class="n hide-s">Tempo</th><th class="n">Nat</th><th class="n hide-s">Back</th>' + (played ? '<th class="n">Move</th>' : '') + '</tr></thead><tbody>' +
+      $('#tbl').innerHTML = '<thead><tr><th>#</th><th>Team</th><th class="n">W-L</th><th class="n">Net</th><th class="n hide-s">Off</th><th class="n hide-s">Def</th><th class="n">Nat</th><th class="n">NCAA</th><th class="n">Seed</th>' + (played ? '<th class="n hide-s">Move</th>' : '') + '</tr></thead><tbody>' +
         list.map(t => {
-          const r = ours.indexOf(t) + 1, m = prevOrder.indexOf(t.id) + 1 - r;
-          return '<tr class="west"><td class="rk">' + r + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.esc(HB.short(t.name)) + '<small>' + HB.esc(t.conf) + '</small></span></span></td>' +
-            '<td class="hide-s" style="color:var(--muted)">' + HB.esc(HB.LEAGUE[t.league]) + '</td><td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + HB.sgn(t.net) + '</td><td class="n">' + HB.sgn(t.off) + '</td><td class="n">' + HB.sgn(t.def) + '</td>' +
-            '<td class="n hide-s">' + (t.tempo == null ? '—' : t.tempo.toFixed(1)) + '</td><td class="n">' + t.rank + '</td><td class="n hide-s">' + (t.ret == null ? '—' : t.ret + '%') + '</td>' +
-            (played ? '<td class="n">' + (m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '<span class="flat">—</span>') + '</td>' : '') + '</tr>';
+          const r = ours.indexOf(t) + 1, m = prevOrder.indexOf(t.id) + 1 - r, o = OD[t.id] || {};
+          return '<tr class="west"><td class="rk"><a class="tl" href="#c-' + t.id + '">' + r + '</a></td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
+            '<td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + HB.sgn(t.net) + '</td><td class="n hide-s">' + HB.sgn(t.off) + '</td><td class="n hide-s">' + HB.sgn(t.def) + '</td>' +
+            '<td class="n">' + t.rank + '</td><td class="n">' + pct(o.p_bid) + '</td><td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td>' +
+            (played ? '<td class="n hide-s">' + (m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '<span class="flat">—</span>') + '</td>' : '') + '</tr>';
         }).join('') + '</tbody>';
     }
     $('#lg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; lg = b.dataset.v; [...$('#lg').children].forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
     draw();
+
+    /* ---------- team cards (like the football Index) ---------- */
+    const today = HB.today();
+    const short = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+    function card(t, r) {
+      const o = OD[t.id] || {}, pl = (PL[t.id] || {}), gs = games.filter(g => g.home_id === t.id || g.away_id === t.id);
+      const side = g => g.home_id === t.id ? 'home' : 'away';
+      const opp = g => side(g) === 'home' ? g.away_id : g.home_id;
+      const oname = g => side(g) === 'home' ? g.away : g.home;
+      const where = g => g.neutral ? 'vs' : side(g) === 'home' ? 'vs' : '@';
+      const loc = g => g.neutral ? 'neutral' : side(g);
+      const fin = gs.filter(g => g.final);
+      const res = g => { const us = side(g) === 'home' ? g.home_pts : g.away_pts, th = side(g) === 'home' ? g.away_pts : g.home_pts; return { win: us > th, us, th }; };
+      const oppRank = g => (T[opp(g)] || {}).rank;
+      const wins = fin.filter(g => res(g).win).sort((a, b) => (oppRank(a) || 999) - (oppRank(b) || 999));
+      const losses = fin.filter(g => !res(g).win).sort((a, b) => (oppRank(b) || 999) - (oppRank(a) || 999));
+      const gl = g => esc(HB.short(oname(g))) + ' ' + res(g).us + '–' + res(g).th + (oppRank(g) ? ' <small style="color:var(--muted)">(No. ' + oppRank(g) + ')</small>' : '');
+      const next = gs.find(g => !g.final && g.day >= today);
+      const nextTxt = next ? short(next.day) + ' ' + where(next) + ' ' + esc(HB.short(oname(next))) + ' · Bot: ' + (side(next) === 'home' ? next.pred_home + '–' + next.pred_away : next.pred_away + '–' + next.pred_home) + ' (' + Math.round(100 * (side(next) === 'home' ? next.home_wp : 1 - next.home_wp)) + '%)' : 'Season complete';
+      let march = '—';
+      if (o.p_bid != null) march = pct(o.p_bid) + ' to make the field (' + pct(o.p_tourney) + ' as ' + esc(t.conf) + ' tournament champ, ' + pct(o.p_atlarge) + ' at-large)' + (o.seed ? '; projected ' + o.seed + ' seed' : '; projected out') + '. ' + esc(t.conf) + ' regular-season title: ' + pct(o.p_rs_title) + '.';
+      let improve = '—';
+      if (o.p_bid != null) {
+        if (o.safe_q1w == null) improve = 'Win the ' + esc(t.conf) + ' tournament. The Bot doesn’t project an at-large résumé here.';
+        else if (o.q1w >= o.safe_q1w) improve = 'Has the Quad 1 wins for a safe at-large bid (' + o.q1w + '). Now avoid bad losses.';
+        else improve = 'About ' + o.safe_q1w + ' Quad 1 wins makes an at-large bid safe; has ' + o.q1w + ', projected to finish with ' + (o.exp_q1w == null ? '—' : o.exp_q1w.toFixed(1)) + '.';
+      }
+      const star = (pl.players || []).slice().sort((a, b) => (b.impact || 0) - (a.impact || 0))[0];
+      const inj = ((pl.adjust || {}).players || []).filter(q => q.p_out >= 0.3);
+      const rows = gs.filter(g => g.final || g.day >= today).slice(0, fin.length + 3).map(g => {
+        if (g.final) {
+          const rr = res(g), q = HB.quad(oppRank(g), loc(g));
+          return '<div class="gl"><span class="go">' + short(g.day) + ' ' + where(g) + ' ' + HB.tlink(opp(g), esc(HB.short(oname(g)))) + '<br><small>' + (rr.win ? 'W ' : 'L ') + rr.us + '–' + rr.th + ' · Quad ' + q + (rr.win ? ' win' : ' loss') + '</small></span><b class="' + (rr.win ? 'up' : 'down') + '">' + (rr.us - rr.th > 0 ? '+' : '') + (rr.us - rr.th) + '</b></div>';
+        }
+        const wp = side(g) === 'home' ? g.home_wp : 1 - g.home_wp;
+        return '<div class="gl"><span class="go">' + short(g.day) + ' ' + where(g) + ' ' + HB.tlink(opp(g), esc(HB.short(oname(g)))) + '<br><small>Bot: ' + (side(g) === 'home' ? g.pred_home + '–' + g.pred_away : g.pred_away + '–' + g.pred_home) + ' · Quad ' + HB.quad(oppRank(g), loc(g)) + ' game</small></span><b>' + Math.round(100 * wp) + '%</b></div>';
+      }).join('');
+      return '<article class="ei-card hcard" id="c-' + t.id + '"><h3>' + r + '. ' + HB.img(t.logo) + HB.tlink(t.id, esc(t.name)) + '</h3>' +
+        '<p class="meta">' + [t.w + '-' + t.l, esc(t.conf) + ' ' + t.cw + '-' + t.cl, 'Bot No. ' + t.rank, 'NCAA ' + pct(o.p_bid), o.seed ? o.seed + ' seed' : 'Proj. out'].join(' | ') + '</p><dl>' +
+        '<dt>Best win</dt><dd>' + (wins[0] ? gl(wins[0]) : 'None yet') + '</dd>' +
+        '<dt>Worst loss</dt><dd>' + (losses[0] ? gl(losses[0]) : 'None yet') + '</dd>' +
+        '<dt>March</dt><dd>' + march + '</dd>' +
+        '<dt>Next</dt><dd>' + nextTxt + '</dd>' +
+        '<dt>To improve</dt><dd>' + improve + '</dd>' +
+        (star ? '<dt>Key player</dt><dd>' + esc(star.name) + ' · ' + (star.ppg == null ? '' : star.ppg.toFixed(1) + ' ppg') + ' · worth ' + (star.impact || 0).toFixed(1) + ' pts' + (pl.season !== 'this season' ? ' <small style="color:var(--muted)">(last season)</small>' : '') + '</dd>' : '') +
+        (inj.length ? '<dt>Injuries</dt><dd>' + inj.map(q => esc(q.name) + ' (' + esc(q.note || 'out') + ', ' + (q.pts > 0 ? '+' : '−') + Math.abs(q.pts).toFixed(1) + ')').join('; ') + '</dd>' : '') +
+        '</dl><div class="games">' + rows + '</div><p class="meta" style="margin:1rem 0 0"><a class="tl" style="color:var(--purple)" href="hoops-team.html?id=' + t.id + '">Full team page &rarr;</a> &nbsp; <a class="tl" style="color:var(--purple)" href="#tbl">&uarr; Back to rankings</a></p></article>';
+    }
+    $('#cards').innerHTML = ours.map((t, i) => card(t, i + 1)).join('');
     const up = new Date(meta.generated);
     $('#updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT';
   }).catch(err => { document.getElementById('tbl').innerHTML = '<tr><td class="empty">The basketball Bot is warming up. Check back shortly.</td></tr>'; console.error(err); });
@@ -95,6 +151,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610132300"></script>
+<script src="ticker.js?v=202610132345"></script>
 </body>
 </html>

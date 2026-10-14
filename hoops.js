@@ -22,6 +22,11 @@ const HB = (function () {
   const addDays = (d, n) => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
   const sgn = (v, d) => v == null ? '—' : (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(d == null ? 1 : d);
   const LEAGUE = { pac: 'Pac-12', mw: 'Mountain West', oth: 'Other leagues' };
+  /* link a team name to its page */
+  const tlink = (id, html) => id ? '<a class="tl" href="hoops-team.html?id=' + id + '">' + html + '</a>' : html;
+  /* the committee's quadrants, using the Bot's rankings */
+  const QCUT = { home: [30, 75, 160], neutral: [50, 100, 200], away: [75, 135, 240] };
+  const quad = (oppRank, where) => { const c = QCUT[where]; return !oppRank ? 4 : oppRank <= c[0] ? 1 : oppRank <= c[1] ? 2 : oppRank <= c[2] ? 3 : 4; };
 
   /* one game card. T: team id -> team row (from teams.json) */
   function card(g, T, opts) {
@@ -32,7 +37,7 @@ const HB = (function () {
     const nm = (t, name) => {
       const rec = t.w != null && (t.w + t.l) > 0 ? t.w + '-' + t.l : '';
       const rk = t.rank ? 'No. ' + t.rank : '';
-      return '<span class="nm">' + esc(short(name)) + '<small>' + [rec, rk ? 'Bot ' + rk : ''].filter(Boolean).join(' · ') + '</small></span>';
+      return '<span class="nm">' + tlink(t.id, esc(short(name))) + '<small>' + [rec, rk ? 'Bot ' + rk : ''].filter(Boolean).join(' · ') + '</small></span>';
     };
     const row = (side) => {
       const home = side === 'home', t = home ? th : ta, name = home ? g.home : g.away;
@@ -61,6 +66,13 @@ const HB = (function () {
     const f = g.factors || {};
     if (!g.neutral && f.altitude_ft >= 1500) chips.push('<span class="chip alt">Altitude +' + f.altitude_ft.toLocaleString('en-US') + ' ft</span>');
     if (Math.abs(f.travel_mi || 0) >= 1000) chips.push('<span class="chip">Travel ' + Math.abs(f.travel_mi).toLocaleString('en-US') + ' mi</span>');
+    if (g.inj && !g.final) {
+      [['away', ta], ['home', th]].forEach(([side, t]) => (g.inj[side] || []).forEach(q => {
+        const out = q.p_out >= 0.3;
+        chips.push('<span class="chip ' + (out ? 'inj' : 'back') + '" title="' + esc(q.note || '') + '">' + esc((t.abbr || '') + ' ' + q.name.split(' ').slice(-1)[0]) +
+          (out ? (q.p_out >= 0.9 ? ' out ' : ' ' + Math.round(q.p_out * 100) + '% out ') : ' back ') + (q.pts > 0 ? '+' : '−') + Math.abs(q.pts).toFixed(1) + '</span>');
+      }));
+    }
     if (g.vegas_spread != null) chips.push('<span class="chip">Vegas ' + esc(g.vegas_spread === 0 ? 'pick’em' : (g.vegas_spread < 0 ? (th.abbr || g.home) : (ta.abbr || g.away)) + ' −' + Math.abs(g.vegas_spread)) + '</span>');
     let res = '';
     if (g.final && g.pred_home != null) {
@@ -77,5 +89,5 @@ const HB = (function () {
   /* Week of a date: Monday-Sunday */
   function monday(d) { const x = new Date(d + 'T12:00:00Z'); const w = (x.getUTCDay() + 6) % 7; return addDays(d, -w); }
 
-  return { get, esc, img, short, today, time, dayLong, dayShort, addDays, sgn, LEAGUE, card, monday, TZ };
+  return { get, esc, img, short, today, time, dayLong, dayShort, addDays, sgn, LEAGUE, card, monday, TZ, tlink, quad };
 })();

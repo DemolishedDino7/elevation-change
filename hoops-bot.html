@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610132300">
-<link rel="stylesheet" href="hoops.css?v=202610132300">
+<link rel="stylesheet" href="styles.css?v=202610132345">
+<link rel="stylesheet" href="hoops.css?v=202610132345">
 </head>
 <body>
 
@@ -83,7 +83,9 @@
     </section>
 
     <section class="panel" id="p-odds" role="tabpanel" aria-labelledby="t-odds" hidden>
-      <div class="soon" id="odds-soon"></div>
+      <div class="ctl"><select class="sel" id="odds-conf" aria-label="Conference"></select></div>
+      <p class="note" id="odds-note">From 1,000 simulated seasons, rebuilt every Monday with the bracket. Title = regular-season league title (ties shared). Tourney = winning the league tournament and its automatic bid. NCAA = making the 76-team field either way; the small line splits it into automatic and at-large. Seed = projected seed if the season played out as the Bot expects.</p>
+      <div id="odds"></div>
     </section>
 
     <section class="panel" id="p-record" role="tabpanel" aria-labelledby="t-record" hidden>
@@ -109,7 +111,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610132300"></script>
+<script src="hoops.js?v=202610132345"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -173,7 +175,7 @@
       const th = (k, label, cls) => '<th class="' + (cls || '') + (k === rkey ? ' on' : '') + '"' + (k ? ' data-k="' + k + '"' : '') + '>' + label + '</th>';
       const mv = t => { const m = t.prev_rank - t.rank; return m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '<span class="flat">—</span>'; };
       $('#rate-table').innerHTML = '<thead><tr>' + th('', '#') + th('', 'Team') + th('', 'W-L', 'n') + th('net', 'Net', 'n') + th('off', 'Off', 'n') + th('def', 'Def', 'n') + th('tempo', 'Tempo', 'n hide-s') + th('ret', 'Back', 'n hide-s') + th('', 'Move', 'n hide-s') + '</tr></thead><tbody>' +
-        list.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + t.rank + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + esc(HB.short(t.name)) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
+        list.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + t.rank + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
           '<td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + HB.sgn(t.net) + '</td><td class="n">' + HB.sgn(t.off) + '<span class="sub">' + t.off_rank + '</span></td><td class="n">' + HB.sgn(t.def) + '<span class="sub">' + t.def_rank + '</span></td>' +
           '<td class="n hide-s">' + (t.tempo == null ? '—' : t.tempo.toFixed(1)) + '</td><td class="n hide-s">' + (t.ret == null ? '—' : t.ret + '%') + '</td><td class="n hide-s">' + mv(t) + '</td></tr>').join('') + '</tbody>';
     }
@@ -182,10 +184,30 @@
     $('#rate-table').addEventListener('click', e => { const k = e.target.closest('th') && e.target.closest('th').dataset.k; if (k) { rkey = k; drawRatings(); } });
     drawRatings();
 
-    /* ---------- season odds ---------- */
-    const cs = meta.conf_schedule || {};
-    $('#odds-soon').innerHTML = '<p style="margin:0 0 0.5rem"><b>Season odds switch on once both league schedules are posted.</b></p>' +
-      '<p style="margin:0">They’ll simulate the rest of the season 10,000 times: projected records, regular-season title chances, conference tournament seeds and NCAA Tournament bid odds for every team we cover. League games posted so far: <b>Mountain West ' + (cs.mw || 0) + '</b>, <b>Pac-12 ' + (cs.pac || 0) + '</b>.</p>';
+    /* ---------- season odds: every league, every team ---------- */
+    HB.get('odds.json').then(O => {
+      const pct = p => p == null ? '—' : p >= 0.995 ? '>99%' : p > 0 && p < 0.005 ? '<1%' : Math.round(100 * p) + '%';
+      const sel = $('#odds-conf');
+      sel.innerHTML = '<option value="">All 32 leagues</option>' + O.conferences.map(c => '<option>' + esc(c) + '</option>').join('');
+      const mv = t => t.prev_p_bid == null || t.p_bid == null ? '' : (d => Math.abs(d) < 0.02 ? '<span class="flat">—</span>' : d > 0 ? '<span class="up">▲ ' + Math.round(100 * d) + '</span>' : '<span class="down">▼ ' + Math.round(-100 * d) + '</span>')(t.p_bid - t.prev_p_bid);
+      function draw() {
+        const c = sel.value, confs = c ? [c] : O.conferences;
+        $('#odds').innerHTML = confs.map(cf => {
+          const ts = O.teams.filter(t => t.conf === cf).sort((a, b) => (b.p_bid - a.p_bid) || (b.p_tourney - a.p_tourney) || a.rank - b.rank);
+          const posted = O.schedule_posted[cf];
+          const flag = posted != null && posted < 0.9 ? '<span class="chip" style="margin-left:0.6rem;vertical-align:middle">League schedule estimated (' + Math.round(100 * posted) + '% posted)</span>' : '';
+          return '<h2 class="sh dv">' + esc(cf) + flag + '</h2><div class="table-scroll"><table class="bt odds"><thead><tr><th>Team</th><th class="n">Proj.</th><th class="n hide-s">League</th><th class="n">Title</th><th class="n">Tourney</th><th class="n">NCAA</th><th class="n">Seed</th><th class="n hide-s">Sweet 16</th><th class="n hide-s">Champ</th>' + (O.previous ? '<th class="n hide-s">Week</th>' : '') + '</tr></thead><tbody>' +
+            ts.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>Bot No. ' + t.rank + (t.w + t.l ? ' · ' + t.w + '-' + t.l : '') + '</small></span></span></td>' +
+              '<td class="n">' + Math.round(t.exp_w) + '-' + Math.round(t.exp_l) + '</td><td class="n hide-s">' + Math.round(t.exp_cw) + '-' + Math.round(t.exp_cl) + '</td>' +
+              '<td class="n">' + pct(t.p_rs_title) + '</td><td class="n">' + pct(t.p_tourney) + '</td>' +
+              '<td class="n net">' + pct(t.p_bid) + (t.p_bid >= 0.01 ? '<span class="why">' + pct(t.p_tourney) + ' auto · ' + pct(t.p_atlarge) + ' at-large</span>' : '') + '</td>' +
+              '<td class="n">' + (t.seed ? '<b>' + t.seed + '</b>' : '—') + '</td><td class="n hide-s">' + (t.adv ? pct(t.adv[2]) : '—') + '</td><td class="n hide-s">' + (t.adv ? pct(t.adv[6]) : '—') + '</td>' +
+              (O.previous ? '<td class="n hide-s">' + mv(t) + '</td>' : '') + '</tr>').join('') + '</tbody></table></div>';
+        }).join('');
+      }
+      sel.addEventListener('change', draw);
+      draw();
+    }).catch(() => { $('#odds').innerHTML = '<p class="note">Season odds are being built.</p>'; });
 
     /* ---------- record ---------- */
     const A = record.live.all;
@@ -247,6 +269,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610132300"></script>
+<script src="ticker.js?v=202610132345"></script>
 </body>
 </html>

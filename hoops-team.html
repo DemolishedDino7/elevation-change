@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team · Basketball — Elevation Change</title>
+<meta name="description" content="Every Division I men's basketball team: March odds, résumé, players and injuries, schedule with the Bot's picks, and ratings.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Team · Basketball — Elevation Change">
+<meta property="og:description" content="Every Division I men's basketball team: March odds, résumé, players and injuries, schedule with the Bot's picks, and ratings.">
+<meta property="og:url" content="https://elevationchange.co/hoops-team.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610132345">
+<link rel="stylesheet" href="hoops.css?v=202610132345">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="elevation-index.html">Football</a>
+      <a href="basketball.html" aria-current="page">Basketball</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav" aria-label="Basketball">
+  <div class="wrap">
+    <a href="basketball.html">Hub</a>
+    <a href="hoops-index.html">Index</a>
+    <a href="hoops-standings.html">Standings</a>
+    <a href="hoops-bracket.html">Bracket</a>
+    <a href="hoops-bot.html">The Bot</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="bot-head" id="tm-head">
+      <p class="eyebrow" id="tm-eyebrow">Basketball</p>
+      <h1 class="page-title tm-title" id="tm-name">Team</h1>
+      <p class="bot-intro" id="tm-intro"></p>
+      <div class="strip" id="tm-strip"></div>
+      <p class="updated" id="tm-updated"></p>
+    </section>
+
+    <div class="two">
+      <section>
+        <div class="sec-head"><h2>March outlook</h2><a href="hoops-bracket.html">Bracket &rarr;</a></div>
+        <div class="card" id="tm-march"></div>
+      </section>
+      <section>
+        <div class="sec-head"><h2>Résumé</h2></div>
+        <div class="card" id="tm-resume"></div>
+      </section>
+    </div>
+
+    <section>
+      <div class="sec-head"><h2>Players</h2><span class="lbl" id="pl-season"></span></div>
+      <div id="tm-inj"></div>
+      <div class="table-scroll"><table class="bt" id="tm-players"></table></div>
+      <p class="note">Impact = how many points of margin the team loses when he sits, from the Bot’s player values (production above a bench replacement, calibrated on five seasons of games with regulars out).</p>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Schedule</h2><a href="hoops-bot.html">All picks &rarr;</a></div>
+      <div class="table-scroll"><table class="bt" id="tm-sched"></table></div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Ratings</h2><a href="hoops-bot.html#ratings">All teams &rarr;</a></div>
+      <div class="cards2" id="tm-ratings"></div>
+    </section>
+  </div>
+</main>
+
+<script src="hoops.js?v=202610132345"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = HB.esc;
+  const pct = p => p == null ? '—' : p >= 0.995 ? '>99%' : p > 0 && p < 0.005 ? '<1%' : Math.round(100 * p) + '%';
+  const opt = n => HB.get(n).catch(() => null);
+  const qs = new URLSearchParams(location.search);
+  Promise.all([HB.get('meta.json'), HB.get('teams.json'), opt('odds.json'), opt('players.json'), HB.get('games_west.json')]).then(([meta, teams, odds, players, west]) => {
+    const T = {}; teams.forEach(t => T[t.id] = t);
+    const slug = n => String(n).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    let t = T[Number(qs.get('id'))] || teams.find(x => slug(x.name) === qs.get('t')) || teams.find(x => x.west);
+    const o = ((odds || {}).teams || []).find(x => x.id === t.id) || {};
+    const pl = (players || {})[t.id] || {};
+    document.title = t.name + ' Basketball — Elevation Change';
+    $('#tm-eyebrow').textContent = 'Basketball · ' + meta.season_label.replace('-', '–') + ' · ' + t.conf + (t.west ? ' · One of our 23' : '');
+    $('#tm-name').innerHTML = HB.img(t.logo, 'tm-logo') + esc(t.name);
+    $('#tm-intro').textContent = (t.w + t.l ? t.w + '-' + t.l + ' overall, ' + t.cw + '-' + t.cl + ' in the ' + t.conf + '. ' : 'Season opens soon. ') +
+      'The Bot rates them No. ' + t.rank + ' of ' + teams.length + ' in Division I' + (t.pre_rank && t.pre_rank !== t.rank ? ' (preseason No. ' + t.pre_rank + ')' : '') + '.';
+    $('#tm-strip').innerHTML =
+      '<div><span class="lbl">Bot rating</span><b>' + HB.sgn(t.net) + '</b><p>No. ' + t.rank + ' nationally</p></div>' +
+      '<div><span class="lbl">NCAA Tournament</span><b class="p">' + pct(o.p_bid) + '</b><p>' + (o.seed ? 'Projected ' + o.seed + ' seed' : 'Projected out of the field') + '</p></div>' +
+      '<div><span class="lbl">' + esc(t.conf) + ' title</span><b>' + pct(o.p_rs_title) + '</b><p>Tournament: ' + pct(o.p_tourney) + '</p></div>' +
+      '<div><span class="lbl">Projected record</span><b>' + (o.exp_w != null ? Math.round(o.exp_w) + '-' + Math.round(o.exp_l) : '—') + '</b><p>' + (o.exp_cw != null ? Math.round(o.exp_cw) + '-' + Math.round(o.exp_cl) + ' in league' : '') + '</p></div>';
+    const up = new Date(meta.generated);
+    $('#tm-updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT · odds rebuilt Mondays';
+
+    /* March */
+    const kv = rows => '<div class="kv">' + rows.map(([k, v]) => '<span>' + k + '</span><b>' + v + '</b>').join('') + '</div>';
+    let safe = '—';
+    if (o.p_bid != null) safe = o.safe_q1w == null ? 'Needs the automatic bid' : o.q1w >= o.safe_q1w ? 'Safe on Quad 1 wins' : 'About ' + o.safe_q1w + ' Quad 1 wins (has ' + o.q1w + ')';
+    const mv = o.prev_p_bid == null || o.p_bid == null ? '—' : (d => Math.abs(d) < 0.02 ? 'No change' : (d > 0 ? '▲ ' : '▼ ') + Math.round(100 * Math.abs(d)) + ' pts')(o.p_bid - o.prev_p_bid);
+    $('#tm-march').innerHTML = kv([
+      ['Make the field', pct(o.p_bid)], ['As league champion', pct(o.p_tourney)], ['As an at-large', pct(o.p_atlarge)],
+      ['Projected seed', o.seed || 'Out'], ['Reach the Sweet 16', o.adv ? pct(o.adv[2]) : '—'], ['Reach the Final Four', o.adv ? pct(o.adv[4]) : '—'],
+      ['Win it all', o.adv ? pct(o.adv[6]) : '—'], ['Safe at-large line', safe], ['Since last week', mv]]);
+
+    /* Résumé */
+    $('#tm-resume').innerHTML = kv([
+      ['Record', t.w + '-' + t.l], ['League', t.cw + '-' + t.cl], ['Quad 1', (o.q1w || 0) + '-' + (o.q1l || 0)], ['Quad 2', (o.q2w || 0) + '-' + (o.q2l || 0)],
+      ['Quad 3–4 losses', o.badl == null ? '—' : o.badl], ['Projected Quad 1 wins', o.exp_q1w == null ? '—' : o.exp_q1w.toFixed(1)],
+      ['Returning minutes', t.ret == null ? 'Roster not updated yet' : t.ret + '%']]) +
+      '<p class="note" style="margin:0.75rem 0 0">Quadrants use the Bot’s rankings in place of the NET: Quad 1 = home vs. top 30, neutral vs. top 50, road vs. top 75.</p>';
+
+    /* Players + injuries */
+    $('#pl-season').textContent = pl.season ? pl.season.charAt(0).toUpperCase() + pl.season.slice(1) : '';
+    const adj = pl.adjust;
+    $('#tm-inj').innerHTML = adj && adj.players && adj.players.length ? '<div class="soon" style="margin-bottom:1rem"><b>Availability:</b> ' +
+      adj.players.map(q => esc(q.name) + ' — ' + esc(q.note || (q.p_out >= 0.3 ? 'may sit' : 'back')) + ' (' + (q.pts > 0 ? '+' : '−') + Math.abs(q.pts).toFixed(1) + ' pts)').join('; ') +
+      '. Net effect on this week’s picks: <b>' + (adj.near > 0 ? '+' : '−') + Math.abs(adj.near).toFixed(1) + ' pts</b>.</div>' : '';
+    const ps = pl.players || [];
+    $('#tm-players').innerHTML = ps.length ? '<thead><tr><th>Player</th><th class="n">GP</th><th class="n">MPG</th><th class="n">PPG</th><th class="n hide-s">RPG</th><th class="n hide-s">APG</th><th class="n">Impact</th><th class="hide-s">Status</th></tr></thead><tbody>' +
+      ps.map(p => '<tr><td>' + esc(p.name) + (p.from ? '<span class="why">Transfer from ' + HB.tlink(p.from, esc((T[p.from] || {}).name || 'another school')) + '</span>' : '') + '</td><td class="n">' + p.gp + '</td><td class="n">' + (p.mpg == null ? '—' : p.mpg.toFixed(1)) + '</td><td class="n">' + (p.ppg == null ? '—' : p.ppg.toFixed(1)) + '</td>' +
+        '<td class="n hide-s">' + (p.rpg == null ? '—' : p.rpg.toFixed(1)) + '</td><td class="n hide-s">' + (p.apg == null ? '—' : p.apg.toFixed(1)) + '</td><td class="n net">' + (p.impact == null ? '—' : p.impact.toFixed(1)) + '</td>' +
+        '<td class="hide-s" style="color:' + (p.p_out >= 0.3 ? 'var(--down)' : 'var(--muted)') + '">' + (p.p_out >= 0.3 ? esc(p.note || 'May sit') : '') + '</td></tr>').join('') + '</tbody>'
+      : '<tbody><tr><td class="empty">No box scores yet.</td></tr></tbody>';
+
+    /* Schedule */
+    const today = HB.today();
+    const sched = (gs) => {
+      const side = g => g.home_id === t.id ? 'home' : 'away';
+      const opp = g => side(g) === 'home' ? g.away_id : g.home_id;
+      const oname = g => side(g) === 'home' ? g.away : g.home;
+      const loc = g => g.neutral ? 'neutral' : side(g);
+      $('#tm-sched').innerHTML = '<thead><tr><th>Date</th><th>Opponent</th><th class="n">Result / Bot pick</th><th class="n">Win %</th><th class="n hide-s">Quad</th></tr></thead><tbody>' +
+        gs.map(g => {
+          const us = side(g) === 'home' ? g.home_pts : g.away_pts, th = side(g) === 'home' ? g.away_pts : g.home_pts;
+          const pu = side(g) === 'home' ? g.pred_home : g.pred_away, pt = side(g) === 'home' ? g.pred_away : g.pred_home;
+          const wp = g.home_wp == null ? null : side(g) === 'home' ? g.home_wp : 1 - g.home_wp;
+          const o2 = T[opp(g)] || {};
+          const res = g.final ? '<span class="' + (us > th ? 'up' : 'down') + '">' + (us > th ? 'W ' : 'L ') + us + '–' + th + '</span><span class="why">Bot had ' + pu + '–' + pt + ((pu > pt) === (us > th) ? ' ✓' : ' ✗') + '</span>' : pu + '–' + pt;
+          return '<tr class="' + (g.final ? 'dim' : '') + '"><td>' + HB.dayShort(g.day) + '<span class="why">' + (g.final ? 'Final' : HB.time(g.start, g.tba)) + '</span></td><td><span class="tm">' + HB.img(o2.logo) + '<span>' + (g.neutral ? 'vs. ' : side(g) === 'home' ? 'vs. ' : 'at ') + HB.tlink(opp(g), esc(HB.short(oname(g)))) + '<small>' + (o2.rank ? 'Bot No. ' + o2.rank + ' · ' : '') + esc(o2.conf || 'Non-D-I') + '</small></span></span></td>' +
+            '<td class="n">' + res + '</td><td class="n">' + (wp == null ? '—' : Math.round(100 * wp) + '%') + '</td><td class="n hide-s">' + (o2.rank ? 'Q' + HB.quad(o2.rank, loc(g)) : '—') + '</td></tr>';
+        }).join('') + '</tbody>';
+    };
+    const mine = west.filter(g => g.home_id === t.id || g.away_id === t.id);
+    if (t.west) sched(mine);
+    else HB.get('games_all.json').then(all => sched(all.filter(g => g.home_id === t.id || g.away_id === t.id))).catch(() => sched([]));
+
+    /* Ratings */
+    $('#tm-ratings').innerHTML =
+      '<div class="card"><h3 class="dv">Offense</h3>' + kv([['Points per 100 above avg.', HB.sgn(t.off)], ['National rank', t.off_rank], ['Tempo', t.tempo == null ? '—' : t.tempo.toFixed(1) + ' poss.']]) + '</div>' +
+      '<div class="card"><h3 class="dv">Defense</h3>' + kv([['Points per 100 prevented', HB.sgn(t.def)], ['National rank', t.def_rank], ['Net rating', HB.sgn(t.net) + ' (No. ' + t.rank + ')']]) + '</div>';
+  }).catch(err => { document.getElementById('tm-intro').textContent = 'Team data is loading. Try again shortly.'; console.error(err); });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610132345"></script>
+</body>
+</html>
