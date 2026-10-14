@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-14T02:41+00:00",
+ "generated": "2026-10-14T02:42+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-10-13",
@@ -86,7 +86,11 @@
  },
  "espn": {
   "ok": false,
-  "error": "skipped"
+  "days": 0,
+  "events": 0,
+  "finals": 0,
+  "lines": 0,
+  "error": "<HTTPError 403: 'Forbidden'>"
  },
  "lines_seen": 0,
  "next_west": "2026-11-02",
