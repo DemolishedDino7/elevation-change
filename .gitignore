@@ -1,3 +1,4 @@
 model/cache/
 __pycache__/
 *.whl
+/model/hoops/cache/

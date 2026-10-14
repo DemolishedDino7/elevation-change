@@ -35,8 +35,13 @@ const FALLBACK = [
 
 /* ---- nothing below here needs editing ---- */
 
+/* Basketball: our 23 teams by ESPN team id (the 20 football schools + Gonzaga, Grand Canyon, UC Davis) */
+const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 2440, 167, 23, 302, 2439, 2638, 2751, 2449, 2459, 166, 16];
+
 (function () {
   const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80&limit=300";
+  const ESPN_HOOPS = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=500&dates=";
+  const watchHoops = new Set(WATCH_HOOPS.map(String));
   const SEP = '<span class="tk-sep"></span>';
   const watch = new Set(WATCH);
 
@@ -72,10 +77,36 @@ const FALLBACK = [
     return day + ' ' + t;
   }
 
-  function render(data) {
+  function hoopsItems(data) {
+    /* today's basketball games for our teams; "BB" marks them when football is on the ticker too */
     const items = [];
     let anyLive = false;
-    (data.events || []).forEach(ev => {
+    (data && data.events || []).forEach(ev => {
+      const c = ev.competitions && ev.competitions[0];
+      if (!c) return;
+      const home = c.competitors.find(x => x.homeAway === 'home');
+      const away = c.competitors.find(x => x.homeAway === 'away');
+      if (!home || !away || (!watchHoops.has(String(home.team.id)) && !watchHoops.has(String(away.team.id)))) return;
+      const state = ev.status && ev.status.type && ev.status.type.state;
+      const an = esc(away.team.location || away.team.shortDisplayName), hn = esc(home.team.location || home.team.shortDisplayName);
+      const tag = '<em>BB</em>' + SEP;
+      if (state === 'in') {
+        anyLive = true;
+        items.push('<span class="tk-item tk-in"><i class="tk-dot"></i>' + tag + '<b>' + an + ' ' + esc(away.score) + ' – ' + hn + ' ' + esc(home.score) + '</b>' + SEP + '<em>' + esc(ev.status.type.shortDetail || '') + '</em></span>');
+      } else if (state === 'post') {
+        items.push('<span class="tk-item">' + tag + '<b>' + an + ' ' + esc(away.score) + ' – ' + hn + ' ' + esc(home.score) + '</b>' + SEP + '<em>Final</em></span>');
+      } else {
+        const odds = c.odds && c.odds[0] && c.odds[0].details;
+        items.push('<span class="tk-item">' + tag + '<b>' + an + ' @ ' + hn + '</b>' + SEP + '<em>' + esc(c.timeValid === false ? 'Today' : mtTime(ev.date)) + '</em>' + (odds ? SEP + '<em>' + esc(odds) + '</em>' : '') + '</span>');
+      }
+    });
+    return { items, anyLive };
+  }
+
+  function render(data, hoops) {
+    const items = [];
+    let anyLive = false;
+    (data && data.events || []).forEach(ev => {
       const c = ev.competitions && ev.competitions[0];
       if (!c) return;
       const home = c.competitors.find(x => x.homeAway === 'home');
@@ -105,16 +136,26 @@ const FALLBACK = [
       }
       items.push(s);
     });
-    if (!items.length) { fallback(); return false; }
-    paint(items, anyLive);
-    return anyLive;
+    const h = hoopsItems(hoops);
+    /* football is only "this weekend" news Thursday-Saturday; hoops games are today's */
+    const all = items.concat(h.items);
+    if (!all.length) { if (data) { fallback(); } return false; }
+    paint(all, anyLive || h.anyLive);
+    if (h.items.length) { label.textContent = (anyLive || h.anyLive) ? 'Live' : (items.length ? 'This week' : 'Today'); }
+    return anyLive || h.anyLive;
+  }
+
+  function get(url) {
+    return fetch(url, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
   }
 
   function load() {
-    fetch(ESPN, { cache: 'no-store' })
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(data => { if (render(data)) setTimeout(load, 60000); else setTimeout(load, 15 * 60000); })
-      .catch(() => { fallback(); setTimeout(load, 5 * 60000); });
+    const day = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' }).replace(/-/g, '');
+    Promise.allSettled([get(ESPN), get(ESPN_HOOPS + day)]).then(([fb, bb]) => {
+      if (fb.status === 'rejected' && bb.status === 'rejected') { fallback(); setTimeout(load, 5 * 60000); return; }
+      const live = render(fb.status === 'fulfilled' ? fb.value : null, bb.status === 'fulfilled' ? bb.value : null);
+      setTimeout(load, live ? 60000 : 15 * 60000);
+    });
   }
 
   fallback();   /* show something immediately */

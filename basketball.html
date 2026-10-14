@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basketball — Elevation Change</title>
+<meta name="description" content="Men's basketball for the Pac-12, Mountain West and the rest of our Western 20: every game picked by the Bot, standings and the Elevation Index.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Basketball — Elevation Change">
+<meta property="og:description" content="Men's basketball for the Pac-12, Mountain West and the rest of our Western 20: every game picked by the Bot, standings and the Elevation Index.">
+<meta property="og:url" content="https://elevationchange.co/basketball.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610132100">
+<link rel="stylesheet" href="hoops.css?v=202610132100">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="elevation-index.html">Football</a>
+      <a href="basketball.html" aria-current="page">Basketball</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav" aria-label="Basketball">
+  <div class="wrap">
+    <a href="basketball.html" aria-current="page">Hub</a>
+    <a href="hoops-index.html">Index</a>
+    <a href="hoops-standings.html">Standings</a>
+    <a href="hoops-bot.html">The Bot</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="hb-head">
+      <p class="eyebrow eyebrow-wide">Men’s basketball | <span id="season">2026–27</span> | 23 teams</p>
+      <h1 class="page-title">Thin air.<br>Loud gyms.</h1>
+      <p class="dek">Every Pac-12 and Mountain West team, plus the rest of our Western 20, from tip-off to Selection Sunday. Every game picked by the Bot.</p>
+      <p class="status" id="status"></p>
+    </section>
+
+    <section aria-labelledby="games-h">
+      <div class="sec-head">
+        <h2 id="games-h">Our games</h2>
+        <div class="daynav"><button id="wk-prev" aria-label="Previous week">‹</button><div class="days" id="days" role="group" aria-label="Day"></div><button id="wk-next" aria-label="Next week">›</button></div>
+      </div>
+      <p class="lbl" id="day-lbl" style="margin:0 0 1rem"></p>
+      <div class="games3" id="games"></div>
+    </section>
+
+    <div class="two" style="margin-top:3rem">
+      <section aria-labelledby="idx-h">
+        <div class="sec-head"><h2 id="idx-h">Elevation Index</h2><a href="hoops-index.html">All 23 &rarr;</a></div>
+        <ol class="mini-ei-list" id="idx"></ol>
+      </section>
+      <section aria-labelledby="st-h">
+        <div class="sec-head"><h2 id="st-h">Standings</h2><a href="hoops-standings.html">Full standings &rarr;</a></div>
+        <div id="stand"></div>
+      </section>
+    </div>
+
+    <section aria-labelledby="our-h">
+      <div class="sec-head"><h2 id="our-h">Our 23</h2><a href="hoops-bot.html">The Bot &rarr;</a></div>
+      <div class="leagues" id="leagues"></div>
+    </section>
+    <p class="updated" id="updated"></p>
+  </div>
+</main>
+
+<script src="hoops.js?v=202610132100"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  Promise.all([HB.get('meta.json'), HB.get('teams.json'), HB.get('games_west.json'), HB.get('standings.json')]).then(([meta, teams, games, st]) => {
+    const T = {}; teams.forEach(t => T[t.id] = t);
+    $('#season').textContent = meta.season_label.replace('-', '–');
+    const today = HB.today();
+    const days = [...new Set(games.map(g => g.day))].sort();
+    const count = {}; games.forEach(g => count[g.day] = (count[g.day] || 0) + 1);
+    const live = games.filter(g => g.final).length;
+    const next = days.find(d => d >= today) || days[days.length - 1];
+    if (!live && days.length) {
+      const n = Math.round((new Date(days[0] + 'T12:00:00Z') - new Date(today + 'T12:00:00Z')) / 864e5);
+      $('#status').innerHTML = n > 0 ? 'Tip-off: <b>' + HB.dayLong(days[0]) + '</b> · ' + n + ' day' + (n === 1 ? '' : 's') + ' away' : '<b>Tip-off week</b>';
+    } else if (days.length) {
+      $('#status').innerHTML = '<b>' + live + '</b> of our games played · next: <b>' + HB.dayLong(next) + '</b>';
+    }
+    let day = next, wk = HB.monday(day);
+    function draw() {
+      const ds = [...Array(7)].map((_, i) => HB.addDays(wk, i));
+      $('#days').innerHTML = ds.map(d => {
+        const n = count[d] || 0;
+        return '<button aria-pressed="' + (d === day) + '"' + (n ? '' : ' disabled') + ' data-d="' + d + '"><span class="dw">' + HB.dayShort(d).split(' ')[0] + '</span><span class="dn">' + Number(d.slice(8)) + '</span><span class="dc">' + (n ? n + ' game' + (n === 1 ? '' : 's') : '—') + '</span></button>';
+      }).join('');
+      $('#wk-prev').disabled = !days.some(d => d < wk);
+      $('#wk-next').disabled = !days.some(d => d > HB.addDays(wk, 6));
+      const list = games.filter(g => g.day === day).sort((a, b) => (a.tba - b.tba) || String(a.start).localeCompare(String(b.start)));
+      $('#day-lbl').textContent = list.length ? HB.dayLong(day) + (day === today ? ' · Today' : '') : 'No games for our teams this day';
+      $('#games').innerHTML = list.map(g => HB.card(g, T)).join('') || '<p class="empty">No games for our teams this day.</p>';
+    }
+    $('#days').addEventListener('click', e => { const b = e.target.closest('button[data-d]'); if (b && !b.disabled) { day = b.dataset.d; draw(); } });
+    function jump(dir) {
+      wk = HB.addDays(wk, 7 * dir);
+      const inWk = days.filter(d => d >= wk && d <= HB.addDays(wk, 6));
+      if (inWk.length) day = inWk[0];
+      else { const d = dir > 0 ? days.find(x => x > wk) : [...days].reverse().find(x => x < wk); if (d) { day = d; wk = HB.monday(d); } }
+      draw();
+    }
+    $('#wk-prev').addEventListener('click', () => jump(-1));
+    $('#wk-next').addEventListener('click', () => jump(1));
+    draw();
+
+    /* Elevation Index: our 23 by the Bot's ratings */
+    const ours = teams.filter(t => t.west).sort((a, b) => a.rank - b.rank);
+    const pre = !live;
+    $('#idx-h').textContent = 'Elevation Index · ' + (pre ? 'Preseason' : 'Week ' + Math.max(1, meta.week));
+    const mv = t => { const m = t.prev_rank - t.rank; return m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—'; };
+    const ourRankPrev = {}; [...ours].sort((a, b) => a.prev_rank - b.prev_rank).forEach((t, i) => ourRankPrev[t.id] = i + 1);
+    $('#idx').innerHTML = ours.slice(0, 10).map((t, i) => {
+      const m = ourRankPrev[t.id] - (i + 1);
+      return '<li><span class="r">' + (i + 1) + '</span>' + HB.img(t.logo, 'lg') + '<span class="n">' + HB.esc(HB.short(t.name)) + '<small>' + (t.w + t.l ? t.w + '-' + t.l : 'No. ' + t.rank) + '</small></span>' +
+        '<span class="mv">' + (pre ? '' : (m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—')) + '</span><span class="sc">' + HB.sgn(t.net) + '</span></li>';
+    }).join('');
+
+    /* standings, compact */
+    const tbl = (name, rows) => '<h3 class="lbl" style="margin:0 0 0.4rem;color:var(--purple)">' + name + '</h3><table class="bt" style="margin-bottom:1.5rem"><thead><tr><th>Team</th><th class="n">League</th><th class="n">All</th><th class="n hide-s">Bot</th></tr></thead><tbody>' +
+      rows.map(t => '<tr><td><span class="tm">' + HB.img(t.logo) + HB.esc(HB.short(t.name)) + '</span></td><td class="n">' + t.cw + '-' + t.cl + '</td><td class="n">' + t.w + '-' + t.l + '</td><td class="n hide-s">' + t.rank + '</td></tr>').join('') + '</tbody></table>';
+    $('#stand').innerHTML = tbl('Pac-12', st.pac) + tbl('Mountain West', st.mw);
+
+    /* our 23 by league */
+    $('#leagues').innerHTML = ['pac', 'mw', 'oth'].map(k => {
+      const ts = ours.filter(t => t.league === k).sort((a, b) => a.name.localeCompare(b.name));
+      return '<div><h3>' + HB.LEAGUE[k] + ' · ' + ts.length + '</h3><div class="tchips">' +
+        ts.map(t => '<span class="tchip">' + HB.img(t.logo) + HB.esc(t.name) + (k === 'oth' ? ' <small>' + HB.esc(t.conf) + '</small>' : '') + '</span>').join('') + '</div></div>';
+    }).join('');
+    const up = new Date(meta.generated);
+    $('#updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT';
+  }).catch(err => { document.getElementById('games').innerHTML = '<p class="empty">The basketball Bot is warming up. Check back shortly.</p>'; console.error(err); });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610132100"></script>
+</body>
+</html>

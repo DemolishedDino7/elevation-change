@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610031335">
+<link rel="stylesheet" href="styles.css?v=202610132100">
 <style>
 .mini-ei { margin-top: 2.75rem; }
 .eyebrow-wide { display: block; white-space: nowrap; font-size: clamp(0.75rem, 2.25vw, 1.5rem); letter-spacing: 0.5em; margin-bottom: 1.25rem; }
@@ -63,9 +63,8 @@
     </a>
     <nav class="nav" aria-label="Main">
       <a href="index.html" aria-current="page">Home</a>
-      <a href="elevation-index.html">Index</a>
-      <a href="standings.html">Standings</a>
-      <a href="the-bot.html">The Bot</a>
+      <a href="elevation-index.html">Football</a>
+      <a href="basketball.html">Basketball</a>
       <a href="#about">About</a>
     </nav>
   </div>
@@ -81,12 +80,16 @@
     <section class="mini-ei" aria-label="Elevation Index top ten">
       <div class="mini-ei-head">
         <h2 class="section-head" id="mini-ei-title">Elevation Index</h2>
-        <a class="mini-ei-link" href="elevation-index.html">All 20 &rarr;</a>
+        <div class="mini-ei-tools">
+          <div class="seg" id="mini-ei-sport" role="group" aria-label="Sport"><button data-s="fb" aria-pressed="true">Football</button><button data-s="bb" aria-pressed="false">Basketball</button></div>
+          <a class="mini-ei-link" id="mini-ei-link" href="elevation-index.html">All 20 &rarr;</a>
+        </div>
       </div>
       <ol class="mini-ei-list" id="mini-ei"></ol>
     </section>
 
 
+      <div class="next-games">
       <div class="next-game">
         <h2>Next kickoff</h2>
         <p class="matchup">Navy<br>at Air Force</p>
@@ -96,6 +99,8 @@
           <span>Elevation <b>6,621 ft</b></span>
           <span>Spread <b>AFA &minus;2.5</b></span>
         </div>
+      </div>
+      <div class="next-game" id="hoops-card" hidden></div>
       </div>
       </div>
       </div>
@@ -332,6 +337,10 @@
 <script src="ei-engine.js?v=202610042042"></script>
 <script>
 (function () {
+  const list = document.getElementById('mini-ei'), title = document.getElementById('mini-ei-title'), link = document.getElementById('mini-ei-link');
+  const seg = document.getElementById('mini-ei-sport');
+  function football() {
+  link.href = 'elevation-index.html'; link.innerHTML = 'All 20 &rarr;';
   const L = EI.subset(EI.history(CURRENT_WEEK), WEST_IDS).latest.slice(0, 10);
   document.getElementById('mini-ei-title').textContent = 'Elevation Index | Week ' + (CURRENT_WEEK + 1);
   const mv = t => t.prevRank == null ? '—' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '—';
@@ -339,11 +348,44 @@
     '<li><span class="r">' + t.rank + '</span>' + (t.logo ? '<img class="lg" src="' + ({ 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' }[t.logo.split('|')[0].trim()] || t.logo.split('|')[0].trim()) + '" alt="" width="24" height="24" onerror="this.outerHTML=\'<span class=&quot;c&quot; style=&quot;background:' + t.color + '&quot;></span>\'">' : '<span class="c" style="background:' + t.color + '"></span>') +
     '<span class="n">' + t.name + '<small>' + t.rec.w + '-' + t.rec.l + '</small></span>' +
     '<span class="mv">' + mv(t) + '</span><span class="sc">' + t.score.toFixed(1) + '</span></li>').join('');
+  }
+  /* basketball: our 23 by the hoops Bot (hoops/teams.json) */
+  function basketball() {
+    link.href = 'hoops-index.html'; link.innerHTML = 'All 23 &rarr;';
+    title.textContent = 'Elevation Index | Basketball';
+    fetch('hoops/teams.json?v=' + Math.floor(Date.now() / 300000)).then(r => r.json()).then(teams => {
+      const ours = teams.filter(t => t.west).sort((a, b) => a.rank - b.rank);
+      const played = ours.some(t => t.w + t.l > 0);
+      title.textContent = 'Elevation Index | Basketball · ' + (played ? 'This week' : 'Preseason');
+      const light = { 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' };
+      const prev = [...ours].sort((a, b) => a.prev_rank - b.prev_rank).map(t => t.id);
+      list.innerHTML = ours.slice(0, 10).map((t, i) => {
+        const m = prev.indexOf(t.id) - i;
+        const mv = !played ? '' : m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—';
+        const src = t.logo ? (light[t.logo] || t.logo) : '';
+        return '<li><span class="r">' + (i + 1) + '</span>' + (src ? '<img class="lg" src="' + src + '" alt="" width="24" height="24" onerror="this.style.visibility=\'hidden\'">' : '<span class="c"></span>') +
+          '<span class="n">' + t.name.replace('San José State', 'San José St.') + '<small>' + (played ? t.w + '-' + t.l : 'No. ' + t.rank + ' nationally') + '</small></span>' +
+          '<span class="mv">' + mv + '</span><span class="sc">' + (t.net > 0 ? '+' : '') + t.net.toFixed(1) + '</span></li>';
+      }).join('');
+    }).catch(() => { list.innerHTML = '<li>Basketball ratings are loading. Try again shortly.</li>'; });
+  }
+  function pick(s) {
+    [...seg.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.s === s));
+    try { localStorage.setItem('ec-mini-ei', s); } catch (e) {}
+    s === 'bb' ? basketball() : football();
+  }
+  seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pick(b.dataset.s); });
+  /* football by default through bowl season, basketball after */
+  const now = new Date(), mo = now.getMonth() + 1;
+  let start = (mo >= 1 && mo <= 4) || (mo === 12 && now.getDate() >= 15) ? 'bb' : 'fb';
+  try { start = localStorage.getItem('ec-mini-ei') || start; } catch (e) {}
+  pick(start);
 })();
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610022131"></script>
+<script src="ticker.js?v=202610132100"></script>
 <script src="home-card.js?v=202610022131"></script>
+<script src="hoops-card.js?v=202610132100"></script>
 </body>
 </html>

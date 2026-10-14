@@ -233,3 +233,22 @@ table.standings .next { color: var(--purple); font-weight: 600; }
   .nav { flex-wrap: wrap; gap: 0.6rem 1.1rem; }
   .nav a { font-size: 0.8125rem; letter-spacing: 0.06em; }
 }
+
+/* sport sub-navigation (Football / Basketball sections) */
+.subnav { border-bottom: 1px solid var(--line); background: var(--ink-2); }
+.subnav .wrap { display: flex; gap: 1.75rem; overflow-x: auto; scrollbar-width: none; }
+.subnav .wrap::-webkit-scrollbar { display: none; }
+.subnav a { flex: none; font-family: var(--display); font-style: italic; font-weight: 800; font-stretch: 108%; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8125rem; color: var(--muted); text-decoration: none; padding: 0.85rem 0 0.65rem; border-bottom: 3px solid transparent; }
+.subnav a:hover { color: var(--paper); }
+.subnav a[aria-current="page"] { color: var(--paper); border-bottom-color: var(--purple); }
+@media (max-width: 30rem) { .nav { gap: 1.1rem; } .nav a { font-size: 0.8125rem; } }
+/* home: football + basketball cards side by side */
+.next-games { display: grid; gap: 1.25rem; grid-template-columns: 1fr; margin: 2.5rem 0 0; }
+@media (min-width: 52rem) { .next-games { grid-template-columns: 1fr 1fr; } }
+.hero .next-games .next-game { margin: 0; }
+.next-game .sport { color: var(--purple); }
+.mini-ei-tools { display: flex; align-items: center; gap: 1rem; }
+.mini-ei .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.mini-ei .seg button { background: none; border: 0; color: var(--muted); padding: 0.4rem 0.8rem; min-height: 36px; cursor: pointer; font-family: var(--display); font-style: italic; font-weight: 700; font-stretch: 108%; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.6875rem; }
+.mini-ei .seg button[aria-pressed="true"] { background: var(--purple); color: var(--ink); }
+.mini-ei-head { flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }

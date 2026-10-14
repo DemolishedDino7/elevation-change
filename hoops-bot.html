@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Bot · Basketball — Elevation Change</title>
+<meta name="description" content="Elevation Change's independent men's basketball model: daily picks, ratings for every Division I team, and a public scorecard.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Bot · Basketball — Elevation Change">
+<meta property="og:description" content="Elevation Change's independent men's basketball model: daily picks, ratings for every Division I team, and a public scorecard.">
+<meta property="og:url" content="https://elevationchange.co/hoops-bot.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610132100">
+<link rel="stylesheet" href="hoops.css?v=202610132100">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="elevation-index.html">Football</a>
+      <a href="basketball.html" aria-current="page">Basketball</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav" aria-label="Basketball">
+  <div class="wrap">
+    <a href="basketball.html">Hub</a>
+    <a href="hoops-index.html">Index</a>
+    <a href="hoops-standings.html">Standings</a>
+    <a href="hoops-bot.html" aria-current="page">The Bot</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="bot-head">
+      <p class="eyebrow">Elevation Change prediction model · Basketball</p>
+      <h1 class="page-title">The Bot</h1>
+      <p class="bot-intro">Our own numbers, per possession. Every Division I team rated, every game picked before tip, and every miss kept on the record.</p>
+      <div class="strip" id="strip"></div>
+      <p class="updated" id="updated"></p>
+    </section>
+
+    <div class="tabs bot-tabs" role="tablist" aria-label="The Bot">
+      <button class="tab" role="tab" id="t-picks" aria-controls="p-picks" aria-selected="true">Picks</button>
+      <button class="tab" role="tab" id="t-ratings" aria-controls="p-ratings" aria-selected="false">Ratings</button>
+      <button class="tab" role="tab" id="t-odds" aria-controls="p-odds" aria-selected="false">Season odds</button>
+      <button class="tab" role="tab" id="t-record" aria-controls="p-record" aria-selected="false">Record</button>
+      <button class="tab" role="tab" id="t-how" aria-controls="p-how" aria-selected="false">How it works</button>
+    </div>
+
+    <section class="panel" id="p-picks" role="tabpanel" aria-labelledby="t-picks">
+      <div class="ctl">
+        <div class="daynav"><button id="d-prev" aria-label="Previous game day">‹</button><span id="d-lbl" class="dv"></span><button id="d-next" aria-label="Next game day">›</button></div>
+        <div class="seg" id="pick-scope"><button data-v="west" aria-pressed="true">Our teams</button><button data-v="all" aria-pressed="false">All D-I</button></div>
+      </div>
+      <div class="games" id="games"></div>
+      <p class="note" style="margin-top:1rem">Win chances come from the Bot’s projected margin and how far real games stray from it. Bot line = the Bot’s own spread. Pace = projected possessions. Picks lock at tip.</p>
+    </section>
+
+    <section class="panel" id="p-ratings" role="tabpanel" aria-labelledby="t-ratings" hidden>
+      <div class="ctl">
+        <div class="seg" id="rate-scope"><button data-v="all" aria-pressed="true">All D-I</button><button data-v="west" aria-pressed="false">Our teams</button></div>
+        <select class="sel" id="rate-conf" aria-label="Conference"></select>
+      </div>
+      <p class="note">Net rating = points per 100 possessions better than an average Division I team on a neutral floor. Offense is points scored above average, defense is points prevented. Tempo = possessions per 40 minutes against an average opponent. Back = share of last season’s minutes returning (shown once a team’s roster is updated).</p>
+      <div class="table-scroll"><table class="bt" id="rate-table"></table></div>
+    </section>
+
+    <section class="panel" id="p-odds" role="tabpanel" aria-labelledby="t-odds" hidden>
+      <div class="soon" id="odds-soon"></div>
+    </section>
+
+    <section class="panel" id="p-record" role="tabpanel" aria-labelledby="t-record" hidden>
+      <div id="record"></div>
+    </section>
+
+    <section class="panel how" id="p-how" role="tabpanel" aria-labelledby="t-how" hidden>
+      <p>The Bot is Elevation Change’s own basketball model. It never reads betting lines, KenPom, the NET or anyone’s rankings to make a pick. Lines are used only to grade it.</p>
+      <h3 class="dv">1. Ratings per possession</h3>
+      <p>Basketball is measured per possession, so a fast team and a slow team can be compared fairly. Every game gives each team an offensive and defensive efficiency: points scored and allowed per 100 possessions. The Bot solves for the offense, defense and tempo of every Division I team at once, adjusting each game for who the opponent was and where it was played. Blowout margins are capped so running up the score doesn’t pay.</p>
+      <h3 class="dv">2. Where teams start</h3>
+      <p>Before a game is played, every team starts from last season’s ratings, pulled toward its conference and adjusted for <b>returning minutes</b> and the strength of the teams its <b>incoming transfers</b> came from. Those weights are fit on twelve seasons of what actually happened. The preseason start counts as about four games, so by mid-December the ratings are almost all this season.</p>
+      <h3 class="dv">3. The game model</h3>
+      <ul id="how-model"></ul>
+      <h3 class="dv">4. Keeping it honest</h3>
+      <ul>
+        <li><b>Locked at tip.</b> Each pick freezes at the last update before the game starts. The record is graded against those locked picks, never a pick made after the fact.</li>
+        <li><b>Tested on games it never saw.</b> The model was fit on seasons through 2020-21, then asked to predict every game since, one day at a time, using only what had happened before that morning.</li>
+        <li><b>Vegas only for grading.</b> Pregame lines are saved as games come up so the Bot can be measured against them. They never feed a pick.</li>
+        <li>Data: schedules, scores and box scores from ESPN via the public <a href="https://github.com/sportsdataverse/hoopR-mbb-data">hoopR</a> archive, plus ESPN’s scoreboard for same-night finals. Updates every morning and through game nights.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<script src="hoops.js?v=202610132100"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = HB.esc;
+  Promise.all([HB.get('meta.json'), HB.get('teams.json'), HB.get('games_west.json'), HB.get('record.json')]).then(([meta, teams, west, record]) => {
+    const T = {}; teams.forEach(t => T[t.id] = t);
+    const bt = meta.backtest, L = record.live.west, bvb = record.boys_vs_bot;
+    const lastWk = (bvb.weeks || []).filter(w => w.games && w.games.length).slice(-1)[0];
+    $('#strip').innerHTML =
+      '<div><span class="lbl">Winners picked</span><b>' + bt.su.toFixed(0) + '%</b><p>Backtest, ' + bt.games.toLocaleString() + ' D-I games, 2021-22 to 2025-26</p></div>' +
+      '<div><span class="lbl">Average miss</span><b>' + bt.mae.toFixed(1) + '<small> pts</small></b><p>Final margin, same games</p></div>' +
+      '<div><span class="lbl">' + meta.season_label.replace('-', '–') + ' · our teams</span><b class="p">' + L.su_w + '-' + L.su_l + '</b><p>' + (L.games ? 'Live picks, locked at tip' : 'Live record starts at tip-off') + '</p></div>' +
+      (lastWk ? '<div><span class="lbl">Week ' + lastWk.week + ' · Boys vs. Bot</span><b>' + lastWk.boys + '<small> – </small><span style="color:var(--purple)">' + lastWk.bot + '</span></b><p>Season: ' + bvb.boys + '–' + bvb.bot + '</p></div>'
+              : '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>Weekly slate starts tip-off week</p></div>');
+    const up = new Date(meta.generated);
+    $('#updated').textContent = 'Updated ' + up.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: HB.TZ }) + ' MT · ' + meta.games_in_ratings + ' games this season in the ratings';
+
+    /* ---------- tabs ---------- */
+    const tabs = [...document.querySelectorAll('.bot-tabs .tab')];
+    function show(id) {
+      tabs.forEach(t => { const on = t.id === 't-' + id; t.setAttribute('aria-selected', on); $('#' + t.getAttribute('aria-controls')).hidden = !on; });
+      try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    }
+    tabs.forEach(t => t.addEventListener('click', () => show(t.id.slice(2))));
+    const h = location.hash.slice(1);
+    if (h && $('#t-' + h)) show(h);
+
+    /* ---------- picks ---------- */
+    let scope = 'west', games = west, day = null;
+    const today = HB.today();
+    function days() { return [...new Set(games.map(g => g.day))].sort(); }
+    function drawPicks() {
+      const ds = days();
+      if (!day || !ds.includes(day)) day = ds.find(d => d >= today) || ds[ds.length - 1];
+      const i = ds.indexOf(day);
+      $('#d-lbl').textContent = day ? HB.dayShort(day) + (day === today ? ' · Today' : '') : '—';
+      $('#d-prev').disabled = i <= 0; $('#d-next').disabled = i < 0 || i >= ds.length - 1;
+      const list = games.filter(g => g.day === day).sort((a, b) => (b.home_west || b.away_west) - (a.home_west || a.away_west) || (a.tba - b.tba) || String(a.start).localeCompare(String(b.start)));
+      $('#games').innerHTML = list.length ? list.map(g => HB.card(g, T)).join('') : '<p class="empty">No games this day.</p>';
+    }
+    $('#d-prev').addEventListener('click', () => { const ds = days(); day = ds[Math.max(0, ds.indexOf(day) - 1)]; drawPicks(); });
+    $('#d-next').addEventListener('click', () => { const ds = days(); day = ds[Math.min(ds.length - 1, ds.indexOf(day) + 1)]; drawPicks(); });
+    $('#pick-scope').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      scope = b.dataset.v;
+      [...$('#pick-scope').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+      if (scope === 'all') HB.get('games_all.json').then(all => { const w = {}; west.forEach(g => w[g.id] = g); games = all.map(g => w[g.id] || g); drawPicks(); });
+      else { games = west; drawPicks(); }
+    });
+    drawPicks();
+
+    /* ---------- ratings ---------- */
+    const confs = [...new Set(teams.map(t => t.conf).filter(Boolean))].sort();
+    $('#rate-conf').innerHTML = '<option value="">All conferences</option>' + confs.map(c => '<option>' + esc(c) + '</option>').join('');
+    let rscope = 'all', rkey = 'net';
+    function drawRatings() {
+      const c = $('#rate-conf').value;
+      let list = teams.filter(t => (rscope === 'all' || t.west) && (!c || t.conf === c));
+      const dir = rkey === 'tempo' ? -1 : -1;
+      list = [...list].sort((a, b) => dir * ((a[rkey] ?? -99) - (b[rkey] ?? -99)) || a.rank - b.rank);
+      const th = (k, label, cls) => '<th class="' + (cls || '') + (k === rkey ? ' on' : '') + '"' + (k ? ' data-k="' + k + '"' : '') + '>' + label + '</th>';
+      const mv = t => { const m = t.prev_rank - t.rank; return m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '<span class="flat">—</span>'; };
+      $('#rate-table').innerHTML = '<thead><tr>' + th('', '#') + th('', 'Team') + th('', 'W-L', 'n') + th('net', 'Net', 'n') + th('off', 'Off', 'n') + th('def', 'Def', 'n') + th('tempo', 'Tempo', 'n hide-s') + th('ret', 'Back', 'n hide-s') + th('', 'Move', 'n hide-s') + '</tr></thead><tbody>' +
+        list.map(t => '<tr class="' + (t.west ? 'west' : 'dim') + '"><td class="rk">' + t.rank + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + esc(HB.short(t.name)) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
+          '<td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + HB.sgn(t.net) + '</td><td class="n">' + HB.sgn(t.off) + '<span class="sub">' + t.off_rank + '</span></td><td class="n">' + HB.sgn(t.def) + '<span class="sub">' + t.def_rank + '</span></td>' +
+          '<td class="n hide-s">' + (t.tempo == null ? '—' : t.tempo.toFixed(1)) + '</td><td class="n hide-s">' + (t.ret == null ? '—' : t.ret + '%') + '</td><td class="n hide-s">' + mv(t) + '</td></tr>').join('') + '</tbody>';
+    }
+    $('#rate-scope').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; rscope = b.dataset.v; [...$('#rate-scope').children].forEach(x => x.setAttribute('aria-pressed', x === b)); drawRatings(); });
+    $('#rate-conf').addEventListener('change', drawRatings);
+    $('#rate-table').addEventListener('click', e => { const k = e.target.closest('th') && e.target.closest('th').dataset.k; if (k) { rkey = k; drawRatings(); } });
+    drawRatings();
+
+    /* ---------- season odds ---------- */
+    const cs = meta.conf_schedule || {};
+    $('#odds-soon').innerHTML = '<p style="margin:0 0 0.5rem"><b>Season odds switch on once both league schedules are posted.</b></p>' +
+      '<p style="margin:0">They’ll simulate the rest of the season 10,000 times: projected records, regular-season title chances, conference tournament seeds and NCAA Tournament bid odds for every team we cover. League games posted so far: <b>Mountain West ' + (cs.mw || 0) + '</b>, <b>Pac-12 ' + (cs.pac || 0) + '</b>.</p>';
+
+    /* ---------- record ---------- */
+    const A = record.live.all;
+    const gradeCard = (title, g, sub) => '<div class="card"><h3 class="dv">' + title + '</h3><div class="kv">' +
+      '<span>Winners picked</span><b>' + g.su_w + '-' + g.su_l + (g.games ? ' (' + (100 * g.su_w / g.games).toFixed(0) + '%)' : '') + '</b>' +
+      '<span>Average miss (margin)</span><b>' + (g.mae == null ? '—' : g.mae.toFixed(1) + ' pts') + '</b>' +
+      (g.lined ? '<span>Against the spread</span><b>' + g.ats_w + '-' + g.ats_l + '</b><span>Avg miss, Bot vs. Vegas</span><b>' + g.bot_mae_lined.toFixed(1) + ' / ' + g.vegas_mae.toFixed(1) + '</b>' : '') +
+      '</div><p class="note" style="margin:0.75rem 0 0">' + sub + '</p></div>';
+    let html = '<h2 class="sh dv" style="margin-top:0">The Boys vs. The Bot</h2>';
+    html += '<div class="vs"><div><span class="lbl">The Boys</span><b>' + bvb.boys + '</b></div><span class="x">vs.</span><div class="bot"><span class="lbl">The Bot</span><b>' + bvb.bot + '</b></div></div>';
+    const bw = (bvb.weeks || []).filter(w => w.games.length);
+    let renderBvb = null;
+    if (bw.length) {
+      const ab = n => { const t = teams.find(x => x.name === n); return t && t.abbr ? t.abbr : HB.short(n); };
+      const pick = (sc, right, miss) => '<span class="' + (right ? 'ok' : 'no') + '">' + (right ? '✓' : '✗') + '</span> ' + sc[1] + '-' + sc[0] + '<span class="why">off ' + miss + '</span>';
+      html += '<div class="ctl"><div class="seg" id="bvb-wk">' + bw.map(w => '<button data-v="' + w.week + '">Wk ' + w.week + '</button>').join('') + '<button data-v="all">All</button></div></div>';
+      html += '<p class="note" id="bvb-sum" style="margin-top:0"></p><div class="table-scroll"><table class="bt bvb" id="bvb-table"></table></div>';
+      html += '<p class="note">Scores listed away-home. ✓ / ✗ = picked the right winner; “off” = combined points missed. Picking the right winner earns the point first (“Winner”). If both sides or neither got the winner, the smaller miss wins it (“Score”).</p>';
+      renderBvb = v => {
+        const ws = v === 'all' ? bw : bw.filter(w => String(w.week) === String(v));
+        document.querySelectorAll('#bvb-wk button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === String(v)));
+        const sb = ws.reduce((a, w) => a + w.boys, 0), st = ws.reduce((a, w) => a + w.bot, 0);
+        $('#bvb-sum').innerHTML = (v === 'all' ? 'All weeks' : 'Week ' + v) + ': The Boys <b>' + sb + '</b> – <b style="color:var(--purple)">' + st + '</b> The Bot · <span class="' + (sb > st ? 'up' : st > sb ? 'down' : 'flat') + '">' + (sb > st ? 'Boys win' : st > sb ? 'Bot wins' : 'Tied') + (v === 'all' ? ' the season so far' : ' the week') + '</span>';
+        $('#bvb-table').innerHTML = '<thead><tr>' + (v === 'all' ? '<th class="hide-s">Week</th>' : '') + '<th>Game</th><th class="n">Final</th><th class="n">Boys</th><th class="n">Bot</th><th class="n">Point</th></tr></thead><tbody>' +
+          ws.map(w => w.games.map((g, i) => '<tr>' + (v === 'all' ? '<td class="hide-s">' + (i ? '' : w.week) + '</td>' : '') + '<td>' + esc(ab(g.away)) + ' at ' + esc(ab(g.home)) + '</td><td class="n">' + g.final[1] + '-' + g.final[0] + '</td>' +
+            '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : '') + '">' + pick(g.boys, g.boys_right, g.boys_miss) + '</td><td class="n ' + (g.point === 'bot' ? 'up' : g.point === 'boys' ? 'down' : '') + '">' + pick(g.bot, g.bot_right, g.bot_miss) + '</td>' +
+            '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Push') + '<span class="why">' + ({ winner: 'Winner', score: 'Score', tiebreak: 'Tiebreak' }[g.how] || '') + '</span></td></tr>').join('')).join('') + '</tbody>';
+      };
+    } else html += '<p class="note">A weekly slate of our biggest games, starting tip-off week. Results post here once the games are final.</p>';
+    html += '<h2 class="sh dv">' + meta.season_label.replace('-', '–') + ' scorecard</h2><div class="cards2">' +
+      gradeCard('Live picks · our teams', L, 'Every game involving our 23, locked before tip.') +
+      gradeCard('Live picks · all D-I', A, 'Every game between two Division I teams.') + '</div>';
+    if (record.weeks.length) {
+      html += '<h2 class="sh dv">By week · our teams</h2><div class="table-scroll"><table class="bt"><thead><tr><th>Week</th><th class="n">Winners</th><th class="n">Avg miss</th></tr></thead><tbody>' +
+        record.weeks.map(w => '<tr><td>' + w.week + '</td><td class="n">' + w.su_w + '-' + w.su_l + '</td><td class="n">' + (w.mae == null ? '—' : w.mae.toFixed(1)) + '</td></tr>').join('') + '</tbody></table></div>';
+    }
+    html += '<h2 class="sh dv">Backtest</h2><p class="note">Every game between two Division I teams since 2021-22. The model was fit only on seasons before that, then predicted each day using only games already played. No betting lines exist in our historical data, so the backtest grades winners and margins; live picks are also graded against Vegas as lines come in.</p>';
+    html += '<div class="table-scroll"><table class="bt"><thead><tr><th>Season</th><th class="n">Games</th><th class="n">Winners</th><th class="n">Avg miss</th><th class="n hide-s">Total miss</th></tr></thead><tbody>' +
+      bt.by_season.map(s => '<tr><td>' + s.season + '</td><td class="n">' + s.games.toLocaleString() + '</td><td class="n">' + s.su.toFixed(1) + '%</td><td class="n net">' + s.mae.toFixed(2) + '</td><td class="n hide-s">' + s.total_mae.toFixed(1) + '</td></tr>').join('') +
+      '<tr><td><b>All</b></td><td class="n">' + bt.games.toLocaleString() + '</td><td class="n">' + bt.su.toFixed(1) + '%</td><td class="n net">' + bt.mae.toFixed(2) + '</td><td class="n hide-s">' + bt.total_mae.toFixed(1) + '</td></tr></tbody></table></div>';
+    html += '<h2 class="sh dv">When the Bot says…</h2><div class="table-scroll"><table class="bt"><thead><tr><th>Favorite’s win chance</th><th class="n">Bot said</th><th class="n">Actually won</th><th class="n">Games</th></tr></thead><tbody>' +
+      bt.calibration.map(c => '<tr><td>' + c.bin + '</td><td class="n">' + c.pred.toFixed(0) + '%</td><td class="n net">' + c.actual.toFixed(0) + '%</td><td class="n">' + c.games.toLocaleString() + '</td></tr>').join('') + '</tbody></table></div>';
+    $('#record').innerHTML = html;
+    if (renderBvb) {
+      renderBvb(bw[bw.length - 1].week);
+      $('#bvb-wk').addEventListener('click', e => { const b = e.target.closest('button'); if (b) renderBvb(b.dataset.v); });
+    }
+
+    /* ---------- how it works: live numbers ---------- */
+    const m = meta.model;
+    $('#how-model').innerHTML =
+      '<li><b>Ratings first.</b> Each side’s points = its offense against the other’s defense, times the projected number of possessions.</li>' +
+      '<li><b>Home court:</b> worth ' + m.hca_pts.toFixed(1) + ' points.</li>' +
+      '<li><b>Altitude:</b> about ' + m.altitude_per_1000ft.toFixed(1) + ' extra points for the home team per 1,000 feet the visitor climbs' + (m.altitude_hi_per_1000ft != null ? ', and about ' + m.altitude_hi_per_1000ft.toFixed(1) + ' per 1,000 feet at arenas above 4,000 feet, where much of the edge already shows up in the home team’s ratings' : '') + '.</li>' +
+      '<li><b>Travel:</b> about ' + m.travel_per_1000mi.toFixed(1) + ' points per 1,000 extra miles traveled.</li>' +
+      '<li><b>Uncertainty:</b> real margins land within about ' + m.sigma.toFixed(0) + ' points of the Bot’s two times in three. Early-season picks carry a little more.</li>';
+  }).catch(err => { $('#strip').innerHTML = '<p class="note">The Bot is warming up. Check back shortly.</p>'; console.error(err); });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610132100"></script>
+</body>
+</html>
