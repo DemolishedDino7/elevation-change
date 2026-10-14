@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=202610132345">
-<link rel="stylesheet" href="hoops.css?v=202610132345">
+<link rel="stylesheet" href="styles.css?v=202610140000">
+<link rel="stylesheet" href="hoops.css?v=202610140000">
 </head>
 <body>
 
@@ -68,7 +68,7 @@
       <div class="ctl"><div class="seg" id="reg"></div></div>
       <div id="or-wrap"></div>
       <div class="bk-scroll"><div class="bk" id="bk"></div></div>
-      <p class="note" style="margin-top:1rem">Highlighted = the Bot’s pick. Percentages are each team’s chance to win that game on a neutral floor using today’s ratings. OR = Opening Round winner (the 12 games in Dayton and Wichita).</p>
+      <p class="note" style="margin-top:1rem">Scroll sideways to see the whole bracket on smaller screens, or pick a region to zoom in. Highlighted = the Bot’s pick. Percentages are each team’s chance to win that game on a neutral floor using today’s ratings. OR = Opening Round winner (the 12 games in Dayton and Wichita).</p>
     </section>
 
     <section class="panel" id="p-seeds" role="tabpanel" aria-labelledby="t-seeds" hidden>
@@ -93,7 +93,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610132345"></script>
+<script src="hoops.js?v=202610140000"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -125,13 +125,28 @@
 
     /* ---------- bracket ---------- */
     const REG = ['East', 'South', 'Midwest', 'West'];
-    let reg = 'East';
-    $('#reg').innerHTML = REG.map(r => '<button data-v="' + r + '" aria-pressed="' + (r === reg) + '">' + r + '</button>').join('') + '<button data-v="ff" aria-pressed="false">Final Four</button>';
+    let reg = 'all';
+    $('#reg').innerHTML = '<button data-v="all" aria-pressed="true">Full bracket</button>' + REG.map(r => '<button data-v="' + r + '" aria-pressed="false">' + r + '</button>').join('') + '<button data-v="ff" aria-pressed="false">Final Four</button>';
     const orBy = {}; B.opening_round.forEach((g, i) => orBy[g.region + '|' + g.seed + '|' + i] = g);
     const team = (id, seed, p, win) => '<div class="bk-t' + (win ? ' win' : '') + '"><span class="sd">' + seed + '</span>' + lg(id) + '<span class="tn">' + HB.tlink(id, esc(nm(id))) + '</span><span class="tp">' + pct(p) + '</span></div>';
     const game = g => '<div class="bk-g">' + team(g.a, g.sa, g.pa, g.pick === g.a) + team(g.b, g.sb, 1 - g.pa, g.pick === g.b) + '</div>';
     function drawRegion() {
       [...$('#reg').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.v === reg));
+      $('#bk').className = reg === 'all' ? 'bk-full' : 'bk';
+      if (reg === 'all') {
+        /* every region at once: East and South run left to right, Midwest and West mirror them, Final Four in the middle */
+        const mini = (id, seed, p, win) => '<div class="bk-t' + (win ? ' win' : '') + '"><span class="sd">' + seed + '</span>' + lg(id) + '<span class="tn">' + HB.tlink(id, esc(T(id).abbr || nm(id))) + '</span><span class="tp">' + pct(p) + '</span></div>';
+        const g2 = g => '<div class="bk-g">' + mini(g.a, g.sa, g.pa, g.pick === g.a) + mini(g.b, g.sb, 1 - g.pa, g.pick === g.b) + '</div>';
+        const region = (r, mirror) => '<div class="bf-reg' + (mirror ? ' mirror' : '') + '"><h3 class="lbl bf-name">' + r + '</h3><div class="bf-cols">' +
+          [0, 1, 2, 3].map(k => '<div class="bk-col">' + B.rounds[k].games.filter(g => g.region === r).map(g2).join('') + '</div>').join('') + '</div></div>';
+        const semis = B.rounds[4].games, fin = B.rounds[5].games[0];
+        $('#or-wrap').innerHTML = '<h3 class="lbl" style="margin:0 0 0.5rem">Opening Round · Dayton and Wichita</h3><div class="or-row or-all">' +
+          B.opening_round.map(g => '<div class="bk-g">' + mini(g.a, g.seed, g.p_a, g.pick === g.a) + mini(g.b, g.seed, 1 - g.p_a, g.pick === g.b) + '<p class="or-to">' + g.region + ' · ' + g.seed + ' line</p></div>').join('') + '</div>';
+        $('#bk').innerHTML = '<div class="bf-side">' + region(REG[0]) + region(REG[1]) + '</div>' +
+          '<div class="bf-mid"><h3 class="lbl">Final Four</h3>' + g2(semis[0]) + '<h3 class="lbl">Championship</h3>' + g2(fin) + '<div class="bf-champ"><span class="lbl">Champion</span>' + lg(ch) + '<b>' + HB.tlink(ch, esc(nm(ch))) + '</b><span class="tp">' + pct(T(ch).adv[6], 1) + ' title odds</span></div>' + '<h3 class="lbl">Final Four</h3>' + g2(semis[1]) + '</div>' +
+          '<div class="bf-side">' + region(REG[2], true) + region(REG[3], true) + '</div>';
+        return;
+      }
       if (reg === 'ff') {
         const semis = B.rounds[4].games, fin = B.rounds[5].games[0];
         $('#or-wrap').innerHTML = '';
@@ -190,6 +205,6 @@
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<script src="ticker.js?v=202610132345"></script>
+<script src="ticker.js?v=202610140000"></script>
 </body>
 </html>
