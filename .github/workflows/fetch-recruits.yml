@@ -1,0 +1,41 @@
+name: Recruiting rankings (hoops)
+
+# High school recruiting rankings for the basketball Bot's preseason prior
+# (model/hoops/recruits.csv). Weekly in the fall picks up late signings for
+# the current class; run by hand with first=2011 to rebuild the history.
+on:
+  schedule:
+    - cron: "20 12 * 4-11 1"     # Mondays 5:20/6:20am MT, April-November
+  workflow_dispatch:
+    inputs:
+      first:
+        description: "First class year"
+        required: false
+        default: "2025"
+      last:
+        description: "Last class year"
+        required: false
+        default: "2026"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python model/hoops/fetch_recruits.py ${{ inputs.first || '2025' }} ${{ inputs.last || '2026' }}
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add model/hoops/recruits.csv
+          git diff --cached --quiet && echo "nothing new" && exit 0
+          git commit -m "Hoops recruiting rankings update"
+          git pull --rebase origin main
+          git push origin HEAD:main
