@@ -180,6 +180,8 @@ def main():
     ro, mins = data.rosters_and_minutes(season)
 
     saved = load("model.json", None)
+    if saved and any(len(saved["prior"].get(k, [])) != n for k, n in PR.N_DESIGN.items()):
+        saved = None   # the prior gained features since this model was saved: refit
     if args.quick and saved:
         pri, gm, backtest = PR.Prior({k: v for k, v in saved["prior"].items()}), GameModel.from_dict(saved["game"]), saved["backtest"]
         log("  quick run: reusing the morning's model")
@@ -335,6 +337,10 @@ def main():
             return f"logos/{sid}.png"
         return logo_url.get(t)
 
+    # incoming ranked freshmen this season, best first (shown on team pages)
+    rc = PR.recruits(season)
+    rc = rc[rc["class"] == season - 1].sort_values("rank")
+    frosh = {int(t): [{"name": n, "rank": int(k)} for n, k in zip(d.name, d["rank"])] for t, d in rc.groupby("team_id")}
     teams = []
     off_rank = pd.Series(O[d1_mask]).rank(ascending=False).to_numpy()
     def_rank = pd.Series(D[d1_mask]).rank(ascending=True).to_numpy()
@@ -356,6 +362,9 @@ def main():
             "tempo": r1(rnow["tmu"] + T[i]),
             "pre_rank": int(prank[i]), "pre_net": r1(pnet[i]),
             "ret": r1(float(rt.ret) * 100, 0) if rt is not None else None,
+            "fr_pts": r1(float(P.at[t, "fr_pts"])) if "fr_pts" in P and t in P.index else None,
+            "xf_pts": r1(float(P.at[t, "xf_pts"])) if "xf_pts" in P and t in P.index else None,
+            "frosh": frosh.get(t, []),
             "w": r_[0], "l": r_[1], "cw": r_[2], "cl": r_[3],
         })
     teams.sort(key=lambda x: x["rank"])

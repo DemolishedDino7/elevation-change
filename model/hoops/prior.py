@@ -4,6 +4,10 @@ For every team, from last season:
   * its final offense/defense/tempo ratings (and the season before, more lightly),
   * returning minutes: share of last season's minutes played by players back this year,
   * transfers in: minutes-weighted strength of the teams incoming transfers played for,
+    and how productive each transfer was himself (box-score game score per 40 minutes,
+    weighted by how good his old team was),
+  * returning production: share of last season's box-score production that's back,
+  * incoming freshmen: ranked high school recruits by tier (recruits.py, On3 Industry rank),
   * its conference's average strength.
 The weights are fit on 2014-2026: last season's facts -> this season's final ratings.
 For past seasons "back this year" is read from who played; for the current season,
@@ -16,8 +20,40 @@ import pandas as pd
 
 import data
 import ratings as R
+import recruits as RC
 
 FEATS = ["last", "last_x_ret", "ret", "last2", "xfer", "conf", "new"]
+
+
+PROD_COLS = ["athlete_id", "team_id", "minutes", "points", "field_goals_made", "field_goals_attempted",
+             "free_throws_made", "free_throws_attempted", "offensive_rebounds", "defensive_rebounds",
+             "assists", "steals", "blocks", "turnovers", "fouls"]
+_PROD: dict = {}
+_REC: dict = {}
+
+
+def production(season: int) -> pd.DataFrame | None:
+    """Each player's season box-score production: athlete_id, team_id, minutes, gs (Hollinger game score total)."""
+    if season not in _PROD:
+        f = data.CACHE / f"pb_{season}.parquet"
+        if not f.exists():
+            _PROD[season] = None
+        else:
+            p = pd.read_parquet(f, columns=PROD_COLS).apply(pd.to_numeric, errors="coerce")
+            p = p.dropna(subset=["athlete_id", "team_id"]).fillna(0)
+            s = p.groupby(["athlete_id", "team_id"], as_index=False).sum()
+            s["gs"] = (s.points + 0.4 * s.field_goals_made - 0.7 * s.field_goals_attempted
+                       - 0.4 * (s.free_throws_attempted - s.free_throws_made) + 0.7 * s.offensive_rebounds
+                       + 0.3 * s.defensive_rebounds + s.steals + 0.7 * s.assists + 0.7 * s.blocks
+                       - 0.4 * s.fouls - s.turnovers)
+            _PROD[season] = s[s.minutes > 0][["athlete_id", "team_id", "minutes", "gs"]].astype({"athlete_id": "int64", "team_id": "int64"})
+    return _PROD[season]
+
+
+def recruits(current: int) -> pd.DataFrame:
+    if current not in _REC:
+        _REC[current] = RC.load(current)
+    return _REC[current]
 
 
 def trusted(now_ids: set, last_ids: set | None) -> bool:
@@ -87,13 +123,30 @@ def returning(season: int, ro: dict, mins: dict, fin: dict, current: int) -> pd.
     xs = xf.groupby("now_team").share.sum()
     out = pd.DataFrame({"ret": back}).join(pd.DataFrame({"xfer_o": xo, "xfer_d": xd, "xfer_share": xs}), how="outer").fillna(0.0)
     out["ret"] = out.ret.clip(0, 1)
+    # production, not just minutes: who was actually good last season, and where he is now
+    pr = production(season - 1)
+    if pr is not None:
+        tgs, tmin = pr.groupby("team_id").gs.sum(), pr.groupby("team_id").minutes.sum()
+        pm = pr.merge(now[["athlete_id", "now_team"]], on="athlete_id", how="inner")
+        bk = pm[pm.team_id == pm.now_team]
+        rq = (bk.groupby("now_team").gs.sum() / tgs).dropna().clip(0, 1.2)
+        tx = pm[pm.team_id != pm.now_team].copy()
+        tx["share"] = tx.minutes / tx.team_id.map(tmin)
+        tx["gs40"] = np.where(tx.minutes > 60, 40 * tx.gs / tx.minutes.clip(lower=1), 6.0)
+        tx["lvl"] = (tx.team_id.map(prev.O - prev.D).fillna(-15) / 10) if prev is not None else 0.0
+        tx["v"] = tx.share * (tx.gs40 - 10)
+        q = pd.DataFrame({"ret_q": rq, "xq": tx.groupby("now_team").v.sum(), "xql": (tx.v * tx.lvl).groupby(tx.now_team).sum()})
+        out = out.join(q, how="outer").fillna(0.0)
+    for c in ("ret_q", "xq", "xql"):
+        if c not in out:
+            out[c] = 0.0
     if season >= current:
         # typical values from the last two completed seasons, for teams without an updated roster
         hist = [returning(y, ro, mins, fin, current) for y in (season - 2, season - 1) if y in mins and y - 1 in mins]
         hist = [h for h in hist if len(h)]
         if hist:
             hh = pd.concat(hist)
-            out.attrs["typical"] = {"ret": float(hh.ret.mean()), "xfer_o": float(hh.xfer_o.mean()), "xfer_d": float(hh.xfer_d.mean())}
+            out.attrs["typical"] = {k: float(hh[k].mean()) for k in ("ret", "xfer_o", "xfer_d", "ret_q", "xq", "xql")}
     return out
 
 
@@ -108,10 +161,10 @@ def features(season: int, teams: np.ndarray, fin: dict, ret: pd.DataFrame, conf_
             l1 = p1.at[t, k] if has1 else 0.0
             l2 = p2.at[t, k] if (p2 is not None and t in p2.index) else l1
             r[f"{k}_last"], r[f"{k}_last2"] = l1, l2
-        typ = ret.attrs.get("typical", {"ret": 0.35, "xfer_o": 0.0, "xfer_d": 0.0})
-        r["ret"] = float(rt.ret) if rt is not None else (typ["ret"] if has1 else 0.0)
-        r["xfer_o"] = float(rt.xfer_o) if rt is not None else (typ["xfer_o"] if has1 else 0.0)
-        r["xfer_d"] = float(rt.xfer_d) if rt is not None else (typ["xfer_d"] if has1 else 0.0)
+        typ = {"ret": 0.35, "xfer_o": 0.0, "xfer_d": 0.0, "ret_q": 0.35, "xq": 0.0, "xql": 0.0}
+        typ.update(ret.attrs.get("typical", {}))
+        for k in ("ret", "xfer_o", "xfer_d", "ret_q", "xq", "xql"):
+            r[k] = float(rt[k]) if (rt is not None and k in rt) else (typ[k] if has1 else 0.0)
         r["new"] = 0.0 if has1 else 1.0
         c = conf_now.get(t)
         if p1 is not None and c is not None and not pd.isna(c):
@@ -120,7 +173,17 @@ def features(season: int, teams: np.ndarray, fin: dict, ret: pd.DataFrame, conf_
         else:
             r["conf_O"], r["conf_D"] = (0.0, 0.0)
         rows.append(r)
-    return pd.DataFrame(rows).set_index("team")
+    F = pd.DataFrame(rows).set_index("team")
+    return F.join(RC.features(season, F.index, recruits(data_current())))
+
+
+def data_current() -> int:
+    """The newest season in the data (recruit names are matched against recent schedules)."""
+    ys = [int(p.stem.split("_")[1]) for p in data.CACHE.glob("sch_*.parquet")]
+    return max(ys) if ys else 0
+
+
+TIER_COLS = [t[0] for t in RC.TIERS]
 
 
 def design(F: pd.DataFrame, k: str) -> np.ndarray:
@@ -129,7 +192,11 @@ def design(F: pd.DataFrame, k: str) -> np.ndarray:
         return np.stack([last, F[f"{k}_last2"], F.ret, F.new, np.ones(len(F))], 1)
     xf = F.xfer_o if k == "O" else F.xfer_d
     cf = F.conf_O if k == "O" else F.conf_D
-    return np.stack([last, last * F.ret, F.ret, F[f"{k}_last2"], xf, cf, F.new, np.ones(len(F))], 1)
+    return np.stack([last, last * F.ret, F.ret, F[f"{k}_last2"], xf, cf, F.new, np.ones(len(F)),
+                     F.ret_q, last * F.ret_q, F.xq, F.xql] + [F[c] for c in TIER_COLS], 1)
+
+
+N_DESIGN = {"O": 16, "D": 16, "T": 5}   # columns per rating; a saved model with fewer is out of date
 
 
 class Prior:
@@ -161,4 +228,11 @@ class Prior:
         for k in ["O", "D", "T"]:
             out[k] = design(F, k) @ np.array(self.coef[k])
         out["ret"], out["xfer"] = F.ret, F.xfer_o - F.xfer_d
+        # how much of the start (net points) comes from incoming freshmen and from transfers
+        cO, cD = np.array(self.coef["O"]), np.array(self.coef["D"])
+        if len(cO) == N_DESIGN["O"]:
+            tiers = F[TIER_COLS].to_numpy()
+            out["fr_pts"] = tiers @ (cO[12:16] - cD[12:16])
+            out["xf_pts"] = (F.xfer_o * cO[4] - F.xfer_d * cD[4] + F.xq * (cO[10] - cD[10]) + F.xql * (cO[11] - cD[11])).to_numpy()
+            out[TIER_COLS] = tiers
         return out
