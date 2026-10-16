@@ -75,7 +75,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--purple); outlin
 .post-tags span:last-child { border-right: 0; }
 .elev { color: var(--purple); }
 .post-link h3 { font-size: clamp(1.6rem, 4.5vw, 2.25rem); line-height: 0.98; margin: 0; transition: color .15s ease; }
-.post-link p { margin: 0; color: var(--muted); max-width: 62ch; }
+.post-link p { margin: 0; color: var(--muted); max-width: none; }
 .post-link.has-thumb { grid-template-columns: 1fr 120px; column-gap: 1.5rem; align-items: start; }
 .post-link.has-thumb > * { grid-column: 1; }
 .post-thumb { grid-column: 2 !important; grid-row: 1 / span 3; width: 120px; aspect-ratio: 4/5; object-fit: cover; border: 1px solid var(--line); }
@@ -83,13 +83,16 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--purple); outlin
 
 /* article */
 .article { padding: 3.5rem 0 1rem; }
-.article-head { max-width: 46rem; }
+.article-head { max-width: none; }
 .article h1 { font-size: clamp(2.4rem, 7vw, 4rem); line-height: 0.92; margin: 0.75rem 0 1rem; letter-spacing: -0.025em; }
-.dek { font-size: 1.25rem; color: var(--muted); margin: 0 0 1.5rem; max-width: 52ch; line-height: 1.4; }
+.dek { font-size: 1.25rem; color: var(--muted); margin: 0 0 1.5rem; max-width: none; line-height: 1.4; }
 .byline { font-size: 0.75rem; color: var(--muted); padding-top: 1.25rem; border-top: 1px solid var(--line); }
-.feature-img { display: block; width: 100%; max-width: 44rem; height: auto; border: 1px solid var(--line); margin: 2rem 0 0; }
+.feature-img { display: block; width: 100%; max-width: 100%; height: auto; border: 1px solid var(--line); margin: 2rem 0 0; }
+/* stories run the full width of the page; keep tall photos from taking over the screen */
+.feature-img[src*="poster"] { width: auto; max-height: 85vh; }
+.article-body .body-fig img { width: auto; max-width: 100%; max-height: 80vh; margin-inline: auto; }
 .feature-cap { font-size: 0.7rem; color: var(--muted); margin: 0.75rem 0 0; }
-.article-body { max-width: 40rem; padding: 2.5rem 0 4rem; font-size: 1.125rem; }
+.article-body { max-width: none; padding: 2.5rem 0 4rem; font-size: 1.125rem; }
 .article-body p { margin: 0 0 1.4rem; }
 .article-body h2 { font-size: 1.75rem; line-height: 1; margin: 3rem 0 0.75rem; letter-spacing: -0.02em; }
 .article-body h2 .rec { font-family: var(--body); font-style: normal; font-weight: 500; font-stretch: 100%; text-transform: none; letter-spacing: 0; font-size: 0.9375rem; color: var(--muted); margin-left: 0.6rem; }
