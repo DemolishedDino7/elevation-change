@@ -1,3 +1,9 @@
-2024: failed (HTTP Error 403: Forbidden)
-2025: failed (HTTP Error 403: Forbidden)
-2026: failed (HTTP Error 403: Forbidden)
+ERR HTTP Error 406: Not Acceptable https://247sports.com/season/2025-basketball/compositerecruitrankings/
+ERR HTTP Error 406: Not Acceptable https://247sports.com/season/2015-basketball/compositerecruitrankings/?InstitutionGroup=HighSchool
+OK  2134994 https://www.on3.com/rivals/rankings/player/basketball/2025/ b'<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8" data-next-head=""/><m'
+OK  2015 https://www.espn.com/college-sports/basketball/recruiting/rankings/_/class/2025 b'<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="utf-8">\n    <meta nam'
+OK  8731 https://en.wikipedia.org/w/api.php?action=parse&page=2025_McDonald%27s_All-American_Boys_Game&prop=wikitext&format=json b'{"parse":{"title":"2025 McDonald\'s All-American Boys Game","pageid":79024729,"wi'
+OK  396 https://en.wikipedia.org/w/api.php?action=parse&page=Recruiting_Services_Consensus_Index&prop=wikitext&format=json b'{"error":{"code":"missingtitle","info":"The page you specified doesn\'t exist.","'
+ERR HTTP Error 404: Not Found https://www.rscihoops.com/2025-rsci-final
+ERR HTTP Error 403: Forbidden https://barttorvik.com/trank.php
+OK  919456 https://www.sports-reference.com/cbb/seasons/men/2025-school-stats.html b'\n<!DOCTYPE html>\n<html data-version="klecko-" data-root="/home/cbb/build" lang="'
