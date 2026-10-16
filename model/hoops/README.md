@@ -21,7 +21,9 @@ The basketball pages (`basketball.html`, `hoops-bot.html`, `hoops-index.html`,
 | `geo.json` | Every team's home arena location and elevation |
 | `espn.py` | ESPN scoreboard: same-night finals, schedule changes, pregame lines (grading only) |
 | `ratings.py` | Opponent-adjusted offense/defense per 100 possessions and tempo, pulled toward preseason priors |
-| `prior.py` | Preseason start: last season's ratings + returning minutes + transfers + conference |
+| `prior.py` | Preseason start: last season's ratings + returning minutes and production + transfers (old team's strength and each player's own production) + ranked recruits + conference |
+| `recruits.py` / `recruits.csv` | High school recruits (On3 Industry ranking, classes 2011 on) matched to ESPN teams; `fetch_recruits.py` refreshes the CSV weekly via `.github/workflows/fetch-recruits.yml` |
+| `resume_index.py` | The Elevation Index: preseason start until 90% of D-I teams have 2 D-I games, then half résumé (Wins Above Bubble) and half stats (this season's adjusted efficiency, no prior), plus "our field" |
 | `walk.py` | Walk-forward predictions (each day predicted from games before it) |
 | `game_model.py` | Margin, total and win chance from ratings + home court, altitude, travel, rest |
 | `bracket.py` | March Madness: Selection Sunday résumés 2013-2026, selection + seed models, season simulation, 76-team bracket, tournament picks |
@@ -49,9 +51,14 @@ field to `ncaa_fields.json` so the model keeps learning.
 ## Not yet
 * **Season odds tab** (conference titles) switches on once both league schedules are
   in the data. NCAA bid odds already live on the bracket page.
-* **Résumé Elevation Index** like football's, once teams have a few games in.
 
 ## Backtest (D-I vs D-I, 2021-22 to 2025-26, walk-forward)
 Fit on seasons through 2020-21. 28,479 games: winners 72.0%, average margin miss
 9.08 points, well calibrated. No historical betting lines in the data, so live
 picks are graded against Vegas as ESPN's pregame lines come in.
+
+## Elevation Index (résumé + stats)
+Checked on every Selection Sunday 2014-2026: the résumé half picked 87% of the committee's at-large teams
+(about 92% in the last four seasons), and the stats half tracked NCAA Tournament wins better than résumé
+(rank correlation 0.56 vs 0.53). Preseason prior with recruits/transfers, leave-one-season-out 2014-2026:
+miss 4.24 -> 4.01 points per 100 possessions (high-major 4.32 -> 3.97).

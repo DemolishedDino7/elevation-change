@@ -381,18 +381,18 @@
     link.href = 'hoops-index.html'; link.innerHTML = 'All 23 &rarr;';
     title.textContent = 'Elevation Index | Basketball';
     fetch('hoops/teams.json?v=' + Math.floor(Date.now() / 300000)).then(r => r.json()).then(teams => {
-      const ours = teams.filter(t => t.west).sort((a, b) => a.rank - b.rank);
-      const played = ours.some(t => t.w + t.l > 0);
+      const ours = teams.filter(t => t.west).sort((a, b) => (a.idx_rank || a.rank) - (b.idx_rank || b.rank));
+      const played = ours.some(t => t.idx_prev != null && t.res != null && t.gp >= 2);
       title.textContent = 'Elevation Index | Basketball · ' + (played ? 'This week' : 'Preseason');
       const light = { 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' };
-      const prev = [...ours].sort((a, b) => a.prev_rank - b.prev_rank).map(t => t.id);
+      const prev = [...ours].sort((a, b) => (a.idx_prev || 999) - (b.idx_prev || 999)).map(t => t.id);
       list.innerHTML = ours.slice(0, 10).map((t, i) => {
         const m = prev.indexOf(t.id) - i;
         const mv = !played ? '' : m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—';
         const src = t.logo ? (light[t.logo] || t.logo) : '';
         return '<li><span class="r">' + (i + 1) + '</span>' + (src ? '<img class="lg" src="' + src + '" alt="" width="24" height="24" onerror="this.style.visibility=\'hidden\'">' : '<span class="c"></span>') +
-          '<span class="n">' + t.name.replace('San José State', 'San José St.') + '<small>' + (played ? t.w + '-' + t.l : 'No. ' + t.rank + ' nationally') + '</small></span>' +
-          '<span class="mv">' + mv + '</span><span class="sc">' + (t.net > 0 ? '+' : '') + t.net.toFixed(1) + '</span></li>';
+          '<span class="n">' + t.name.replace('San José State', 'San José St.') + '<small>' + (played ? t.w + '-' + t.l + ' · ' : '') + 'No. ' + (t.idx_rank || t.rank) + ' nationally</small></span>' +
+          '<span class="mv">' + mv + '</span><span class="sc">' + (function (v) { return (v > 0 ? '+' : '') + v.toFixed(1); })(played && t.idx_score != null ? t.idx_score : (t.pre_net != null ? t.pre_net : t.net)) + '</span></li>';
       }).join('');
     }).catch(() => { list.innerHTML = '<li>Basketball ratings are loading. Try again shortly.</li>'; });
   }

@@ -19,6 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=202610151840">
 <link rel="stylesheet" href="hoops.css?v=202610140015">
+<style>#view { flex-wrap: wrap; border-radius: 1.25rem; } #tbl.field thead.sub-h th { padding-top: 0.25rem; }</style>
 </head>
 <body>
 
@@ -54,19 +55,20 @@
       <p class="bot-intro" id="idx-intro"></p>
     </section>
     <div class="ctl">
-      <div class="seg" id="view"><button data-v="ours" aria-pressed="true">Our 23</button><button data-v="top" aria-pressed="false">Top 25</button><button data-v="conf" aria-pressed="false">Conferences</button><button data-v="all" aria-pressed="false">All D-I</button></div>
+      <div class="seg" id="view"><button data-v="ours" aria-pressed="true">Our 23</button><button data-v="top" aria-pressed="false">Top 25</button><button data-v="conf" aria-pressed="false">Conferences</button><button data-v="all" aria-pressed="false">All D-I</button><button data-v="field" aria-pressed="false">Our field</button></div>
       <div class="seg" id="lg"><button data-v="" aria-pressed="true">All 23</button><button data-v="pac" aria-pressed="false">Pac-12</button><button data-v="mw" aria-pressed="false">MW</button><button data-v="oth" aria-pressed="false">Other</button></div>
       <select class="sel" id="conf" aria-label="Conference" hidden></select>
     </div>
     <div class="table-scroll" id="tbl-wrap"><table class="bt" id="tbl"></table></div>
     <div id="confs" hidden></div>
-    <p class="note" style="margin-top:1rem">Net = points per 100 possessions better than an average Division I team. Off and Def: points scored and prevented per 100 possessions (higher is better for both). Nat = the Bot’s national rank. NCAA = chance to make the 76-team field; Seed = projected seed (from the weekly bracket); Title = regular-season league title. In Our 23, click a rank for that team’s card, or any name for its full team page.</p>
+    <p class="note" style="margin-top:1rem" id="idx-note"></p>
+    <p class="note" style="margin-top:1rem" id="pre-note">Net = points per 100 possessions better than an average Division I team. Off and Def: points scored and prevented per 100 possessions (higher is better for both). Nat = the Bot’s national rank. NCAA = chance to make the 76-team field; Seed = projected seed (from the weekly bracket); Title = regular-season league title. In Our 23, click a rank for that team’s card, or any name for its full team page.</p>
     <div class="hcards" id="cards"></div>
     <p class="updated" id="updated"></p>
   </div>
 </main>
 
-<script src="hoops.js?v=202610140015"></script>
+<script src="hoops.js?v=202610151930"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -77,16 +79,40 @@
     const T = {}; teams.forEach(t => T[t.id] = t);
     const OD = {}; (odds ? odds.teams : []).forEach(o => OD[o.id] = o);
     const PL = players || {};
-    const ours = teams.filter(t => t.west).sort((a, b) => a.rank - b.rank);
+    teams.sort((a, b) => (a.idx_rank || a.rank) - (b.idx_rank || b.rank));
+    const ours = teams.filter(t => t.west);
     const played = ours.some(t => t.w + t.l > 0);
+    const IX = meta.index || { mode: 'preseason', flip_games: 2, ready_share: 0 };
+    const RES = IX.mode === 'resume';
+    const FIELD = { auto: 'Auto bid', in: 'In', last4in: 'Last 4 in', first4out: 'First 4 out', next4out: 'Next 4 out' };
+    const fieldCell = t => t.field ? '<span class="' + (t.field === 'first4out' || t.field === 'next4out' ? 'down' : t.field === 'last4in' ? 'flat' : 'up') + '">' + FIELD[t.field] + '</span>' : '—';
+    const mvI = t => t.idx_prev == null ? '<span class="flat">—</span>' : (t.idx_prev - t.idx_rank > 0 ? '<span class="up">▲ ' + (t.idx_prev - t.idx_rank) + '</span>' : t.idx_prev - t.idx_rank < 0 ? '<span class="down">▼ ' + (t.idx_rank - t.idx_prev) + '</span>' : '<span class="flat">—</span>');
+    const rr = (v, k) => (v == null ? '—' : (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(k));
     $('#idx-eyebrow').textContent = 'Basketball · ' + meta.season_label.replace('-', '–') + ' · ' + (played ? 'Week ' + Math.max(1, meta.week) : 'Preseason');
-    $('#idx-intro').textContent = played
-      ? 'Our 23 teams ranked by the Bot’s ratings: efficiency on both ends, adjusted for every opponent and where each game was played. Résumé scoring, like the football Index, joins once teams have a few games in.'
-      : 'Our 23 teams ranked where the Bot starts them: last season’s ratings, adjusted for returning minutes, incoming transfers and conference strength. Once games are played, the ratings take over, and résumé scoring like the football Index joins after a few games.';
-    const prevOrder = [...ours].sort((a, b) => a.prev_rank - b.prev_rank).map(t => t.id);
+    $('#idx-intro').textContent = RES
+      ? 'Ranked on this season only: half résumé (who has earned a March Madness bid) and half stats (who is actually good, so who goes furthest). Preseason counts for nothing now.'
+      : 'Preseason: where the Bot starts every team. Last season’s ratings, how much of last season’s production is back, what incoming transfers did at their old schools, ranked high school recruits, and conference strength. Once nearly every team has played ' + IX.flip_games + ' games, the Index switches to résumé and stats from this season only.';
+    $('#idx-note').innerHTML = RES
+      ? '<b>Index</b> = half Résumé, half Stats, in points per 100 possessions better than an average D-I team. <b>Résumé</b> = Wins Above Bubble: each win counts for what a bubble team (about No. ' + IX.bubble_rank + ') would have been expected to lose there, each loss costs what a bubble team would have won. <b>Stats</b> = offense minus defense per 100 possessions, adjusted for every opponent and home court, this season’s games only. <b>Our field</b> = our call on the bracket today: each league’s best résumé takes the automatic bid, the best remaining résumés take the at-large spots.'
+      : '<b>Start</b> = the Bot’s preseason rating. <b>Recruits</b> and <b>Transfers</b> = how many points of it come from ranked incoming freshmen (On3 Industry rankings) and from incoming transfers (what each one produced at his old school, weighted by how good that school was). ' + (played ? 'Teams with ' + IX.flip_games + '+ games so far: ' + IX.ready_share + '% (the Index switches at ' + IX.flip_share + '%).' : '');
+    $('#pre-note').hidden = RES;
+    const prevOrder = [...ours].sort((a, b) => (a.idx_prev || 999) - (b.idx_prev || 999)).map(t => t.id);
     let lg = '';
+    /* résumé-mode table, shared by every view */
+    const resHead = '<thead><tr><th>#</th><th>Team</th><th class="n">W-L</th><th class="n">Index</th><th class="n">Résumé</th><th class="n hide-s">Stats</th><th class="n">Our field</th><th class="n hide-s">Move</th></tr></thead>';
+    const resRow = (t, r, cls) => '<tr class="' + cls + '"><td class="rk">' + r + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
+      '<td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + rr(t.idx_score, 1) + '</td><td class="n">' + rr(t.res, 2) + '<span class="sub">' + (t.res_rank || '') + '</span></td>' +
+      '<td class="n hide-s">' + rr(t.pow, 1) + '<span class="sub">' + (t.pow_rank || '') + '</span></td><td class="n">' + fieldCell(t) + '</td><td class="n hide-s">' + mvI(t) + '</td></tr>';
+    const preHead = '<thead><tr><th>#</th><th>Team</th><th class="n">Start</th><th class="n">Recruits</th><th class="n">Transfers</th><th class="n hide-s">Back</th><th class="n">NCAA</th><th class="n">Seed</th></tr></thead>';
+    const preRow = (t, r, cls) => { const o = OD[t.id] || {};
+      return '<tr class="' + cls + '"><td class="rk">' + r + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + (t.frosh && t.frosh[0] && t.frosh[0].rank <= 50 ? ' · ' + esc(t.frosh[0].name) + ' (No. ' + t.frosh[0].rank + ')' : '') + '</small></span></span></td>' +
+        '<td class="n net">' + rr(t.pre_net, 1) + '</td><td class="n">' + rr(t.fr_pts, 1) + '</td><td class="n">' + rr(t.xf_pts, 1) + '</td><td class="n hide-s">' + (t.ret == null ? '—' : t.ret + '%') + '</td>' +
+        '<td class="n">' + pct(o.p_bid) + '</td><td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td></tr>'; };
+    const anyRow = (t, r, cls) => RES ? resRow(t, r, cls) : preRow(t, r, cls);
+    const anyHead = () => RES ? resHead : preHead;
     function draw() {
       const list = ours.filter(t => !lg || t.league === lg);
+      if (true) { $('#tbl').innerHTML = anyHead() + '<tbody>' + list.map(t => anyRow(t, ours.indexOf(t) + 1, 'west')).join('') + '</tbody>'; return; }
       $('#tbl').innerHTML = '<thead><tr><th>#</th><th>Team</th><th class="n">W-L</th><th class="n">Net</th><th class="n hide-s">Off</th><th class="n hide-s">Def</th><th class="n">Nat</th><th class="n">NCAA</th><th class="n">Seed</th>' + (played ? '<th class="n hide-s">Move</th>' : '') + '</tr></thead><tbody>' +
         list.map(t => {
           const r = ours.indexOf(t) + 1, m = prevOrder.indexOf(t.id) + 1 - r, o = OD[t.id] || {};
@@ -119,13 +145,17 @@
     function show() {
       [...$('#view').children].forEach(x => x.setAttribute('aria-pressed', x.dataset.v === view));
       $('#lg').hidden = view !== 'ours';
+      $('#tbl').classList.toggle('field', view === 'field');
       $('#conf').hidden = view !== 'conf';
       $('#cards').hidden = view !== 'ours';
       $('#tbl-wrap').hidden = view === 'conf';
       $('#confs').hidden = view !== 'conf';
       if (view === 'ours') draw();
-      else if (view === 'top') $('#tbl').innerHTML = natHead + '<tbody>' + teams.slice(0, 25).map(t => natRow(t, t.rank)).join('') + '</tbody>';
-      else if (view === 'all') $('#tbl').innerHTML = natHead + '<tbody>' + teams.map(t => natRow(t, t.rank)).join('') + '</tbody>';
+      else if (view === 'top') $('#tbl').innerHTML = anyHead() + '<tbody>' + teams.slice(0, 25).map(t => anyRow(t, t.idx_rank, t.west ? 'west' : 'dim')).join('') + '</tbody>';
+      else if (view === 'all') $('#tbl').innerHTML = anyHead() + '<tbody>' + teams.map(t => anyRow(t, t.idx_rank, t.west ? 'west' : 'dim')).join('') + '</tbody>';
+      else if (view === 'field') $('#tbl').innerHTML = !RES ? '<tbody><tr><td class="empty">Our field starts once teams have ' + IX.flip_games + ' games in. Until then, the Bot’s projected bracket is on the <a class="tl" href="hoops-bracket.html">Bracket page</a>.</td></tr></tbody>' :
+        ['auto', 'in', 'last4in', 'first4out', 'next4out'].map(k => { const ts = teams.filter(t => t.field === k).sort((a, b) => a.res_rank - b.res_rank);
+          return ts.length ? '<thead><tr><th colspan="8" style="padding-top:1.25rem;color:var(--purple)">' + FIELD[k] + (k === 'auto' ? 's (each league’s best résumé)' : k === 'in' ? ' (at-large)' : '') + ' · ' + ts.length + '</th></tr></thead>' + resHead.replace('<thead>', '<thead class="sub-h">') + '<tbody>' + ts.map(t => resRow(t, t.idx_rank, t.west ? 'west' : 'dim')).join('') + '</tbody>' : ''; }).join('');
       else {
         let top = '';
         if (!$('#conf').value) {
@@ -143,7 +173,7 @@
     }
     $('#view').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { view = b.dataset.v; show(); } });
     $('#conf').addEventListener('change', show);
-    if (['top', 'conf', 'all'].includes(location.hash.slice(1))) view = location.hash.slice(1);
+    if (['top', 'conf', 'all', 'field'].includes(location.hash.slice(1))) view = location.hash.slice(1);
     show();
 
     /* ---------- team cards (like the football Index) ---------- */
@@ -184,6 +214,8 @@
       }).join('');
       return '<article class="ei-card hcard" id="c-' + t.id + '"><h3>' + r + '. ' + HB.img(t.logo) + HB.tlink(t.id, esc(t.name)) + '</h3>' +
         '<p class="meta">' + [t.w + '-' + t.l, esc(t.conf) + ' ' + t.cw + '-' + t.cl, 'Bot No. ' + t.rank, 'NCAA ' + pct(o.p_bid), o.seed ? o.seed + ' seed' : 'Proj. out'].join(' | ') + '</p><dl>' +
+        (RES ? '<dt>Index</dt><dd>No. ' + t.idx_rank + ' · Résumé No. ' + t.res_rank + ' (' + rr(t.res, 2) + ' wins above bubble) · Stats No. ' + t.pow_rank + ' (' + rr(t.pow, 1) + ')' + (t.field ? ' · ' + FIELD[t.field] : '') + '</dd>'
+              : '<dt>Preseason</dt><dd>Starts ' + rr(t.pre_net, 1) + ': recruits ' + rr(t.fr_pts, 1) + ', transfers ' + rr(t.xf_pts, 1) + (t.ret == null ? '' : ', ' + t.ret + '% of last season’s minutes back') + '.' + (t.frosh && t.frosh.length ? ' Freshmen: ' + t.frosh.slice(0, 3).map(f => esc(f.name) + ' (No. ' + f.rank + ')').join(', ') + '.' : '') + '</dd>') +
         '<dt>Best win</dt><dd>' + (wins[0] ? gl(wins[0]) : 'None yet') + '</dd>' +
         '<dt>Worst loss</dt><dd>' + (losses[0] ? gl(losses[0]) : 'None yet') + '</dd>' +
         '<dt>March</dt><dd>' + march + '</dd>' +

@@ -180,6 +180,8 @@ def main():
     ro, mins = data.rosters_and_minutes(season)
 
     saved = load("model.json", None)
+    if saved and any(len(saved["prior"].get(k, [])) != n for k, n in PR.N_DESIGN.items()):
+        saved = None   # the prior gained features since this model was saved: refit
     if args.quick and saved:
         pri, gm, backtest = PR.Prior({k: v for k, v in saved["prior"].items()}), GameModel.from_dict(saved["game"]), saved["backtest"]
         log("  quick run: reusing the morning's model")
@@ -318,6 +320,25 @@ def main():
     week_ago = [k for k in hist if k <= str(today - timedelta(days=7))]
     prev = hist[week_ago[-1]] if week_ago else {str(int(t)): int(prank[i]) for i, t in enumerate(ids) if t != data.NON_D1}
 
+    # ---------------- Elevation Index: preseason start, then résumé + stats ----------------
+    import resume_index as RI
+    import bracket as BR
+    d1set = {int(t) for t in ids if t != data.NON_D1}
+    rk_d = {int(t): int(rank[i]) for i, t in enumerate(ids) if t != data.NON_D1}
+    net_d = {int(t): float(net[i]) for i, t in enumerate(ids) if t != data.NON_D1}
+    nf, na = BR.fmt(season)[:2]
+    XI = RI.build(cur, ids, idx, d1set, net_d, rk_d, float(rnow["hca"]), conf_of, n_field=nf, n_auto=na)
+    idx_on = RI.flipped(cur, d1set)
+    ready = float((XI.gp >= RI.FLIP_GAMES).mean()) if len(XI) else 0.0
+    pre_rank_d = {int(t): int(prank[i]) for i, t in enumerate(ids) if t != data.NON_D1}
+    idx_rank = XI.idx_rank.to_dict() if idx_on else pre_rank_d
+    ihist = load("index_history.json", {})
+    ihist[str(today)] = {"mode": "resume" if idx_on else "preseason", "rank": {str(t): int(r) for t, r in idx_rank.items()}}
+    ihist = {k: v for k, v in sorted(ihist.items())[-60:]}
+    iwk = [k for k in ihist if k <= str(today - timedelta(days=7)) and ihist[k]["mode"] == ihist[str(today)]["mode"]]
+    iprev = ihist[iwk[-1]]["rank"] if iwk else {}
+    dump("index_history.json", ihist)
+
     fins = cur[cur.completed]
     rec = {}
     for _, x in fins.iterrows():
@@ -335,6 +356,10 @@ def main():
             return f"logos/{sid}.png"
         return logo_url.get(t)
 
+    # incoming ranked freshmen this season, best first (shown on team pages)
+    rc = PR.recruits(season)
+    rc = rc[rc["class"] == season - 1].sort_values("rank")
+    frosh = {int(t): [{"name": n, "rank": int(k)} for n, k in zip(d.name, d["rank"])] for t, d in rc.groupby("team_id")}
     teams = []
     off_rank = pd.Series(O[d1_mask]).rank(ascending=False).to_numpy()
     def_rank = pd.Series(D[d1_mask]).rank(ascending=True).to_numpy()
@@ -356,6 +381,14 @@ def main():
             "tempo": r1(rnow["tmu"] + T[i]),
             "pre_rank": int(prank[i]), "pre_net": r1(pnet[i]),
             "ret": r1(float(rt.ret) * 100, 0) if rt is not None else None,
+            "fr_pts": r1(float(P.at[t, "fr_pts"])) if "fr_pts" in P and t in P.index else None,
+            "xf_pts": r1(float(P.at[t, "xf_pts"])) if "xf_pts" in P and t in P.index else None,
+            "frosh": frosh.get(t, []),
+            "idx_rank": int(idx_rank.get(t, 999)), "idx_prev": iprev.get(str(t)),
+            "idx_score": r1(float(XI.at[t, "score"])) if t in XI.index else None,
+            "res": r1(float(XI.at[t, "wab"]), 2) if t in XI.index else None, "res_rank": int(XI.at[t, "res_rank"]) if t in XI.index else None,
+            "pow": r1(float(XI.at[t, "pow"])) if t in XI.index else None, "pow_rank": int(XI.at[t, "pow_rank"]) if t in XI.index else None,
+            "gp": int(XI.at[t, "gp"]) if t in XI.index else 0, "field": (XI.at[t, "field"] if t in XI.index else "") or None,
             "w": r_[0], "l": r_[1], "cw": r_[2], "cl": r_[3],
         })
     teams.sort(key=lambda x: x["rank"])
@@ -480,6 +513,8 @@ def main():
         "model": {"hca_pts": r1(gm.coef["home"], 2), "altitude_per_1000ft": r1(gm.coef["climb"], 2), "altitude_hi_per_1000ft": r1(gm.coef["climb"] + gm.coef["climb_hi"], 2),
                   "travel_per_1000mi": r1(gm.coef["travel"], 2), "sigma": r1(gm.sigma_late, 2),
                   "prior_weight_games": PARAMS.lam},
+        "index": {"mode": "resume" if idx_on else "preseason", "flip_games": RI.FLIP_GAMES, "ready_share": r1(100 * ready, 0),
+                  "flip_share": int(100 * RI.FLIP_SHARE), "w_resume": RI.W_RESUME, "bubble_rank": RI.BUBBLE_RANK},
         "conf_schedule": {"pac": int(((cur.home_conf == PAC12) & cur.conf_game).sum()), "mw": int(((cur.home_conf == MW) & cur.conf_game).sum())},
     }
     # ---------------- players (team pages) ----------------
