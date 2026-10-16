@@ -254,6 +254,14 @@ const EI = (function () {
   }
 
   /* ---- compute the full index through a given week ---- */
+  /* A week only produces byes once it has really been played. If just a few
+     midweek games are in, nobody else is on a bye yet: their games simply
+     haven't happened. Same rule for every team. */
+  const WEEK_N = {};
+  GAMES.forEach(g => { WEEK_N[g.week] = (WEEK_N[g.week] || 0) + 1; });
+  const BUSIEST = Math.max(1, ...Object.values(WEEK_N));
+  function fullWeek(w) { return (WEEK_N[w] || 0) >= 0.4 * BUSIEST; }
+
   function compute(throughWeek) {
     const games = GAMES.filter(g => g.week <= throughWeek).sort((a, b) => a.date < b.date ? -1 : 1);
     const byTeam = {}; TEAMS.forEach(t => byTeam[t[0]] = []);
@@ -261,7 +269,7 @@ const EI = (function () {
     /* bye-week credit: each actual bye (a week from Week 1 on with no game)
        is worth the team's own average game, so an idle weekend never costs
        a team ground. The optional Week 0 opener is not counted as a bye. */
-    const byesOf = tg => { let b = 0; for (let w = 1; w <= throughWeek; w++) if (!tg.some(g => g.week === w)) b++; return b; };
+    const byesOf = tg => { let b = 0; for (let w = 1; w <= throughWeek; w++) if (fullWeek(w) && !tg.some(g => g.week === w)) b++; return b; };
 
     /* seed national ranks, then iterate: tracked opponents take on ranks
        derived from the previous pass's ordering (mapped onto 28–125). */
@@ -404,7 +412,7 @@ const EI = (function () {
     const key = new Map();
     cur.forEach((t, i) => {
       const p = prevById[t.id];
-      const onBye = p && t.games.length > 0 && !t.games.some(g => g.week === w);
+      const onBye = p && t.games.length > 0 && fullWeek(w) && !t.games.some(g => g.week === w);
       let k = i + 1;
       if (onBye) {
         /* schedule got weaker: its own games are worth less than last week (bye credit aside) */
@@ -539,7 +547,7 @@ const EI = (function () {
     });
     const avg = t.games.length ? t.games.reduce((s, g) => s + g.final, 0) / t.games.length : 0;
     const byeWeeks = [];
-    for (let w = 1; w <= wk; w++) if (t.games.length && !t.games.some(g => g.week === w)) byeWeeks.push(w);
+    for (let w = 1; w <= wk; w++) if (t.games.length && fullWeek(w) && !t.games.some(g => g.week === w)) byeWeeks.push(w);
     byeWeeks.forEach((w, i) => {
       const hold = (i === byeWeeks.length - 1 && w === wk) ? (t.byeAdj || 0) : 0;
       out.push({ week: w, bye: true, result: avg, hold: hold, value: avg + hold });

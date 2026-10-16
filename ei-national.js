@@ -1423,11 +1423,7 @@ const GAMES = [{"team":"TCU","week":0,"date":"2026-08-29","opp":"UNC","site":"N"
 {"team":"ASU","week":6,"date":"2026-10-10","opp":"HAW","site":"H","pf":30,"pa":12,"exp":23.8,"stats":{"yds":420,"oppYds":316,"to":0,"oppTo":1,"sacks":3,"sacksAllowed":1,"ypp":6.9,"oppYpp":4.3,"thirdPct":30,"oppThirdPct":37,"explosive":9,"oppExplosive":6}},
 {"team":"HAW","week":6,"date":"2026-10-10","opp":"ASU","site":"A","pf":12,"pa":30,"exp":-23.8,"stats":{"yds":316,"oppYds":420,"to":1,"oppTo":0,"sacks":1,"sacksAllowed":3,"ypp":4.3,"oppYpp":6.9,"thirdPct":37,"oppThirdPct":30,"explosive":6,"oppExplosive":9}},
 {"team":"FRES","week":6,"date":"2026-10-10","opp":"BSU","site":"H","pf":31,"pa":38,"exp":-8.1,"stats":{"yds":439,"oppYds":536,"to":0,"oppTo":0,"sacks":0,"sacksAllowed":2,"ypp":8.6,"oppYpp":6.8,"thirdPct":50,"oppThirdPct":38,"explosive":7,"oppExplosive":11}},
-{"team":"BSU","week":6,"date":"2026-10-10","opp":"FRES","site":"A","pf":38,"pa":31,"exp":8.1,"stats":{"yds":536,"oppYds":439,"to":0,"oppTo":0,"sacks":2,"sacksAllowed":0,"ypp":6.8,"oppYpp":8.6,"thirdPct":38,"oppThirdPct":50,"explosive":11,"oppExplosive":7}},
-{"team":"MTSU","week":7,"date":"2026-10-13","opp":"DEL","site":"H","pf":33,"pa":30,"exp":-3.9,"stats":{"yds":396,"oppYds":391,"to":2,"oppTo":1,"sacks":5,"sacksAllowed":1,"ypp":6.8,"oppYpp":5.8,"thirdPct":22,"oppThirdPct":42}},
-{"team":"DEL","week":7,"date":"2026-10-13","opp":"MTSU","site":"A","pf":30,"pa":33,"exp":3.9,"stats":{"yds":391,"oppYds":396,"to":1,"oppTo":2,"sacks":1,"sacksAllowed":5,"ypp":5.8,"oppYpp":6.8,"thirdPct":42,"oppThirdPct":22}},
-{"team":"JXST","week":7,"date":"2026-10-13","opp":"FIU","site":"H","pf":27,"pa":24,"exp":6.4,"stats":{"yds":387,"oppYds":404,"to":1,"oppTo":0,"sacks":1,"sacksAllowed":1,"ypp":7.2,"oppYpp":5.5,"thirdPct":30,"oppThirdPct":53}},
-{"team":"FIU","week":7,"date":"2026-10-13","opp":"JXST","site":"A","pf":24,"pa":27,"exp":-6.4,"stats":{"yds":404,"oppYds":387,"to":0,"oppTo":1,"sacks":1,"sacksAllowed":1,"ypp":5.5,"oppYpp":7.2,"thirdPct":53,"oppThirdPct":30}}];
+{"team":"BSU","week":6,"date":"2026-10-10","opp":"FRES","site":"A","pf":38,"pa":31,"exp":8.1,"stats":{"yds":536,"oppYds":439,"to":0,"oppTo":0,"sacks":2,"sacksAllowed":0,"ypp":6.8,"oppYpp":8.6,"thirdPct":38,"oppThirdPct":50,"explosive":11,"oppExplosive":7}}];
 const NEXT = {
  "OSU": "at Indiana",
  "ND": "at BYU",
@@ -1568,4 +1564,4 @@ const NEXT = {
  "CLT": "at Temple",
  "SAC": "vs Ohio"
 };
-const CURRENT_WEEK = 7;
+const CURRENT_WEEK = 6;

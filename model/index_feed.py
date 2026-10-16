@@ -50,7 +50,13 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
     g = sg.copy()
     g["sw"] = site_week(g.start, g.week)
     tracked = g[g.home_team.isin(by_name) | g.away_team.isin(by_name)]
-    done = tracked[tracked.completed]
+    # The Index runs through the last FINISHED week: one where (nearly) every game
+    # is final. A Tuesday or Wednesday game must not make everyone else's
+    # Saturday look like a bye, so games from the week in progress wait until it ends.
+    by_wk = tracked.groupby("sw").completed.agg(["sum", "count"])
+    finished = by_wk[(by_wk["sum"] > 0) & (by_wk["sum"] >= 0.9 * by_wk["count"])].index
+    cur_week = int(max(finished)) if len(finished) else 0
+    done = tracked[tracked.completed & (tracked.sw <= cur_week)]
 
     box = plays.box_scores(season).set_index(["game_id", "team"])
 
@@ -141,14 +147,15 @@ def build(season: int, sg: pd.DataFrame, T: pd.DataFrame, west: dict, out_path, 
     # next game for each tracked team
     nxt = {}
     pending = tracked[~tracked.completed].sort_values("start")
-    cur_week = int(done.sw.max()) if len(done) else 0
+    up_week = cur_week + 1
     for sid, name in west.items():
         pg = pending[(pending.home_team == name) | (pending.away_team == name)]
         if not len(pg):
             nxt[sid] = "Season complete"
             continue
         x = pg.iloc[0]
-        if int(x.sw) > cur_week + 1:
+        mine = tracked[(tracked.home_team == name) | (tracked.away_team == name)]
+        if int(x.sw) > up_week and not (mine.sw == up_week).any():
             nxt[sid] = "Bye"
             continue
         home = x.home_team == name
