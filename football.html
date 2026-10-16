@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Football — Elevation Change</title>
+<meta name="description" content="Football for the Mountain West, Pac-12 and the rest of our Western 20: this week's games picked by the Bot, the Elevation Index, standings and every story we've written.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Football — Elevation Change">
+<meta property="og:description" content="Football for the Mountain West, Pac-12 and the rest of our Western 20: this week's games, the Elevation Index, standings and every story.">
+<meta property="og:url" content="https://elevationchange.co/football.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610152000">
+<link rel="stylesheet" href="hoops.css?v=202610152000">
+<style>
+/* football hub: Elevation Index list (same look as the home page) */
+.mini-ei-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; }
+.mini-ei-list li { display: grid; grid-template-columns: 2.25rem 26px 1fr auto auto; align-items: center; gap: 0.75rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.mini-ei-list .r { font-family: var(--display); font-size: 1.25rem; font-weight: 600; color: var(--paper); }
+.mini-ei-list .c { width: 12px; height: 12px; border-radius: 2px; justify-self: center; }
+.mini-ei-list .n { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.0625rem; font-weight: 500; color: var(--paper); }
+.mini-ei-list .n small { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--muted); text-transform: none; }
+.mini-ei-list .mv { white-space: nowrap; min-width: 3rem; text-align: right; }
+.mini-ei-list .sc { color: var(--purple); min-width: 3.5rem; text-align: right; }
+.mini-ei-list .up { color: #78BE8C; } .mini-ei-list .down { color: #D25F5F; }
+
+#status { display: block; line-height: 1.5; }
+/* this week */
+.wkhead { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.games.fb { grid-template-columns: 1fr; }
+@media (min-width: 46rem) { .games.fb { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 64rem) { .games.fb { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* stories */
+.story-ctl { margin: 0 0 0.25rem; }
+.story-ctl .seg { flex-wrap: wrap; border-radius: 1.25rem; }
+.posts.hub .post-link { padding: 1.6rem 0; }
+.posts.hub .post-link h3 { font-size: clamp(1.4rem, 4vw, 1.9rem); }
+.more-stories { display: block; width: 100%; margin: 1.25rem 0 0; padding: 0.85rem; background: none; border: 1px solid var(--rule); border-radius: 4px; color: var(--paper); cursor: pointer; font-family: var(--display); font-style: italic; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8125rem; }
+.more-stories:hover { border-color: var(--purple); color: var(--purple); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="football.html" aria-current="page">Football</a>
+      <a href="basketball.html">Basketball</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav" aria-label="Football">
+  <div class="wrap">
+    <a href="football.html" aria-current="page">Hub</a>
+    <a href="elevation-index.html">Index</a>
+    <a href="standings.html">Standings</a>
+    <a href="the-bot.html">The Bot</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="hb-head">
+      <p class="eyebrow eyebrow-wide">Football | <span id="season">2026</span> | <span id="wk-eyebrow">Western 20</span></p>
+      <h1 class="page-title">High altitude.<br>Higher stakes.</h1>
+      <p class="dek">Every Mountain West and Pac-12 team, plus the rest of our Western 20, from Week 0 to bowl season. Every game picked by the Bot, every team ranked by the Index.</p>
+      <p class="status" id="status"></p>
+      <div class="strip" id="strip"></div>
+    </section>
+
+    <section aria-labelledby="games-h">
+      <div class="sec-head">
+        <div class="wkhead">
+          <h2 id="games-h">Our games</h2>
+          <div class="wk"><button id="wk-prev" aria-label="Previous week">‹</button><span id="wk-lbl">Week</span><button id="wk-next" aria-label="Next week">›</button></div>
+        </div>
+        <a href="the-bot.html">Every pick &rarr;</a>
+      </div>
+      <div class="games fb" id="games"><p class="empty">Loading this week’s games…</p></div>
+    </section>
+
+    <div class="two" style="margin-top:3rem">
+      <section aria-labelledby="idx-h">
+        <div class="sec-head"><h2 id="idx-h">Elevation Index</h2><a href="elevation-index.html">All 20 &rarr;</a></div>
+        <ol class="mini-ei-list" id="idx"></ol>
+      </section>
+      <section aria-labelledby="st-h">
+        <div class="sec-head"><h2 id="st-h">Standings</h2><a href="standings.html">Full standings &rarr;</a></div>
+        <div id="stand"></div>
+      </section>
+    </div>
+
+    <section aria-labelledby="stories-h" id="stories">
+      <div class="sec-head"><h2 id="stories-h">Football stories</h2><span class="lbl" id="story-count"></span></div>
+      <div class="ctl story-ctl">
+        <div class="seg" id="story-filter" role="group" aria-label="Story type">
+          <button data-v="all" aria-pressed="true">All</button>
+          <button data-v="gotw" aria-pressed="false">Game of the Week</button>
+          <button data-v="recap" aria-pressed="false">Recaps</button>
+          <button data-v="preview" aria-pressed="false">Previews</button>
+          <button data-v="index" aria-pressed="false">Index</button>
+          <button data-v="bvb" aria-pressed="false">Boys vs. Bot</button>
+        </div>
+      </div>
+      <ul class="posts hub" id="story-list"><li><p class="empty">Loading stories…</p></li></ul>
+      <button class="more-stories" id="story-more" hidden>Show all stories</button>
+    </section>
+
+    <p class="updated" id="updated"></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;width:min(68rem,100% - 2.5rem);">
+    <span>Elevation Change | 2026</span>
+    <span><a href="index.html">Home</a></span>
+  </div>
+</footer>
+
+<script src="ei-west.js?v=202610041240"></script>
+<script src="ei-national.js"></script>
+<script>var EI_SCOPE_OVERRIDE = "in the West";</script>
+<script src="ei-engine.js?v=202610042042"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pct = x => x == null ? '—' : (x * 100 < 0.5 && x > 0 ? '<1' : (x * 100 > 99.5 && x < 1 ? '>99' : (x * 100).toFixed(0))) + '%';
+  const short = n => String(n).replace('San José State', 'San José St.').replace('North Dakota State', 'North Dakota St.');
+  const LIGHT = { 'logos/USU.png': 'logos/USU-light.png', 'logos/UTEP.png': 'logos/UTEP-light.png' };
+  const v = 'v=' + Date.now().toString().slice(0, -5);
+  const get = f => fetch('bot/' + f + '?' + v).then(r => r.json());
+
+  /* ---------- Elevation Index, top 10 of our 20 ---------- */
+  try {
+    const L = EI.subset(EI.history(CURRENT_WEEK), WEST_IDS).latest.slice(0, 10);
+    $('#idx-h').textContent = 'Elevation Index · Week ' + (CURRENT_WEEK + 1);
+    const mv = t => t.prevRank == null ? '—' : t.move > 0 ? '<span class="up">▲ ' + t.move + '</span>' : t.move < 0 ? '<span class="down">▼ ' + (-t.move) + '</span>' : '—';
+    $('#idx').innerHTML = L.map(t => {
+      const src = t.logo ? t.logo.split('|')[0].trim() : '';
+      return '<li><span class="r">' + t.rank + '</span>' +
+        (src ? '<img class="lg" src="' + (LIGHT[src] || src) + '" alt="" width="24" height="24" onerror="this.style.visibility=\'hidden\'">' : '<span class="c" style="background:' + t.color + '"></span>') +
+        '<span class="n">' + t.name + '<small>' + t.rec.w + '-' + t.rec.l + '</small></span>' +
+        '<span class="mv">' + mv(t) + '</span><span class="sc">' + t.score.toFixed(1) + '</span></li>';
+    }).join('');
+  } catch (e) { $('#idx').innerHTML = '<li>The Index is updating. Check back shortly.</li>'; console.error(e); }
+
+  /* ---------- games, standings, record from the Bot ---------- */
+  Promise.all([get('meta.json'), get('ratings.json'), get('predictions.json'), get('record.json'), get('standings.json')]).then(([meta, teams, games, record, st]) => {
+    const T = {}, byName = {}; teams.forEach(t => { T[t.id] = t; byName[t.name] = t; });
+    const logo = id => { const t = T[id]; const src = t && (LIGHT[t.logo] || t.logo); return src ? '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '<img alt="" style="visibility:hidden">'; };
+    $('#season').textContent = meta.season;
+    $('#wk-eyebrow').textContent = 'Week ' + meta.week + ' | Western 20';
+
+    const ours = games.filter(g => g.type === 'regular' && (g.home_west || g.away_west));
+    const weeks = [...new Set(ours.map(g => g.week))].sort((a, b) => a - b);
+    let wk = Math.min(meta.week, weeks[weeks.length - 1]);
+
+    /* status line */
+    const thisWk = ours.filter(g => g.week === meta.week);
+    const played = thisWk.filter(g => g.final).length;
+    const next = thisWk.filter(g => !g.final && g.start).sort((a, b) => a.start.localeCompare(b.start))[0];
+    $('#status').innerHTML = '<b>Week ' + meta.week + '</b> · ' + played + ' of ' + thisWk.length + ' of our games played' +
+      (next ? ' · next kickoff: <b>' + esc(short(next.away)) + ' at ' + esc(short(next.home)) + '</b>, ' + new Date(next.start).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : '');
+
+    /* strip */
+    const bvb = record.boys_vs_bot, live = record.live.west, bt = meta.backtest;
+    const lastWk = (bvb.weeks || []).filter(w => w.games && w.games.length).slice(-1)[0];
+    $('#strip').innerHTML =
+      '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>' + (bvb.boys > bvb.bot ? 'The Boys lead the season' : bvb.bot > bvb.boys ? 'The Bot leads the season' : 'Dead even on the season') + '</p></div>' +
+      (lastWk ? '<div><span class="lbl">Week ' + lastWk.week + ' contest</span><b>' + lastWk.boys + '<small> – </small><span style="color:var(--purple)">' + lastWk.bot + '</span></b><p>' + (lastWk.boys > lastWk.bot ? 'The Boys took the week' : lastWk.bot > lastWk.boys ? 'The Bot took the week' : 'Week ended in a tie') + '</p></div>' : '') +
+      (live.games ? '<div><span class="lbl">The Bot, our games</span><b class="p">' + live.su_w + '-' + live.su_l + '</b><p>Winners picked since Week ' + meta.launch_week + '</p></div>' : '') +
+      '<div><span class="lbl">Winners picked</span><b>' + bt.model_su.toFixed(0) + '%</b><p>Backtest, ' + bt.games.toLocaleString() + ' FBS games ' + bt.seasons + '</p></div>';
+
+    /* game card, same as The Bot page */
+    function card(g) {
+      if (g.published) g = Object.assign({}, g, g.published);
+      const hp = g.home_wp, fav = hp >= 0.5 ? 'home' : 'away', fin = g.final;
+      const favName = fav === 'home' ? g.home : g.away, spread = Math.abs(g.pred_margin);
+      const row = side => {
+        const id = g[side + '_id'], t = T[id], wp = side === 'home' ? hp : 1 - hp;
+        const score = fin ? g[side + '_pts'] : g['pred_' + side];
+        const won = fin ? (side === 'home' ? g.home_pts > g.away_pts : g.away_pts > g.home_pts) : side === fav;
+        return '<div class="row ' + (won ? 'fav' : (fin ? 'lose' : '')) + '">' + logo(id) +
+          '<span class="nm">' + esc(short(g[side])) + '<small>' + (t && t.rank ? '#' + t.rank + ' · ' : '') + (t ? t.w + '-' + t.l : '') + '</small></span>' +
+          '<span class="pct">' + pct(wp) + '</span><span class="sc">' + (score == null ? '' : score) + '</span></div>';
+      };
+      const when = g.start ? new Date(g.start) : null;
+      const top = '<div class="top"><span class="lbl">' + (fin ? 'Final' : when ? when.toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'TBD') + '</span><span class="lbl">' + (g.neutral ? 'Neutral site' : '') + (g.conf_game ? (g.neutral ? ' · ' : '') + 'Conference' : '') + '</span></div>';
+      if (g.pred_margin == null) return '<article class="g">' + top + row('away') + row('home') + '</article>';
+      const bar = '<div class="bar"><i style="width:' + (100 * (1 - hp)).toFixed(1) + '%;background:var(--rule)"></i><i style="width:' + (100 * hp).toFixed(1) + '%"></i></div>';
+      const line = '<div class="line"><span>Bot line <b>' + esc(short(favName)) + ' −' + spread.toFixed(1) + '</b></span><span>Total <b>' + g.pred_total.toFixed(1) + '</b></span></div>';
+      const f = g.factors || {}, chips = [];
+      if (!g.neutral && f.altitude_ft >= 2000) chips.push('<span class="chip alt">Altitude +' + f.altitude_ft.toLocaleString() + ' ft for ' + esc(short(g.away)) + '</span>');
+      if (f.travel_mi >= 1200) chips.push('<span class="chip">' + esc(short(g.away)) + ' travels ' + f.travel_mi.toLocaleString() + ' mi</span>');
+      let res = '';
+      if (fin) {
+        const right = (g.pred_margin > 0) === (g.home_pts > g.away_pts);
+        res = '<div class="res"><span>Bot said <b>' + esc(short(favName)) + ' ' + Math.max(g.pred_home, g.pred_away) + '-' + Math.min(g.pred_home, g.pred_away) + '</b></span><span class="' + (right ? 'hit' : 'miss') + '">' + (right ? '✓ Right winner' : '✗ Wrong winner') + '</span></div>';
+      }
+      return '<article class="g">' + top + row('away') + row('home') + bar + line + (chips.length ? '<div class="chips">' + chips.join('') + '</div>' : '') + res + '</article>';
+    }
+    function renderGames() {
+      $('#wk-lbl').textContent = 'Week ' + wk;
+      $('#wk-prev').disabled = wk <= weeks[0]; $('#wk-next').disabled = wk >= weeks[weeks.length - 1];
+      const list = ours.filter(g => g.week === wk).sort((a, b) => (a.start || '').localeCompare(b.start || ''));
+      $('#games').innerHTML = list.length ? list.map(card).join('') : '<p class="empty">No games for our teams this week.</p>';
+    }
+    $('#wk-prev').addEventListener('click', () => { wk = weeks[Math.max(0, weeks.indexOf(wk) - 1)]; renderGames(); });
+    $('#wk-next').addEventListener('click', () => { wk = weeks[Math.min(weeks.length - 1, weeks.indexOf(wk) + 1)]; renderGames(); });
+    renderGames();
+
+    /* standings, compact */
+    const tbl = (name, rows) => '<h3 class="lbl" style="margin:0 0 0.4rem;color:var(--purple)">' + name + '</h3><table class="bt" style="margin-bottom:1.5rem"><thead><tr><th>Team</th><th class="n">Conf</th><th class="n">All</th><th class="hide-s">Next</th></tr></thead><tbody>' +
+      rows.map(r => { const t = byName[r.team] || byName[r.name]; return '<tr><td><span class="tm">' + (t ? logo(t.id) : '') + esc(short(r.name)) + '</span></td><td class="n">' + esc(r.conf) + '</td><td class="n">' + esc(r.rec) + '</td><td class="hide-s" style="color:var(--muted)">' + esc(r.next || '') + '</td></tr>'; }).join('') + '</tbody></table>';
+    $('#stand').innerHTML = ['Pac-12', 'Mountain West'].filter(c => st.conferences[c]).map(c => tbl(c, st.conferences[c])).join('');
+
+    $('#updated').textContent = 'Bot data updated ' + new Date(meta.generated).toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }).catch(err => { $('#games').innerHTML = '<p class="empty">The Bot is updating. Check back shortly.</p>'; console.error(err); });
+
+  /* ---------- stories: pulled from the home page's Latest list ----------
+     index.html is the one place stories are added. Every story there shows
+     up here unless its <li> is marked data-sport="basketball". */
+  const CAT = tag => { tag = tag.toLowerCase(); return tag.includes('game of the week') ? 'gotw' : tag.includes('boys') ? 'bvb' : tag.includes('recap') ? 'recap' : tag.includes('preview') ? 'preview' : tag.includes('index') ? 'index' : 'other'; };
+  const SHOW = 8; let filter = 'all', expanded = false, items = [];
+  function renderStories() {
+    const list = items.filter(i => filter === 'all' || i.cat === filter);
+    const shown = expanded || filter !== 'all' ? list : list.slice(0, SHOW);
+    $('#story-list').innerHTML = '';
+    shown.forEach(i => $('#story-list').appendChild(i.el));
+    if (!list.length) $('#story-list').innerHTML = '<li><p class="empty">No stories of this type yet.</p></li>';
+    $('#story-more').hidden = shown.length >= list.length;
+    $('#story-count').textContent = list.length + ' stor' + (list.length === 1 ? 'y' : 'ies');
+  }
+  fetch('index.html?' + v).then(r => r.text()).then(html => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    items = [...doc.querySelectorAll('ul.posts > li')].filter(li => (li.dataset.sport || 'football') === 'football').map(li => {
+      const tags = li.querySelectorAll('.post-tags span');
+      return { el: document.importNode(li, true), cat: CAT(tags[1] ? tags[1].textContent : '') };
+    });
+    renderStories();
+  }).catch(() => { $('#story-list').innerHTML = '<li><p class="empty">Stories are on the <a href="index.html#latest">home page</a>.</p></li>'; });
+  $('#story-filter').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    $('#story-filter').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    filter = b.dataset.v; renderStories();
+  });
+  $('#story-more').addEventListener('click', () => { expanded = true; renderStories(); });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610132100"></script>
+</body>
+</html>
