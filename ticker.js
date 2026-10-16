@@ -39,6 +39,17 @@ const FALLBACK = [
 const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 2440, 167, 23, 302, 2439, 2638, 2751, 2449, 2459, 166, 16];
 
 (function () {
+  /* Which games this page's ticker shows. Basketball pages (Basketball tab
+     selected in the main nav) get basketball only, football pages get
+     football only, and the home page gets both. A page can force it with
+     <script src="ticker.js" data-sport="football|basketball|all">. */
+  const SPORT = (function () {
+    const me = document.currentScript;
+    if (me && me.dataset.sport) return me.dataset.sport;
+    const cur = document.querySelector('.nav a[aria-current="page"]');
+    const href = cur ? cur.getAttribute('href') : '';
+    return href === 'basketball.html' ? 'basketball' : href === 'football.html' ? 'football' : 'all';
+  })();
   const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80&limit=300";
   const ESPN_HOOPS = "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=500&dates=";
   const watchHoops = new Set(WATCH_HOOPS.map(String));
@@ -48,7 +59,7 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
   const bar = document.createElement('div');
   bar.className = 'ticker';
   bar.setAttribute('role', 'region');
-  bar.setAttribute('aria-label', 'This weekend in the Western Group of Six');
+  bar.setAttribute('aria-label', SPORT === 'basketball' ? 'Basketball games for our teams' : SPORT === 'football' ? 'Football games this weekend' : 'This weekend in the Western Group of Six');
   bar.innerHTML = '<div class="tk-label">This weekend</div><div class="tk-track"><div class="tk-scroll"></div></div>';
   document.body.appendChild(bar);
   const scroll = bar.querySelector('.tk-scroll');
@@ -64,6 +75,7 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
   }
 
   function fallback() {
+    if (SPORT === 'basketball') { hoopsSchedule(); return; }
     paint(FALLBACK.map(g =>
       '<span class="tk-item' + (g[3] ? ' tk-in' : '') + '">' + (g[3] ? '<i class="tk-dot"></i>' : '') + '<b>' + esc(g[0]) + '</b>' +
       (g[1] ? SEP + '<em>' + esc(g[1]) + '</em>' : '') +
@@ -89,7 +101,7 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
       if (!home || !away || (!watchHoops.has(String(home.team.id)) && !watchHoops.has(String(away.team.id)))) return;
       const state = ev.status && ev.status.type && ev.status.type.state;
       const an = esc(away.team.location || away.team.shortDisplayName), hn = esc(home.team.location || home.team.shortDisplayName);
-      const tag = '<em>BB</em>' + SEP;
+      const tag = SPORT === 'all' ? '<em>BB</em>' + SEP : '';
       if (state === 'in') {
         anyLive = true;
         items.push('<span class="tk-item tk-in"><i class="tk-dot"></i>' + tag + '<b>' + an + ' ' + esc(away.score) + ' – ' + hn + ' ' + esc(home.score) + '</b>' + SEP + '<em>' + esc(ev.status.type.shortDetail || '') + '</em></span>');
@@ -103,7 +115,29 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
     return { items, anyLive };
   }
 
+  /* Basketball pages with no games today: show the next day our teams play,
+     with the Bot's pick, from the hoops Bot's schedule. */
+  let schedShown = false;
+  function hoopsSchedule() {
+    fetch('hoops/games_west.json?v=' + Math.floor(Date.now() / 300000)).then(r => r.json()).then(games => {
+      const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
+      const next = games.filter(g => !g.final && g.day >= today).map(g => g.day).sort()[0];
+      if (!next) return;
+      const day = new Date(next + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+      const list = games.filter(g => g.day === next).sort((a, b) => (a.tba - b.tba) || String(a.start).localeCompare(String(b.start)));
+      paint(list.map(g => {
+        const fav = g.home_wp >= 0.5 ? g.home : g.away;
+        return '<span class="tk-item"><b>' + esc(g.away) + ' @ ' + esc(g.home) + '</b>' + SEP + '<em>' + esc(g.tba ? day : mtTime(g.start)) + '</em>' +
+          (g.pred_margin != null ? SEP + '<em>Bot: ' + esc(fav) + ' −' + Math.abs(g.pred_margin).toFixed(1) + '</em>' : '') + '</span>';
+      }), false);
+      label.textContent = next === today ? 'Today' : 'Next up · ' + day;
+      schedShown = true;
+    }).catch(() => {});
+  }
+
   function render(data, hoops) {
+    if (SPORT === 'basketball') data = null;
+    if (SPORT === 'football') hoops = null;
     const items = [];
     let anyLive = false;
     (data && data.events || []).forEach(ev => {
@@ -139,7 +173,7 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
     const h = hoopsItems(hoops);
     /* football is only "this weekend" news Thursday-Saturday; hoops games are today's */
     const all = items.concat(h.items);
-    if (!all.length) { if (data) { fallback(); } return false; }
+    if (!all.length) { if (SPORT === 'basketball') { if (!schedShown) hoopsSchedule(); } else if (data) { fallback(); } return false; }
     paint(all, anyLive || h.anyLive);
     if (h.items.length) { label.textContent = (anyLive || h.anyLive) ? 'Live' : (items.length ? 'This week' : 'Today'); }
     return anyLive || h.anyLive;
@@ -151,7 +185,9 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
 
   function load() {
     const day = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' }).replace(/-/g, '');
-    Promise.allSettled([get(ESPN), get(ESPN_HOOPS + day)]).then(([fb, bb]) => {
+    const none = Promise.reject(new Error('not shown on this page'));
+    none.catch(() => {});
+    Promise.allSettled([SPORT === 'basketball' ? none : get(ESPN), SPORT === 'football' ? none : get(ESPN_HOOPS + day)]).then(([fb, bb]) => {
       if (fb.status === 'rejected' && bb.status === 'rejected') { fallback(); setTimeout(load, 5 * 60000); return; }
       const live = render(fb.status === 'fulfilled' ? fb.value : null, bb.status === 'fulfilled' ? bb.value : null);
       setTimeout(load, live ? 60000 : 15 * 60000);
