@@ -97,7 +97,7 @@
       <h3 class="dv">1. Ratings per possession</h3>
       <p>Basketball is measured per possession, so a fast team and a slow team can be compared fairly. Every game gives each team an offensive and defensive efficiency: points scored and allowed per 100 possessions. The Bot solves for the offense, defense and tempo of every Division I team at once, adjusting each game for who the opponent was and where it was played. Blowout margins are capped so running up the score doesn’t pay.</p>
       <h3 class="dv">2. Where teams start</h3>
-      <p>Before a game is played, every team starts from last season’s ratings, pulled toward its conference and adjusted for <b>returning minutes</b> and the strength of the teams its <b>incoming transfers</b> came from. Those weights are fit on twelve seasons of what actually happened. The preseason start counts as about four games, so by mid-December the ratings are almost all this season.</p>
+      <p>Before a game is played, every team starts from last season’s ratings, pulled toward its conference and adjusted for <b>returning minutes and production</b> (who’s back, and how good they were), <b>incoming transfers</b> (what each one produced at his old school, weighted by how good that school was) and <b>ranked high school recruits</b> (On3’s Industry ranking: a top-10 recruit is worth about 2.3 points per 100 possessions, a top-25 about 1.6, a top-100 about 0.8). Those weights are fit on thirteen seasons of what actually happened. The preseason start counts as about four games, so by mid-December the ratings are almost all this season. The preseason start only drives the Bot’s picks; the <a class="tl" href="hoops-index.html">Elevation Index</a> drops it once teams have two games in and ranks on résumé and this season’s stats.</p>
       <h3 class="dv">3. The game model</h3>
       <ul id="how-model"></ul>
       <h3 class="dv">4. Keeping it honest</h3>
@@ -111,7 +111,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610140015"></script>
+<script src="hoops.js?v=202610151930"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);

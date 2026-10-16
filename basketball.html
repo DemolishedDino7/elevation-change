@@ -88,7 +88,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610140015"></script>
+<script src="hoops.js?v=202610151930"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -132,15 +132,14 @@
     draw();
 
     /* Elevation Index: our 23 by the Bot's ratings */
-    const ours = teams.filter(t => t.west).sort((a, b) => a.rank - b.rank);
-    const pre = !live;
-    $('#idx-h').textContent = 'Elevation Index · ' + (pre ? 'Preseason' : 'Week ' + Math.max(1, meta.week));
-    const mv = t => { const m = t.prev_rank - t.rank; return m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—'; };
-    const ourRankPrev = {}; [...ours].sort((a, b) => a.prev_rank - b.prev_rank).forEach((t, i) => ourRankPrev[t.id] = i + 1);
+    const ours = teams.filter(t => t.west).sort((a, b) => (a.idx_rank || a.rank) - (b.idx_rank || b.rank));
+    const RES = (meta.index || {}).mode === 'resume';
+    $('#idx-h').textContent = 'Elevation Index · ' + (RES ? 'Week ' + Math.max(1, meta.week) : 'Preseason');
+    const ourRankPrev = {}; [...ours].sort((a, b) => (a.idx_prev || 999) - (b.idx_prev || 999)).forEach((t, i) => ourRankPrev[t.id] = i + 1);
     $('#idx').innerHTML = ours.slice(0, 10).map((t, i) => {
       const m = ourRankPrev[t.id] - (i + 1);
-      return '<li><span class="r">' + (i + 1) + '</span>' + HB.img(t.logo, 'lg') + '<span class="n">' + HB.tlink(t.id, HB.esc(HB.short(t.name))) + '<small>' + (t.w + t.l ? t.w + '-' + t.l : 'No. ' + t.rank) + '</small></span>' +
-        '<span class="mv">' + (pre ? '' : (m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—')) + '</span><span class="sc">' + HB.sgn(t.net) + '</span></li>';
+      return '<li><span class="r">' + (i + 1) + '</span>' + HB.img(t.logo, 'lg') + '<span class="n">' + HB.tlink(t.id, HB.esc(HB.short(t.name))) + '<small>' + (t.w + t.l ? t.w + '-' + t.l + ' · ' : '') + 'No. ' + t.idx_rank + '</small></span>' +
+        '<span class="mv">' + (!RES || t.idx_prev == null ? '' : (m > 0 ? '<span class="up">▲ ' + m + '</span>' : m < 0 ? '<span class="down">▼ ' + (-m) + '</span>' : '—')) + '</span><span class="sc">' + HB.sgn(RES ? t.idx_score : t.pre_net) + '</span></li>';
     }).join('');
 
     /* standings, compact */
