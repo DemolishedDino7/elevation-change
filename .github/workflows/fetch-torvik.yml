@@ -28,7 +28,7 @@ jobs:
           python-version: "3.13"
       - run: |
           mkdir -p model/hoops/torvik
-          python model/hoops/fetch_torvik.py ${{ inputs.first }} ${{ inputs.last }} 2>&1 | tee model/hoops/torvik/fetch_log.txt
+          python model/hoops/probe_sources.py 2>&1 | tee model/hoops/torvik/fetch_log.txt
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
