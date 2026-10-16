@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-16T01:23+00:00",
+ "generated": "2026-10-16T17:22+00:00",
  "season": 2027,
  "season_label": "2026-27",
- "today": "2026-10-15",
+ "today": "2026-10-16",
  "week": -2,
  "first_day": "2026-11-02",
  "games_in_ratings": 0,
@@ -121,9 +121,5 @@
   "games_adjusted": 0,
   "espn_reports": 0,
   "hand": 0
- },
- "bracket": {
-  "generated": "2026-10-16T01:23+00:00",
-  "champion": 150
  }
 }
