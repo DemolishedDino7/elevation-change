@@ -1,19 +1,19 @@
-name: Probe (temporary)
+name: Exhibitions (hoops)
 on: workflow_dispatch
 permissions:
   contents: write
 jobs:
-  probe:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - run: pip install -r model/requirements.txt
-      - run: python model/hoops/probe/probe.py
+      - run: python model/hoops/fetch_exhibitions.py 2027 2026-11-02
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add model/hoops/probe
-          git commit -m "probe output" && git pull --rebase origin main && git push origin HEAD:main
+          git add model/hoops/exhibitions.csv model/hoops/exh_pages
+          git diff --cached --quiet && exit 0
+          git commit -m "Hoops exhibitions update" && git pull --rebase origin main && git push origin HEAD:main
