@@ -1,7 +1,171 @@
 {
- "rosters": {
-  "teams": 366,
-  "ok": 366,
-  "errors": []
- }
+ "BSU": [
+  {
+   "url": "https://broncosports.com/sports/mens-basketball/schedule",
+   "len": 983749,
+   "exh": 71
+  }
+ ],
+ "CSU": [
+  {
+   "url": "https://csurams.com/sports/mens-basketball/schedule",
+   "len": 893686,
+   "exh": 9
+  }
+ ],
+ "FRES": [
+  {
+   "url": "https://gobulldogs.com/sports/mens-basketball/schedule",
+   "len": 663745,
+   "exh": 3
+  }
+ ],
+ "GONZ": [
+  {
+   "url": "https://gozags.com/sports/mens-basketball/schedule",
+   "len": 1128874,
+   "exh": 0
+  }
+ ],
+ "ORST": [
+  {
+   "url": "https://osubeavers.com/sports/mens-basketball/schedule",
+   "len": 993980,
+   "exh": 39
+  }
+ ],
+ "SDSU": [
+  {
+   "url": "https://goaztecs.com/sports/mens-basketball/schedule",
+   "len": 635302,
+   "exh": 52
+  }
+ ],
+ "TXST": [
+  {
+   "url": "https://txst.com/sports/mens-basketball/schedule",
+   "len": 1269415,
+   "exh": 0
+  }
+ ],
+ "USU": [
+  {
+   "url": "https://utahstateaggies.com/sports/mens-basketball/schedule",
+   "len": 626834,
+   "exh": 57
+  }
+ ],
+ "WSU": [
+  {
+   "url": "https://wsucougars.com/sports/mens-basketball/schedule",
+   "len": 801948,
+   "exh": 19
+  }
+ ],
+ "AFA": [
+  {
+   "url": "https://goairforcefalcons.com/sports/mens-basketball/schedule",
+   "len": 549322,
+   "exh": 0
+  }
+ ],
+ "GCU": [
+  {
+   "url": "https://gculopes.com/sports/mens-basketball/schedule",
+   "len": 1216477,
+   "exh": 28
+  }
+ ],
+ "HAW": [
+  {
+   "url": "https://hawaiiathletics.com/sports/mens-basketball/schedule",
+   "len": 784065,
+   "exh": 7
+  }
+ ],
+ "NEV": [
+  {
+   "url": "https://nevadawolfpack.com/sports/mens-basketball/schedule",
+   "len": 903822,
+   "exh": 41
+  }
+ ],
+ "UNM": [
+  {
+   "url": "https://golobos.com/sports/mens-basketball/schedule",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://golobos.com/sports/mens-basketball/schedule/2026-27",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://golobos.com/sports/mbball/schedule",
+   "len": 620096,
+   "exh": 33
+  }
+ ],
+ "SJSU": [
+  {
+   "url": "https://sjsuspartans.com/sports/mens-basketball/schedule",
+   "len": 670578,
+   "exh": 12
+  }
+ ],
+ "UCD": [
+  {
+   "url": "https://ucdavisaggies.com/sports/mens-basketball/schedule",
+   "len": 762530,
+   "exh": 0
+  }
+ ],
+ "UNLV": [
+  {
+   "url": "https://unlvrebels.com/sports/mens-basketball/schedule",
+   "len": 1081607,
+   "exh": 64
+  }
+ ],
+ "UTEP": [
+  {
+   "url": "https://utepminers.com/sports/mens-basketball/schedule",
+   "len": 752848,
+   "exh": 0
+  }
+ ],
+ "WYO": [
+  {
+   "url": "https://gowyo.com/sports/mens-basketball/schedule",
+   "len": 801876,
+   "exh": 35
+  }
+ ],
+ "NDSU": [
+  {
+   "url": "https://gobison.com/sports/mens-basketball/schedule",
+   "len": 1139557,
+   "exh": 3
+  }
+ ],
+ "NIU": [
+  {
+   "url": "https://niuhuskies.com/sports/mens-basketball/schedule",
+   "len": 728887,
+   "exh": 32
+  }
+ ],
+ "NMSU": [
+  {
+   "url": "https://nmstatesports.com/sports/mens-basketball/schedule",
+   "len": 637434,
+   "exh": 0
+  }
+ ],
+ "SAC": [
+  {
+   "url": "https://hornetsports.com/sports/mens-basketball/schedule",
+   "len": 906244,
+   "exh": 0
+  }
+ ]
 }
