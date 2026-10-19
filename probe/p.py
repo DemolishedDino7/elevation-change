@@ -1,74 +1,101 @@
-"""Temporary: official athletics site + schedule page for every D-I team."""
+"""Temporary: second pass for teams whose schedule page wasn't found."""
 import gzip, json, re, sys, time, urllib.parse, urllib.request
 from pathlib import Path
+import pandas as pd
 sys.path.insert(0, "model/hoops")
-import espn, data
+import data
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 WUA = "ElevationChangeBot/1.0 (https://elevationchange.co; schedule lookup)"
-P = Path("probe/pages"); P.mkdir(parents=True, exist_ok=True)
+P = Path("probe/pages")
+out = json.load(open("probe/out.json"))
+names = {}
+for y in (2026, 2027):
+    s = pd.read_parquet(data.CACHE / f"sch_{y}.parquet")
+    for side in ("home", "away"):
+        for i, d in zip(s[f"{side}_id"], s[f"{side}_display_name"]):
+            names[str(int(i))] = d
 
-def jget(u, ua=WUA):
-    req = urllib.request.Request(u, headers={"User-Agent": ua})
-    return json.loads(urllib.request.urlopen(req, timeout=30).read())
+def jget(u):
+    return json.loads(urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": WUA}), timeout=30).read())
 
 def raw(u):
     req = urllib.request.Request(u, headers={"User-Agent": UA, "Accept": "text/html"})
-    with urllib.request.urlopen(req, timeout=40) as r:
+    with urllib.request.urlopen(req, timeout=30) as r:
         return r.geturl(), r.read().decode("utf8", "replace")
 
-teams = {}
-js = espn._get("/apis/site/v2/sports/basketball/mens-college-basketball/teams?groups=50&limit=500", tries=2)
-for t in js["sports"][0]["leagues"][0]["teams"]:
-    t = t["team"]; teams[int(t["id"])] = {"loc": t.get("location"), "name": t.get("name"), "disp": t.get("displayName")}
-d1 = data.d1_teams(2027, 2027) if (data.CACHE / "sch_2027.parquet").exists() else set(teams)
-print("espn teams", len(teams), "d1", len(d1))
+def dom_of(s):
+    m = re.search(r"(?:https?://)?(?:www\.)?([A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)+)", s or "")
+    return m.group(1).lower() if m else None
 
-def site_from_wiki(title):
-    u = "https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext|properties&format=json&redirects=1&page=" + urllib.parse.quote(title)
-    d = jget(u).get("parse")
+def candidates(title):
+    out_ = []
+    try:
+        d = jget("https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext|properties&format=json&redirects=1&page=" + urllib.parse.quote(title)).get("parse")
+    except Exception:
+        d = None
     if not d:
-        return None, None
+        return out_
     w = d["wikitext"]["*"]
-    m = re.search(r"\|\s*website\s*=\s*(?:\{\{URL\|)?\[?(https?://)?([A-Za-z0-9.\-]+\.[a-z]{2,})", w)
-    if m:
-        return m.group(2).lower(), "wiki"
-    m = re.search(r"\{\{Official website\|(?:1=)?(https?://)?([A-Za-z0-9.\-]+\.[a-z]{2,})", w)
-    if m:
-        return m.group(2).lower(), "wiki"
+    for m in re.finditer(r"^\s*\|\s*(?:website|url)\s*=\s*(.+)$", w, re.M):
+        dd = dom_of(re.sub(r"\{\{URL\|", "", m.group(1)))
+        if dd: out_.append(dd)
+    for m in re.finditer(r"\{\{Official website\|(?:1=)?([^}|]+)", w):
+        dd = dom_of(m.group(1))
+        if dd: out_.append(dd)
     qid = next((p["*"] for p in d.get("properties", []) if p.get("name") == "wikibase_item"), None)
     if qid:
-        c = jget(f"https://www.wikidata.org/w/api.php?action=wbgetclaims&entity={qid}&property=P856&format=json").get("claims", {}).get("P856", [])
-        if c:
-            v = c[0]["mainsnak"]["datavalue"]["value"]
-            return re.sub(r"^https?://(www\.)?", "", v).split("/")[0].lower(), "wikidata"
+        try:
+            for c in jget(f"https://www.wikidata.org/w/api.php?action=wbgetclaims&entity={qid}&property=P856&format=json").get("claims", {}).get("P856", []):
+                dd = dom_of(c["mainsnak"]["datavalue"]["value"])
+                if dd: out_.append(dd)
+        except Exception:
+            pass
+    return out_
+
+PATHS = ["/sports/mens-basketball/schedule", "/sports/mbball/schedule", "/sports/mens-basketball/schedule/2026-27",
+         "/sports/m-baskbl/sched/", "/sports/mbasketball/schedule", "/sports/mbb/schedule", "/schedule.aspx?path=mbball"]
+
+def good(final, h):
+    return ("basketball" in final.lower() or "mbball" in final.lower() or "mbb" in final.lower() or "baskbl" in final.lower()) and "chedule" in h and len(h) > 20000
+
+def try_domain(dom):
+    for p in PATHS:
+        try:
+            final, h = raw("https://" + dom + p)
+            if good(final, h):
+                return final, h
+        except Exception:
+            pass
+    try:   # homepage: follow a men's basketball schedule link
+        final, h = raw("https://" + dom + "/")
+        for m in re.finditer(r'href="([^"]+)"', h):
+            u = m.group(1)
+            if re.search(r"(mens-basketball|mbball|m-baskbl|mbb)", u, re.I) and "sched" in u.lower():
+                u = urllib.parse.urljoin(final, u)
+                f2, h2 = raw(u)
+                if good(f2, h2):
+                    return f2, h2
+    except Exception:
+        pass
     return None, None
 
-out = {}
-for tid in sorted(d1):
-    t = teams.get(tid)
-    if not t:
-        out[tid] = {"err": "not in ESPN team list"}; continue
-    dom, src = None, None
-    for title in (f"{t['disp']}", f"{t['disp']} men's basketball"):
-        try:
-            dom, src = site_from_wiki(title)
-        except Exception as e:
-            dom = None
-        if dom:
+todo = [k for k, r in out.items() if not r.get("url")]
+print("retrying", len(todo))
+for k in todo:
+    disp = out[k].get("disp") or names.get(k) or k
+    cands = []
+    for title in (disp, disp + " men's basketball", re.sub(r"\s+\S+$", "", disp) + " athletics"):
+        cands += [c for c in candidates(title) if c not in cands]
+        if cands:
             break
-    rec = {"disp": t["disp"], "domain": dom, "src": src}
-    if dom:
-        dom = dom.replace("www.", "")
-        for path in ("/sports/mens-basketball/schedule", "/sports/mbball/schedule", "/sports/m-baskbl/sched", "/sports/mens-basketball/schedule/"):
-            try:
-                final, h = raw("https://" + dom + path)
-                rec.update({"url": final, "len": len(h), "exh": h.lower().count("exhib")})
-                (P / f"{tid}.html.gz").write_bytes(gzip.compress(h.encode()))
-                break
-            except Exception as e:
-                rec["err"] = repr(e)[:90]
-    out[tid] = rec
-    time.sleep(0.3)
+    rec = {"disp": disp, "cands": cands}
+    for c in cands:
+        final, h = try_domain(c)
+        if final:
+            rec.update({"domain": c, "url": final, "len": len(h), "exh": h.lower().count("exhib")})
+            (P / f"{k}.html.gz").write_bytes(gzip.compress(h.encode()))
+            break
+    out[k] = rec
+    time.sleep(0.2)
 json.dump(out, open("probe/out.json", "w"), indent=1)
-ok = sum(1 for r in out.values() if r.get("url"))
-print("domains", sum(1 for r in out.values() if r.get("domain")), "pages", ok)
+print("pages now", sum(1 for r in out.values() if r.get("url")))
