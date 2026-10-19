@@ -9,9 +9,13 @@
  },
  "5": {
   "disp": "UAB Blazers",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "uabsports.com"
+  ],
+  "domain": "uabsports.com",
+  "url": "https://uabsports.com/sports/mens-basketball/schedule",
+  "len": 912618,
+  "exh": 9
  },
  "6": {
   "disp": "South Alabama Jaguars",
@@ -23,9 +27,13 @@
  },
  "8": {
   "disp": "Arkansas Razorbacks",
+  "cands": [
+   "arkansasrazorbacks.com"
+  ],
   "domain": "arkansasrazorbacks.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "url": "https://arkansasrazorbacks.com/sport/m-baskbl/schedule/",
+  "len": 202696,
+  "exh": 5
  },
  "9": {
   "disp": "Arizona State Sun Devils",
@@ -45,9 +53,13 @@
  },
  "13": {
   "disp": "Cal Poly Mustangs",
-  "domain": "www.viewbook.calpoly.edu",
-  "src": "wiki",
-  "err": "URLError(gaierror(-2, 'Name or service not known'))"
+  "cands": [
+   "gopoly.com"
+  ],
+  "domain": "gopoly.com",
+  "url": "https://gopoly.com/sports/mens-basketball/schedule",
+  "len": 1195002,
+  "exh": 3
  },
  "16": {
   "disp": "Sacramento State Hornets",
@@ -59,9 +71,13 @@
  },
  "21": {
   "disp": "San Diego State Aztecs",
-  "domain": "president.sdsu.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goaztecs.com"
+  ],
+  "domain": "goaztecs.com",
+  "url": "https://goaztecs.com/sports/mens-basketball/schedule",
+  "len": 635302,
+  "exh": 52
  },
  "23": {
   "disp": "San Jos\u00e9 State Spartans",
@@ -73,15 +89,24 @@
  },
  "24": {
   "disp": "Stanford Cardinal",
-  "domain": "mpsports.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gostanford.com",
+   "gostanford.com"
+  ],
+  "domain": "gostanford.com",
+  "url": "https://gostanford.com/sports/mens-basketball/schedule",
+  "len": 775125,
+  "exh": 25
  },
  "25": {
   "disp": "California Golden Bears",
-  "domain": "inspire.berkeley.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "calbears.com"
+  ],
+  "domain": "calbears.com",
+  "url": "https://calbears.com/sports/mens-basketball/schedule",
+  "len": 1132491,
+  "exh": 50
  },
  "26": {
   "disp": "UCLA Bruins",
@@ -102,21 +127,35 @@
  },
  "28": {
   "disp": "UC San Diego Tritons",
-  "domain": "ucsdnews.ucsd.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "ucsdtritons.com",
+   "ucsdtritons.com"
+  ],
+  "domain": "ucsdtritons.com",
+  "url": "https://ucsdtritons.com/sports/mens-basketball/schedule",
+  "len": 764292,
+  "exh": 3
  },
  "30": {
   "disp": "USC Trojans",
-  "domain": "usc.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "usctrojans.com",
+   "usctrojans.com"
+  ],
+  "domain": "usctrojans.com",
+  "url": "https://usctrojans.com/sports/mens-basketball/schedule",
+  "len": 1336871,
+  "exh": 61
  },
  "36": {
   "disp": "Colorado State Rams",
-  "domain": "ramrugby.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "csurams.com"
+  ],
+  "domain": "csurams.com",
+  "url": "https://csurams.com/sports/mens-basketball/schedule",
+  "len": 893686,
+  "exh": 9
  },
  "38": {
   "disp": "Colorado Buffaloes",
@@ -128,21 +167,33 @@
  },
  "41": {
   "disp": "UConn Huskies",
-  "domain": "brandchannel.com",
-  "src": "wiki",
-  "err": "URLError(ConnectionRefusedError(111, 'Connection refused'))"
+  "cands": [
+   "uconnhuskies.com"
+  ],
+  "domain": "uconnhuskies.com",
+  "url": "https://uconnhuskies.com/sports/mens-basketball/schedule",
+  "len": 1242533,
+  "exh": 17
  },
  "43": {
   "disp": "Yale Bulldogs",
-  "domain": "golfweek.com",
-  "src": "wiki",
-  "err": "<HTTPError 402: 'Payment Required'>"
+  "cands": [
+   "yalebulldogs.com"
+  ],
+  "domain": "yalebulldogs.com",
+  "url": "https://yalebulldogs.com/sports/mens-basketball/schedule",
+  "len": 984980,
+  "exh": 0
  },
  "44": {
   "disp": "American University Eagles",
-  "domain": "www.theeagleonline.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "aueagles.com"
+  ],
+  "domain": "aueagles.com",
+  "url": "https://aueagles.com/sports/mens-basketball/schedule",
+  "len": 703408,
+  "exh": 4
  },
  "45": {
   "disp": "George Washington Revolutionaries",
@@ -178,15 +229,23 @@
  },
  "50": {
   "disp": "Florida A&M Rattlers",
-  "domain": "hbcutennis.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "famuathletics.com"
+  ],
+  "domain": "famuathletics.com",
+  "url": "https://famuathletics.com/sports/mens-basketball/schedule",
+  "len": 760680,
+  "exh": 6
  },
  "52": {
   "disp": "Florida State Seminoles",
-  "domain": "unirel.fsu.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "seminoles.com"
+  ],
+  "domain": "seminoles.com",
+  "url": "https://seminoles.com/sports/mens-basketball/schedule",
+  "len": 1061598,
+  "exh": 16
  },
  "55": {
   "disp": "Jacksonville State Gamecocks",
@@ -206,15 +265,25 @@
  },
  "57": {
   "disp": "Florida Gators",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "floridagators.com"
+  ],
+  "domain": "floridagators.com",
+  "url": "https://floridagators.com/sports/mens-basketball/schedule",
+  "len": 1262326,
+  "exh": 61
  },
  "58": {
   "disp": "South Florida Bulls",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gousfbulls.com",
+   "gousfbulls.com",
+   "gousfbulls.com"
+  ],
+  "domain": "gousfbulls.com",
+  "url": "https://gousfbulls.com/sports/mens-basketball/schedule",
+  "len": 1250326,
+  "exh": 0
  },
  "59": {
   "disp": "Georgia Tech Yellow Jackets",
@@ -242,9 +311,14 @@
  },
  "66": {
   "disp": "Iowa State Cyclones",
-  "domain": "historicexhibits.lib.iastate.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "cyclones.com",
+   "cyclones.com"
+  ],
+  "domain": "cyclones.com",
+  "url": "https://cyclones.com/sports/mens-basketball/schedule",
+  "len": 1249377,
+  "exh": 58
  },
  "68": {
   "disp": "Boise State Broncos",
@@ -256,21 +330,30 @@
  },
  "70": {
   "disp": "Idaho Vandals",
-  "domain": "uidaho.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "govandals.com"
+  ],
+  "domain": "govandals.com",
+  "url": "https://govandals.com/sports/mens-basketball/schedule",
+  "len": 673167,
+  "exh": 2
  },
  "71": {
   "disp": "Bradley Braves",
-  "domain": "mvc-sports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "bubraves.com"
+  ]
  },
  "77": {
   "disp": "Northwestern Wildcats",
-  "domain": "news.northwestern.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "nusports.com",
+   "nusports.com"
+  ],
+  "domain": "nusports.com",
+  "url": "https://nusports.com/sports/mens-basketball/schedule",
+  "len": 623277,
+  "exh": 38
  },
  "79": {
   "disp": "Southern Illinois Salukis",
@@ -313,19 +396,38 @@
   "exh": 0
  },
  "88": {
-  "err": "not in ESPN team list"
+  "disp": "Southern Indiana Screaming Eagles",
+  "cands": [
+   "gousieagles.com",
+   "gousieagles.com",
+   "usiscreamingeagles.com"
+  ],
+  "domain": "gousieagles.com",
+  "url": "https://usiscreamingeagles.com/sports/mens-basketball/schedule",
+  "len": 804097,
+  "exh": 0
  },
  "91": {
   "disp": "Bellarmine Knights",
-  "domain": "glvcsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "masslive.com",
+   "athletics.bellarmine.edu"
+  ],
+  "domain": "athletics.bellarmine.edu",
+  "url": "https://athletics.bellarmine.edu/sports/mens-basketball/schedule",
+  "len": 575940,
+  "exh": 0
  },
  "93": {
   "disp": "Murray State Racers",
-  "domain": "ovcsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goracers.com",
+   "goracers.com"
+  ],
+  "domain": "goracers.com",
+  "url": "https://goracers.com/sports/mens-basketball/schedule",
+  "len": 991430,
+  "exh": 24
  },
  "94": {
   "disp": "Northern Kentucky Norse",
@@ -337,9 +439,13 @@
  },
  "96": {
   "disp": "Kentucky Wildcats",
-  "domain": "cbssports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "ukathletics.com"
+  ],
+  "domain": "ukathletics.com",
+  "url": "https://ukathletics.com/sports/mbball/schedule/",
+  "len": 318127,
+  "exh": 1
  },
  "97": {
   "disp": "Louisville Cardinals",
@@ -359,9 +465,9 @@
  },
  "99": {
   "disp": "LSU Tigers",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "lsusports.net"
+  ]
  },
  "103": {
   "disp": "Boston College Eagles",
@@ -389,9 +495,13 @@
  },
  "108": {
   "disp": "Harvard Crimson",
-  "domain": "www.newsdial.com",
-  "src": "wiki",
-  "err": "URLError(TimeoutError('timed out'))"
+  "cands": [
+   "gocrimson.com"
+  ],
+  "domain": "gocrimson.com",
+  "url": "https://gocrimson.com/sports/mens-basketball/schedule",
+  "len": 1502815,
+  "exh": 5
  },
  "111": {
   "disp": "Northeastern Huskies",
@@ -403,9 +513,13 @@
  },
  "113": {
   "disp": "Massachusetts Minutemen",
-  "domain": "cbssports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "umassathletics.com"
+  ],
+  "domain": "umassathletics.com",
+  "url": "https://umassathletics.com/sports/mens-basketball/schedule",
+  "len": 973144,
+  "exh": 17
  },
  "116": {
   "disp": "Mount St. Mary's Mountaineers",
@@ -449,9 +563,13 @@
  },
  "135": {
   "disp": "Minnesota Golden Gophers",
-  "domain": "baseball-reference.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gophersports.com"
+  ],
+  "domain": "gophersports.com",
+  "url": "https://gophersports.com/sports/mens-basketball/schedule",
+  "len": 1231098,
+  "exh": 13
  },
  "139": {
   "disp": "Saint Louis Billikens",
@@ -463,27 +581,46 @@
  },
  "140": {
   "disp": "Kansas City Roos",
-  "domain": "issuu.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "umkckangaroos.com",
+   "kcroos.com"
+  ],
+  "domain": "kcroos.com",
+  "url": "https://kcroos.com/sports/mens-basketball/schedule",
+  "len": 932302,
+  "exh": 0
  },
  "142": {
   "disp": "Missouri Tigers",
-  "domain": "showme.missouri.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "mutigers.com"
+  ],
+  "domain": "mutigers.com",
+  "url": "https://mutigers.com/sports/mens-basketball/schedule",
+  "len": 640898,
+  "exh": 17
  },
  "145": {
   "disp": "Ole Miss Rebels",
-  "domain": "mlb.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "olemisssports.com",
+   "olemisssports.com"
+  ],
+  "domain": "olemisssports.com",
+  "url": "https://olemisssports.com/sports/mens-basketball/schedule",
+  "len": 1575602,
+  "exh": 17
  },
  "147": {
   "disp": "Montana State Bobcats",
-  "domain": "rmisaskiing.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "msubobcats.com",
+   "msubobcats.com"
+  ],
+  "domain": "msubobcats.com",
+  "url": "https://msubobcats.com/sports/mens-basketball/schedule",
+  "len": 1270332,
+  "exh": 13
  },
  "149": {
   "disp": "Montana Grizzlies",
@@ -495,9 +632,13 @@
  },
  "150": {
   "disp": "Duke Blue Devils",
-  "domain": "nj.com",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "goduke.com"
+  ],
+  "domain": "goduke.com",
+  "url": "https://goduke.com/sports/mens-basketball/schedule",
+  "len": 1143501,
+  "exh": 5
  },
  "151": {
   "disp": "East Carolina Pirates",
@@ -509,15 +650,23 @@
  },
  "152": {
   "disp": "NC State Wolfpack",
-  "domain": "theacc.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gopack.com"
+  ],
+  "domain": "gopack.com",
+  "url": "https://gopack.com/sports/mens-basketball/schedule",
+  "len": 958623,
+  "exh": 4
  },
  "153": {
   "disp": "North Carolina Tar Heels",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goheels.com"
+  ],
+  "domain": "goheels.com",
+  "url": "https://goheels.com/sports/mens-basketball/schedule",
+  "len": 1112989,
+  "exh": 9
  },
  "154": {
   "disp": "Wake Forest Demon Deacons",
@@ -545,21 +694,36 @@
  },
  "158": {
   "disp": "Nebraska Cornhuskers",
-  "domain": "collegiateflagfootball.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "huskers.com",
+   "huskers.com"
+  ],
+  "domain": "huskers.com",
+  "url": "https://huskers.com/sports/mens-basketball/schedule",
+  "len": 923018,
+  "exh": 24
  },
  "159": {
   "disp": "Dartmouth Big Green",
-  "domain": "results.regattatiming.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "dartmouthsports.com"
+  ],
+  "domain": "dartmouthsports.com",
+  "url": "https://dartmouthsports.com/sports/mens-basketball/schedule",
+  "len": 1027808,
+  "exh": 0
  },
  "160": {
   "disp": "New Hampshire Wildcats",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "unhwildcats.com",
+   "unhwildcats.com",
+   "unhwildcats.com"
+  ],
+  "domain": "unhwildcats.com",
+  "url": "https://unhwildcats.com/sports/mens-basketball/schedule",
+  "len": 968457,
+  "exh": 0
  },
  "161": {
   "disp": "Fairleigh Dickinson Knights",
@@ -579,9 +743,14 @@
  },
  "164": {
   "disp": "Rutgers Scarlet Knights",
-  "domain": "rutgers.campuslabs.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "scarletknights.com",
+   "scarletknights.com"
+  ],
+  "domain": "scarletknights.com",
+  "url": "https://scarletknights.com/sports/mens-basketball/schedule",
+  "len": 1321022,
+  "exh": 29
  },
  "166": {
   "disp": "New Mexico State Aggies",
@@ -602,38 +771,55 @@
  },
  "171": {
   "disp": "Columbia Lions",
-  "domain": "spectatorarchive.library.columbia.edu",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "gocolumbialions.com"
+  ],
+  "domain": "gocolumbialions.com",
+  "url": "https://gocolumbialions.com/sports/mens-basketball/schedule",
+  "len": 1219358,
+  "exh": 0
  },
  "172": {
   "disp": "Cornell Big Red",
-  "domain": "uspolo.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "cornellbigred.com",
+   "cornellbigred.com"
+  ],
+  "domain": "cornellbigred.com",
+  "url": "https://cornellbigred.com/sports/mens-basketball/schedule",
+  "len": 800367,
+  "exh": 0
  },
  "179": {
   "disp": "St. Bonaventure Bonnies",
-  "domain": "archives.sbu.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gobonnies.sbu.edu",
+   "gobonnies.sbu.edu"
+  ]
  },
  "183": {
   "disp": "Syracuse Orange",
-  "domain": "www.cuserugby.com",
-  "src": "wiki",
-  "err": "URLError(SSLError(1, '[SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c"
+  "cands": [
+   "cuse.com"
+  ],
+  "domain": "cuse.com",
+  "url": "https://cuse.com/sports/mens-basketball/schedule",
+  "len": 980060,
+  "exh": 88
  },
  "189": {
   "disp": "Bowling Green Falcons",
-  "domain": "cbssports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "bgsufalcons.com"
+  ],
+  "domain": "bgsufalcons.com",
+  "url": "https://bgsufalcons.com/sports/mens-basketball/schedule",
+  "len": 1079797,
+  "exh": 3
  },
  "193": {
   "disp": "Miami (OH) RedHawks",
-  "domain": null,
-  "src": null
+  "cands": []
  },
  "194": {
   "disp": "Ohio State Buckeyes",
@@ -645,9 +831,13 @@
  },
  "195": {
   "disp": "Ohio Bobcats",
-  "domain": "grfx.cstv.com",
-  "src": "wiki",
-  "err": "URLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify "
+  "cands": [
+   "ohiobobcats.com"
+  ],
+  "domain": "ohiobobcats.com",
+  "url": "https://ohiobobcats.com/sports/mens-basketball/schedule",
+  "len": 596733,
+  "exh": 0
  },
  "197": {
   "disp": "Oklahoma State Cowboys",
@@ -659,15 +849,26 @@
  },
  "198": {
   "disp": "Oral Roberts Golden Eagles",
-  "domain": "www.newson6.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "orugoldeneagles.com",
+   "oruathletics.com"
+  ],
+  "domain": "oruathletics.com",
+  "url": "https://oruathletics.com/sports/mens-basketball/schedule",
+  "len": 586773,
+  "exh": 0
  },
  "201": {
   "disp": "Oklahoma Sooners",
-  "domain": "sportsillustrated.cnn.com",
-  "src": "wiki",
-  "err": "URLError(gaierror(-2, 'Name or service not known'))"
+  "cands": [
+   "soonersports.tv",
+   "soonersports.com",
+   "soonersports.com"
+  ],
+  "domain": "soonersports.com",
+  "url": "https://soonersports.com/sports/mens-basketball/schedule",
+  "len": 978912,
+  "exh": 0
  },
  "202": {
   "disp": "Tulsa Golden Hurricane",
@@ -687,9 +888,9 @@
  },
  "213": {
   "disp": "Penn State Nittany Lions",
-  "domain": "inquirer.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gopsusports.com"
+  ]
  },
  "218": {
   "disp": "Temple Owls",
@@ -701,9 +902,13 @@
  },
  "219": {
   "disp": "Pennsylvania Quakers",
-  "domain": "admissions.upenn.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "pennathletics.com"
+  ],
+  "domain": "pennathletics.com",
+  "url": "https://pennathletics.com/sports/mens-basketball/schedule",
+  "len": 914260,
+  "exh": 0
  },
  "221": {
   "disp": "Pittsburgh Panthers",
@@ -723,9 +928,13 @@
  },
  "225": {
   "disp": "Brown Bears",
-  "domain": "www.foxsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "brownbears.com"
+  ],
+  "domain": "brownbears.com",
+  "url": "https://brownbears.com/sports/mens-basketball/schedule",
+  "len": 1165523,
+  "exh": 0
  },
  "227": {
   "disp": "Rhode Island Rams",
@@ -745,9 +954,13 @@
  },
  "231": {
   "disp": "Furman Paladins",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "furmanpaladins.com"
+  ],
+  "domain": "furmanpaladins.com",
+  "url": "https://furmanpaladins.com/sports/mens-basketball/schedule",
+  "len": 705991,
+  "exh": 9
  },
  "232": {
   "disp": "Charleston Cougars",
@@ -783,9 +996,14 @@
  },
  "238": {
   "disp": "Vanderbilt Commodores",
-  "domain": "vanderbilt.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "vucommodores.com",
+   "vucommodores.com"
+  ],
+  "domain": "vucommodores.com",
+  "url": "https://vucommodores.com/sports/mbball/schedule",
+  "len": 731378,
+  "exh": 14
  },
  "239": {
   "disp": "Baylor Bears",
@@ -797,33 +1015,54 @@
  },
  "242": {
   "disp": "Rice Owls",
-  "domain": "riceowls.cstv.com",
-  "src": "wiki",
-  "err": "URLError(gaierror(-2, 'Name or service not known'))"
+  "cands": [
+   "riceowls.com",
+   "riceowls.com"
+  ],
+  "domain": "riceowls.com",
+  "url": "https://riceowls.com/sports/mens-basketball/schedule",
+  "len": 936085,
+  "exh": 0
  },
  "245": {
   "disp": "Texas A&M Aggies",
-  "domain": "tiptop25.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "12thman.com"
+  ],
+  "domain": "12thman.com",
+  "url": "https://12thman.com/sports/mens-basketball/schedule",
+  "len": 653177,
+  "exh": 13
  },
  "248": {
   "disp": "Houston Cougars",
-  "domain": "stories.uh.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "uhcougars.com"
+  ],
+  "domain": "uhcougars.com",
+  "url": "https://uhcougars.com/sports/mens-basketball/schedule",
+  "len": 1219244,
+  "exh": 49
  },
  "249": {
   "disp": "North Texas Mean Green",
-  "domain": "www.southland.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "meangreensports.com"
+  ],
+  "domain": "meangreensports.com",
+  "url": "https://meangreensports.com/sports/mens-basketball/schedule",
+  "len": 835302,
+  "exh": 25
  },
  "250": {
   "disp": "UT Arlington Mavericks",
-  "domain": "bloomberg.com",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "utamavs.com"
+  ],
+  "domain": "utamavs.com",
+  "url": "https://utamavs.com/sports/mens-basketball/schedule",
+  "len": 1300008,
+  "exh": 0
  },
  "251": {
   "disp": "Texas Longhorns",
@@ -859,9 +1098,14 @@
  },
  "256": {
   "disp": "James Madison Dukes",
-  "domain": "theamerican.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "jmusports.com",
+   "jmusports.com"
+  ],
+  "domain": "jmusports.com",
+  "url": "https://jmusports.com/sports/mens-basketball/schedule",
+  "len": 1157231,
+  "exh": 25
  },
  "257": {
   "disp": "Richmond Spiders",
@@ -882,9 +1126,13 @@
  },
  "259": {
   "disp": "Virginia Tech Hokies",
-  "domain": "vt.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "hokiesports.com"
+  ],
+  "domain": "hokiesports.com",
+  "url": "https://hokiesports.com/sports/mens-basketball/schedule",
+  "len": 725741,
+  "exh": 6
  },
  "261": {
   "disp": "Vermont Catamounts",
@@ -904,9 +1152,14 @@
  },
  "265": {
   "disp": "Washington State Cougars",
-  "domain": "www.pac-10.org",
-  "src": "wiki",
-  "err": "URLError(gaierror(-5, 'No address associated with hostname'))"
+  "cands": [
+   "wsucougars.com",
+   "wsucougars.com"
+  ],
+  "domain": "wsucougars.com",
+  "url": "https://wsucougars.com/sports/mens-basketball/schedule",
+  "len": 801948,
+  "exh": 19
  },
  "269": {
   "disp": "Marquette Golden Eagles",
@@ -918,15 +1171,24 @@
  },
  "270": {
   "disp": "Milwaukee Panthers",
-  "domain": "baseball-reference.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "mkepanthers.com"
+  ],
+  "domain": "mkepanthers.com",
+  "url": "https://mkepanthers.com/sports/mens-basketball/schedule",
+  "len": 649727,
+  "exh": 3
  },
  "275": {
   "disp": "Wisconsin Badgers",
-  "domain": "bigten.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "uwbadgers.com",
+   "uwbadgers.com"
+  ],
+  "domain": "uwbadgers.com",
+  "url": "https://uwbadgers.com/sports/mens-basketball/schedule",
+  "len": 1166225,
+  "exh": 22
  },
  "276": {
   "disp": "Marshall Thundering Herd",
@@ -946,9 +1208,13 @@
  },
  "278": {
   "disp": "Fresno State Bulldogs",
-  "domain": "fresnobee.com",
-  "src": "wiki",
-  "err": "TimeoutError('The read operation timed out')"
+  "cands": [
+   "gobulldogs.com"
+  ],
+  "domain": "gobulldogs.com",
+  "url": "https://gobulldogs.com/sports/mens-basketball/schedule",
+  "len": 663745,
+  "exh": 3
  },
  "279": {
   "disp": "Pacific Tigers",
@@ -984,9 +1250,13 @@
  },
  "290": {
   "disp": "Georgia Southern Eagles",
-  "domain": "www.georgiasoutherneagles.com",
-  "src": "wiki",
-  "err": "URLError(gaierror(-5, 'No address associated with hostname'))"
+  "cands": [
+   "gseagles.com"
+  ],
+  "domain": "gseagles.com",
+  "url": "https://gseagles.com/sports/mens-basketball/schedule",
+  "len": 994830,
+  "exh": 23
  },
  "292": {
   "disp": "UT Rio Grande Valley Vaqueros",
@@ -1006,15 +1276,25 @@
  },
  "295": {
   "disp": "Old Dominion Monarchs",
-  "domain": "odu.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "odusports.com",
+   "odusports.com"
+  ],
+  "domain": "odusports.com",
+  "url": "https://odusports.com/sports/mens-basketball/schedule",
+  "len": 532147,
+  "exh": 28
  },
  "299": {
   "disp": "Long Beach State Beach",
-  "domain": "csulb.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "longbeachstate.com",
+   "longbeachstate.com"
+  ],
+  "domain": "longbeachstate.com",
+  "url": "https://longbeachstate.com/sports/mens-basketball/schedule",
+  "len": 917022,
+  "exh": 7
  },
  "300": {
   "disp": "UC Irvine Anteaters",
@@ -1059,9 +1339,13 @@
  },
  "309": {
   "disp": "Louisiana Ragin' Cajuns",
-  "domain": "louisiana.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "ragincajuns.com"
+  ],
+  "domain": "ragincajuns.com",
+  "url": "https://ragincajuns.com/sports/mens-basketball/schedule",
+  "len": 942724,
+  "exh": 0
  },
  "311": {
   "disp": "Maine Black Bears",
@@ -1081,9 +1365,14 @@
  },
  "315": {
   "disp": "Niagara Purple Eagles",
-  "domain": "www.cfbdatawarehouse.com",
-  "src": "wiki",
-  "err": "URLError(ConnectionRefusedError(111, 'Connection refused'))"
+  "cands": [
+   "purpleeagles.com",
+   "purpleeagles.com"
+  ],
+  "domain": "purpleeagles.com",
+  "url": "https://purpleeagles.com/sports/mens-basketball/schedule",
+  "len": 620255,
+  "exh": 3
  },
  "322": {
   "disp": "Lafayette Leopards",
@@ -1103,15 +1392,23 @@
  },
  "325": {
   "disp": "Cleveland State Vikings",
-  "domain": "www.csuohio.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "csuvikings.com"
+  ],
+  "domain": "csuvikings.com",
+  "url": "https://csuvikings.com/sports/mens-basketball/schedule",
+  "len": 617054,
+  "exh": 0
  },
  "326": {
   "disp": "Texas State Bobcats",
-  "domain": "news.txst.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "txst.com"
+  ],
+  "domain": "txst.com",
+  "url": "https://txst.com/sports/mens-basketball/schedule",
+  "len": 1269415,
+  "exh": 0
  },
  "328": {
   "disp": "Utah State Aggies",
@@ -1139,9 +1436,14 @@
  },
  "338": {
   "disp": "Kennesaw State Owls",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "ksuowls.com",
+   "ksuowls.com"
+  ],
+  "domain": "ksuowls.com",
+  "url": "https://ksuowls.com/sports/mens-basketball/schedule",
+  "len": 1138573,
+  "exh": 12
  },
  "339": {
   "disp": "Evansville Purple Aces",
@@ -1177,26 +1479,40 @@
  },
  "356": {
   "disp": "Illinois Fighting Illini",
-  "domain": "grfx.cstv.com",
-  "src": "wiki",
-  "err": "URLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify "
+  "cands": [
+   "fightingillini.com"
+  ],
+  "domain": "fightingillini.com",
+  "url": "https://fightingillini.com/sports/mens-basketball/schedule",
+  "len": 1360274,
+  "exh": 24
  },
  "357": {
   "disp": "Texas A&M-Corpus Christi Islanders",
-  "domain": "www.southland.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goislanders.com",
+   "goislanders.com"
+  ],
+  "domain": "goislanders.com",
+  "url": "https://goislanders.com/sports/mens-basketball/schedule",
+  "len": 778515,
+  "exh": 0
  },
  "399": {
   "disp": "UAlbany Great Danes",
-  "domain": null,
-  "src": null
+  "cands": []
  },
  "526": {
   "disp": "Florida Gulf Coast Eagles",
-  "domain": "asunsports.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "asunsports.org",
+   "asunsports.org",
+   "fgcuathletics.com"
+  ],
+  "domain": "fgcuathletics.com",
+  "url": "https://fgcuathletics.com/sports/mens-basketball/schedule",
+  "len": 1000453,
+  "exh": 0
  },
  "2000": {
   "disp": "Abilene Christian Wildcats",
@@ -1216,9 +1532,13 @@
  },
  "2006": {
   "disp": "Akron Zips",
-  "domain": "www.uakron.edu",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "gozips.com"
+  ],
+  "domain": "gozips.com",
+  "url": "https://gozips.com/sports/mens-basketball/schedule",
+  "len": 726184,
+  "exh": 9
  },
  "2010": {
   "disp": "Alabama A&M Bulldogs",
@@ -1270,9 +1590,13 @@
  },
  "2032": {
   "disp": "Arkansas State Red Wolves",
-  "domain": "www.astate.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "astateredwolves.com"
+  ],
+  "domain": "astateredwolves.com",
+  "url": "https://astateredwolves.com/sports/mens-basketball/schedule",
+  "len": 747662,
+  "exh": 0
  },
  "2046": {
   "disp": "Austin Peay Governors",
@@ -1300,9 +1624,13 @@
  },
  "2065": {
   "disp": "Bethune-Cookman Wildcats",
-  "domain": "meacsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "bcuathletics.com"
+  ],
+  "domain": "bcuathletics.com",
+  "url": "https://bcuathletics.com/sports/mens-basketball/schedule",
+  "len": 643695,
+  "exh": 0
  },
  "2066": {
   "disp": "Binghamton Bearcats",
@@ -1322,9 +1650,13 @@
  },
  "2084": {
   "disp": "Buffalo Bulls",
-  "domain": "www.buffalo.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "ubbulls.com"
+  ],
+  "domain": "ubbulls.com",
+  "url": "https://ubbulls.com/sports/mens-basketball/schedule",
+  "len": 1019204,
+  "exh": 15
  },
  "2086": {
   "disp": "Butler Bulldogs",
@@ -1360,9 +1692,9 @@
  },
  "2115": {
   "disp": "Central Connecticut Blue Devils",
-  "domain": "ccsubluedevils.com",
-  "src": "wikidata",
-  "err": "<HTTPError 405: 'Not Allowed'>"
+  "cands": [
+   "ccsubluedevils.com"
+  ]
  },
  "2116": {
   "disp": "UCF Knights",
@@ -1374,9 +1706,13 @@
  },
  "2117": {
   "disp": "Central Michigan Chippewas",
-  "domain": "www.cmich.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "cmuchippewas.com"
+  ],
+  "domain": "cmuchippewas.com",
+  "url": "https://cmuchippewas.com/sports/mens-basketball/schedule",
+  "len": 1215249,
+  "exh": 9
  },
  "2127": {
   "disp": "Charleston Southern Buccaneers",
@@ -1388,9 +1724,13 @@
  },
  "2130": {
   "disp": "Chicago State Cougars",
-  "domain": "northeastconference.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gocsucougars.com"
+  ],
+  "domain": "gocsucougars.com",
+  "url": "https://www.gocsucougars.com/sports/mens-basketball/schedule",
+  "len": 792450,
+  "exh": 28
  },
  "2132": {
   "disp": "Cincinnati Bearcats",
@@ -1418,9 +1758,13 @@
  },
  "2166": {
   "disp": "Davidson Wildcats",
-  "domain": "atlantic10.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "davidsonwildcats.com"
+  ],
+  "domain": "davidsonwildcats.com",
+  "url": "https://davidsonwildcats.com/sports/mens-basketball/schedule",
+  "len": 1052390,
+  "exh": 0
  },
  "2168": {
   "disp": "Dayton Flyers",
@@ -1440,9 +1784,13 @@
  },
  "2172": {
   "disp": "Denver Pioneers",
-  "domain": "www.du.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "denverpioneers.com"
+  ],
+  "domain": "denverpioneers.com",
+  "url": "https://denverpioneers.com/sports/mens-basketball/schedule",
+  "len": 1319847,
+  "exh": 0
  },
  "2174": {
   "disp": "Detroit Mercy Titans",
@@ -1462,9 +1810,13 @@
  },
  "2182": {
   "disp": "Drexel Dragons",
-  "domain": "drexel.campuslabs.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "drexeldragons.com"
+  ],
+  "domain": "drexeldragons.com",
+  "url": "https://drexeldragons.com/sports/mens-basketball/schedule",
+  "len": 988407,
+  "exh": 35
  },
  "2184": {
   "disp": "Duquesne Dukes",
@@ -1500,9 +1852,13 @@
  },
  "2199": {
   "disp": "Eastern Michigan Eagles",
-  "domain": "www.emich.edu",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "emueagles.com"
+  ],
+  "domain": "emueagles.com",
+  "url": "https://emueagles.com/sports/mens-basketball/schedule",
+  "len": 1305702,
+  "exh": 21
  },
  "2210": {
   "disp": "Elon Phoenix",
@@ -1514,9 +1870,13 @@
  },
  "2217": {
   "disp": "Fairfield Stags",
-  "domain": "collegeinsider.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "fairfieldstags.com"
+  ],
+  "domain": "fairfieldstags.com",
+  "url": "https://fairfieldstags.com/sports/mens-basketball/schedule",
+  "len": 792264,
+  "exh": 17
  },
  "2226": {
   "disp": "Florida Atlantic Owls",
@@ -1528,15 +1888,23 @@
  },
  "2229": {
   "disp": "Florida International Panthers",
-  "domain": "fiu.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "fiusports.com"
+  ],
+  "domain": "fiusports.com",
+  "url": "https://fiusports.com/sports/mens-basketball/schedule",
+  "len": 671250,
+  "exh": 0
  },
  "2230": {
   "disp": "Fordham Rams",
-  "domain": "www.atlantic10.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "fordhamsports.com"
+  ],
+  "domain": "fordhamsports.com",
+  "url": "https://fordhamsports.com/sports/mens-basketball/schedule",
+  "len": 744095,
+  "exh": 16
  },
  "2239": {
   "disp": "Cal State Fullerton Titans",
@@ -1556,9 +1924,13 @@
  },
  "2244": {
   "disp": "George Mason Patriots",
-  "domain": "www.ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gomason.com"
+  ],
+  "domain": "gomason.com",
+  "url": "https://gomason.com/sports/mens-basketball/schedule",
+  "len": 683155,
+  "exh": 21
  },
  "2247": {
   "disp": "Georgia State Panthers",
@@ -1578,8 +1950,7 @@
  },
  "2253": {
   "disp": "Grand Canyon Lopes",
-  "domain": null,
-  "src": null
+  "cands": []
  },
  "2261": {
   "disp": "Hampton Pirates",
@@ -1615,9 +1986,13 @@
  },
  "2287": {
   "disp": "Illinois State Redbirds",
-  "domain": "remembrance.goredbirds.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goredbirds.com"
+  ],
+  "domain": "goredbirds.com",
+  "url": "https://goredbirds.com/sports/mens-basketball/schedule",
+  "len": 925667,
+  "exh": 6
  },
  "2294": {
   "disp": "Iowa Hawkeyes",
@@ -1630,9 +2005,14 @@
  },
  "2296": {
   "disp": "Jackson State Tigers",
+  "cands": [
+   "jsutigers.com",
+   "gojsutigers.com"
+  ],
   "domain": "jsutigers.com",
-  "src": "wikidata",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "url": "https://gojsutigers.com/sports/mens-basketball/schedule",
+  "len": 834701,
+  "exh": 0
  },
  "2305": {
   "disp": "Kansas Jayhawks",
@@ -1644,9 +2024,13 @@
  },
  "2306": {
   "disp": "Kansas State Wildcats",
-  "domain": "nbcsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "kstatesports.com"
+  ],
+  "domain": "kstatesports.com",
+  "url": "https://www.kstatesports.com:443/sports/mens-basketball/schedule",
+  "len": 1232941,
+  "exh": 6
  },
  "2309": {
   "disp": "Kent State Golden Flashes",
@@ -1658,21 +2042,33 @@
  },
  "2320": {
   "disp": "Lamar Cardinals",
-  "domain": "thebaseballcube.com",
-  "src": "wiki",
-  "err": "<HTTPError 500: 'Internal Server Error'>"
+  "cands": [
+   "lamarcardinals.com"
+  ],
+  "domain": "lamarcardinals.com",
+  "url": "https://lamarcardinals.com/sports/mens-basketball/schedule",
+  "len": 646250,
+  "exh": 0
  },
  "2325": {
   "disp": "La Salle Explorers",
-  "domain": "wsj.com",
-  "src": "wiki",
-  "err": "<HTTPError 401: 'HTTP Forbidden'>"
+  "cands": [
+   "goexplorers.com"
+  ],
+  "domain": "goexplorers.com",
+  "url": "https://goexplorers.com/sports/mens-basketball/schedule",
+  "len": 778475,
+  "exh": 13
  },
  "2329": {
   "disp": "Lehigh Mountain Hawks",
-  "domain": "marching97.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "lehighsports.com"
+  ],
+  "domain": "lehighsports.com",
+  "url": "https://lehighsports.com/sports/mens-basketball/schedule",
+  "len": 1036051,
+  "exh": 0
  },
  "2330": {
   "disp": "Le Moyne Dolphins",
@@ -1684,9 +2080,14 @@
  },
  "2335": {
   "disp": "Liberty Flames",
-  "domain": "www.soconsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "liberty.edu",
+   "libertyflames.com"
+  ],
+  "domain": "libertyflames.com",
+  "url": "https://libertyflames.com/sports/mens-basketball/schedule",
+  "len": 1292088,
+  "exh": 0
  },
  "2344": {
   "disp": "Longwood Lancers",
@@ -1698,9 +2099,14 @@
  },
  "2348": {
   "disp": "Louisiana Tech Bulldogs",
-  "domain": "knoe.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "latechsports.com",
+   "latechsports.com"
+  ],
+  "domain": "latechsports.com",
+  "url": "https://latechsports.com/sports/mens-basketball/schedule",
+  "len": 1008296,
+  "exh": 0
  },
  "2349": {
   "disp": "UMass Lowell River Hawks",
@@ -1720,21 +2126,36 @@
  },
  "2351": {
   "disp": "Loyola Marymount Lions",
-  "domain": "wccsports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "lmulions.com",
+   "lmulions.com"
+  ],
+  "domain": "lmulions.com",
+  "url": "https://lmulions.com/sports/mens-basketball/schedule",
+  "len": 871732,
+  "exh": 11
  },
  "2352": {
   "disp": "Loyola Maryland Greyhounds",
-  "domain": "www.nscro.org",
-  "src": "wiki",
-  "err": "URLError(TimeoutError('timed out'))"
+  "cands": [
+   "loyolagreyhounds.com",
+   "loyolagreyhounds.com"
+  ],
+  "domain": "loyolagreyhounds.com",
+  "url": "https://loyolagreyhounds.com/sports/mens-basketball/schedule",
+  "len": 922220,
+  "exh": 0
  },
  "2363": {
   "disp": "Manhattan Jaspers",
-  "domain": "nolefan.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gojaspers.com",
+   "gojaspers.com"
+  ],
+  "domain": "gojaspers.com",
+  "url": "https://gojaspers.com/sports/mens-basketball/schedule",
+  "len": 894755,
+  "exh": 0
  },
  "2368": {
   "disp": "Marist Red Foxes",
@@ -1754,21 +2175,36 @@
  },
  "2378": {
   "disp": "UMBC Retrievers",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "umbcretrievers.com",
+   "umbcretrievers.com"
+  ],
+  "domain": "umbcretrievers.com",
+  "url": "https://umbcretrievers.com/sports/mens-basketball/schedule",
+  "len": 734006,
+  "exh": 29
  },
  "2379": {
   "disp": "Maryland Eastern Shore Hawks",
-  "domain": "umeshawks.com",
-  "src": "wikidata",
-  "err": "URLError(TimeoutError('timed out'))"
+  "cands": [
+   "umeshawks.com",
+   "easternshorehawks.com"
+  ],
+  "domain": "easternshorehawks.com",
+  "url": "https://umeshawksports.com/sports/mens-basketball/schedule",
+  "len": 530482,
+  "exh": 0
  },
  "2382": {
   "disp": "Mercer Bears",
-  "domain": "www2.mercer.edu",
-  "src": "wikidata",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "www2.mercer.edu",
+   "mercerbears.com"
+  ],
+  "domain": "mercerbears.com",
+  "url": "https://mercerbears.com/sports/mens-basketball/schedule",
+  "len": 1052622,
+  "exh": 0
  },
  "2385": {
   "disp": "Mercyhurst Lakers",
@@ -1852,9 +2288,13 @@
  },
  "2429": {
   "disp": "Charlotte 49ers",
-  "domain": "inside.charlotte.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "charlotte49ers.com"
+  ],
+  "domain": "charlotte49ers.com",
+  "url": "https://charlotte49ers.com/sports/mens-basketball/schedule",
+  "len": 1099477,
+  "exh": 4
  },
  "2430": {
   "disp": "UNC Greensboro Spartans",
@@ -1874,9 +2314,14 @@
  },
  "2437": {
   "disp": "Omaha Mavericks",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "omavs.com",
+   "omavs.com"
+  ],
+  "domain": "omavs.com",
+  "url": "https://omahamavs.com/sports/mens-basketball/schedule",
+  "len": 962902,
+  "exh": 21
  },
  "2439": {
   "disp": "UNLV Rebels",
@@ -1904,9 +2349,15 @@
  },
  "2443": {
   "disp": "LSU New Orleans Privateers",
-  "domain": "www.uno.edu",
-  "src": "wiki",
-  "err": "URLError(gaierror(-5, 'No address associated with hostname'))"
+  "cands": [
+   "unoprivateers.com",
+   "unoprivateers.com",
+   "privateersports.com"
+  ],
+  "domain": "unoprivateers.com",
+  "url": "https://privateersports.com/sports/mens-basketball/schedule",
+  "len": 711867,
+  "exh": 5
  },
  "2447": {
   "disp": "Nicholls Colonels",
@@ -1966,15 +2417,24 @@
  },
  "2459": {
   "disp": "Northern Illinois Huskies",
-  "domain": "www.myniu.com",
-  "src": "wiki",
-  "err": "URLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify "
+  "cands": [
+   "niuhuskies.com"
+  ],
+  "domain": "niuhuskies.com",
+  "url": "https://niuhuskies.com/sports/mens-basketball/schedule",
+  "len": 728888,
+  "exh": 32
  },
  "2460": {
   "disp": "Northern Iowa Panthers",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "unipanthers.com",
+   "unipanthers.com"
+  ],
+  "domain": "unipanthers.com",
+  "url": "https://unipanthers.com/sports/mens-basketball/schedule",
+  "len": 887453,
+  "exh": 13
  },
  "2463": {
   "disp": "Cal State Northridge Matadors",
@@ -2010,15 +2470,24 @@
  },
  "2483": {
   "disp": "Oregon Ducks",
-  "domain": "mpsports.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goducks.com",
+   "goducks.com"
+  ],
+  "domain": "goducks.com",
+  "url": "https://goducks.com/sports/mens-basketball/schedule",
+  "len": 1137409,
+  "exh": 26
  },
  "2492": {
   "disp": "Pepperdine Waves",
-  "domain": "womensnit.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "pepperdinewaves.com"
+  ],
+  "domain": "pepperdinewaves.com",
+  "url": "https://pepperdinewaves.com/sports/mens-basketball/schedule",
+  "len": 936992,
+  "exh": 0
  },
  "2501": {
   "disp": "Portland Pilots",
@@ -2030,9 +2499,14 @@
  },
  "2502": {
   "disp": "Portland State Vikings",
-  "domain": "www.thebaseballcube.com",
-  "src": "wiki",
-  "err": "<HTTPError 500: 'Internal Server Error'>"
+  "cands": [
+   "goviks.com",
+   "goviks.com"
+  ],
+  "domain": "goviks.com",
+  "url": "https://goviks.com/sports/mens-basketball/schedule",
+  "len": 592435,
+  "exh": 1
  },
  "2504": {
   "disp": "Prairie View A&M Panthers",
@@ -2067,7 +2541,14 @@
   "exh": 0
  },
  "2511": {
-  "err": "not in ESPN team list"
+  "disp": "Queens University Royals",
+  "cands": [
+   "queensathletics.com"
+  ],
+  "domain": "queensathletics.com",
+  "url": "https://queensathletics.com/sports/mens-basketball/schedule",
+  "len": 722947,
+  "exh": 6
  },
  "2514": {
   "disp": "Quinnipiac Bobcats",
@@ -2103,9 +2584,14 @@
  },
  "2529": {
   "disp": "Sacred Heart Pioneers",
-  "domain": "caasports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "sacredheartpioneers.com",
+   "sacredheartpioneers.com"
+  ],
+  "domain": "sacredheartpioneers.com",
+  "url": "https://sacredheartpioneers.com/sports/mens-basketball/schedule",
+  "len": 1167686,
+  "exh": 0
  },
  "2534": {
   "disp": "Sam Houston Bearkats",
@@ -2149,19 +2635,23 @@
  },
  "2545": {
   "disp": "SE Louisiana Lions",
-  "domain": null,
-  "src": null
+  "cands": []
  },
  "2546": {
   "disp": "Southeast Missouri State Redhawks",
-  "domain": "gosoutheast.com",
-  "src": "wikidata",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gosoutheast.com",
+   "gosoutheast.com",
+   "semoredhawks.com"
+  ],
+  "domain": "semoredhawks.com",
+  "url": "https://semoredhawks.com/sports/mens-basketball/schedule",
+  "len": 1182150,
+  "exh": 3
  },
  "2547": {
   "disp": "Seattle U Redhawks",
-  "domain": null,
-  "src": null
+  "cands": []
  },
  "2550": {
   "disp": "Seton Hall Pirates",
@@ -2236,13 +2726,26 @@
   "exh": 6
  },
  "2598": {
-  "err": "not in ESPN team list"
+  "disp": "Saint Francis Red Wolves",
+  "cands": [
+   "sfuathletics.com",
+   "sfuathletics.com"
+  ],
+  "domain": "sfuathletics.com",
+  "url": "https://sfuathletics.com/sports/mens-basketball/schedule",
+  "len": 724030,
+  "exh": 4
  },
  "2599": {
   "disp": "St. John's Red Storm",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "redstormsports.com",
+   "redstormsports.com"
+  ],
+  "domain": "redstormsports.com",
+  "url": "https://redstormsports.com/sports/mens-basketball/schedule",
+  "len": 901790,
+  "exh": 105
  },
  "2603": {
   "disp": "Saint Joseph's Hawks",
@@ -2262,9 +2765,14 @@
  },
  "2612": {
   "disp": "Saint Peter's Peacocks",
-  "domain": "genius.com",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "saintpeterspeacocks.com",
+   "saintpeterspeacocks.com"
+  ],
+  "domain": "saintpeterspeacocks.com",
+  "url": "https://saintpeterspeacocks.com/sports/mens-basketball/schedule",
+  "len": 955338,
+  "exh": 0
  },
  "2617": {
   "disp": "Stephen F. Austin Lumberjacks",
@@ -2276,15 +2784,25 @@
  },
  "2619": {
   "disp": "Stony Brook Seawolves",
-  "domain": "caasports.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "stonybrookathletics.com",
+   "stonybrookathletics.com"
+  ],
+  "domain": "stonybrookathletics.com",
+  "url": "https://stonybrookathletics.com/sports/mens-basketball/schedule",
+  "len": 642941,
+  "exh": 0
  },
  "2623": {
   "disp": "Missouri State Bears",
-  "domain": "springfieldmo.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "missouristatebears.com",
+   "missouristatebears.com"
+  ],
+  "domain": "missouristatebears.com",
+  "url": "https://missouristatebears.com/sports/mens-basketball/schedule",
+  "len": 1034822,
+  "exh": 0
  },
  "2627": {
   "disp": "Tarleton State Texans",
@@ -2296,9 +2814,14 @@
  },
  "2628": {
   "disp": "TCU Horned Frogs",
-  "domain": "football.stassen.com",
-  "src": "wiki",
-  "err": "URLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify "
+  "cands": [
+   "gofrogs.cstv.com",
+   "gofrogs.com"
+  ],
+  "domain": "gofrogs.com",
+  "url": "https://gofrogs.com/sports/mens-basketball/schedule",
+  "len": 1366448,
+  "exh": 7
  },
  "2630": {
   "disp": "UT Martin Skyhawks",
@@ -2326,9 +2849,9 @@
  },
  "2635": {
   "disp": "Tennessee Tech Golden Eagles",
-  "domain": "ttusports.com",
-  "src": "wikidata",
-  "err": "<HTTPError 405: 'Not Allowed'>"
+  "cands": [
+   "ttusports.com"
+  ]
  },
  "2636": {
   "disp": "UTSA Roadrunners",
@@ -2340,9 +2863,13 @@
  },
  "2638": {
   "disp": "UTEP Miners",
-  "domain": "alumni.utep.edu",
-  "src": "wiki",
-  "err": "URLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify "
+  "cands": [
+   "utepathletics.com"
+  ],
+  "domain": "utepathletics.com",
+  "url": "https://utepminers.com/sports/mens-basketball/schedule",
+  "len": 752847,
+  "exh": 0
  },
  "2640": {
   "disp": "Texas Southern Tigers",
@@ -2354,9 +2881,15 @@
  },
  "2641": {
   "disp": "Texas Tech Red Raiders",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "texastech.cstv.com",
+   "texastech.com",
+   "texastech.com"
+  ],
+  "domain": "texastech.com",
+  "url": "https://texastech.com/sports/mens-basketball/schedule",
+  "len": 1457094,
+  "exh": 3
  },
  "2643": {
   "disp": "The Citadel Bulldogs",
@@ -2376,9 +2909,14 @@
  },
  "2653": {
   "disp": "Troy Trojans",
-  "domain": "sunbeltsports.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "troytrojans.com",
+   "troytrojans.com"
+  ],
+  "domain": "troytrojans.com",
+  "url": "https://troytrojans.com/sports/mens-basketball/schedule",
+  "len": 896806,
+  "exh": 0
  },
  "2655": {
   "disp": "Tulane Green Wave",
@@ -2390,15 +2928,23 @@
  },
  "2670": {
   "disp": "VCU Rams",
-  "domain": "recwell.vcu.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "vcuathletics.com"
+  ],
+  "domain": "vcuathletics.com",
+  "url": "https://vcuathletics.com/sports/mens-basketball/schedule",
+  "len": 714130,
+  "exh": 4
  },
  "2674": {
   "disp": "Valparaiso Beacons",
-  "domain": "valpo.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "valpoathletics.com"
+  ],
+  "domain": "valpoathletics.com",
+  "url": "https://valpoathletics.com/sports/mens-basketball/schedule",
+  "len": 725641,
+  "exh": 5
  },
  "2678": {
   "disp": "VMI Keydets",
@@ -2450,9 +2996,14 @@
  },
  "2711": {
   "disp": "Western Michigan Broncos",
-  "domain": "getsomemaction.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "wmubroncos.com",
+   "wmubroncos.com"
+  ],
+  "domain": "wmubroncos.com",
+  "url": "https://wmubroncos.com/sports/mens-basketball/schedule",
+  "len": 764915,
+  "exh": 0
  },
  "2717": {
   "disp": "Western Carolina Catamounts",
@@ -2464,9 +3015,14 @@
  },
  "2724": {
   "disp": "Wichita State Shockers",
-  "domain": "wichita.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "goshockers.com",
+   "goshockers.com"
+  ],
+  "domain": "goshockers.com",
+  "url": "https://goshockers.com/sports/mens-basketball/schedule",
+  "len": 773910,
+  "exh": 0
  },
  "2729": {
   "disp": "William & Mary Tribe",
@@ -2502,15 +3058,23 @@
  },
  "2750": {
   "disp": "Wright State Raiders",
-  "domain": "basketball.realgm.com",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "wsuraiders.com"
+  ],
+  "domain": "wsuraiders.com",
+  "url": "https://wsuraiders.com/sports/mens-basketball/schedule",
+  "len": 915511,
+  "exh": 17
  },
  "2751": {
   "disp": "Wyoming Cowboys",
-  "domain": "www.olympic-usa.org",
-  "src": "wiki",
-  "err": "URLError(TimeoutError('timed out'))"
+  "cands": [
+   "gowyo.com"
+  ],
+  "domain": "gowyo.com",
+  "url": "https://gowyo.com/sports/mens-basketball/schedule",
+  "len": 801876,
+  "exh": 35
  },
  "2752": {
   "disp": "Xavier Musketeers",
@@ -2522,9 +3086,14 @@
  },
  "2754": {
   "disp": "Youngstown State Penguins",
-  "domain": "www.ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "ysusports.com",
+   "ysusports.com"
+  ],
+  "domain": "ysusports.com",
+  "url": "https://ysusports.com/sports/mens-basketball/schedule",
+  "len": 1254816,
+  "exh": 3
  },
  "2755": {
   "disp": "Grambling Tigers",
@@ -2536,36 +3105,63 @@
  },
  "2771": {
   "disp": "Merrimack Warriors",
-  "domain": "ncaa.org",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "merrimackathletics.com"
+  ],
+  "domain": "merrimackathletics.com",
+  "url": "https://merrimackathletics.com/sports/mens-basketball/schedule",
+  "len": 1093139,
+  "exh": 15
  },
  "2803": {
   "disp": "Bryant Bulldogs",
-  "domain": "wpri.com",
-  "src": "wiki",
-  "err": "<HTTPError 403: 'Forbidden'>"
+  "cands": [
+   "bryantbulldogs.com"
+  ],
+  "domain": "bryantbulldogs.com",
+  "url": "https://bryantbulldogs.com/sports/mens-basketball/schedule",
+  "len": 857596,
+  "exh": 0
  },
  "2815": {
-  "err": "not in ESPN team list"
+  "disp": "Lindenwood Lions",
+  "cands": [
+   "lindenwoodlions.com"
+  ],
+  "domain": "lindenwoodlions.com",
+  "url": "https://lindenwoodlions.com/sports/mens-basketball/schedule",
+  "len": 747168,
+  "exh": 5
  },
  "2837": {
   "disp": "East Texas A&M Lions",
-  "domain": "nfl.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "lionathletics.com"
+  ],
+  "domain": "lionathletics.com",
+  "url": "https://lionathletics.com/sports/mens-basketball/schedule",
+  "len": 841987,
+  "exh": 6
  },
  "2856": {
   "disp": "California Baptist Lancers",
-  "domain": "ncaa.com",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "cbulancers.com"
+  ],
+  "domain": "cbulancers.com",
+  "url": "https://cbulancers.com/sports/mens-basketball/schedule",
+  "len": 1374749,
+  "exh": 3
  },
  "2870": {
   "disp": "Purdue Fort Wayne Mastodons",
-  "domain": "www.pfw.edu",
-  "src": "wiki",
-  "err": "<HTTPError 404: 'Not Found'>"
+  "cands": [
+   "gomastodons.com"
+  ],
+  "domain": "gomastodons.com",
+  "url": "https://gomastodons.com/sports/mens-basketball/schedule",
+  "len": 847447,
+  "exh": 5
  },
  "2885": {
   "disp": "NJIT Highlanders",
@@ -2577,8 +3173,7 @@
  },
  "2900": {
   "disp": "St. Thomas Tommies",
-  "domain": null,
-  "src": null
+  "cands": []
  },
  "2908": {
   "disp": "South Carolina Upstate Spartans",
@@ -2622,7 +3217,6 @@
  },
  "112358": {
   "disp": "Long Island University Sharks",
-  "domain": null,
-  "src": null
+  "cands": []
  }
 }
