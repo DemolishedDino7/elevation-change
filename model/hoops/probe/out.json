@@ -1,169 +1,189 @@
 {
  "BSU": [
   {
-   "url": "https://broncosports.com/sports/mens-basketball/schedule",
-   "len": 983749,
-   "exh": 71
+   "url": "https://broncosports.com/sports/mens-basketball/schedule/text",
+   "len": 139398,
+   "exh": 31
   }
  ],
  "CSU": [
   {
-   "url": "https://csurams.com/sports/mens-basketball/schedule",
-   "len": 893686,
-   "exh": 9
+   "url": "https://csurams.com/sports/mens-basketball/schedule/text",
+   "len": 161681,
+   "exh": 4
   }
  ],
  "FRES": [
   {
-   "url": "https://gobulldogs.com/sports/mens-basketball/schedule",
-   "len": 663745,
-   "exh": 3
+   "url": "https://gobulldogs.com/sports/mens-basketball/schedule/text",
+   "len": 148260,
+   "exh": 1
   }
  ],
  "GONZ": [
   {
-   "url": "https://gozags.com/sports/mens-basketball/schedule",
-   "len": 1128874,
+   "url": "https://gozags.com/sports/mens-basketball/schedule/text",
+   "len": 311113,
    "exh": 0
   }
  ],
  "ORST": [
   {
-   "url": "https://osubeavers.com/sports/mens-basketball/schedule",
-   "len": 993980,
-   "exh": 39
+   "url": "https://osubeavers.com/sports/mens-basketball/schedule/text",
+   "len": 283729,
+   "exh": 17
   }
  ],
  "SDSU": [
   {
-   "url": "https://goaztecs.com/sports/mens-basketball/schedule",
-   "len": 635302,
-   "exh": 52
+   "url": "https://goaztecs.com/sports/mens-basketball/schedule/text",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://goaztecs.com/sports/mbball/schedule/text",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://goaztecs.com/sports/mens-basketball/schedule/2026-27/text",
+   "err": "<HTTPError 404: 'Not Found'>"
   }
  ],
  "TXST": [
   {
-   "url": "https://txst.com/sports/mens-basketball/schedule",
+   "url": "https://txst.com/sports/mens-basketball/schedule/text",
    "len": 1269415,
    "exh": 0
   }
  ],
  "USU": [
   {
-   "url": "https://utahstateaggies.com/sports/mens-basketball/schedule",
+   "url": "https://utahstateaggies.com/sports/mens-basketball/schedule/text",
    "len": 626834,
    "exh": 57
   }
  ],
  "WSU": [
   {
-   "url": "https://wsucougars.com/sports/mens-basketball/schedule",
-   "len": 801948,
-   "exh": 19
+   "url": "https://wsucougars.com/sports/mens-basketball/schedule/text",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://wsucougars.com/sports/mbball/schedule/text",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://wsucougars.com/sports/mens-basketball/schedule/2026-27/text",
+   "err": "<HTTPError 404: 'Not Found'>"
   }
  ],
  "AFA": [
   {
-   "url": "https://goairforcefalcons.com/sports/mens-basketball/schedule",
-   "len": 549322,
+   "url": "https://goairforcefalcons.com/sports/mens-basketball/schedule/text",
+   "len": 156509,
    "exh": 0
   }
  ],
  "GCU": [
   {
-   "url": "https://gculopes.com/sports/mens-basketball/schedule",
-   "len": 1216477,
-   "exh": 28
+   "url": "https://gculopes.com/sports/mens-basketball/schedule/text",
+   "len": 192173,
+   "exh": 8
   }
  ],
  "HAW": [
   {
-   "url": "https://hawaiiathletics.com/sports/mens-basketball/schedule",
-   "len": 784065,
+   "url": "https://hawaiiathletics.com/sports/mens-basketball/schedule/text",
+   "len": 784066,
    "exh": 7
   }
  ],
  "NEV": [
   {
-   "url": "https://nevadawolfpack.com/sports/mens-basketball/schedule",
+   "url": "https://nevadawolfpack.com/sports/mens-basketball/schedule/text",
    "len": 903822,
    "exh": 41
   }
  ],
  "UNM": [
   {
-   "url": "https://golobos.com/sports/mens-basketball/schedule",
+   "url": "https://golobos.com/sports/mens-basketball/schedule/text",
    "err": "<HTTPError 404: 'Not Found'>"
   },
   {
-   "url": "https://golobos.com/sports/mens-basketball/schedule/2026-27",
+   "url": "https://golobos.com/sports/mbball/schedule/text",
    "err": "<HTTPError 404: 'Not Found'>"
   },
   {
-   "url": "https://golobos.com/sports/mbball/schedule",
-   "len": 620096,
-   "exh": 33
+   "url": "https://golobos.com/sports/mens-basketball/schedule/2026-27/text",
+   "err": "<HTTPError 404: 'Not Found'>"
   }
  ],
  "SJSU": [
   {
-   "url": "https://sjsuspartans.com/sports/mens-basketball/schedule",
-   "len": 670578,
-   "exh": 12
+   "url": "https://sjsuspartans.com/sports/mens-basketball/schedule/text",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://sjsuspartans.com/sports/mbball/schedule/text",
+   "err": "<HTTPError 404: 'Not Found'>"
+  },
+  {
+   "url": "https://sjsuspartans.com/sports/mens-basketball/schedule/2026-27/text",
+   "err": "<HTTPError 404: 'Not Found'>"
   }
  ],
  "UCD": [
   {
-   "url": "https://ucdavisaggies.com/sports/mens-basketball/schedule",
-   "len": 762530,
+   "url": "https://ucdavisaggies.com/sports/mens-basketball/schedule/text",
+   "len": 762529,
    "exh": 0
   }
  ],
  "UNLV": [
   {
-   "url": "https://unlvrebels.com/sports/mens-basketball/schedule",
-   "len": 1081607,
-   "exh": 64
+   "url": "https://unlvrebels.com/sports/mens-basketball/schedule/text",
+   "len": 349220,
+   "exh": 25
   }
  ],
  "UTEP": [
   {
-   "url": "https://utepminers.com/sports/mens-basketball/schedule",
+   "url": "https://utepminers.com/sports/mens-basketball/schedule/text",
    "len": 752848,
    "exh": 0
   }
  ],
  "WYO": [
   {
-   "url": "https://gowyo.com/sports/mens-basketball/schedule",
-   "len": 801876,
+   "url": "https://gowyo.com/sports/mens-basketball/schedule/text",
+   "len": 801875,
    "exh": 35
   }
  ],
  "NDSU": [
   {
-   "url": "https://gobison.com/sports/mens-basketball/schedule",
-   "len": 1139557,
-   "exh": 3
+   "url": "https://gobison.com/sports/mens-basketball/schedule/text",
+   "len": 343074,
+   "exh": 1
   }
  ],
  "NIU": [
   {
-   "url": "https://niuhuskies.com/sports/mens-basketball/schedule",
-   "len": 728887,
+   "url": "https://niuhuskies.com/sports/mens-basketball/schedule/text",
+   "len": 728888,
    "exh": 32
   }
  ],
  "NMSU": [
   {
-   "url": "https://nmstatesports.com/sports/mens-basketball/schedule",
+   "url": "https://nmstatesports.com/sports/mens-basketball/schedule/text",
    "len": 637434,
    "exh": 0
   }
  ],
  "SAC": [
   {
-   "url": "https://hornetsports.com/sports/mens-basketball/schedule",
+   "url": "https://hornetsports.com/sports/mens-basketball/schedule/text",
    "len": 906244,
    "exh": 0
   }
