@@ -3,9 +3,11 @@
 Only games between two Division I teams count: a non-D-I opponent has no
 rating to judge the result against. Each one is graded against what the
 starting ratings expected (site included, in points per 100 possessions,
-capped like real games) and counts as half a game next to a preseason start
-worth four, so one big exhibition moves a team about 1-3 points per 100.
-The opponent moves the other way. Exhibitions never count in the résumé.
+capped like real games) and counts as a full game next to a preseason start
+worth four, so one big exhibition moves a team about 2-6 points per 100.
+The opponent moves the other way. Once the season starts, exhibitions fade
+out evenly and stop counting a quarter of the way through the regular
+season (fade()). Exhibitions never count in the résumé.
 """
 from __future__ import annotations
 
@@ -17,7 +19,8 @@ import numpy as np
 import pandas as pd
 
 FILE = Path(__file__).resolve().parent / "exhibitions.csv"
-WEIGHT = 0.5      # games' worth of each D-I exhibition
+WEIGHT = 1.0      # games' worth of each D-I exhibition (before the season starts)
+FADE_SHARE = 0.25 # exhibitions stop counting this far through the regular season
 CAP = 30.0        # cap on a result's miss, per 100 possessions (same as real games)
 
 
@@ -137,7 +140,21 @@ def load(season: int, our_ids: dict, cur: pd.DataFrame = None) -> list[dict]:
     return out
 
 
-def adjust(P: pd.DataFrame, games: list[dict], hca: float, tmu: float, lam: float) -> pd.Series:
+def fade(today, cur: pd.DataFrame) -> float:
+    """Full weight until the first regular-season game, then down evenly to zero a quarter of the way
+    from the opener to the last regular-season game (early December)."""
+    reg = cur[cur.season_type == 2] if "season_type" in cur else cur
+    if reg.empty:
+        return 1.0
+    first, last = reg.day.min(), reg.day.max()
+    end = first + (last - first) * FADE_SHARE
+    t = pd.Timestamp(today)
+    if t <= first:
+        return 1.0
+    return float(max(0.0, 1.0 - (t - first) / (end - first)))
+
+
+def adjust(P: pd.DataFrame, games: list[dict], hca: float, tmu: float, lam: float, scale: float = 1.0) -> pd.Series:
     """Net shift (points per 100 possessions) for every team in P from its D-I exhibitions."""
     num = pd.Series(0.0, index=P.index)
     cnt = pd.Series(0.0, index=P.index)
@@ -152,6 +169,6 @@ def adjust(P: pd.DataFrame, games: list[dict], hca: float, tmu: float, lam: floa
         miss = float(np.clip(obs - exp, -CAP, CAP))
         g["exp"], g["miss"] = round(exp * poss / 100, 1), round(miss * poss / 100, 1)
         for team, sgn in ((t, 1.0), (o, -1.0)):
-            num[team] += sgn * miss * WEIGHT
-            cnt[team] += WEIGHT
+            num[team] += sgn * miss * WEIGHT * scale
+            cnt[team] += WEIGHT * scale
     return (num / (lam + cnt)).where(cnt > 0, 0.0)

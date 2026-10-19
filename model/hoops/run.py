@@ -196,10 +196,11 @@ def main():
     # preseason exhibitions (D-I opponents only) nudge the starting ratings
     import exhibitions as EX
     exh = EX.load(season, WEST, g[g.season >= season - 1])
-    exh_shift = EX.adjust(P, exh, PARAMS.hca_eff, 68.0, PARAMS.lam)
+    exh_w = EX.fade(today, g[g.season == season])
+    exh_shift = EX.adjust(P, exh, PARAMS.hca_eff, 68.0, PARAMS.lam, scale=exh_w)
     P["O"] += exh_shift / 2
     P["D"] -= exh_shift / 2
-    log(f"  exhibitions: {len(exh)} games, {sum(1 for e in exh if e['opp'] is not None)} against D-I teams")
+    log(f"  exhibitions: {len(exh)} games, {sum(1 for e in exh if e['opp'] is not None)} against D-I teams, weight {exh_w:.2f}")
     pre = R.solve(cur.iloc[0:0], ids, idx, P["O"].to_numpy(), P["D"].to_numpy(), P["T"].to_numpy(), PARAMS)
     rnow = R.solve(cur, ids, idx, P["O"].to_numpy(), P["D"].to_numpy(), P["T"].to_numpy(), PARAMS)
     log(f"  {rnow['games']} games this season in the ratings")
