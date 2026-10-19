@@ -1,0 +1,50 @@
+name: Fetch basketball logos
+
+# Official logos for every Division I men's basketball team (ESPN's logo files),
+# saved to logos/bb/<ESPN team id>.png for bracket cards and the basketball pages.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: |
+          mkdir -p logos/bb
+          python3 - <<'PY'
+          import json, os, time, urllib.request
+          UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+          teams = json.load(open("hoops/teams.json"))
+          ok = bad = 0
+          for t in teams:
+              dest = f"logos/bb/{t['id']}.png"
+              if os.path.exists(dest):
+                  continue
+              for u in (f"https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/{t['id']}.png&w=300&h=300",
+                        f"https://a.espncdn.com/i/teamlogos/ncaa/500/{t['id']}.png"):
+                  try:
+                      req = urllib.request.Request(u, headers={"User-Agent": UA})
+                      b = urllib.request.urlopen(req, timeout=30).read()
+                      if b[:4] == b"\x89PNG":
+                          open(dest, "wb").write(b); ok += 1; break
+                  except Exception:
+                      pass
+              else:
+                  bad += 1; print("missing", t["id"], t["name"])
+              time.sleep(0.1)
+          print("downloaded", ok, "missing", bad)
+          PY
+      - name: Commit
+        run: |
+          git config user.name "The Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add logos/bb
+          git diff --cached --quiet && exit 0
+          git commit -m "Basketball team logos"
+          for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && exit 0; sleep 5; done
+          exit 1
