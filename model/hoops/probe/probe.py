@@ -1,23 +1,24 @@
-"""Temporary probe (removed after use)."""
-import json, sys, time, collections
-sys.path.insert(0, "model/hoops")
-import espn, data
+"""Temporary probe (removed after use): our 23 teams' official schedule pages."""
+import gzip, json, urllib.request
+UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+SITES = {"BSU": "broncosports.com", "CSU": "csurams.com", "FRES": "gobulldogs.com", "GONZ": "gozags.com", "ORST": "osubeavers.com",
+         "SDSU": "goaztecs.com", "TXST": "txst.com", "USU": "utahstateaggies.com", "WSU": "wsucougars.com", "AFA": "goairforcefalcons.com",
+         "GCU": "gculopes.com", "HAW": "hawaiiathletics.com", "NEV": "nevadawolfpack.com", "UNM": "golobos.com", "SJSU": "sjsuspartans.com",
+         "UCD": "ucdavisaggies.com", "UNLV": "unlvrebels.com", "UTEP": "utepminers.com", "WYO": "gowyo.com", "NDSU": "gobison.com",
+         "NIU": "niuhuskies.com", "NMSU": "nmstatesports.com", "SAC": "hornetsports.com"}
+PATHS = ["/sports/mens-basketball/schedule", "/sports/mens-basketball/schedule/2026-27", "/sports/mbball/schedule", "/sports/m-baskbl/sched/"]
 out = {}
-data.download(2027)
-# 1) the Bot's roster download, team by team, with errors kept
-ids = sorted(data.d1_teams(2027, 2027))
-res, errs = {}, collections.Counter()
-for t in ids:
-    try:
-        js = espn._get(f"/apis/site/v2/sports/basketball/mens-college-basketball/teams/{int(t)}/roster", tries=1)
-        ath = js.get("athletes") or []
-        if ath and isinstance(ath[0], dict) and "items" in ath[0]:
-            ath = [a for g in ath for a in g.get("items", [])]
-        res[str(t)] = {"ids": [int(a["id"]) for a in ath if a.get("id")], "season": (js.get("season") or {}).get("year")}
-    except Exception as e:
-        errs[repr(e)[:80]] += 1
-    time.sleep(0.15)
-out["rosters"] = {"teams": len(ids), "ok": len(res), "errors": errs.most_common(5)}
-json.dump({"season": 2027, "teams": {k: v["ids"] for k, v in res.items()}}, open("model/hoops/probe/ro_live_probe.json", "w"))
+for sid, dom in SITES.items():
+    out[sid] = []
+    for p in PATHS:
+        u = "https://" + dom + p
+        try:
+            req = urllib.request.Request(u, headers={"User-Agent": UA, "Accept": "text/html"})
+            with urllib.request.urlopen(req, timeout=40) as r:
+                h = r.read().decode("utf8", "replace")
+            out[sid].append({"url": u, "len": len(h), "exh": h.lower().count("exhibition")})
+            open(f"model/hoops/probe/sch_{sid}.html.gz", "wb").write(gzip.compress(h.encode()))
+            break
+        except Exception as e:
+            out[sid].append({"url": u, "err": repr(e)[:100]})
 json.dump(out, open("model/hoops/probe/out.json", "w"), indent=1)
-print("done")
