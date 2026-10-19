@@ -6,7 +6,7 @@ SITES = {"BSU": "broncosports.com", "CSU": "csurams.com", "FRES": "gobulldogs.co
          "GCU": "gculopes.com", "HAW": "hawaiiathletics.com", "NEV": "nevadawolfpack.com", "UNM": "golobos.com", "SJSU": "sjsuspartans.com",
          "UCD": "ucdavisaggies.com", "UNLV": "unlvrebels.com", "UTEP": "utepminers.com", "WYO": "gowyo.com", "NDSU": "gobison.com",
          "NIU": "niuhuskies.com", "NMSU": "nmstatesports.com", "SAC": "hornetsports.com"}
-PATHS = ["/sports/mens-basketball/schedule", "/sports/mens-basketball/schedule/2026-27", "/sports/mbball/schedule", "/sports/m-baskbl/sched/"]
+PATHS = ["/sports/mens-basketball/schedule/text", "/sports/mbball/schedule/text", "/sports/mens-basketball/schedule/2026-27/text"]
 out = {}
 for sid, dom in SITES.items():
     out[sid] = []
@@ -17,7 +17,7 @@ for sid, dom in SITES.items():
             with urllib.request.urlopen(req, timeout=40) as r:
                 h = r.read().decode("utf8", "replace")
             out[sid].append({"url": u, "len": len(h), "exh": h.lower().count("exhibition")})
-            open(f"model/hoops/probe/sch_{sid}.html.gz", "wb").write(gzip.compress(h.encode()))
+            open(f"model/hoops/probe/txt_{sid}.html.gz", "wb").write(gzip.compress(h.encode()))
             break
         except Exception as e:
             out[sid].append({"url": u, "err": repr(e)[:100]})
