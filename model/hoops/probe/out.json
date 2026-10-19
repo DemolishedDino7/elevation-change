@@ -1,239 +1,209 @@
 {
- "espn_roster_167": {
-  "season": 2027,
-  "n": 12,
-  "names": [
-   "Federico Grani",
-   "Dax Hall",
-   "Jake Hall",
-   "Chris Howell",
-   "Fynn Lastring",
-   "Hudson Mayes",
-   "Nate Muriithi",
-   "Rytis Petraitis",
-   "Benjamin Schuch",
-   "Imran Suljanovic",
-   "Uriah Tenette",
-   "Tunde Vahlberg Fasasi"
-  ],
-  "exp": [
-   "Senior",
-   "Freshman",
-   "Sophomore",
-   "Senior",
-   "Freshman",
-   "Sophomore",
-   "Freshman",
-   "Senior",
-   "Freshman",
-   "Freshman",
-   "Sophomore",
-   "Senior"
-  ]
+ "rosters": {
+  "teams": 0,
+  "ok": 0,
+  "errors": []
  },
- "espn_roster_2253": {
-  "season": 2027,
-  "n": 17,
-  "names": [
-   "Blake Barkley",
-   "Tyler Behrend",
-   "Omaha Biliew",
-   "Dylan Darling",
-   "Efe Demirel",
-   "Amarion Dickerson",
-   "Jaden Henley",
-   "Tre Holloman",
-   "Jaqari Miles",
-   "Jack Sawyer",
-   "Caleb Shaw",
-   "Luke Shaw",
-   "Dan Skillings Jr.",
-   "Micah Tucker",
-   "John Whorton",
-   "Makaih Williams",
-   "Jaden Zimmerman"
-  ],
-  "exp": [
-   "Senior",
-   "Senior",
-   "Senior",
-   "Senior",
-   "Sophomore",
-   "Senior",
-   "Senior",
-   "Senior",
-   "Senior",
-   "Junior",
-   "Senior",
-   "Sophomore",
-   "Senior",
-   "Sophomore",
-   "Freshman",
-   "Senior",
-   "Junior"
-  ]
- },
- "espn_roster_2440": {
-  "season": 2027,
-  "n": 13,
-  "names": [
-   "Peter Bandelj",
-   "TJ Coulter",
-   "Keyon Kensie Jr.",
-   "Cedric Lath",
-   "Hudson Lucas",
-   "SJ Madison",
-   "Simon Majok",
-   "Styles Phipps",
-   "Elijah Price",
-   "Kade Snyder",
-   "Myles Walker",
-   "Vaughn Weems",
-   "Peyton White"
-  ],
-  "exp": [
-   "Junior",
-   "Junior",
-   "Senior",
-   "Senior",
-   "Freshman",
-   "Freshman",
-   "Sophomore",
-   "Junior",
-   "Junior",
-   "Freshman",
-   "Sophomore",
-   "Senior",
-   "Sophomore"
-  ]
- },
- "espn_roster_2439": {
-  "season": 2027,
-  "n": 14,
-  "names": [
-   "Jalen Cunningham",
-   "Terrance Ford Jr.",
-   "Jeremy Foumena",
-   "Tyler Harris",
-   "Tyrin Jones",
-   "Jackson Kiss",
-   "Moustapha Loum",
-   "Sebastian Mack",
-   "Cam Miles",
-   "AJ Storr",
-   "Kota Suttle Jr.",
-   "MJ Thomas",
-   "Dontrez Williams",
-   "Issac Williamson"
-  ],
-  "exp": [
-   "Junior",
-   "Junior",
-   "Senior",
-   "Senior",
-   "Sophomore",
-   "Freshman",
-   "Junior",
-   "Senior",
-   "Sophomore",
-   "Senior",
-   "Freshman",
-   "Junior",
-   "Junior",
-   "Sophomore"
-  ]
- },
- "espn_roster_2751": {
-  "season": 2027,
-  "n": 15,
-  "names": [
-   "Khaden Bennett",
-   "Micah Curtis",
-   "Mattia De Martin",
-   "Parker Gerrits",
-   "Gavin Gores",
-   "Kelan Gruver",
-   "Canin Jefferson",
-   "Nasir Meyer",
-   "Mike Mora",
-   "Chris Pohl",
-   "Uriyah Rojas",
-   "Linus Ruf",
-   "Madden Smiley",
-   "Renars Sondors",
-   "Neil Summers"
-  ],
-  "exp": [
-   "Senior",
-   "Freshman",
-   "Sophomore",
-   "Junior",
-   "Sophomore",
-   "Freshman",
-   "Senior",
-   "Sophomore",
-   "Junior",
-   "Freshman",
-   "Senior",
-   "Freshman",
-   "Freshman",
-   "Junior",
-   "Freshman"
-  ]
- },
- "espn_roster_2006": {
-  "season": 2027,
-  "n": 15,
-  "names": [
-   "Chabi Barre",
-   "Max Burton",
-   "Devan Christion",
-   "Zach Halligan",
-   "Buddy Hammer Jr.",
-   "Cody Head",
-   "Josh Henderson",
-   "RJ Jones",
-   "Evan Mahaffey",
-   "Marvin Musiime-Kamali",
-   "Ty Pence",
-   "Tai Perkins",
-   "Tahj Staveskie",
-   "Colin White",
-   "Exavier Wilson"
-  ],
-  "exp": [
-   "Senior",
-   "Senior",
-   "Freshman",
-   "Junior",
-   "Senior",
-   "Junior",
-   "Freshman",
-   "Freshman",
-   "Senior",
-   "Junior",
-   "Senior",
-   "Freshman",
-   "Senior",
-   "Junior",
-   "Freshman"
-  ]
- },
- "site_unm": "<HTTPError 404: 'Not Found'>",
- "site_unlv": {
-  "len": 1195814,
-  "has_roster": true,
-  "head": "<!DOCTYPE html><html  lang=\"en\"><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title> Men&#x27;s Basketball Roster - University of Nevada Las Vegas Athletics</title><link h"
- },
- "site_afa": {
-  "len": 744699,
-  "has_roster": true,
-  "head": "<!DOCTYPE html><html  lang=\"en\"><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>2026-27 Men&#x27;s Basketball Roster - Air Force Academy Athletics</title><link href=\"h"
- },
- "site_nevada": {
-  "len": 898896,
-  "has_roster": true,
-  "head": "\r\n\r\n<!doctype html>\r\n<html id=\"ctl00_html\" lang=\"en\" class=\" wide roster-page mbball sport mbball\"> \r\n    <head><!-- Transcend IAB frameworks -->\r\n<!-- GPP -->\r\n<script type='text/javascript'>\r\n  wind"
- },
- "scoreboard": []
+ "exhibitions": [
+  {
+   "day": "20251025",
+   "q": "&groups=50",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251025",
+   "q": "",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251025",
+   "q": "&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251025",
+   "q": "&groups=50&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251101",
+   "q": "&groups=50",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251101",
+   "q": "",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251101",
+   "q": "&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251101",
+   "q": "&groups=50&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251104",
+   "q": "&groups=50",
+   "n": 36,
+   "types": {
+    "(2, 'regular-season')": 36
+   },
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251104",
+   "q": "",
+   "n": 4,
+   "types": {
+    "(2, 'regular-season')": 4
+   },
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251104",
+   "q": "&seasontype=1",
+   "n": 4,
+   "types": {
+    "(2, 'regular-season')": 4
+   },
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20251104",
+   "q": "&groups=50&seasontype=1",
+   "n": 36,
+   "types": {
+    "(2, 'regular-season')": 36
+   },
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241026",
+   "q": "&groups=50",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241026",
+   "q": "",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241026",
+   "q": "&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241026",
+   "q": "&groups=50&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241102",
+   "q": "&groups=50",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241102",
+   "q": "",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241102",
+   "q": "&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20241102",
+   "q": "&groups=50&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20231104",
+   "q": "&groups=50",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20231104",
+   "q": "",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20231104",
+   "q": "&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  },
+  {
+   "day": "20231104",
+   "q": "&groups=50&seasontype=1",
+   "n": 0,
+   "types": {},
+   "exh": [],
+   "n_exh": 0
+  }
+ ]
 }
