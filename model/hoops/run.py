@@ -193,6 +193,13 @@ def main():
     # ---------------- this season ----------------
     cur = g[g.season == season].copy()
     ids, idx, P, ret = W.season_priors(season, g, fin, ro, mins, pri, season)
+    # preseason exhibitions (D-I opponents only) nudge the starting ratings
+    import exhibitions as EX
+    exh = EX.load(season, WEST, g[g.season >= season - 1])
+    exh_shift = EX.adjust(P, exh, PARAMS.hca_eff, 68.0, PARAMS.lam)
+    P["O"] += exh_shift / 2
+    P["D"] -= exh_shift / 2
+    log(f"  exhibitions: {len(exh)} games, {sum(1 for e in exh if e['opp'] is not None)} against D-I teams")
     pre = R.solve(cur.iloc[0:0], ids, idx, P["O"].to_numpy(), P["D"].to_numpy(), P["T"].to_numpy(), PARAMS)
     rnow = R.solve(cur, ids, idx, P["O"].to_numpy(), P["D"].to_numpy(), P["T"].to_numpy(), PARAMS)
     log(f"  {rnow['games']} games this season in the ratings")
@@ -384,6 +391,13 @@ def main():
             "fr_pts": r1(float(P.at[t, "fr_pts"])) if "fr_pts" in P and t in P.index else None,
             "xf_pts": r1(float(P.at[t, "xf_pts"])) if "xf_pts" in P and t in P.index else None,
             "frosh": frosh.get(t, []),
+            "exh_pts": r1(float(exh_shift.get(t, 0.0))) if t in exh_shift.index else 0.0,
+            "exh": [{"date": e["date"], "opp": e["opp_name"] if e["team"] == t else names.get(e["team"], ""),
+                     "site": e["site"] if e["team"] == t else {"home": "away", "away": "home"}.get(e["site"], "neutral"),
+                     "res": e["result"] if e["team"] == t else ("L" if e["result"] == "W" else "W"),
+                     "pts": e["pts"] if e["team"] == t else e["opp_pts"], "opp_pts": e["opp_pts"] if e["team"] == t else e["pts"],
+                     "d1": e["opp"] is not None, "exp": (e.get("exp") if e["team"] == t else (-e["exp"] if e.get("exp") is not None else None))}
+                    for e in exh if t in (e["team"], e["opp"])],
             "idx_rank": int(idx_rank.get(t, 999)), "idx_prev": iprev.get(str(t)),
             "idx_score": r1(float(XI.at[t, "score"])) if t in XI.index else None,
             "res": r1(float(XI.at[t, "wab"]), 2) if t in XI.index else None, "res_rank": int(XI.at[t, "res_rank"]) if t in XI.index else None,

@@ -84,44 +84,73 @@ DATE_RE = re.compile(r"^(?:[A-Z][a-z]{2},? )?(Oct|Nov|Sep)[a-z]*\.? ?(\d{1,2})\b
 SCORE_RE = re.compile(r"^(\d{2,3})\s*-\s*(\d{2,3})$")
 
 
+TEAMS: set[str] = set()   # known school names (normalized), filled by main() from the schedule data
+ALIAS = {"texas christian": "tcu", "southern california": "usc", "brigham young": "byu", "louisiana state": "lsu",
+         "southern methodist": "smu", "central florida": "ucf", "nevada las vegas": "unlv", "texas el paso": "utep"}
+
+
+def _n(s: str) -> str:
+    s = re.sub(r"[^a-z0-9& ]", "", clean_opp(s).lower().replace("é", "e")).strip()
+    return ALIAS.get(s, s)
+
+
 def from_text(h: str, opener: date, season: int) -> list[dict]:
-    """Every other layout: walk the page text. A game block starts at a date line; within the block
-    we need an opponent marked as exhibition (or any game before the opener), W/L and a score."""
+    """Every other layout: walk the page text. Each result (W/L plus a score) anchors one game; its
+    date, opponent and home/away are the nearest ones between the previous and next result, so a
+    score can never attach to a game that hasn't been played."""
     L, out = lines_of(h), []
     year = season - 1
-    starts = []
-    for i, l in enumerate(L):
+
+    def as_date(l):
         m = DATE_RE.match(l)
-        if m:
-            if m.group(1):
-                d = date(year, MONTHS[m.group(1)[:3].lower()], int(m.group(2)))
-            else:
-                d = date(2000 + int(m.group(5)), int(m.group(3)), int(m.group(4)))
-            starts.append((i, d))
-    for k, (i, d) in enumerate(starts):
+        if not m:
+            return None
+        if m.group(1):
+            return date(year, MONTHS[m.group(1)[:3].lower()], int(m.group(2)))
+        return date(2000 + int(m.group(5)), int(m.group(3)), int(m.group(4)))
+
+    anchors = []
+    for i, l in enumerate(L):
+        r = l.rstrip(",").strip()
+        if r in ("W", "L", "Win", "Loss"):
+            for k in (1, 2):
+                if i + k < len(L) and SCORE_RE.match(L[i + k]):
+                    anchors.append((i, "W" if r in ("W", "Win") else "L", SCORE_RE.match(L[i + k])))
+                    break
+    seen = set()
+    for n, (i, res, sc) in enumerate(anchors):
+        lo = anchors[n - 1][0] + 3 if n else max(0, i - 40)
+        hi = anchors[n + 1][0] if n + 1 < len(anchors) else min(len(L), i + 40)
+        if any(x[1] == res and x[2].group(0) == sc.group(0) for x in anchors[:n]):
+            continue   # the same result shown twice on the page
+        before = [(i - k, as_date(L[k])) for k in range(lo, i) if as_date(L[k])]
+        after = [(k - i, as_date(L[k])) for k in range(i, hi) if as_date(L[k])]
+        d = (min(before) if before else min(after) if after else (0, None))[1]
+        # opponent: a known school name, or a line marked as an exhibition, closest before the result
+        opps = [k for k in range(lo, i) if (_n(L[k]) in TEAMS and len(L[k]) < 60) or re.search(r"\((Exhibition|Exh\.?|exhibition)\)", L[k])]
+        opps = [k for k in opps if "hide/show" not in L[k].lower() and "information for" not in L[k].lower()]
+        if d is None or not opps:
+            continue
+        ok = opps[-1]
         if d >= opener:
             continue
-        j = starts[k + 1][0] if k + 1 < len(starts) else min(len(L), i + 40)
-        # some layouts put the date after the result: look a little before the date too
-        blk = L[max(0, i - 14): j]
-        res = next((x.rstrip(",").strip() for x in blk if x.rstrip(",").strip() in ("W", "L", "Win", "Loss")), None)
-        sc = next((SCORE_RE.match(x) for x in blk if SCORE_RE.match(x)), None)
-        opp = next((x for x in blk if re.search(r"\((Exhibition|Exh\.?|exhibition)\)", x)), None)
-        if not opp:
-            vs = next((n for n, x in enumerate(blk) if x.lower() in ("vs", "vs.", "at")), None)
-            opp = blk[vs + 1] if vs is not None and vs + 1 < len(blk) else None
-        if not (res and sc and opp):
-            continue
         a, b = int(sc.group(1)), int(sc.group(2))
-        win = res in ("W", "Win")
-        tp, op = (max(a, b), min(a, b)) if win else (min(a, b), max(a, b))
-        at = any(x.lower() == "at" for x in blk) or any(x.lower() == "away" for x in blk)
-        out.append({"date": str(d), "opponent": clean_opp(opp), "site": "away" if at else "home",
-                    "result": "W" if win else "L", "team_pts": tp, "opp_pts": op})
+        tp, op = (max(a, b), min(a, b)) if res == "W" else (min(a, b), max(a, b))
+        marks = [L[k].lower() for k in range(max(lo, ok - 4), ok)]
+        after_opp = [L[k].lower() for k in range(ok + 1, i)]
+        if "home" in after_opp or "away" in after_opp:
+            site = "home" if "home" in after_opp else "away"
+        else:
+            site = "away" if any(m in ("at", "away") for m in marks) else "home" if any(m in ("vs", "vs.", "home") for m in marks) else "neutral"
+        key = (str(d), clean_opp(L[ok]))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({"date": str(d), "opponent": key[1], "site": site, "result": res, "team_pts": tp, "opp_pts": op})
     return out
 
 
-def collect(season: int, opener: date, save_raw: bool = True) -> list[dict]:
+def collect(season: int, opener: date, save_raw: bool = False) -> list[dict]:
     rows = []
     RAW.mkdir(exist_ok=True)
     for sid, dom in SITES.items():
@@ -139,8 +168,18 @@ def collect(season: int, opener: date, save_raw: bool = True) -> list[dict]:
     return rows
 
 
+def load_names() -> None:
+    import pandas as pd
+    for f in sorted(Path(ROOT / "cache").glob("sch_*.parquet"))[-2:]:
+        sch = pd.read_parquet(f)
+        for c in ("home_location", "away_location", "home_display_name", "away_display_name"):
+            TEAMS.update(_n(x) for x in sch[c].dropna().unique())
+    TEAMS.update(ALIAS.values())
+
+
 def main(season: int, opener: str) -> None:
     op = date.fromisoformat(opener)
+    load_names()
     have = list(csv.DictReader(open(OUT))) if OUT.exists() else []
     manual = [r for r in have if r["source"] == "manual" or int(r["season"]) != season]
     keys = {(r["season"], r["team"], r["date"]) for r in manual}
@@ -152,5 +191,29 @@ def main(season: int, opener: str) -> None:
         w.writerows(rows)
 
 
+def season_and_opener(today: date) -> tuple[int, date]:
+    """Season (2027 = 2026-27) and its first regular-season day: from the cached schedule if there,
+    otherwise the first Monday of November."""
+    season = today.year + 1 if today.month >= 7 else today.year
+    f = ROOT / "cache" / f"sch_{season}.parquet"
+    if f.exists():
+        import pandas as pd
+        s = pd.read_parquet(f, columns=["date", "season_type"])
+        reg = pd.to_datetime(s[s.season_type == 2].date, utc=True)
+        if len(reg):
+            return season, reg.min().date()
+    d = date(season - 1, 11, 1)
+    return season, date(d.year, 11, 1 + (0 - d.weekday()) % 7)
+
+
 if __name__ == "__main__":
-    main(int(sys.argv[1]), sys.argv[2])
+    a = sys.argv[1:]
+    if a:
+        main(int(a[0]), a[1])
+    else:
+        today = date.today()
+        season, opener = season_and_opener(today)
+        if today > date.fromordinal(opener.toordinal() + 7):
+            print(f"exhibition season is over (opener {opener})")
+        else:
+            main(season, str(opener))

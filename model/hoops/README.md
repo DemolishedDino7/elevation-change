@@ -23,6 +23,7 @@ The basketball pages (`basketball.html`, `hoops-bot.html`, `hoops-index.html`,
 | `ratings.py` | Opponent-adjusted offense/defense per 100 possessions and tempo, pulled toward preseason priors |
 | `prior.py` | Preseason start: last season's ratings + returning minutes and production + transfers (old team's strength and each player's own production) + ranked recruits + conference |
 | `recruits.py` / `recruits.csv` | High school recruits (On3 Industry ranking, classes 2011 on) matched to ESPN teams; `fetch_recruits.py` refreshes the CSV weekly via `.github/workflows/fetch-recruits.yml` |
+| `exhibitions.py` / `fetch_exhibitions.py` / `exhibitions.csv` | Preseason exhibitions for our 23, read from each school's Sidearm schedule page in the morning run (ESPN doesn't carry them). D-I opponents only, half a game each, in the starting ratings; never in the résumé. Rows marked `source=manual` in the CSV are kept as entered, to fix a misread |
 | `resume_index.py` | The Elevation Index: preseason start until 90% of D-I teams have 2 D-I games, then half résumé (Wins Above Bubble) and half stats (this season's adjusted efficiency, no prior), plus "our field" |
 | `walk.py` | Walk-forward predictions (each day predicted from games before it) |
 | `game_model.py` | Margin, total and win chance from ratings + home court, altitude, travel, rest |

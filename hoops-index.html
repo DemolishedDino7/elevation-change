@@ -68,7 +68,7 @@
   </div>
 </main>
 
-<script src="hoops.js?v=202610151930"></script>
+<script src="hoops.js?v=202610190800"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -94,7 +94,7 @@
       : 'Preseason: where the Bot starts every team. Last season’s ratings, how much of last season’s production is back, what incoming transfers did at their old schools, ranked high school recruits, and conference strength. Once nearly every team has played ' + IX.flip_games + ' games, the Index switches to résumé and stats from this season only.';
     $('#idx-note').innerHTML = RES
       ? '<b>Index</b> = half Résumé, half Stats, in points per 100 possessions better than an average D-I team. <b>Résumé</b> = Wins Above Bubble: each win counts for what a bubble team (about No. ' + IX.bubble_rank + ') would have been expected to lose there, each loss costs what a bubble team would have won. <b>Stats</b> = offense minus defense per 100 possessions, adjusted for every opponent and home court, this season’s games only. <b>Our field</b> = our call on the bracket today: each league’s best résumé takes the automatic bid, the best remaining résumés take the at-large spots.'
-      : '<b>Start</b> = the Bot’s preseason rating. <b>Recruits</b> and <b>Transfers</b> = how many points of it come from ranked incoming freshmen (On3 Industry rankings) and from incoming transfers (what each one produced at his old school, weighted by how good that school was). <b>Back</b> = share of last season’s minutes returning. A dash means ESPN hasn’t posted that team’s new roster yet; until it does, the Bot assumes typical turnover. ' + (played ? 'Teams with ' + IX.flip_games + '+ games so far: ' + IX.ready_share + '% (the Index switches at ' + IX.flip_share + '%).' : '');
+      : '<b>Start</b> = the Bot’s preseason rating. <b>Recruits</b> and <b>Transfers</b> = how many points of it come from ranked incoming freshmen (On3 Industry rankings) and from incoming transfers (what each one produced at his old school, weighted by how good that school was). <b>Exh.</b> = what preseason exhibitions against Division I teams added or took away: each one counts as half a game, graded against what the Bot expected (exhibitions against non-D-I schools are listed on team cards but don’t count). <b>Back</b> = share of last season’s minutes returning. A dash means ESPN hasn’t posted that team’s new roster yet; until it does, the Bot assumes typical turnover. ' + (played ? 'Teams with ' + IX.flip_games + '+ games so far: ' + IX.ready_share + '% (the Index switches at ' + IX.flip_share + '%).' : '');
     $('#pre-note').hidden = RES;
     const prevOrder = [...ours].sort((a, b) => (a.idx_prev || 999) - (b.idx_prev || 999)).map(t => t.id);
     let lg = '';
@@ -103,10 +103,10 @@
     const resRow = (t, r, cls) => '<tr class="' + cls + '"><td class="rk">' + r + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + '</small></span></span></td>' +
       '<td class="n">' + t.w + '-' + t.l + '</td><td class="n net">' + rr(t.idx_score, 1) + '</td><td class="n">' + rr(t.res, 2) + '<span class="sub">' + (t.res_rank || '') + '</span></td>' +
       '<td class="n hide-s">' + rr(t.pow, 1) + '<span class="sub">' + (t.pow_rank || '') + '</span></td><td class="n">' + fieldCell(t) + '</td><td class="n hide-s">' + mvI(t) + '</td></tr>';
-    const preHead = '<thead><tr><th>#</th><th>Team</th><th class="n">Start</th><th class="n">Recruits</th><th class="n">Transfers</th><th class="n hide-s">Back</th><th class="n">NCAA</th><th class="n">Seed</th></tr></thead>';
+    const preHead = '<thead><tr><th>#</th><th>Team</th><th class="n">Start</th><th class="n">Recruits</th><th class="n">Transfers</th><th class="n">Exh.</th><th class="n hide-s">Back</th><th class="n">NCAA</th><th class="n">Seed</th></tr></thead>';
     const preRow = (t, r, cls) => { const o = OD[t.id] || {};
       return '<tr class="' + cls + '"><td class="rk">' + r + '</td><td><span class="tm">' + HB.img(t.logo) + '<span>' + HB.tlink(t.id, esc(HB.short(t.name))) + '<small>' + esc(t.conf) + (t.frosh && t.frosh[0] && t.frosh[0].rank <= 50 ? ' · ' + esc(t.frosh[0].name) + ' (No. ' + t.frosh[0].rank + ')' : '') + '</small></span></span></td>' +
-        '<td class="n net">' + rr(t.pre_net, 1) + '</td><td class="n">' + rr(t.fr_pts, 1) + '</td><td class="n">' + (t.ret == null ? '—' : rr(t.xf_pts, 1)) + '</td><td class="n hide-s">' + (t.ret == null ? '—' : t.ret + '%') + '</td>' +
+        '<td class="n net">' + rr(t.pre_net, 1) + '</td><td class="n">' + rr(t.fr_pts, 1) + '</td><td class="n">' + (t.ret == null ? '—' : rr(t.xf_pts, 1)) + '</td><td class="n">' + (t.exh && t.exh.some(e => e.d1) ? rr(t.exh_pts, 1) : '—') + '</td><td class="n hide-s">' + (t.ret == null ? '—' : t.ret + '%') + '</td>' +
         '<td class="n">' + pct(o.p_bid) + '</td><td class="n">' + (o.seed ? '<b>' + o.seed + '</b>' : '—') + '</td></tr>'; };
     const anyRow = (t, r, cls) => RES ? resRow(t, r, cls) : preRow(t, r, cls);
     const anyHead = () => RES ? resHead : preHead;
@@ -215,7 +215,8 @@
       return '<article class="ei-card hcard" id="c-' + t.id + '"><h3>' + r + '. ' + HB.img(t.logo) + HB.tlink(t.id, esc(t.name)) + '</h3>' +
         '<p class="meta">' + [t.w + '-' + t.l, esc(t.conf) + ' ' + t.cw + '-' + t.cl, 'Bot No. ' + t.rank, 'NCAA ' + pct(o.p_bid), o.seed ? o.seed + ' seed' : 'Proj. out'].join(' | ') + '</p><dl>' +
         (RES ? '<dt>Index</dt><dd>No. ' + t.idx_rank + ' · Résumé No. ' + t.res_rank + ' (' + rr(t.res, 2) + ' wins above bubble) · Stats No. ' + t.pow_rank + ' (' + rr(t.pow, 1) + ')' + (t.field ? ' · ' + FIELD[t.field] : '') + '</dd>'
-              : '<dt>Preseason</dt><dd>Starts ' + rr(t.pre_net, 1) + ': recruits ' + rr(t.fr_pts, 1) + (t.ret == null ? ' (new roster not posted yet, so typical transfers and turnover assumed)' : ', transfers ' + rr(t.xf_pts, 1) + ', ' + t.ret + '% of last season’s minutes back') + '.' + (t.frosh && t.frosh.length ? ' Freshmen: ' + t.frosh.slice(0, 3).map(f => esc(f.name) + ' (No. ' + f.rank + ')').join(', ') + '.' : '') + '</dd>') +
+              : '<dt>Preseason</dt><dd>Starts ' + rr(t.pre_net, 1) + ': recruits ' + rr(t.fr_pts, 1) + (t.ret == null ? ' (new roster not posted yet, so typical transfers and turnover assumed)' : ', transfers ' + rr(t.xf_pts, 1) + ', ' + t.ret + '% of last season’s minutes back') + '.' + (t.frosh && t.frosh.length ? ' Freshmen: ' + t.frosh.slice(0, 3).map(f => esc(f.name) + ' (No. ' + f.rank + ')').join(', ') + '.' : '') + '</dd>' +
+                (t.exh && t.exh.length ? '<dt>Exhibitions</dt><dd>' + t.exh.map(e => esc(e.res) + ' ' + e.pts + '–' + e.opp_pts + ' ' + (e.site === 'away' ? 'at ' : 'vs ') + esc(HB.short(e.opp)) + (e.d1 && e.exp != null ? ' <small style="color:var(--muted)">(Bot expected ' + (e.exp >= 0.5 ? 'a ' + e.exp.toFixed(0) + '-pt win' : e.exp <= -0.5 ? 'a ' + (-e.exp).toFixed(0) + '-pt loss' : 'a toss-up') + ')</small>' : ' <small style="color:var(--muted)">(non-D-I, not counted)</small>')).join('; ') + (t.exh.some(e => e.d1) ? '. Net effect on the start: ' + rr(t.exh_pts, 1) + '.' : '') + '</dd>' : '')) +
         '<dt>Best win</dt><dd>' + (wins[0] ? gl(wins[0]) : 'None yet') + '</dd>' +
         '<dt>Worst loss</dt><dd>' + (losses[0] ? gl(losses[0]) : 'None yet') + '</dd>' +
         '<dt>March</dt><dd>' + march + '</dd>' +

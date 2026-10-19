@@ -2,3 +2,4 @@ model/cache/
 __pycache__/
 *.whl
 /model/hoops/cache/
+model/hoops/exh_pages/
