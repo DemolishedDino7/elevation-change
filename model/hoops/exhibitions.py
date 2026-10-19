@@ -76,13 +76,44 @@ def load(season: int, our_ids: dict, cur: pd.DataFrame = None) -> list[dict]:
     if not FILE.exists():
         return []
     name_id = names(season)
+    rows = [r for r in csv.DictReader(open(FILE)) if int(r["season"]) == season]
+    for r in rows:
+        r["_t"] = int(our_ids[r["team"]]) if r["team"] in our_ids else int(r["team"])
+        r["_o"] = name_id.get(_n(r["opponent"]))
+    # a page that lists the result before the opponent can pin a score on the wrong opponent (Nebraska's
+    # loss to BYU read as a second Saint Louis game). When two games on one day share a team and the
+    # same score, keep the one the schools' own pages back up: a school whose page we read but that
+    # shows no game that day counts against it.
+    readable = set()
+    sf = FILE.parent / "school_sites.json"
+    if sf.exists():
+        import json
+        readable = {int(k) for k in json.load(open(sf))}
+    on_day = {(r["_t"], r["date"]) for r in rows}
+    def support(t, o, d):
+        rep = sum(1 for r in rows if r["date"] == d and {r["_t"], r["_o"]} == {t, o})
+        against = sum(1 for x in (t, o) if x in readable and (x, d) not in on_day)
+        return rep - against
+    groups = {}
+    for r in rows:
+        if r["_o"] is None:
+            continue
+        sc = tuple(sorted((int(r["team_pts"]), int(r["opp_pts"]))))
+        for shared in (r["_t"], r["_o"]):
+            other = r["_o"] if shared == r["_t"] else r["_t"]
+            groups.setdefault((shared, r["date"], sc), {}).setdefault(other, []).append(r)
+    drop = set()
+    for (shared, d, sc), opps in groups.items():
+        if len(opps) > 1:
+            best = max(opps, key=lambda o: support(shared, o, d))
+            for o, rs in opps.items():
+                if o != best:
+                    drop |= {id(x) for x in rs}
+    rows = [r for r in rows if id(r) not in drop]
     games = {}
     flip = {"home": "away", "away": "home", "neutral": "neutral"}
-    for r in csv.DictReader(open(FILE)):
-        if int(r["season"]) != season:
-            continue
-        t = int(our_ids[r["team"]]) if r["team"] in our_ids else int(r["team"])
-        o = name_id.get(_n(r["opponent"]))
+    for r in rows:
+        t, o = r["_t"], r["_o"]
         if o == t:
             continue
         g = {"date": r["date"], "team": t, "opp": o, "opp_name": r["opponent"], "site": r["site"],

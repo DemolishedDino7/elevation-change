@@ -265,16 +265,20 @@ def parse(h: str, opener: date, season: int) -> list[dict]:
     return from_json(h, opener) or from_text(h, opener, season)
 
 
+FAILED: set = set()   # schools whose page couldn't be read this run (their earlier results are kept)
+
+
 def collect(season: int, opener: date, save_raw: bool = False) -> list[dict]:
     rows = []
     RAW.mkdir(exist_ok=True)
-    sites = {str(WEST[k]): {"name": k, "url": "https://" + d + "/sports/mens-basketball/schedule"} for k, d in SITES.items()}
-    if SITES_FILE.exists():
-        for k, v in json.load(open(SITES_FILE)).items():
-            sites.setdefault(k, v)
+    sites = json.load(open(SITES_FILE)) if SITES_FILE.exists() else {}
+    for k, d in SITES.items():
+        sites.setdefault(str(WEST[k]), {"name": k, "url": "https://" + d + "/sports/mens-basketball/schedule"})
     for sid, info in sites.items():
-        h = fetch(re.sub(r"^https?://([^/]+).*$", r"\1", info["url"]), info["url"])
+        dom = re.sub(r"^https?://([^/]+).*$", r"\1", info["url"])
+        h = fetch(dom, info["url"]) or fetch(dom, info["url"])   # one retry
         if h is None:
+            FAILED.add(str(sid))
             print(f"{sid}: page not reachable")
             continue
         if save_raw:
@@ -302,7 +306,10 @@ def main(season: int, opener: str) -> None:
     have = list(csv.DictReader(open(OUT))) if OUT.exists() else []
     manual = [r for r in have if r["source"] == "manual" or int(r["season"]) != season]
     keys = {(r["season"], r["team"], r["date"]) for r in manual}
-    auto = [r for r in collect(season, op) if (str(r["season"]), r["team"], r["date"]) not in keys]
+    new = collect(season, op)
+    kept = [r for r in have if r["source"] == "auto" and int(r["season"]) == season and r["team"] in FAILED]
+    auto = [r for r in new + kept if (str(r["season"]), str(r["team"]), r["date"]) not in keys]
+    print(f"{len(new)} results read, {len(FAILED)} pages unreachable ({len(kept)} earlier results kept)")
     rows = sorted(manual + auto, key=lambda r: (int(r["season"]), r["date"], r["team"]))
     with open(OUT, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=COLS)
