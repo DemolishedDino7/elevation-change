@@ -1,4 +1,4 @@
-"""Preseason exhibitions in the Bot's starting ratings (exhibitions.csv, from fetch_exhibitions.py).
+"""Preseason exhibitions (every D-I team) in the Bot's starting ratings (exhibitions.csv, from fetch_exhibitions.py).
 
 Only games between two Division I teams count: a non-D-I opponent has no
 rating to judge the result against. Each one is graded against what the
@@ -22,33 +22,87 @@ CAP = 30.0        # cap on a result's miss, per 100 possessions (same as real ga
 
 
 def _n(s: str) -> str:
-    s = re.sub(r"[^a-z0-9& ]", "", str(s).lower().replace("é", "e")).strip()
-    return {"texas christian": "tcu", "southern california": "usc", "brigham young": "byu"}.get(s, s)
+    s = str(s).lower().replace("é", "e").replace("&", " and ")
+    s = re.sub(r"\s*[\(\[][^\)\]]*[\)\]]", "", s)           # (Exh.), [Exh], (Ariz.)
+    s = re.sub(r"^\s*(preseason|exhibition|exh)\s*[-:]\s*", "", s)    # "Preseason - Charlotte"
+    s = re.sub(r"^\s*(no\.?\s*|#)\d+(/\d+)?\s*", "", s)              # "No. 2/2 Florida", "#14 Kansas"
+    s = re.sub(r"[^a-z0-9 ]", " ", s)
+    s = re.sub(r"\b(university|univ|college|of|the|at)\b", " ", s)
+    s = re.sub(r"\bst\b", "state", s) if not re.match(r"^\s*st\b", s) else re.sub(r"^\s*st\b", "saint", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return ALIAS.get(s, s)
 
 
-def load(season: int, our_ids: dict, cur: pd.DataFrame) -> list[dict]:
-    """Exhibitions this season with ESPN ids for both sides (opp_id None when not D-I/unknown).
-    our_ids: site id (e.g. "BSU") -> ESPN id; cur: this season's schedule (for names)."""
+ALIAS = {"texas christian": "tcu", "southern california": "usc", "brigham young": "byu", "louisiana state": "lsu",
+         "southern methodist": "smu", "central florida": "ucf", "nevada las vegas": "unlv", "texas el paso": "utep",
+         "north carolina state": "nc state", "virginia commonwealth": "vcu", "connecticut": "uconn", "mississippi": "ole miss",
+         "miami fl": "miami", "miami florida": "miami", "miami ohio": "miami oh", "pennsylvania": "penn", "saint marys california": "saint marys",
+         "massachusetts": "umass", "alabama birmingham": "uab", "texas san antonio": "utsa", "citadel": "the citadel",
+         "california baptist": "california baptist", "loyola chicago": "loyola chicago", "texas arlington": "ut arlington",
+         "tennessee martin": "ut martin", "wisconsin green bay": "green bay", "wisconsin milwaukee": "milwaukee",
+         "illinois chicago": "uic", "maryland baltimore county": "umbc", "missouri kansas city": "kansas city",
+         "texas rio grande valley": "ut rio grande valley", "utrgv": "ut rio grande valley", "fiu": "florida international",
+         "fau": "florida atlantic", "csu bakersfield": "cal state bakersfield", "csu fullerton": "cal state fullerton",
+         "csun": "cal state northridge", "csu northridge": "cal state northridge", "lmu": "loyola marymount", "uc santa barbara": "uc santa barbara", "unc": "north carolina"}
+
+
+def names(current: int) -> dict:
+    """Normalized school name -> ESPN team id, from recent schedules (location, full and short names, abbreviation)."""
+    import data
+    out = {}
+    for y in (current, current - 1):
+        f = data.CACHE / f"sch_{y}.parquet"
+        if not f.exists():
+            continue
+        s = pd.read_parquet(f)
+        for side in ("home", "away"):
+            ids = pd.to_numeric(s[f"{side}_id"], errors="coerce")
+            for col in (f"{side}_location", f"{side}_display_name", f"{side}_short_display_name", f"{side}_abbreviation", f"{side}_name"):
+                if col not in s or col.endswith("_name") and not col.endswith("display_name"):
+                    continue
+                for n, i in zip(s[col], ids):
+                    if pd.notna(i) and isinstance(n, str):
+                        out.setdefault(_n(n), int(i))
+            # location without trailing state abbreviation, e.g. "Miami (OH)" -> "miami oh"
+            for n, i in zip(s[f"{side}_location"], ids):
+                if pd.notna(i) and isinstance(n, str):
+                    out.setdefault(_n(n.replace("(", " ").replace(")", " ")), int(i))
+    return out
+
+
+def load(season: int, our_ids: dict, cur: pd.DataFrame = None) -> list[dict]:
+    """Exhibitions this season with ESPN ids for both sides (opp None when the opponent isn't Division I).
+    The team column is an ESPN team id (older rows may use our site ids, e.g. "BSU", mapped by our_ids)."""
     if not FILE.exists():
         return []
-    name_id = {}
-    for side in ("home", "away"):
-        for col in (side, f"{side}_display"):
-            if col in cur:
-                for n, i in zip(cur[col], cur[f"{side}_id"]):
-                    name_id.setdefault(_n(n), int(i))
-    out, seen = [], set()
+    name_id = names(season)
+    games = {}
+    flip = {"home": "away", "away": "home", "neutral": "neutral"}
     for r in csv.DictReader(open(FILE)):
-        if int(r["season"]) != season or r["team"] not in our_ids:
+        if int(r["season"]) != season:
             continue
-        t = int(our_ids[r["team"]])
+        t = int(our_ids[r["team"]]) if r["team"] in our_ids else int(r["team"])
         o = name_id.get(_n(r["opponent"]))
-        key = (r["date"], frozenset((t, o if o is not None else r["opponent"])))
-        if key in seen:      # the same game from both teams' pages
+        if o == t:
             continue
-        seen.add(key)
-        out.append({"date": r["date"], "team": t, "opp": o, "opp_name": r["opponent"], "site": r["site"],
-                    "result": r["result"], "pts": int(r["team_pts"]), "opp_pts": int(r["opp_pts"])})
+        g = {"date": r["date"], "team": t, "opp": o, "opp_name": r["opponent"], "site": r["site"],
+             "result": r["result"], "pts": int(r["team_pts"]), "opp_pts": int(r["opp_pts"])}
+        key = (r["date"], frozenset((t, o if o is not None else _n(r["opponent"]))))
+        # one school's layout can misplace the date: same matchup and score within two weeks is one game
+        for k2, h2 in games.items():
+            if k2[1] == key[1] and k2[0] != key[0] and abs((pd.Timestamp(k2[0]) - pd.Timestamp(key[0])).days) <= 14 \
+                    and sorted((h2["pts"], h2["opp_pts"])) == sorted((g["pts"], g["opp_pts"])):
+                key = k2
+                break
+        if key not in games:
+            games[key] = g
+            continue
+        # the same game from both schools' pages: if they disagree on where it was, call it neutral
+        h = games[key]
+        other_site = h["site"] if h["team"] == t else flip[h["site"]]
+        if other_site != g["site"]:
+            h["site"] = "neutral"
+    out = list(games.values())
     return out
 
 
