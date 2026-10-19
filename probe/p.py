@@ -52,7 +52,7 @@ def candidates(title):
             pass
     return out_
 
-PATHS = ["/sports/mens-basketball/schedule", "/sports/mbball/schedule", "/sports/mens-basketball/schedule/2026-27",
+PATHS = ["/sports/mens-basketball/schedule", "/sports/mens-basketball/schedule/", "/sports/mbball/schedule/", "/sports/mbball/schedule", "/sports/mens-basketball/schedule/2026-27",
          "/sports/m-baskbl/sched/", "/sports/mbasketball/schedule", "/sports/mbb/schedule", "/schedule.aspx?path=mbball"]
 
 def good(final, h):
@@ -79,15 +79,31 @@ def try_domain(dom):
         pass
     return None, None
 
-todo = [k for k, r in out.items() if not r.get("url")]
+HAND = {"UCLA Bruins": "uclabruins.com", "UC Riverside Highlanders": "gohighlanders.com", "Jacksonville State Gamecocks": "jaxstatesports.com",
+ "Georgia Tech Yellow Jackets": "ramblinwreck.com", "Bradley Braves": "bradleybraves.com", "Notre Dame Fighting Irish": "fightingirish.com",
+ "Louisville Cardinals": "gocards.com", "LSU Tigers": "lsusports.net", "Michigan State Spartans": "msuspartans.com", "Wake Forest Demon Deacons": "godeacs.com",
+ "Fairleigh Dickinson Knights": "fduknights.com", "St. Bonaventure Bonnies": "gobonnies.sbu.edu", "Miami (OH) RedHawks": "miamiredhawks.com",
+ "Oklahoma State Cowboys": "okstate.com", "Penn State Nittany Lions": "gopsusports.com", "Baylor Bears": "baylorbears.com", "Richmond Spiders": "richmondspiders.com",
+ "Marshall Thundering Herd": "herdzone.com", "West Virginia Mountaineers": "wvusports.com", "Indiana State Sycamores": "gosycamores.com",
+ "UT Rio Grande Valley Vaqueros": "goutrgv.com", "Jacksonville Dolphins": "judolphins.com", "UC Irvine Anteaters": "ucirvinesports.com",
+ "Evansville Purple Aces": "gopurpleaces.com", "Army Black Knights": "goarmywestpoint.com", "UAlbany Great Danes": "ualbanysports.com",
+ "App State Mountaineers": "appstatesports.com", "Central Arkansas Bears": "ucasports.com", "Central Connecticut Blue Devils": "ccsubluedevils.com",
+ "Dayton Flyers": "daytonflyers.com", "Drake Bulldogs": "godrakebulldogs.com", "Grand Canyon Lopes": "gculopes.com", "High Point Panthers": "highpointpanthers.com",
+ "Houston Christian Huskies": "hcuhuskies.com", "Miami Hurricanes": "miamihurricanes.com", "Northern Arizona Lumberjacks": "nauathletics.com",
+ "Purdue Boilermakers": "purduesports.com", "San Francisco Dons": "usfdons.com", "SE Louisiana Lions": "lionsports.net", "Seattle U Redhawks": "goseattleu.com",
+ "South Carolina Gamecocks": "gamecocksonline.com", "Tennessee Tech Golden Eagles": "ttusports.com", "St. Thomas Tommies": "tommiesports.com",
+ "Long Island University Sharks": "liuathletics.com"}
+todo = json.load(open("probe/retry.json"))
 print("retrying", len(todo))
 for k in todo:
     disp = out[k].get("disp") or names.get(k) or k
-    cands = []
-    for title in (disp, disp + " men's basketball", re.sub(r"\s+\S+$", "", disp) + " athletics"):
+    cands = [HAND[disp]] if disp in HAND else []
+    for title in ([] if disp in HAND else (disp, disp + " men's basketball", re.sub(r"\s+\S+$", "", disp) + " athletics")):
         cands += [c for c in candidates(title) if c not in cands]
         if cands:
             break
+    if disp in HAND:
+        cands = [HAND[disp]] + [c for c in cands if c != HAND[disp]]
     rec = {"disp": disp, "cands": cands}
     for c in cands:
         final, h = try_domain(c)
