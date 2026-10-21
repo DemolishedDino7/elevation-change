@@ -71,6 +71,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,130,2026-10-16,Oregon State,home,W,98,93,auto
 2027,158,2026-10-16,Saint Louis,away,L,61,72,auto
 2027,204,2026-10-16,Michigan,away,L,93,98,auto
+2027,21,2026-10-16,Arizona,away,L,67,82,auto
 2027,2277,2026-10-16,Texas A&M - Kingsville,home,L,67,74,auto
 2027,2305,2026-10-16,Pittsburg State,home,W,80,62,auto
 2027,2351,2026-10-16,Cal,home,L,59,60,auto
@@ -127,10 +128,10 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2350,2026-10-18,DePaul,home,L,65,72,auto
 2027,239,2026-10-18,1/1 Florida,home,W,82,76,auto
 2027,249,2026-10-18,Colorado,home,L,64,67,auto
-2027,2509,2026-10-18,Ball State,home,W,87,55,auto
 2027,2561,2026-10-18,Syracuse,home,L,76,81,auto
 2027,2599,2026-10-18,Rutgers,home,W,104,99,auto
 2027,2649,2026-10-18,Findlay,away,W,88,78,auto
+2027,265,2026-10-18,New Mexico,away,L,64,92,auto
 2027,282,2026-10-18,Butler,away,L,74,81,auto
 2027,305,2026-10-18,Loyola Chicago,away,W,72,65,auto
 2027,331,2026-10-18,CSU Bakersfield,home,W,71,65,auto
@@ -142,3 +143,12 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,84,2026-10-18,North Carolina,home,W,76,58,auto
 2027,2739,2026-10-19,Marquette,home,L,60,87,auto
 2027,58,2026-10-19,Saint Leo,home,W,104,72,auto
+2027,127,2026-10-20,UConn,home,L,70,78,auto
+2027,150,2026-10-20,Tennessee,home,W,103,64,auto
+2027,2026,2026-10-20,Western Carolina,home,L,76,83,auto
+2027,2633,2026-10-20,Duke,away,L,64,103,auto
+2027,2717,2026-10-20,Appalachian State,away,W,83,76,auto
+2027,2815,2026-10-20,Southern Illinois,away,L,71,75,auto
+2027,41,2026-10-20,Michigan State,away,W,78,70,auto
+2027,79,2026-10-20,Lindenwood,home,W,75,71,auto
+2027,98,2026-10-20,Bowling Green,home,W,65,62,auto
