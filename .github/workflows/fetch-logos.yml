@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download
         run: |
-          for pair in ASU=9 FIU=2229 BGSU=189 GONZ=2250 GCU=2253 UCD=302 OHIO=195; do
+          for pair in ASU=9 FIU=2229 BGSU=189 GONZ=2250 GCU=2253 UCD=302 OHIO=195 SHSU=2534 BALL=2050; do
             id="${pair%%=*}"; n="${pair##*=}"
             [ -f "logos/$id.png" ] && continue
             curl -fsSL "https://cdn.collegefootballdata.com/logos/500/$n.png" -o "logos/$id.png" || curl -fsSL "https://a.espncdn.com/i/teamlogos/ncaa/500/$n.png" -o "logos/$id.png"
