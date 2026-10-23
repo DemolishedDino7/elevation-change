@@ -1,5 +1,6 @@
 season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,232,2026-09-27,Citadel,home,W,69,59,auto
+2027,258,2026-09-27,Vanderbilt,neutral,L,73,82,auto
 2027,127,2026-10-02,Incarnate Word,home,W,89,59,auto
 2027,2916,2026-10-02,Michigan State,away,L,59,89,auto
 2027,154,2026-10-04,Georgetown,home,L,77,94,auto
@@ -19,6 +20,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2377,2026-10-08,LSU,home,L,60,63,auto
 2027,333,2026-10-08,Furman,home,W,111,93,auto
 2027,139,2026-10-09,Nebraska,away,W,79,74,auto
+2027,258,2026-10-09,Richmond,home,W,96,53,auto
 2027,30,2026-10-09,North Carolina,home,L,70,88,auto
 2027,275,2026-10-10,UW-Parkside,home,W,94,71,auto
 2027,300,2026-10-10,Université du Québec à Montréal,away,W,101,70,auto
@@ -49,6 +51,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2535,2026-10-13,Alabama A&M,home,W,71,61,auto
 2027,2539,2026-10-13,Arizona,away,L,69,93,auto
 2027,41,2026-10-13,Syracuse,home,W,72,52,auto
+2027,2,2026-10-14,Florida State,home,L,71,82,auto
 2027,2182,2026-10-14,St. John's,away,L,52,81,auto
 2027,2599,2026-10-14,Drexel,home,W,81,52,auto
 2027,52,2026-10-14,Auburn,home,W,82,71,auto
@@ -110,6 +113,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,356,2026-10-17,Cincinnati,away,W,105,96,auto
 2027,68,2026-10-17,Washington,home,W,109,91,auto
 2027,93,2026-10-17,UIW,away,W,93,66,auto
+2027,113,2026-10-18,Brown,home,W,88,86,auto
 2027,120,2026-10-18,West Virginia,home,W,90,81,auto
 2027,152,2026-10-18,Mississippi State,home,W,77,73,auto
 2027,156,2026-10-18,Iowa State,away,W,83,80,auto
@@ -166,3 +170,14 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,26,2026-10-21,California Baptist,neutral,W,100,53,auto
 2027,2856,2026-10-21,UCLA,away,L,53,100,auto
 2027,339,2026-10-21,SEMO,home,L,81,89,auto
+2027,2,2026-10-22,Alabama,home,L,85,87,auto
+2027,2182,2026-10-22,Lafayette,away,L,58,83,auto
+2027,222,2026-10-22,Virginia,home,L,71,93,auto
+2027,2229,2026-10-22,Murray State,home,L,79,86,auto
+2027,2449,2026-10-22,MSU Moorhead,home,W,80,74,auto
+2027,2509,2026-10-22,Purdue Fort Wayne,away,W,92,62,auto
+2027,2511,2026-10-22,Charleston Southern,away,W,110,94,auto
+2027,258,2026-10-22,Villanova,away,W,93,71,auto
+2027,2870,2026-10-22,Purdue,home,L,62,92,auto
+2027,333,2026-10-22,Auburn,home,W,87,85,auto
+2027,93,2026-10-22,Florida International,away,W,86,79,auto
