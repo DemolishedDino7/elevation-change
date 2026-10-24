@@ -11,11 +11,16 @@
   8
  ],
  "score_mismatch": [],
- "missing_in_ours": [],
+ "missing_in_ours": [
+  "Wk 8: BYU at UCF — NCAA final 31-39, not final in our data"
+ ],
  "missing_on_ncaa": [],
  "home_away": [],
  "division": [],
- "games_played": [],
- "checked": 912,
- "generated": "2026-10-24T21:09+00:00"
+ "games_played": [
+  "BYU: ours 6, matched to NCAA 7",
+  "UCF: ours 6, matched to NCAA 7"
+ ],
+ "checked": 950,
+ "generated": "2026-10-24T23:40+00:00"
 }
