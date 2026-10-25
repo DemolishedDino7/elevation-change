@@ -1,10 +1,10 @@
 {
- "generated": "2026-10-24T16:40+00:00",
+ "generated": "2026-10-25T17:09+00:00",
  "season": 2027,
  "season_label": "2026-27",
- "today": "2026-10-24",
- "week": -1,
- "first_day": "2026-11-02",
+ "today": "2026-10-25",
+ "week": 0,
+ "first_day": "2026-11-01",
  "games_in_ratings": 0,
  "teams": 366,
  "backtest": {
@@ -88,12 +88,12 @@
  "espn": {
   "ok": true,
   "days": 10,
-  "events": 0,
+  "events": 2,
   "finals": 0,
-  "lines": 0,
+  "lines": 1,
   "error": null
  },
- "lines_seen": 0,
+ "lines_seen": 1,
  "next_west": "2026-11-02",
  "model": {
   "hca_pts": 2.8,
