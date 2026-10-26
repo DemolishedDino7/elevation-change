@@ -4367,14 +4367,14 @@ class,rank,rating,stars,name,school,school_abbr,position,state,enrolled,signed
 2026,201,89.13,3,Austin Brown,Maryland Terrapins,MD,SG,TX,1,1
 2026,202,89.11,3,Rivers Knight,Purdue Boilermakers,PUR,PF,IN,1,1
 2026,203,89.09,3,Hassan Koureissi,,,CG,NY,0,0
-2026,204,89.06,3,Korie Corbett,,,SF,VA,0,0
+2026,204,89.06,3,Korie Corbett,UAB Blazers,UAB,SF,VA,1,1
 2026,205,89,3,Josiah Sanders,,,SF,TN,0,0
 2026,207,88.92,3,Gabe Weis,,,PF,IN,0,0
 2026,208,88.91,3,Jordan Skyers,,,PG,NY,0,0
 2026,209,88.9,3,Warren Keel Jr.,,,PG,CT,0,0
 2026,210,88.87,3,Mani Sajid,,,SG,PA,0,0
 2026,211,88.86,3,Ladarius Givan,UCF Knights,UCF,PF,VA,1,1
-2026,212,88.85,3,MJ Madison,,,PF,FL,0,0
+2026,212,88.85,3,MJ Madison,McNeese State Cowboys,MCN,PF,FL,1,1
 2026,213,88.85,3,Jayden Johnson,,,SG,KY,0,0
 2026,214,88.8,3,Franck Belibi,Florida Atlantic Owls,FAU,SG,CO,1,1
 2026,215,88.62,3,Naz Price,,,PG,TX,0,0
@@ -4472,7 +4472,7 @@ class,rank,rating,stars,name,school,school_abbr,position,state,enrolled,signed
 2026,313,84.67,3,Matthys Mahop,,,SF,,0,0
 2026,314,84.67,3,Eric Fiedler,Colorado State Rams,CSU,PF,CO,0,1
 2026,315,84.67,3,Dikembe Shaw,,,PF,IN,0,0
-2026,316,84.57,3,Chris Kirkpatrick,,,SG,IL,0,0
+2026,316,84.57,3,Chris Kirkpatrick,Princeton Tigers,PRTN,SG,IL,1,1
 2026,317,84.4,3,Vincent Osazee,,,PF,MA,0,0
 2026,318,84.33,3,Phoenix Woodson,,,PF,TX,0,0
 2026,319,84.33,3,Diego Garavaglia,Rutgers Scarlet Knights,RU,SF,,1,1
@@ -4537,7 +4537,7 @@ class,rank,rating,stars,name,school,school_abbr,position,state,enrolled,signed
 2026,380,82.67,3,Atticus Richmond,Kansas Jayhawks,KAN,PF,MA,1,1
 2026,381,82.4,3,Malloy Smith,North Carolina Tar Heels,UNC,PG,CA,1,1
 2026,382,82.33,3,Marco Varani,,,SF,NC,0,0
-2026,383,82.33,3,Tyrease Hunter,,,CG,NJ,0,0
+2026,383,82.33,3,Tyrease Hunter,McNeese State Cowboys,MCN,CG,NJ,1,1
 2026,384,82.33,3,Archie McFadden,,,PG,FL,0,0
 2026,385,82.33,3,Dorion Bowen,,,SF,TN,0,0
 2026,386,82.33,3,Ylan Balde,,,SF,ON,0,0
