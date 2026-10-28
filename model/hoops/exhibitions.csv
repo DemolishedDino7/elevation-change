@@ -45,7 +45,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,59,2026-10-11,Maryland,home,L,70,85,auto
 2027,84,2026-10-11,Butler,away,W,96,68,auto
 2027,12,2026-10-13,San Francisco,neutral,W,93,69,auto
-2027,183,2026-10-13,UConn,home,L,52,72,auto
 2027,2010,2026-10-13,Samford,neutral,L,61,71,auto
 2027,2097,2026-10-13,Francis Marion,home,W,91,80,auto
 2027,2535,2026-10-13,Alabama A&M,home,W,71,61,auto
@@ -80,7 +79,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2750,2026-10-16,Bellarmine,home,W,76,54,auto
 2027,45,2026-10-16,Georgetown,home,L,68,76,auto
 2027,46,2026-10-16,George Washington,away,W,76,68,auto
-2027,55,2026-10-16,Alabama State,home,W,59,37,auto
 2027,61,2026-10-16,Charlotte,home,W,87,67,auto
 2027,107,2026-10-17,Vermont,away,L,80,90,auto
 2027,2026,2026-10-17,Winthrop,away,W,76,67,auto
@@ -92,6 +90,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,222,2026-10-17,George Mason,home,W,84,67,auto
 2027,2244,2026-10-17,Villanova,away,L,67,84,auto
 2027,2378,2026-10-17,Navy,away,W,61,55,auto
+2027,24,2026-10-17,Santa Clara,away,L,78,83,auto
 2027,2440,2026-10-17,Utah,home,W,71,61,auto
 2027,2459,2026-10-17,Northern Michigan,home,W,78,43,auto
 2027,2507,2026-10-17,Pittsburgh,home,W,87,64,auto
@@ -109,6 +108,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,3101,2026-10-17,Utah Valley,home,W,92,80,auto
 2027,328,2026-10-17,Saint Mary's,away,W,97,89,auto
 2027,356,2026-10-17,Cincinnati,away,W,105,96,auto
+2027,47,2026-10-17,William & Mary,home,W,86,79,auto
 2027,68,2026-10-17,Washington,home,W,109,91,auto
 2027,93,2026-10-17,UIW,away,W,93,66,auto
 2027,113,2026-10-18,Brown,home,W,88,86,auto
@@ -117,7 +117,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,156,2026-10-18,Iowa State,away,W,83,80,auto
 2027,164,2026-10-18,St. John's,home,L,99,104,auto
 2027,167,2026-10-18,Washington State,home,W,92,64,auto
-2027,183,2026-10-18,Siena,away,W,81,76,auto
 2027,2050,2026-10-18,Purdue,away,L,55,87,auto
 2027,2086,2026-10-18,Indiana State,home,W,81,74,auto
 2027,2117,2026-10-18,Saginaw Valley State,home,W,99,62,auto
@@ -128,6 +127,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2350,2026-10-18,DePaul,home,L,65,72,auto
 2027,239,2026-10-18,Florida,home,W,82,76,auto
 2027,249,2026-10-18,Colorado,home,L,64,67,auto
+2027,2509,2026-10-18,Ball State,home,W,87,55,auto
 2027,2561,2026-10-18,Syracuse,home,L,76,81,auto
 2027,2599,2026-10-18,Rutgers,home,W,104,99,auto
 2027,2649,2026-10-18,Findlay,away,W,88,78,auto
@@ -172,6 +172,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,222,2026-10-22,Virginia,home,L,71,93,auto
 2027,2229,2026-10-22,Murray State,home,L,79,86,auto
 2027,2449,2026-10-22,MSU Moorhead,home,W,80,74,auto
+2027,2509,2026-10-22,Purdue Fort Wayne,away,W,92,62,auto
 2027,2511,2026-10-22,Charleston Southern,away,W,110,94,auto
 2027,258,2026-10-22,Villanova,away,W,93,71,auto
 2027,2870,2026-10-22,Purdue,home,L,62,92,auto
@@ -197,6 +198,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2752,2026-10-23,Kent State,home,W,76,70,auto
 2027,277,2026-10-23,Glenville State,away,W,103,66,auto
 2027,30,2026-10-23,San Diego State,away,W,85,68,auto
+2027,304,2026-10-23,Montana Western,home,W,101,51,auto
 2027,305,2026-10-23,Notre Dame,home,L,63,71,auto
 2027,331,2026-10-23,Arizona,away,L,54,85,auto
 2027,344,2026-10-23,Memphis,home,L,58,75,auto
@@ -205,7 +207,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,71,2026-10-23,Saint Louis,away,L,75,88,auto
 2027,140,2026-10-24,Montana State,home,W,64,54,auto
 2027,152,2026-10-24,Lenoir-Rhyne,home,W,130,66,auto
-2027,183,2026-10-24,Niagara,home,W,71,58,auto
 2027,204,2026-10-24,California,home,W,89,76,auto
 2027,2083,2026-10-24,Endicott,home,W,84,71,auto
 2027,2168,2026-10-24,Morehead State,home,W,88,56,auto
@@ -253,6 +254,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,232,2026-10-25,Furman,home,W,89,83,auto
 2027,2351,2026-10-25,UCSB,home,L,67,72,auto
 2027,2377,2026-10-25,Southern,home,W,90,76,auto
+2027,24,2026-10-25,Oregon,away,L,57,85,auto
 2027,2440,2026-10-25,Portland State,home,W,77,71,auto
 2027,245,2026-10-25,SMU,away,L,88,94,auto
 2027,2459,2026-10-25,Toledo,away,W,79,66,auto
@@ -267,10 +269,10 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2649,2026-10-25,Northern Illinois,home,L,66,79,auto
 2027,265,2026-10-25,Washington,away,W,84,80,auto
 2027,2670,2026-10-25,James Madison,home,W,92,87,auto
-2027,269,2026-10-25,Michigan State,home,W,86,79,auto
 2027,301,2026-10-25,Colorado State,home,W,73,58,auto
 2027,311,2026-10-25,Husson,home,W,85,66,auto
 2027,36,2026-10-25,San Diego,away,L,58,73,auto
+2027,47,2026-10-25,American,away,W,86,75,auto
 2027,62,2026-10-25,Hawaii Pacific,home,W,89,60,auto
 2027,66,2026-10-25,Northwestern,away,W,94,59,auto
 2027,77,2026-10-25,Iowa State,home,L,59,94,auto
@@ -287,4 +289,28 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2511,2026-10-26,Johnson C. Smith,home,W,100,69,auto
 2027,2535,2026-10-26,Jacksonville State,away,W,80,75,auto
 2027,2539,2026-10-26,San Francisco State,home,W,89,56,auto
-2027,55,2026-10-26,Samford,home,L,75,80,auto
+2027,2717,2026-10-26,USC Upstate,home,W,95,65,auto
+2027,107,2026-10-27,Central Connecticut State,home,L,48,64,auto
+2027,197,2026-10-27,Wisconsin,away,L,65,82,auto
+2027,2006,2026-10-27,Youngstown State,home,W,92,76,auto
+2027,2046,2026-10-27,IU Indy,home,W,96,94,auto
+2027,2099,2026-10-27,Robert Morris,away,L,74,87,auto
+2027,2117,2026-10-27,North Park,home,W,88,44,auto
+2027,2132,2026-10-27,Oakland,home,W,97,58,auto
+2027,2253,2026-10-27,Western New Mexico,home,W,82,59,auto
+2027,227,2026-10-27,Southern New Hampshire,home,W,101,61,auto
+2027,2325,2026-10-27,Neumann,home,W,107,61,auto
+2027,2405,2026-10-27,Rhode Island College,home,W,93,59,auto
+2027,2473,2026-10-27,Cincinnati,away,L,58,97,auto
+2027,2523,2026-10-27,Canisius,home,W,87,74,auto
+2027,26,2026-10-27,San Diego,neutral,W,82,50,auto
+2027,2674,2026-10-27,Olivet Nazarene,home,W,85,48,auto
+2027,275,2026-10-27,Oklahoma State,home,W,82,65,auto
+2027,2754,2026-10-27,Akron,away,L,76,92,auto
+2027,300,2026-10-27,Cal State LA,home,W,94,58,auto
+2027,301,2026-10-27,UCLA,away,L,50,82,auto
+2027,331,2026-10-27,Western Washington,home,W,81,65,auto
+2027,41,2026-10-27,Purdue,home,W,76,53,auto
+2027,56,2026-10-27,Florida,away,L,68,85,auto
+2027,57,2026-10-27,Stetson,home,W,85,68,auto
+2027,85,2026-10-27,Austin Peay,away,L,94,96,auto
