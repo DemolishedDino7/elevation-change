@@ -51,7 +51,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2539,2026-10-13,Arizona,away,L,69,93,auto
 2027,41,2026-10-13,Syracuse,home,W,72,52,auto
 2027,2,2026-10-14,Florida State,home,L,71,82,auto
-2027,2182,2026-10-14,St. John's,away,L,52,81,auto
 2027,2599,2026-10-14,Drexel,home,W,81,52,auto
 2027,52,2026-10-14,Auburn,home,W,82,71,auto
 2027,135,2026-10-15,Omaha,home,W,72,52,auto
@@ -168,7 +167,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2856,2026-10-21,UCLA,away,L,53,100,auto
 2027,339,2026-10-21,SEMO,home,L,81,89,auto
 2027,2,2026-10-22,Alabama,home,L,85,87,auto
-2027,2182,2026-10-22,Lafayette,away,L,58,83,auto
 2027,222,2026-10-22,Virginia,home,L,71,93,auto
 2027,2229,2026-10-22,Murray State,home,L,79,86,auto
 2027,2449,2026-10-22,MSU Moorhead,home,W,80,74,auto
@@ -281,7 +279,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,98,2026-10-25,Indiana,home,L,74,79,auto
 2027,158,2026-10-26,BYU,neutral,W,88,84,auto
 2027,213,2026-10-26,Drexel,away,W,68,57,auto
-2027,2182,2026-10-26,Penn State,home,L,57,68,auto
 2027,2306,2026-10-26,Nebraska,home,L,84,88,auto
 2027,2350,2026-10-26,Calumet College,home,W,110,49,auto
 2027,2466,2026-10-26,North Texas,away,W,62,60,auto
@@ -314,3 +311,24 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,56,2026-10-27,Florida,away,L,68,85,auto
 2027,57,2026-10-27,Stetson,home,W,85,68,auto
 2027,85,2026-10-27,Austin Peay,away,L,94,96,auto
+2027,116,2026-10-28,Navy,home,W,66,59,auto
+2027,2050,2026-10-28,Purdue Fort Wayne,home,L,70,78,auto
+2027,21,2026-10-28,Long Beach State,home,W,92,67,auto
+2027,2250,2026-10-28,Lewis-Clark State,home,W,91,59,auto
+2027,2277,2026-10-28,Southern Mississippi,home,W,101,72,auto
+2027,235,2026-10-28,Arkansas,away,L,81,93,auto
+2027,2385,2026-10-28,Louisville,away,L,39,71,auto
+2027,2565,2026-10-28,Bradley,away,W,53,48,auto
+2027,2572,2026-10-28,Houston Christian,away,L,72,101,auto
+2027,261,2026-10-28,Saint Michael's,home,W,76,69,auto
+2027,2653,2026-10-28,Stillman College,home,W,93,65,auto
+2027,2655,2026-10-28,Spring Hill College (Ala.),home,W,108,97,auto
+2027,2692,2026-10-28,Colorado Mesa,home,W,85,60,auto
+2027,270,2026-10-28,Luther,home,W,96,40,auto
+2027,277,2026-10-28,Wheeling,home,W,98,55,auto
+2027,2870,2026-10-28,Ball State,away,W,78,70,auto
+2027,299,2026-10-28,San Diego State,away,L,67,92,auto
+2027,324,2026-10-28,Columbia International,neutral,W,76,72,auto
+2027,356,2026-10-28,UIC,home,W,101,66,auto
+2027,71,2026-10-28,SIUE,home,L,48,53,auto
+2027,82,2026-10-28,Illinois,away,L,66,101,auto
