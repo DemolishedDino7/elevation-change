@@ -1,6 +1,5 @@
 season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,232,2026-09-27,Citadel,home,W,69,59,auto
-2027,258,2026-09-27,Vanderbilt,neutral,L,73,82,auto
 2027,127,2026-10-02,Incarnate Word,home,W,89,59,auto
 2027,2916,2026-10-02,Michigan State,away,L,59,89,auto
 2027,154,2026-10-04,Georgetown,home,L,77,94,auto
@@ -20,7 +19,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2377,2026-10-08,LSU,home,L,60,63,auto
 2027,333,2026-10-08,Furman,home,W,111,93,auto
 2027,139,2026-10-09,Nebraska,away,W,79,74,auto
-2027,258,2026-10-09,Richmond,home,W,96,53,auto
 2027,30,2026-10-09,North Carolina,home,L,70,88,auto
 2027,275,2026-10-10,UW-Parkside,home,W,94,71,auto
 2027,300,2026-10-10,Université du Québec à Montréal,away,W,101,70,auto
@@ -172,7 +170,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2449,2026-10-22,MSU Moorhead,home,W,80,74,auto
 2027,2509,2026-10-22,Purdue Fort Wayne,away,W,92,62,auto
 2027,2511,2026-10-22,Charleston Southern,away,W,110,94,auto
-2027,258,2026-10-22,Villanova,away,W,93,71,auto
 2027,2870,2026-10-22,Purdue,home,L,62,92,auto
 2027,333,2026-10-22,Auburn,home,W,87,85,auto
 2027,93,2026-10-22,Florida International,away,W,86,79,auto
@@ -332,3 +329,10 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,356,2026-10-28,UIC,home,W,101,66,auto
 2027,71,2026-10-28,SIUE,home,L,48,53,auto
 2027,82,2026-10-28,Illinois,away,L,66,101,auto
+2027,142,2026-10-29,UNLV,away,L,81,90,auto
+2027,2,2026-10-29,Samford,home,W,80,68,auto
+2027,2439,2026-10-29,Missouri,home,W,90,81,auto
+2027,2535,2026-10-29,Auburn,away,L,68,80,auto
+2027,339,2026-10-29,Wabash,home,W,73,41,auto
+2027,6,2026-10-29,Mississippi Christian,home,W,99,83,auto
+2027,68,2026-10-29,Bismarck State College,home,W,104,37,auto
