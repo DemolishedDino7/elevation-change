@@ -13,15 +13,10 @@
  ],
  "score_mismatch": [],
  "missing_in_ours": [],
- "missing_on_ncaa": [
-  "Wk 9: Arizona State 20 at BYU 27"
- ],
+ "missing_on_ncaa": [],
  "home_away": [],
  "division": [],
- "games_played": [
-  "Arizona State: ours 8, matched to NCAA 7",
-  "BYU: ours 8, matched to NCAA 7"
- ],
- "checked": 1089,
- "generated": "2026-11-01T06:49+00:00"
+ "games_played": [],
+ "checked": 1090,
+ "generated": "2026-11-01T14:29+00:00"
 }
