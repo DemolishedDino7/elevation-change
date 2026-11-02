@@ -64,6 +64,12 @@
       <div class="games3" id="games"></div>
     </section>
 
+    <section aria-labelledby="stories-h">
+      <div class="sec-head"><h2 id="stories-h">Stories</h2></div>
+      <!-- Pulled from index.html: every <li data-sport="basketball"> in the Latest list. -->
+      <ul class="posts" id="hoops-stories"><li><p class="empty">Loading stories…</p></li></ul>
+    </section>
+
     <div class="two" style="margin-top:3rem">
       <section aria-labelledby="idx-h">
         <div class="sec-head"><h2 id="idx-h">Elevation Index</h2><a href="hoops-index.html">All 23 &rarr;</a></div>
@@ -169,6 +175,16 @@
       near.map(o => '<span class="tchip" style="border-style:dashed">' + HB.img(o.logo) + HB.esc(o.name) + ' <small>bubble · ' + pc(o.p_bid) + ' in</small></span>').join('') + '</div>';
   }).catch(() => { document.getElementById('mm').innerHTML = '<p class="note">The bracket is being built.</p>'; });
 })();
+</script>
+<script>
+  fetch('index.html?' + Date.now()).then(r => r.text()).then(html => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const lis = [...doc.querySelectorAll('ul.posts > li[data-sport="basketball"]')];
+    const ul = document.getElementById('hoops-stories');
+    ul.innerHTML = '';
+    if (!lis.length) { ul.innerHTML = '<li><p class="empty">Basketball stories are coming soon.</p></li>'; return; }
+    lis.forEach(li => ul.appendChild(document.importNode(li, true)));
+  }).catch(() => { document.getElementById('hoops-stories').innerHTML = '<li><p class="empty">Stories are on the <a href="index.html#latest">home page</a>.</p></li>'; });
 </script>
 <script data-goatcounter="https://elevationchange.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
