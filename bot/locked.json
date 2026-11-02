@@ -311,7 +311,7 @@
 },
 "401856738": {
 "home_wp": 0.7674,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 31,
 "pred_margin": 11.45,
@@ -321,7 +321,7 @@
 },
 "401856739": {
 "home_wp": 0.5911,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 26,
 "pred_margin": 3.61,
@@ -331,7 +331,7 @@
 },
 "401856740": {
 "home_wp": 0.5723,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 29,
 "pred_margin": 2.86,
@@ -341,7 +341,7 @@
 },
 "401856741": {
 "home_wp": 0.4948,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 29,
 "pred_margin": -0.21,
@@ -350,8 +350,8 @@
 "vegas_total": null
 },
 "401856742": {
-"home_wp": 0.6609,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6608,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 30,
 "pred_margin": 6.5,
@@ -361,7 +361,7 @@
 },
 "401856743": {
 "home_wp": 0.3699,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 20,
 "pred_margin": -5.2,
@@ -371,7 +371,7 @@
 },
 "401856744": {
 "home_wp": 0.5796,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 27,
 "pred_margin": 3.15,
@@ -381,7 +381,7 @@
 },
 "401856745": {
 "home_wp": 0.6257,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 28,
 "pred_margin": 5.02,
@@ -391,7 +391,7 @@
 },
 "401856746": {
 "home_wp": 0.9991,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 1,
 "pred_home": 50,
 "pred_margin": 48.67,
@@ -401,7 +401,7 @@
 },
 "401856747": {
 "home_wp": 0.9964,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 3,
 "pred_home": 45,
 "pred_margin": 42.1,
@@ -411,7 +411,7 @@
 },
 "401856748": {
 "home_wp": 0.8089,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 34,
 "pred_margin": 13.67,
@@ -421,17 +421,17 @@
 },
 "401856749": {
 "home_wp": 0.9994,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 4,
 "pred_home": 55,
 "pred_margin": 50.97,
-"pred_total": 59.93,
+"pred_total": 59.94,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856750": {
-"home_wp": 0.9539,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.9538,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 15,
 "pred_home": 42,
 "pred_margin": 26.35,
@@ -441,7 +441,7 @@
 },
 "401856751": {
 "home_wp": 0.6013,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 26,
 "pred_margin": 4.02,
@@ -451,7 +451,7 @@
 },
 "401856752": {
 "home_wp": 0.5514,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 22,
 "pred_margin": 2.02,
@@ -461,7 +461,7 @@
 },
 "401856753": {
 "home_wp": 0.2951,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 24,
 "pred_margin": -8.43,
@@ -470,28 +470,28 @@
 "vegas_total": null
 },
 "401856754": {
-"home_wp": 0.3588,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3589,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 24,
-"pred_margin": -5.66,
+"pred_margin": -5.65,
 "pred_total": 53.92,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856755": {
 "home_wp": 0.9338,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 13,
 "pred_home": 36,
-"pred_margin": 23.54,
+"pred_margin": 23.53,
 "pred_total": 49.25,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856756": {
 "home_wp": 0.2989,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 18,
 "pred_margin": -8.25,
@@ -501,7 +501,7 @@
 },
 "401856757": {
 "home_wp": 0.8301,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 34,
 "pred_margin": 14.92,
@@ -511,7 +511,7 @@
 },
 "401856758": {
 "home_wp": 0.0907,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 39,
 "pred_home": 18,
 "pred_margin": -20.89,
@@ -521,7 +521,7 @@
 },
 "401856759": {
 "home_wp": 0.4057,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 27,
 "pred_margin": -3.73,
@@ -531,7 +531,7 @@
 },
 "401856760": {
 "home_wp": 0.9721,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 14,
 "pred_home": 44,
 "pred_margin": 29.89,
@@ -541,7 +541,7 @@
 },
 "401856761": {
 "home_wp": 0.5002,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 30,
 "pred_margin": 0.01,
@@ -551,7 +551,7 @@
 },
 "401856762": {
 "home_wp": 0.8436,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 38,
 "pred_margin": 15.78,
@@ -561,7 +561,7 @@
 },
 "401856763": {
 "home_wp": 0.6098,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 24,
 "pred_margin": 4.36,
@@ -570,8 +570,8 @@
 "vegas_total": null
 },
 "401856764": {
-"home_wp": 0.3304,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3305,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 22,
 "pred_margin": -6.86,
@@ -581,7 +581,7 @@
 },
 "401856765": {
 "home_wp": 0.2128,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 20,
 "pred_margin": -12.45,
@@ -910,8 +910,8 @@
 "vegas_total": null
 },
 "401856849": {
-"home_wp": 0.7232,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7231,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 31,
 "pred_margin": 9.28,
@@ -920,8 +920,8 @@
 "vegas_total": null
 },
 "401856850": {
-"home_wp": 0.6326,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6325,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 30,
 "pred_margin": 5.31,
@@ -931,7 +931,7 @@
 },
 "401856851": {
 "home_wp": 0.7259,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 34,
 "pred_margin": 9.41,
@@ -941,47 +941,47 @@
 },
 "401856852": {
 "home_wp": 0.6404,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 28,
-"pred_margin": 5.64,
-"pred_total": 51.1,
+"pred_margin": 5.63,
+"pred_total": 51.09,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856853": {
-"home_wp": 0.6671,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6672,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
-"pred_home": 29,
+"pred_home": 30,
 "pred_margin": 6.77,
 "pred_total": 52.23,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856854": {
-"home_wp": 0.4548,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4546,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 29,
-"pred_margin": -1.78,
+"pred_margin": -1.79,
 "pred_total": 60.68,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856855": {
-"home_wp": 0.7542,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7541,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 28,
-"pred_margin": 10.78,
-"pred_total": 44.64,
+"pred_margin": 10.77,
+"pred_total": 44.65,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856856": {
 "home_wp": 0.8568,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 40,
 "pred_margin": 16.71,
@@ -991,47 +991,47 @@
 },
 "401856857": {
 "home_wp": 0.5577,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 27,
 "pred_margin": 2.27,
-"pred_total": 52.59,
+"pred_total": 52.6,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856858": {
-"home_wp": 0.6819,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6834,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 29,
-"pred_margin": 7.41,
+"pred_margin": 7.47,
 "pred_total": 51.02,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856859": {
-"home_wp": 0.5505,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.551,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 30,
-"pred_margin": 1.99,
-"pred_total": 57.61,
+"pred_margin": 2.01,
+"pred_total": 57.62,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856860": {
-"home_wp": 0.3038,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3058,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 23,
-"pred_margin": -8.04,
+"pred_margin": -7.95,
 "pred_total": 53.24,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856861": {
 "home_wp": 0.4532,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 32,
 "pred_home": 30,
 "pred_margin": -1.84,
@@ -1040,18 +1040,18 @@
 "vegas_total": null
 },
 "401856862": {
-"home_wp": 0.555,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5552,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 23,
-"pred_margin": 2.16,
+"pred_margin": 2.17,
 "pred_total": 43.94,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856863": {
 "home_wp": 0.4056,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 29,
 "pred_margin": -3.74,
@@ -1061,7 +1061,7 @@
 },
 "401856864": {
 "home_wp": 0.3638,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 24,
 "pred_margin": -5.45,
@@ -1071,17 +1071,17 @@
 },
 "401856865": {
 "home_wp": 0.3695,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 24,
 "pred_margin": -5.21,
-"pred_total": 52.83,
+"pred_total": 52.84,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856866": {
 "home_wp": 0.3697,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 24,
 "pred_margin": -5.2,
@@ -1091,7 +1091,7 @@
 },
 "401856867": {
 "home_wp": 0.7022,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 32,
 "pred_margin": 8.3,
@@ -1101,7 +1101,7 @@
 },
 "401856868": {
 "home_wp": 0.3132,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 35,
 "pred_home": 27,
 "pred_margin": -7.61,
@@ -1111,7 +1111,7 @@
 },
 "401856869": {
 "home_wp": 0.499,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 26,
 "pred_margin": -0.04,
@@ -1120,8 +1120,8 @@
 "vegas_total": null
 },
 "401856870": {
-"home_wp": 0.3998,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3997,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 29,
 "pred_margin": -3.97,
@@ -1131,7 +1131,7 @@
 },
 "401856871": {
 "home_wp": 0.4055,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 25,
 "pred_margin": -3.74,
@@ -1141,17 +1141,17 @@
 },
 "401856872": {
 "home_wp": 0.203,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 17,
 "pred_margin": -13.0,
-"pred_total": 47.12,
+"pred_total": 47.13,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856873": {
 "home_wp": 0.7859,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 33,
 "pred_margin": 12.38,
@@ -1161,7 +1161,7 @@
 },
 "401856874": {
 "home_wp": 0.5938,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 28,
 "pred_margin": 3.71,
@@ -1171,7 +1171,7 @@
 },
 "401856875": {
 "home_wp": 0.5267,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 26,
 "pred_margin": 1.05,
@@ -1181,7 +1181,7 @@
 },
 "401856876": {
 "home_wp": 0.7719,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 35,
 "pred_margin": 11.65,
@@ -1190,38 +1190,38 @@
 "vegas_total": null
 },
 "401856877": {
-"home_wp": 0.65,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6501,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 34,
-"pred_margin": 6.02,
-"pred_total": 62.5,
+"pred_margin": 6.03,
+"pred_total": 62.51,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856878": {
 "home_wp": 0.5337,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 27,
 "pred_margin": 1.32,
-"pred_total": 52.81,
+"pred_total": 52.82,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856879": {
 "home_wp": 0.7887,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 30,
 "pred_margin": 12.53,
-"pred_total": 47.3,
+"pred_total": 47.31,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856880": {
-"home_wp": 0.9402,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.9401,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 44,
 "pred_margin": 24.32,
@@ -1231,7 +1231,7 @@
 },
 "401856882": {
 "home_wp": 0.2469,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 34,
 "pred_home": 23,
 "pred_margin": -10.71,
@@ -1241,7 +1241,7 @@
 },
 "401856883": {
 "home_wp": 0.7753,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 31,
 "pred_margin": 11.84,
@@ -1251,7 +1251,7 @@
 },
 "401856884": {
 "home_wp": 0.5452,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 28,
 "pred_margin": 1.78,
@@ -1261,7 +1261,7 @@
 },
 "401856885": {
 "home_wp": 0.6043,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 26,
 "pred_margin": 4.14,
@@ -1270,18 +1270,18 @@
 "vegas_total": null
 },
 "401856886": {
-"home_wp": 0.4849,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4848,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 25,
-"pred_margin": -0.59,
+"pred_margin": -0.6,
 "pred_total": 51.3,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401856887": {
 "home_wp": 0.318,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 22,
 "pred_margin": -7.41,
@@ -1291,7 +1291,7 @@
 },
 "401856888": {
 "home_wp": 0.4713,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 23,
 "pred_margin": -1.13,
@@ -1301,7 +1301,7 @@
 },
 "401856889": {
 "home_wp": 0.107,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 38,
 "pred_home": 19,
 "pred_margin": -19.46,
@@ -1661,7 +1661,7 @@
 },
 "401858285": {
 "home_wp": 0.5041,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 25,
 "pred_margin": 0.16,
@@ -1670,8 +1670,8 @@
 "vegas_total": null
 },
 "401858286": {
-"home_wp": 0.4117,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4116,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 25,
 "pred_margin": -3.5,
@@ -1680,8 +1680,8 @@
 "vegas_total": null
 },
 "401858287": {
-"home_wp": 0.1437,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.1438,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 40,
 "pred_home": 23,
 "pred_margin": -16.67,
@@ -1690,18 +1690,18 @@
 "vegas_total": null
 },
 "401858288": {
-"home_wp": 0.6938,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6937,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 33,
 "pred_margin": 7.94,
-"pred_total": 57.27,
+"pred_total": 57.28,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858289": {
 "home_wp": 0.2763,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 32,
 "pred_home": 23,
 "pred_margin": -9.31,
@@ -1711,27 +1711,27 @@
 },
 "401858290": {
 "home_wp": 0.9999,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 0,
 "pred_home": 57,
 "pred_margin": 60.31,
-"pred_total": 54.05,
+"pred_total": 54.06,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858291": {
 "home_wp": 0.6615,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 33,
 "pred_margin": 6.53,
-"pred_total": 59.56,
+"pred_total": 59.57,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858292": {
-"home_wp": 0.3256,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3257,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 24,
 "pred_margin": -7.08,
@@ -1740,8 +1740,8 @@
 "vegas_total": null
 },
 "401858293": {
-"home_wp": 0.5966,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5967,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 29,
 "pred_margin": 3.83,
@@ -1751,7 +1751,7 @@
 },
 "401858294": {
 "home_wp": 0.9842,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 10,
 "pred_home": 44,
 "pred_margin": 33.65,
@@ -1761,7 +1761,7 @@
 },
 "401858295": {
 "home_wp": 0.7695,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 30,
 "pred_margin": 11.54,
@@ -1771,7 +1771,7 @@
 },
 "401858296": {
 "home_wp": 0.8696,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 39,
 "pred_margin": 17.6,
@@ -1781,7 +1781,7 @@
 },
 "401858297": {
 "home_wp": 0.7217,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 29,
 "pred_margin": 9.21,
@@ -1790,8 +1790,8 @@
 "vegas_total": null
 },
 "401858298": {
-"home_wp": 0.3173,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3174,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 26,
 "pred_margin": -7.44,
@@ -1801,7 +1801,7 @@
 },
 "401858299": {
 "home_wp": 0.8368,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 36,
 "pred_margin": 15.36,
@@ -1810,28 +1810,28 @@
 "vegas_total": null
 },
 "401858300": {
-"home_wp": 0.5839,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5838,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 30,
-"pred_margin": 3.32,
+"pred_margin": 3.31,
 "pred_total": 57.06,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858301": {
 "home_wp": 0.3587,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 25,
-"pred_margin": -5.67,
-"pred_total": 55.15,
+"pred_margin": -5.66,
+"pred_total": 55.16,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858302": {
 "home_wp": 0.9156,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 43,
 "pred_margin": 21.52,
@@ -1841,7 +1841,7 @@
 },
 "401858303": {
 "home_wp": 0.6245,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 25,
 "pred_margin": 4.96,
@@ -1851,7 +1851,7 @@
 },
 "401858304": {
 "home_wp": 0.6437,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 32,
 "pred_margin": 5.76,
@@ -1861,7 +1861,7 @@
 },
 "401858305": {
 "home_wp": 0.4314,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 22,
 "pred_margin": -2.7,
@@ -1870,8 +1870,8 @@
 "vegas_total": null
 },
 "401858306": {
-"home_wp": 0.7425,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7424,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 34,
 "pred_margin": 10.18,
@@ -1881,17 +1881,17 @@
 },
 "401858307": {
 "home_wp": 0.8821,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 38,
 "pred_margin": 18.54,
-"pred_total": 56.6,
+"pred_total": 56.61,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858308": {
-"home_wp": 0.5682,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5683,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 28,
 "pred_margin": 2.69,
@@ -1900,8 +1900,8 @@
 "vegas_total": null
 },
 "401858309": {
-"home_wp": 0.3649,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.365,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 24,
 "pred_margin": -5.4,
@@ -1910,8 +1910,8 @@
 "vegas_total": null
 },
 "401858310": {
-"home_wp": 0.1025,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.1026,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 39,
 "pred_home": 19,
 "pred_margin": -19.82,
@@ -1921,7 +1921,7 @@
 },
 "401858311": {
 "home_wp": 0.9741,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 15,
 "pred_home": 45,
 "pred_margin": 30.4,
@@ -1930,8 +1930,8 @@
 "vegas_total": null
 },
 "401858312": {
-"home_wp": 0.7849,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7848,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 33,
 "pred_margin": 12.33,
@@ -1941,7 +1941,7 @@
 },
 "401858313": {
 "home_wp": 0.5844,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 29,
 "pred_margin": 3.33,
@@ -1951,7 +1951,7 @@
 },
 "401858314": {
 "home_wp": 0.1087,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 39,
 "pred_home": 19,
 "pred_margin": -19.28,
@@ -1961,7 +1961,7 @@
 },
 "401858315": {
 "home_wp": 0.2235,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 32,
 "pred_home": 21,
 "pred_margin": -11.89,
@@ -1971,7 +1971,7 @@
 },
 "401858316": {
 "home_wp": 0.1465,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 37,
 "pred_home": 20,
 "pred_margin": -16.44,
@@ -1980,12 +1980,12 @@
 "vegas_total": null
 },
 "401858317": {
-"home_wp": 0.6086,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6087,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 27,
 "pred_margin": 4.31,
-"pred_total": 49.99,
+"pred_total": 50.0,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -2340,352 +2340,352 @@
 "vegas_total": null
 },
 "401858510": {
-"home_wp": 0.437,
-"made": "2026-11-01T18:54+00:00",
-"pred_away": 26,
+"home_wp": 0.4266,
+"made": "2026-11-02T22:18+00:00",
+"pred_away": 27,
 "pred_home": 24,
-"pred_margin": -2.49,
-"pred_total": 49.66,
+"pred_margin": -2.9,
+"pred_total": 50.2,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858511": {
-"home_wp": 0.7241,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7233,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 26,
-"pred_margin": 9.33,
-"pred_total": 43.6,
+"pred_margin": 9.29,
+"pred_total": 43.56,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858512": {
-"home_wp": 0.3004,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2994,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 19,
-"pred_margin": -8.2,
+"pred_margin": -8.25,
 "pred_total": 46.16,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858513": {
-"home_wp": 0.4097,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.411,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 22,
-"pred_margin": -3.58,
-"pred_total": 47.65,
+"pred_margin": -3.53,
+"pred_total": 47.62,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858514": {
-"home_wp": 0.7324,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7316,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 31,
-"pred_margin": 9.72,
-"pred_total": 51.73,
+"pred_margin": 9.68,
+"pred_total": 51.7,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858515": {
-"home_wp": 0.6956,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6938,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 33,
-"pred_margin": 8.02,
-"pred_total": 58.24,
+"pred_margin": 7.94,
+"pred_total": 58.15,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858516": {
-"home_wp": 0.5289,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5201,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 24,
-"pred_margin": 1.14,
-"pred_total": 46.96,
+"pred_margin": 0.79,
+"pred_total": 47.44,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858517": {
-"home_wp": 0.854,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8539,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 33,
-"pred_margin": 16.52,
-"pred_total": 50.22,
+"pred_margin": 16.51,
+"pred_total": 50.24,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858518": {
-"home_wp": 0.6689,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6702,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 29,
-"pred_margin": 6.84,
-"pred_total": 51.75,
+"pred_margin": 6.9,
+"pred_total": 51.7,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858519": {
-"home_wp": 0.8496,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.848,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 34,
-"pred_margin": 16.2,
-"pred_total": 52.7,
+"pred_margin": 16.09,
+"pred_total": 52.62,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858520": {
-"home_wp": 0.2645,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2658,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 18,
-"pred_margin": -9.86,
-"pred_total": 45.69,
+"pred_margin": -9.8,
+"pred_total": 45.65,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858521": {
-"home_wp": 0.3462,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3547,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 21,
-"pred_margin": -6.19,
-"pred_total": 48.48,
+"pred_margin": -5.83,
+"pred_total": 48.82,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858522": {
-"home_wp": 0.8297,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8314,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 34,
-"pred_margin": 14.92,
-"pred_total": 53.46,
+"pred_margin": 15.02,
+"pred_total": 53.48,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858523": {
-"home_wp": 0.7482,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7512,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 28,
-"pred_margin": 10.47,
-"pred_total": 45.86,
+"pred_margin": 10.62,
+"pred_total": 45.83,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858524": {
-"home_wp": 0.7314,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7316,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 28,
-"pred_margin": 9.66,
-"pred_total": 45.59,
+"pred_margin": 9.67,
+"pred_total": 45.58,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858525": {
-"home_wp": 0.1845,
-"made": "2026-11-01T18:54+00:00",
-"pred_away": 35,
+"home_wp": 0.1773,
+"made": "2026-11-02T22:18+00:00",
+"pred_away": 36,
 "pred_home": 21,
-"pred_margin": -14.06,
-"pred_total": 56.45,
+"pred_margin": -14.49,
+"pred_total": 56.98,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858526": {
-"home_wp": 0.7454,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.744,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 30,
-"pred_margin": 10.33,
-"pred_total": 50.18,
+"pred_margin": 10.27,
+"pred_total": 50.21,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858527": {
-"home_wp": 0.3011,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3021,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 20,
-"pred_margin": -8.15,
-"pred_total": 47.91,
+"pred_margin": -8.11,
+"pred_total": 47.88,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858528": {
-"home_wp": 0.4381,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4378,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 20,
-"pred_margin": -2.44,
-"pred_total": 43.01,
+"pred_margin": -2.45,
+"pred_total": 43.03,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858529": {
 "home_wp": 0.1792,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 18,
-"pred_margin": -14.36,
-"pred_total": 51.14,
+"pred_margin": -14.37,
+"pred_total": 51.06,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858530": {
-"home_wp": 0.3605,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3594,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 22,
-"pred_margin": -5.58,
+"pred_margin": -5.63,
 "pred_total": 49.26,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858531": {
-"home_wp": 0.2485,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2568,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 20,
-"pred_margin": -10.62,
-"pred_total": 50.1,
+"pred_margin": -10.22,
+"pred_total": 50.51,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858532": {
-"home_wp": 0.8772,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.877,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 37,
-"pred_margin": 18.16,
-"pred_total": 56.52,
+"pred_margin": 18.15,
+"pred_total": 56.53,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858533": {
-"home_wp": 0.383,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3821,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 22,
-"pred_margin": -4.65,
-"pred_total": 48.16,
+"pred_margin": -4.69,
+"pred_total": 48.13,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858534": {
-"home_wp": 0.9012,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.9005,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 40,
-"pred_margin": 20.15,
-"pred_total": 59.05,
+"pred_margin": 20.09,
+"pred_total": 58.97,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858535": {
-"home_wp": 0.3486,
-"made": "2026-11-01T18:54+00:00",
-"pred_away": 26,
+"home_wp": 0.3399,
+"made": "2026-11-02T22:18+00:00",
+"pred_away": 27,
 "pred_home": 20,
-"pred_margin": -6.09,
-"pred_total": 46.75,
+"pred_margin": -6.46,
+"pred_total": 47.2,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858536": {
-"home_wp": 0.6759,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6657,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 26,
-"pred_margin": 7.13,
-"pred_total": 44.28,
+"pred_margin": 6.69,
+"pred_total": 44.64,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858537": {
 "home_wp": 0.655,
-"made": "2026-11-01T18:54+00:00",
-"pred_away": 23,
+"made": "2026-11-02T22:18+00:00",
+"pred_away": 24,
 "pred_home": 30,
-"pred_margin": 6.23,
-"pred_total": 53.22,
+"pred_margin": 6.24,
+"pred_total": 53.25,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858538": {
-"home_wp": 0.8634,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8644,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 36,
-"pred_margin": 17.13,
-"pred_total": 54.11,
+"pred_margin": 17.2,
+"pred_total": 54.05,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858539": {
-"home_wp": 0.208,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2088,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 32,
 "pred_home": 20,
-"pred_margin": -12.71,
-"pred_total": 51.92,
+"pred_margin": -12.67,
+"pred_total": 51.88,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858540": {
 "home_wp": 0.8566,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 15,
 "pred_home": 32,
 "pred_margin": 16.65,
-"pred_total": 46.47,
+"pred_total": 46.49,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858541": {
-"home_wp": 0.7398,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7475,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
-"pred_home": 30,
-"pred_margin": 10.05,
-"pred_total": 50.79,
+"pred_home": 31,
+"pred_margin": 10.42,
+"pred_total": 51.23,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858542": {
-"home_wp": 0.4182,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4175,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 26,
-"pred_margin": -3.23,
-"pred_total": 55.19,
+"pred_margin": -3.26,
+"pred_total": 55.16,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858543": {
-"home_wp": 0.5289,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5298,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 27,
-"pred_margin": 1.13,
-"pred_total": 52.77,
+"pred_margin": 1.17,
+"pred_total": 52.76,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401858544": {
-"home_wp": 0.6707,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6715,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 16,
 "pred_home": 23,
-"pred_margin": 6.91,
-"pred_total": 39.42,
+"pred_margin": 6.94,
+"pred_total": 39.41,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -2831,17 +2831,17 @@
 },
 "401860911": {
 "home_wp": 0.1282,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 44,
 "pred_home": 27,
 "pred_margin": -17.79,
-"pred_total": 70.81,
+"pred_total": 70.82,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860912": {
 "home_wp": 0.6576,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 36,
 "pred_margin": 6.36,
@@ -2850,82 +2850,82 @@
 "vegas_total": null
 },
 "401860913": {
-"home_wp": 0.4782,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4775,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 22,
-"pred_margin": -0.86,
-"pred_total": 44.15,
+"pred_margin": -0.88,
+"pred_total": 44.13,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860914": {
 "home_wp": 0.6359,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 34,
 "pred_margin": 5.44,
-"pred_total": 61.93,
+"pred_total": 61.94,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860915": {
-"home_wp": 0.5005,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5012,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 23,
-"pred_margin": 0.02,
-"pred_total": 44.49,
+"pred_margin": 0.05,
+"pred_total": 44.46,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860916": {
 "home_wp": 0.6254,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 31,
 "pred_margin": 5.0,
-"pred_total": 57.94,
+"pred_total": 57.95,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860917": {
-"home_wp": 0.7432,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7428,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 35,
-"pred_margin": 10.23,
-"pred_total": 60.4,
+"pred_margin": 10.21,
+"pred_total": 60.38,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860918": {
 "home_wp": 0.8325,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 39,
 "pred_margin": 15.08,
-"pred_total": 62.87,
+"pred_total": 62.88,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860919": {
-"home_wp": 0.8024,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8028,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 33,
-"pred_margin": 13.3,
-"pred_total": 51.91,
+"pred_margin": 13.32,
+"pred_total": 51.89,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401860920": {
-"home_wp": 0.7535,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7539,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 34,
-"pred_margin": 10.72,
-"pred_total": 56.54,
+"pred_margin": 10.74,
+"pred_total": 56.52,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -2971,7 +2971,7 @@
 },
 "401860925": {
 "home_wp": 0.901,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 39,
 "pred_margin": 20.14,
@@ -3010,18 +3010,18 @@
 "vegas_total": null
 },
 "401861967": {
-"home_wp": 0.3822,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3823,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 27,
 "pred_margin": -4.69,
-"pred_total": 57.71,
+"pred_total": 57.72,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401861968": {
-"home_wp": 0.8056,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8057,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 31,
 "pred_margin": 13.48,
@@ -3030,12 +3030,12 @@
 "vegas_total": null
 },
 "401861969": {
-"home_wp": 0.4735,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4734,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 25,
 "pred_margin": -1.04,
-"pred_total": 50.66,
+"pred_total": 50.67,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -3320,8 +3320,8 @@
 "vegas_total": null
 },
 "401862817": {
-"home_wp": 0.2696,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2697,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 39,
 "pred_home": 29,
 "pred_margin": -9.62,
@@ -3331,27 +3331,27 @@
 },
 "401862818": {
 "home_wp": 0.4727,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 21,
-"pred_margin": -1.07,
-"pred_total": 43.08,
+"pred_margin": -1.08,
+"pred_total": 43.09,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401862819": {
 "home_wp": 0.7583,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 32,
 "pred_margin": 10.99,
-"pred_total": 53.68,
+"pred_total": 53.67,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401862820": {
 "home_wp": 0.6752,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 29,
 "pred_margin": 7.12,
@@ -3361,7 +3361,7 @@
 },
 "401862821": {
 "home_wp": 0.8926,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 42,
 "pred_margin": 19.44,
@@ -3371,7 +3371,7 @@
 },
 "401862822": {
 "home_wp": 0.5445,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 25,
 "pred_margin": 1.75,
@@ -3381,7 +3381,7 @@
 },
 "401862823": {
 "home_wp": 0.6582,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 29,
 "pred_margin": 6.39,
@@ -3390,18 +3390,18 @@
 "vegas_total": null
 },
 "401862824": {
-"home_wp": 0.3995,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3996,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 24,
-"pred_margin": -3.99,
-"pred_total": 51.36,
+"pred_margin": -3.98,
+"pred_total": 51.37,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401862825": {
 "home_wp": 0.2029,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 20,
 "pred_margin": -13.01,
@@ -3411,7 +3411,7 @@
 },
 "401862826": {
 "home_wp": 0.6667,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 35,
 "pred_margin": 6.75,
@@ -3420,18 +3420,18 @@
 "vegas_total": null
 },
 "401862827": {
-"home_wp": 0.5031,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.503,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 34,
 "pred_home": 35,
 "pred_margin": 0.12,
-"pred_total": 68.6,
+"pred_total": 68.61,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401862828": {
 "home_wp": 0.3199,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 20,
 "pred_margin": -7.33,
@@ -3441,7 +3441,7 @@
 },
 "401862829": {
 "home_wp": 0.5887,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 26,
 "pred_margin": 3.51,
@@ -3451,7 +3451,7 @@
 },
 "401862830": {
 "home_wp": 0.6582,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 28,
 "pred_margin": 6.37,
@@ -3461,7 +3461,7 @@
 },
 "401862831": {
 "home_wp": 0.6528,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 28,
 "pred_margin": 6.15,
@@ -3471,7 +3471,7 @@
 },
 "401862832": {
 "home_wp": 0.8701,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 37,
 "pred_margin": 17.63,
@@ -3480,18 +3480,18 @@
 "vegas_total": null
 },
 "401862833": {
-"home_wp": 0.3592,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3591,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 26,
 "pred_margin": -5.64,
-"pred_total": 57.16,
+"pred_total": 57.17,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401862834": {
 "home_wp": 0.3844,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 26,
 "pred_margin": -4.6,
@@ -3501,7 +3501,7 @@
 },
 "401862835": {
 "home_wp": 0.3349,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 34,
 "pred_home": 27,
 "pred_margin": -6.67,
@@ -3511,7 +3511,7 @@
 },
 "401862836": {
 "home_wp": 0.2394,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 22,
 "pred_margin": -11.08,
@@ -3521,17 +3521,17 @@
 },
 "401862837": {
 "home_wp": 0.6506,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 33,
 "pred_margin": 6.05,
-"pred_total": 59.76,
+"pred_total": 59.77,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401862838": {
 "home_wp": 0.8413,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 37,
 "pred_margin": 15.63,
@@ -3541,7 +3541,7 @@
 },
 "401862839": {
 "home_wp": 0.6169,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 23,
 "pred_margin": 4.65,
@@ -3550,8 +3550,8 @@
 "vegas_total": null
 },
 "401862840": {
-"home_wp": 0.7267,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7266,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 33,
 "pred_margin": 9.42,
@@ -3561,7 +3561,7 @@
 },
 "401862841": {
 "home_wp": 0.2872,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 22,
 "pred_margin": -8.78,
@@ -3571,7 +3571,7 @@
 },
 "401862842": {
 "home_wp": 0.1901,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 35,
 "pred_home": 21,
 "pred_margin": -13.72,
@@ -3581,7 +3581,7 @@
 },
 "401862843": {
 "home_wp": 0.8697,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 41,
 "pred_margin": 17.59,
@@ -3591,7 +3591,7 @@
 },
 "401862844": {
 "home_wp": 0.5939,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 28,
 "pred_margin": 3.71,
@@ -3791,7 +3791,7 @@
 },
 "401864532": {
 "home_wp": 0.3086,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 22,
 "pred_margin": -7.83,
@@ -3801,7 +3801,7 @@
 },
 "401864533": {
 "home_wp": 0.2936,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 19,
 "pred_margin": -8.51,
@@ -3811,17 +3811,17 @@
 },
 "401864534": {
 "home_wp": 0.7411,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 30,
 "pred_margin": 10.14,
-"pred_total": 49.57,
+"pred_total": 49.58,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401864535": {
 "home_wp": 0.6302,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 25,
 "pred_margin": 5.21,
@@ -3830,18 +3830,18 @@
 "vegas_total": null
 },
 "401864536": {
-"home_wp": 0.2679,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2678,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 20,
-"pred_margin": -9.69,
+"pred_margin": -9.7,
 "pred_total": 50.17,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401864537": {
 "home_wp": 0.2722,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 18,
 "pred_margin": -9.49,
@@ -3851,7 +3851,7 @@
 },
 "401864538": {
 "home_wp": 0.7578,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 30,
 "pred_margin": 10.95,
@@ -3861,7 +3861,7 @@
 },
 "401864539": {
 "home_wp": 0.7985,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 32,
 "pred_margin": 13.09,
@@ -3871,7 +3871,7 @@
 },
 "401864540": {
 "home_wp": 0.2783,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 18,
 "pred_margin": -9.2,
@@ -3881,7 +3881,7 @@
 },
 "401864541": {
 "home_wp": 0.681,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 27,
 "pred_margin": 7.36,
@@ -3891,7 +3891,7 @@
 },
 "401864542": {
 "home_wp": 0.254,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 18,
 "pred_margin": -10.35,
@@ -3901,17 +3901,17 @@
 },
 "401864543": {
 "home_wp": 0.9269,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 13,
 "pred_home": 36,
-"pred_margin": 22.72,
+"pred_margin": 22.73,
 "pred_total": 49.55,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401864544": {
 "home_wp": 0.4003,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 22,
 "pred_margin": -3.95,
@@ -3921,7 +3921,7 @@
 },
 "401864545": {
 "home_wp": 0.9005,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 37,
 "pred_margin": 20.09,
@@ -3931,7 +3931,7 @@
 },
 "401864546": {
 "home_wp": 0.7416,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 31,
 "pred_margin": 10.13,
@@ -3940,18 +3940,18 @@
 "vegas_total": null
 },
 "401864547": {
-"home_wp": 0.894,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8939,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 16,
 "pred_home": 35,
-"pred_margin": 19.51,
-"pred_total": 50.67,
+"pred_margin": 19.5,
+"pred_total": 50.68,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401864548": {
 "home_wp": 0.583,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 25,
 "pred_margin": 3.28,
@@ -3961,7 +3961,7 @@
 },
 "401864549": {
 "home_wp": 0.2485,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 16,
 "pred_margin": -10.62,
@@ -3970,11 +3970,11 @@
 "vegas_total": null
 },
 "401864550": {
-"home_wp": 0.6115,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6114,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 28,
-"pred_margin": 4.43,
+"pred_margin": 4.42,
 "pred_total": 51.99,
 "vegas_spread": null,
 "vegas_total": null
@@ -4190,28 +4190,28 @@
 "vegas_total": null
 },
 "401866453": {
-"home_wp": 0.1917,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.1912,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 34,
 "pred_home": 20,
-"pred_margin": -13.66,
-"pred_total": 53.86,
+"pred_margin": -13.69,
+"pred_total": 53.83,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866454": {
 "home_wp": 0.7633,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 30,
 "pred_margin": 11.24,
-"pred_total": 49.12,
+"pred_total": 49.13,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866455": {
 "home_wp": 0.556,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 26,
 "pred_margin": 2.21,
@@ -4220,68 +4220,68 @@
 "vegas_total": null
 },
 "401866456": {
-"home_wp": 0.5065,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5066,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 24,
-"pred_margin": 0.25,
-"pred_total": 46.71,
+"pred_margin": 0.26,
+"pred_total": 46.72,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866457": {
 "home_wp": 0.0515,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 41,
 "pred_home": 15,
-"pred_margin": -25.56,
+"pred_margin": -25.55,
 "pred_total": 56.34,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866458": {
-"home_wp": 0.1415,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.1414,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 34,
 "pred_home": 17,
 "pred_margin": -16.81,
-"pred_total": 51.22,
+"pred_total": 51.23,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866459": {
-"home_wp": 0.6693,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6699,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 26,
-"pred_margin": 6.86,
-"pred_total": 45.76,
+"pred_margin": 6.88,
+"pred_total": 45.73,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866460": {
-"home_wp": 0.5108,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5102,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 25,
-"pred_margin": 0.42,
-"pred_total": 49.15,
+"pred_margin": 0.4,
+"pred_total": 49.13,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866461": {
 "home_wp": 0.5196,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 26,
 "pred_margin": 0.77,
-"pred_total": 50.3,
+"pred_total": 50.31,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866462": {
 "home_wp": 0.8347,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 16,
 "pred_home": 31,
 "pred_margin": 15.23,
@@ -4291,37 +4291,37 @@
 },
 "401866463": {
 "home_wp": 0.9155,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 38,
 "pred_margin": 21.53,
-"pred_total": 55.04,
+"pred_total": 55.05,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866464": {
-"home_wp": 0.8025,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8029,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 33,
-"pred_margin": 13.31,
-"pred_total": 52.72,
+"pred_margin": 13.33,
+"pred_total": 52.7,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866465": {
 "home_wp": 0.7874,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 31,
 "pred_margin": 12.47,
-"pred_total": 48.64,
+"pred_total": 48.65,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866466": {
-"home_wp": 0.2071,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.2072,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 31,
 "pred_home": 18,
 "pred_margin": -12.77,
@@ -4330,8 +4330,8 @@
 "vegas_total": null
 },
 "401866467": {
-"home_wp": 0.6449,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.645,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 28,
 "pred_margin": 5.81,
@@ -4340,18 +4340,18 @@
 "vegas_total": null
 },
 "401866468": {
-"home_wp": 0.8816,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.8813,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 36,
-"pred_margin": 18.51,
-"pred_total": 53.74,
+"pred_margin": 18.48,
+"pred_total": 53.71,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866469": {
 "home_wp": 0.4825,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 22,
 "pred_margin": -0.69,
@@ -4360,18 +4360,18 @@
 "vegas_total": null
 },
 "401866470": {
-"home_wp": 0.7049,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.705,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 29,
 "pred_margin": 8.42,
-"pred_total": 48.87,
+"pred_total": 48.88,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866471": {
 "home_wp": 0.645,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 26,
 "pred_margin": 5.81,
@@ -4380,28 +4380,28 @@
 "vegas_total": null
 },
 "401866472": {
-"home_wp": 0.4167,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4166,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 24,
 "pred_margin": -3.29,
-"pred_total": 51.5,
+"pred_total": 51.51,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866473": {
-"home_wp": 0.3667,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3673,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 25,
-"pred_margin": -5.32,
-"pred_total": 54.85,
+"pred_margin": -5.3,
+"pred_total": 54.82,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401866474": {
-"home_wp": 0.4461,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4462,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 23,
 "pred_margin": -2.12,
@@ -4410,12 +4410,12 @@
 "vegas_total": null
 },
 "401866475": {
-"home_wp": 0.5846,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5853,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 25,
-"pred_margin": 3.34,
-"pred_total": 46.15,
+"pred_margin": 3.37,
+"pred_total": 46.12,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -4501,7 +4501,7 @@
 },
 "401869927": {
 "home_wp": 0.567,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 30,
 "pred_margin": 2.65,
@@ -4511,7 +4511,7 @@
 },
 "401869928": {
 "home_wp": 0.4837,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 25,
 "pred_margin": -0.64,
@@ -4521,7 +4521,7 @@
 },
 "401869929": {
 "home_wp": 0.8457,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 34,
 "pred_margin": 15.93,
@@ -4531,11 +4531,11 @@
 },
 "401869930": {
 "home_wp": 0.567,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 30,
 "pred_margin": 2.64,
-"pred_total": 57.1,
+"pred_total": 57.11,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -4581,7 +4581,7 @@
 },
 "401869936": {
 "home_wp": 0.8096,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 34,
 "pred_margin": 13.74,
@@ -4591,7 +4591,7 @@
 },
 "401869937": {
 "home_wp": 0.5526,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 28,
 "pred_margin": 2.07,
@@ -4601,7 +4601,7 @@
 },
 "401869938": {
 "home_wp": 0.77,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 33,
 "pred_margin": 11.56,
@@ -4610,11 +4610,11 @@
 "vegas_total": null
 },
 "401869939": {
-"home_wp": 0.5162,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5163,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 26,
-"pred_margin": 0.63,
+"pred_margin": 0.64,
 "pred_total": 50.9,
 "vegas_spread": null,
 "vegas_total": null
@@ -4651,7 +4651,7 @@
 },
 "401869945": {
 "home_wp": 0.6518,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 25,
 "pred_margin": 6.12,
@@ -4661,17 +4661,17 @@
 },
 "401869946": {
 "home_wp": 0.7261,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 21,
 "pred_home": 30,
 "pred_margin": 9.4,
-"pred_total": 51.07,
+"pred_total": 51.08,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401869947": {
 "home_wp": 0.8784,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 37,
 "pred_margin": 18.24,
@@ -4701,7 +4701,7 @@
 },
 "401869951": {
 "home_wp": 0.6834,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 29,
 "pred_margin": 7.48,
@@ -4711,7 +4711,7 @@
 },
 "401869952": {
 "home_wp": 0.4767,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 27,
 "pred_margin": -0.91,
@@ -4720,18 +4720,18 @@
 "vegas_total": null
 },
 "401869953": {
-"home_wp": 0.4699,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4698,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 23,
 "pred_margin": -1.18,
-"pred_total": 48.12,
+"pred_total": 48.13,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401869954": {
 "home_wp": 0.425,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 24,
 "pred_margin": -2.96,
@@ -4761,7 +4761,7 @@
 },
 "401869958": {
 "home_wp": 0.4875,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 28,
 "pred_margin": -0.49,
@@ -4771,11 +4771,11 @@
 },
 "401869959": {
 "home_wp": 0.4345,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 27,
 "pred_margin": -2.58,
-"pred_total": 55.7,
+"pred_total": 55.71,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -4801,7 +4801,7 @@
 },
 "401869964": {
 "home_wp": 0.1579,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 37,
 "pred_home": 21,
 "pred_margin": -15.72,
@@ -4840,8 +4840,8 @@
 "vegas_total": null
 },
 "401869968": {
-"home_wp": 0.6864,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6863,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 32,
 "pred_margin": 7.61,
@@ -4851,7 +4851,7 @@
 },
 "401869969": {
 "home_wp": 0.1535,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 34,
 "pred_home": 18,
 "pred_margin": -15.99,
@@ -4861,11 +4861,11 @@
 },
 "401870752": {
 "home_wp": 0.4124,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 24,
 "pred_margin": -3.47,
-"pred_total": 51.55,
+"pred_total": 51.56,
 "vegas_spread": null,
 "vegas_total": null
 },
@@ -4881,7 +4881,7 @@
 },
 "401870769": {
 "home_wp": 0.4123,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 21,
 "pred_margin": -3.47,
@@ -4891,7 +4891,7 @@
 },
 "401870795": {
 "home_wp": 0.1627,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 33,
 "pred_home": 18,
 "pred_margin": -15.41,
@@ -4901,7 +4901,7 @@
 },
 "401870796": {
 "home_wp": 0.6199,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 28,
 "pred_margin": 4.78,
@@ -4910,8 +4910,8 @@
 "vegas_total": null
 },
 "401870804": {
-"home_wp": 0.5562,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5563,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 24,
 "pred_home": 26,
 "pred_margin": 2.21,
@@ -5011,7 +5011,7 @@
 },
 "401871060": {
 "home_wp": 0.7059,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 30,
 "pred_margin": 8.47,
@@ -5021,7 +5021,7 @@
 },
 "401871061": {
 "home_wp": 0.9352,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 16,
 "pred_home": 39,
 "pred_margin": 23.72,
@@ -5030,18 +5030,18 @@
 "vegas_total": null
 },
 "401871062": {
-"home_wp": 0.474,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4739,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 27,
 "pred_margin": -1.02,
-"pred_total": 55.28,
+"pred_total": 55.29,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401871063": {
 "home_wp": 0.1695,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 35,
 "pred_home": 20,
 "pred_margin": -14.95,
@@ -5121,7 +5121,7 @@
 },
 "401871073": {
 "home_wp": 0.5038,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 28,
 "pred_margin": 0.15,
@@ -5130,8 +5130,8 @@
 "vegas_total": null
 },
 "401871074": {
-"home_wp": 0.487,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4871,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 24,
 "pred_margin": -0.51,
@@ -5141,7 +5141,7 @@
 },
 "401871075": {
 "home_wp": 0.8062,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 17,
 "pred_home": 31,
 "pred_margin": 13.54,
@@ -5150,8 +5150,8 @@
 "vegas_total": null
 },
 "401871076": {
-"home_wp": 0.3868,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.3867,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 29,
 "pred_home": 25,
 "pred_margin": -4.51,
@@ -5161,7 +5161,7 @@
 },
 "401871077": {
 "home_wp": 0.4604,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 28,
 "pred_home": 26,
 "pred_margin": -1.55,
@@ -5171,7 +5171,7 @@
 },
 "401871078": {
 "home_wp": 0.6561,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 26,
 "pred_margin": 6.29,
@@ -5180,8 +5180,8 @@
 "vegas_total": null
 },
 "401871079": {
-"home_wp": 0.7161,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.7162,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 22,
 "pred_home": 31,
 "pred_margin": 8.94,
@@ -5191,27 +5191,27 @@
 },
 "401871080": {
 "home_wp": 0.8762,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 18,
 "pred_home": 36,
-"pred_margin": 18.09,
+"pred_margin": 18.08,
 "pred_total": 53.26,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401871081": {
-"home_wp": 0.547,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5469,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 25,
-"pred_margin": 1.85,
+"pred_margin": 1.84,
 "pred_total": 48.35,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401871082": {
-"home_wp": 0.6142,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.6143,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 19,
 "pred_home": 24,
 "pred_margin": 4.54,
@@ -5221,7 +5221,7 @@
 },
 "401871083": {
 "home_wp": 0.5184,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 25,
 "pred_home": 26,
 "pred_margin": 0.72,
@@ -5321,17 +5321,17 @@
 },
 "401871098": {
 "home_wp": 0.3534,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 27,
 "pred_home": 21,
-"pred_margin": -5.89,
+"pred_margin": -5.9,
 "pred_total": 48.4,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401871099": {
 "home_wp": 0.8225,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 20,
 "pred_home": 34,
 "pred_margin": 14.48,
@@ -5340,18 +5340,18 @@
 "vegas_total": null
 },
 "401871100": {
-"home_wp": 0.552,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.5521,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 26,
 "pred_home": 28,
-"pred_margin": 2.04,
-"pred_total": 54.4,
+"pred_margin": 2.05,
+"pred_total": 54.41,
 "vegas_spread": null,
 "vegas_total": null
 },
 "401871101": {
-"home_wp": 0.4046,
-"made": "2026-11-01T18:54+00:00",
+"home_wp": 0.4045,
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 32,
 "pred_home": 28,
 "pred_margin": -3.78,
@@ -5361,7 +5361,7 @@
 },
 "401871102": {
 "home_wp": 0.3074,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 30,
 "pred_home": 22,
 "pred_margin": -7.86,
@@ -5371,7 +5371,7 @@
 },
 "401871103": {
 "home_wp": 0.5263,
-"made": "2026-11-01T18:54+00:00",
+"made": "2026-11-02T22:18+00:00",
 "pred_away": 23,
 "pred_home": 24,
 "pred_margin": 1.03,
