@@ -726,117 +726,123 @@
 "seen": "2026-11-02T22:23+00:00"
 },
 "401906848": {
-"spread": -26.5,
-"total": 154.5,
+"spread": -25.5,
+"total": 155.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401921801": {
 "spread": -33.5,
 "total": 158.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401925779": {
-"spread": -10.5,
+"spread": -9.5,
 "total": 153.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920304": {
-"spread": -15.5,
-"total": 148.5,
+"spread": -14.5,
+"total": 149.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920422": {
 "spread": -31.5,
-"total": 142.5,
+"total": 141.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401906757": {
 "spread": -26.5,
-"total": 171.5,
+"total": 172.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401921165": {
 "spread": -26.5,
-"total": 160.5,
+"total": 159.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401909796": {
 "spread": -11.5,
 "total": 159.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401924911": {
-"spread": -21.5,
-"total": 152.5,
+"spread": -20.5,
+"total": 153.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920155": {
-"spread": -16.5,
+"spread": -14.5,
 "total": 154.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401921819": {
-"spread": -16.5,
+"spread": -19.5,
 "total": 149.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920376": {
-"spread": -30.5,
-"total": 151.5,
+"spread": -31.5,
+"total": 150.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920061": {
-"spread": -17.5,
-"total": 149.5,
-"provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
-},
-"401909551": {
-"spread": -16.5,
+"spread": -20.5,
 "total": 147.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
+},
+"401909551": {
+"spread": -19.5,
+"total": 142.5,
+"provider": "DraftKings",
+"seen": "2026-11-03T20:12+00:00"
 },
 "401929372": {
-"spread": -38.5,
-"total": 163.5,
+"spread": -41.5,
+"total": 167.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401921808": {
-"spread": -23.5,
+"spread": -27.5,
 "total": 159.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920806": {
-"spread": -27.5,
-"total": 162.5,
+"spread": -32.5,
+"total": 160.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920702": {
-"spread": -20.5,
+"spread": -23.5,
 "total": 149.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
 },
 "401920343": {
-"spread": -8.5,
-"total": 155.5,
+"spread": -11.5,
+"total": 157.5,
 "provider": "DraftKings",
-"seen": "2026-11-03T11:19+00:00"
+"seen": "2026-11-03T20:12+00:00"
+},
+"401920685": {
+"spread": 5.5,
+"total": 146.5,
+"provider": "DraftKings",
+"seen": "2026-11-03T20:12+00:00"
 }
 }
