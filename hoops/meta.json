@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-03T04:00+00:00",
+ "generated": "2026-11-03T11:19+00:00",
  "season": 2027,
  "season_label": "2026-27",
- "today": "2026-11-02",
+ "today": "2026-11-03",
  "week": 2,
  "first_day": "2026-11-01",
  "games_in_ratings": 3,
@@ -88,13 +88,13 @@
  "espn": {
   "ok": true,
   "days": 10,
-  "events": 522,
-  "finals": 145,
-  "lines": 11,
+  "events": 591,
+  "finals": 184,
+  "lines": 19,
   "error": null
  },
- "lines_seen": 131,
- "next_west": "2026-11-02",
+ "lines_seen": 140,
+ "next_west": "2026-11-03",
  "model": {
   "hca_pts": 2.8,
   "altitude_per_1000ft": 0.49,
