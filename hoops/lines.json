@@ -842,8 +842,8 @@
 "401920685": {
 "spread": 5.5,
 "total": 146.5,
-"provider": "Draft Kings",
-"seen": "2026-11-04T20:31+00:00"
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
 },
 "401920410": {
 "spread": -34.5,
@@ -904,5 +904,107 @@
 "total": 148.5,
 "provider": "Draft Kings",
 "seen": "2026-11-04T20:31+00:00"
+},
+"401909726": {
+"spread": -17.5,
+"total": 154.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401917177": {
+"spread": -13.5,
+"total": 159.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401925819": {
+"spread": -11.5,
+"total": 146.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401924733": {
+"spread": -2.5,
+"total": 139.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401921747": {
+"spread": -24.5,
+"total": 153.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401920377": {
+"spread": -21.5,
+"total": 152.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401909706": {
+"spread": -18.5,
+"total": 151.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401909563": {
+"spread": -40.5,
+"total": 147.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401925754": {
+"spread": -26.5,
+"total": 153.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401926780": {
+"spread": -4.5,
+"total": 142.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401920913": {
+"spread": -16.5,
+"total": 153.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401918968": {
+"spread": -24.5,
+"total": 159.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401911229": {
+"spread": -18.5,
+"total": 144.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401913526": {
+"spread": -30.5,
+"total": 164.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401909501": {
+"spread": -6.5,
+"total": 150.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401921698": {
+"spread": -10.5,
+"total": 141.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
+},
+"401909739": {
+"spread": -30.5,
+"total": 172.5,
+"provider": "DraftKings",
+"seen": "2026-11-05T03:42+00:00"
 }
 }
