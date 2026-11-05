@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-05T11:28+00:00",
+ "generated": "2026-11-05T20:45+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-05",
  "week": 2,
  "first_day": "2026-11-01",
- "games_in_ratings": 212,
+ "games_in_ratings": 238,
  "teams": 366,
  "backtest": {
   "seasons": "2021-22 to 2025-26",

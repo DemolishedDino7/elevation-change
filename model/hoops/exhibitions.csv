@@ -47,7 +47,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,84,2026-10-11,Butler,away,W,96,68,auto
 2027,12,2026-10-13,San Francisco,neutral,W,93,69,auto
 2027,2010,2026-10-13,Samford,neutral,L,61,71,auto
-2027,2097,2026-10-13,Francis Marion,home,W,91,80,auto
+2027,2097,2026-10-13,Francis Marion (Preseason),home,W,91,80,auto
 2027,2535,2026-10-13,Alabama A&M,home,W,71,61,auto
 2027,2539,2026-10-13,Arizona,away,L,69,93,auto
 2027,41,2026-10-13,Syracuse,home,W,72,52,auto
@@ -247,7 +247,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,167,2026-10-25,Arizona State,home,L,86,91,auto
 2027,194,2026-10-25,Butler,home,W,82,73,auto
 2027,2086,2026-10-25,rv/rv,away,L,73,82,auto
-2027,2097,2026-10-25,South Carolina,away,L,68,77,auto
+2027,2097,2026-10-25,South Carolina (Preseason),away,L,68,77,auto
 2027,2193,2026-10-25,High Point,home,L,71,84,auto
 2027,2244,2026-10-25,St. Mary's (Md.),home,W,96,41,auto
 2027,2305,2026-10-25,Duke,home,L,84,90,auto
