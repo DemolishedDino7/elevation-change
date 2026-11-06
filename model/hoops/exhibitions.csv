@@ -43,7 +43,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2378,2026-10-11,LIU,home,L,79,86,auto
 2027,2751,2026-10-11,Northern Colorado,home,W,94,68,auto
 2027,339,2026-10-11,Austin Peay,away,L,74,79,auto
-2027,59,2026-10-11,Maryland,home,L,70,85,auto
 2027,84,2026-10-11,Butler,away,W,96,68,auto
 2027,12,2026-10-13,San Francisco,neutral,W,93,69,auto
 2027,2010,2026-10-13,Samford,neutral,L,61,71,auto
@@ -75,7 +74,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2305,2026-10-16,Pittsburg State,home,W,80,62,auto
 2027,2351,2026-10-16,Cal,home,L,59,60,auto
 2027,25,2026-10-16,LMU,away,W,60,59,auto
-2027,252,2026-10-16,Nebraska,home,W,72,61,auto
 2027,2750,2026-10-16,Bellarmine,home,W,76,54,auto
 2027,45,2026-10-16,Georgetown,home,L,68,76,auto
 2027,46,2026-10-16,George Washington,away,W,76,68,auto
@@ -222,7 +220,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2473,2026-10-24,Tennessee State,home,L,75,89,auto
 2027,25,2026-10-24,Oregon State,away,L,76,89,auto
 2027,2507,2026-10-24,Georgia Tech,home,W,101,73,auto
-2027,252,2026-10-24,UNLV,away,W,89,77,auto
 2027,2520,2026-10-24,Alvernia,home,W,66,55,auto
 2027,2550,2026-10-24,Monmouth,away,W,53,50,auto
 2027,2565,2026-10-24,Arkansas State,home,W,70,67,auto
@@ -239,7 +236,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,315,2026-10-24,Syracuse,neutral,L,58,71,auto
 2027,328,2026-10-24,Santa Clara,home,W,101,79,auto
 2027,52,2026-10-24,LSU,home,W,89,87,auto
-2027,59,2026-10-24,Georgia Tech Yellow Jackets,neutral,L,73,101,auto
 2027,103,2026-10-25,MIT,home,W,90,46,auto
 2027,127,2026-10-25,Marquette,away,L,79,86,auto
 2027,130,2026-10-25,Houston,home,L,66,83,auto
@@ -257,7 +253,6 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2377,2026-10-25,Southern,home,W,90,76,auto
 2027,24,2026-10-25,Oregon,away,L,57,85,auto
 2027,2440,2026-10-25,Portland State,home,W,77,71,auto
-2027,245,2026-10-25,SMU,away,L,88,94,auto
 2027,2459,2026-10-25,Toledo,away,W,79,66,auto
 2027,248,2026-10-25,Michigan,home,W,83,66,auto
 2027,2502,2026-10-25,(RV),away,L,71,77,auto
