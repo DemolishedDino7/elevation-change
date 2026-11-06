@@ -67,9 +67,25 @@ const WATCH_HOOPS = [68, 36, 278, 2250, 204, 21, 326, 328, 265, 2005, 2253, 62, 
 
   function esc(s) { return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
+  /* Constant scroll speed (px per second), so the ticker moves at the same
+     pace no matter how many games or live scores are in it. 42 matches the
+     normal non-live pace. */
+  const SPEED = 42;
+
   function paint(items, live) {
     const html = items.join('');
+    /* remember where the strip is so a refresh doesn't make it jump */
+    const m = getComputedStyle(scroll).transform;
+    const prevX = m && m !== 'none' ? -new DOMMatrixReadOnly(m).m41 : 0;
     scroll.innerHTML = html + html;
+    const half = scroll.scrollWidth / 2;
+    if (half > 0) {
+      scroll.style.animation = 'none';
+      void scroll.offsetWidth;   /* restart the animation with the new timing */
+      scroll.style.animation = '';
+      scroll.style.animationDuration = (half / SPEED) + 's';
+      scroll.style.animationDelay = -((prevX % half) / SPEED) + 's';
+    }
     label.textContent = live ? 'Live' : 'This weekend';
     label.classList.toggle('tk-live', live);
   }
