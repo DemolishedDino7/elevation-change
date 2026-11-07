@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-06T20:01+00:00",
+ "generated": "2026-11-07T03:09+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-06",
@@ -89,11 +89,11 @@
   "ok": true,
   "days": 10,
   "events": 536,
-  "finals": 91,
-  "lines": 64,
+  "finals": 139,
+  "lines": 36,
   "error": null
  },
- "lines_seen": 257,
+ "lines_seen": 287,
  "next_west": "2026-11-06",
  "model": {
   "hca_pts": 2.8,
@@ -106,7 +106,7 @@
  "index": {
   "mode": "preseason",
   "flip_games": 2,
-  "ready_share": 22.0,
+  "ready_share": 39.0,
   "flip_share": 90,
   "w_resume": 0.5,
   "bubble_rank": 45
