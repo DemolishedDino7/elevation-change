@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-07T03:09+00:00",
+ "generated": "2026-11-07T10:40+00:00",
  "season": 2027,
  "season_label": "2026-27",
- "today": "2026-11-06",
+ "today": "2026-11-07",
  "week": 2,
  "first_day": "2026-11-01",
  "games_in_ratings": 303,
@@ -88,13 +88,13 @@
  "espn": {
   "ok": true,
   "days": 10,
-  "events": 536,
-  "finals": 139,
-  "lines": 36,
+  "events": 582,
+  "finals": 137,
+  "lines": 49,
   "error": null
  },
- "lines_seen": 287,
- "next_west": "2026-11-06",
+ "lines_seen": 301,
+ "next_west": "2026-11-07",
  "model": {
   "hca_pts": 2.8,
   "altitude_per_1000ft": 0.49,
@@ -106,7 +106,7 @@
  "index": {
   "mode": "preseason",
   "flip_games": 2,
-  "ready_share": 39.0,
+  "ready_share": 47.0,
   "flip_share": 90,
   "w_resume": 0.5,
   "bubble_rank": 45
