@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-07T10:40+00:00",
+ "generated": "2026-11-07T18:07+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-07",
  "week": 2,
  "first_day": "2026-11-01",
- "games_in_ratings": 303,
+ "games_in_ratings": 375,
  "teams": 366,
  "backtest": {
   "seasons": "2021-22 to 2025-26",
@@ -90,10 +90,10 @@
   "days": 10,
   "events": 582,
   "finals": 137,
-  "lines": 49,
+  "lines": 47,
   "error": null
  },
- "lines_seen": 301,
+ "lines_seen": 302,
  "next_west": "2026-11-07",
  "model": {
   "hca_pts": 2.8,
