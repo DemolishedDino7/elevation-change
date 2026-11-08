@@ -33,6 +33,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,113,2026-10-11,Rhode Island,home,W,81,68,auto
 2027,120,2026-10-11,Georgia Tech,home,W,85,70,auto
 2027,130,2026-10-11,Eastern Michigan,home,W,87,62,auto
+2027,167,2026-10-11,Oklahoma State,away,W,99,89,auto
 2027,197,2026-10-11,New Mexico,home,L,89,99,auto
 2027,2046,2026-10-11,Evansville,home,W,79,74,auto
 2027,2086,2026-10-11,rv/rv,home,L,68,96,auto
@@ -115,6 +116,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,120,2026-10-18,West Virginia,home,W,90,81,auto
 2027,152,2026-10-18,Mississippi State,home,W,77,73,auto
 2027,156,2026-10-18,Iowa State,away,W,83,80,auto
+2027,167,2026-10-18,Washington State,home,W,92,64,auto
 2027,2050,2026-10-18,Purdue,away,L,55,87,auto
 2027,2086,2026-10-18,Indiana State,home,W,81,74,auto
 2027,2117,2026-10-18,Saginaw Valley State,home,W,99,62,auto
@@ -188,6 +190,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,2309,2026-10-23,Xavier,away,L,70,76,auto
 2027,235,2026-10-23,Mississippi State,away,W,75,58,auto
 2027,239,2026-10-23,Illinois,away,W,95,91,auto
+2027,2390,2026-10-23,Vanderbilt,home,W,109,96,auto
 2027,2617,2026-10-23,Sam Houston,home,W,120,61,auto
 2027,2641,2026-10-23,Kentucky,away,L,65,76,auto
 2027,2752,2026-10-23,Kent State,home,W,76,70,auto
@@ -241,6 +244,7 @@ season,team,date,opponent,site,result,team_pts,opp_pts,source
 2027,127,2026-10-25,Marquette,away,L,79,86,auto
 2027,130,2026-10-25,Houston,home,L,66,83,auto
 2027,150,2026-10-25,Kansas,away,W,90,84,auto
+2027,167,2026-10-25,Arizona State,home,L,86,91,auto
 2027,194,2026-10-25,Butler,home,W,82,73,auto
 2027,2086,2026-10-25,rv/rv,away,L,73,82,auto
 2027,2097,2026-10-25,South Carolina (Preseason),away,L,68,77,auto
