@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-09T20:15+00:00",
+ "generated": "2026-11-09T22:57+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-09",
@@ -90,10 +90,10 @@
   "days": 10,
   "events": 521,
   "finals": 98,
-  "lines": 39,
+  "lines": 61,
   "error": null
  },
- "lines_seen": 364,
+ "lines_seen": 386,
  "next_west": "2026-11-09",
  "model": {
   "hca_pts": 2.8,
@@ -122,6 +122,7 @@
   "espn_reports": 0,
   "hand": 0
  },
+ "last_full": "2026-11-09",
  "bracket": {
   "generated": "2026-11-09T20:15+00:00",
   "champion": 150
