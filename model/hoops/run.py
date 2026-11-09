@@ -497,8 +497,7 @@ def main():
             if boys_right != bot_right:
                 winner, how = ("boys" if boys_right else "bot"), "winner"
             elif mb == mt:
-                wb, wt = abs((bh if hw else ba) - (fh if hw else fa)), abs((th if hw else ta) - (fh if hw else fa))
-                winner, how = ("boys" if wb < wt else "bot" if wt < wb else "push"), "tiebreak"
+                winner, how = "push", "tie"
             else:
                 winner, how = ("boys" if mb < mt else "bot"), "score"
             bw[winner if winner != "push" else "ties"] += 1

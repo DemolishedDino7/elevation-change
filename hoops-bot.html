@@ -234,7 +234,7 @@
         $('#bvb-table').innerHTML = '<thead><tr>' + (v === 'all' ? '<th class="hide-s">Week</th>' : '') + '<th>Game</th><th class="n">Final</th><th class="n">Boys</th><th class="n">Bot</th><th class="n">Point</th></tr></thead><tbody>' +
           ws.map(w => w.games.map((g, i) => '<tr>' + (v === 'all' ? '<td class="hide-s">' + (i ? '' : w.week) + '</td>' : '') + '<td>' + esc(ab(g.away)) + ' at ' + esc(ab(g.home)) + '</td><td class="n">' + g.final[1] + '-' + g.final[0] + '</td>' +
             '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : '') + '">' + pick(g.boys, g.boys_right, g.boys_miss) + '</td><td class="n ' + (g.point === 'bot' ? 'up' : g.point === 'boys' ? 'down' : '') + '">' + pick(g.bot, g.bot_right, g.bot_miss) + '</td>' +
-            '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Tie') + '<span class="why">' + ({ winner: 'Winner', score: 'Score', tiebreak: 'Tiebreak' }[g.how] || '') + '</span></td></tr>').join('')).join('') + '</tbody>';
+            '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Tie') + '<span class="why">' + ({ winner: 'Winner', score: 'Score', tiebreak: 'Tiebreak', tie: 'Same miss' }[g.how] || '') + '</span></td></tr>').join('')).join('') + '</tbody>';
       };
     } else html += '<p class="note">A weekly slate of our biggest games, starting tip-off week. Results post here once the games are final.</p>';
     html += '<h2 class="sh dv">' + meta.season_label.replace('-', '–') + ' scorecard</h2><div class="cards2">' +
