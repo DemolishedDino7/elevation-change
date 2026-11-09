@@ -181,7 +181,7 @@
     const bvb = record.boys_vs_bot, live = record.live.west, bt = meta.backtest;
     const lastWk = (bvb.weeks || []).filter(w => w.games && w.games.length).slice(-1)[0];
     $('#strip').innerHTML =
-      '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>' + (bvb.boys > bvb.bot ? 'The Boys lead the season' : bvb.bot > bvb.boys ? 'The Bot leads the season' : 'Dead even on the season') + '</p></div>' +
+      '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>' + (bvb.boys > bvb.bot ? 'The Boys lead the season' : bvb.bot > bvb.boys ? 'The Bot leads the season' : 'Dead even on the season') + (bvb.ties ? ' · ' + bvb.ties + (bvb.ties === 1 ? ' tie' : ' ties') : '') + '</p></div>' +
       (lastWk ? '<div><span class="lbl">Week ' + lastWk.week + ' contest</span><b>' + lastWk.boys + '<small> – </small><span style="color:var(--purple)">' + lastWk.bot + '</span></b><p>' + (lastWk.boys > lastWk.bot ? 'The Boys took the week' : lastWk.bot > lastWk.boys ? 'The Bot took the week' : 'Week ended in a tie') + '</p></div>' : '') +
       (live.games ? '<div><span class="lbl">The Bot, our games</span><b class="p">' + live.su_w + '-' + live.su_l + '</b><p>Winners picked since Week ' + meta.launch_week + '</p></div>' : '') +
       '<div><span class="lbl">Winners picked</span><b>' + bt.model_su.toFixed(0) + '%</b><p>Backtest, ' + bt.games.toLocaleString() + ' FBS games ' + bt.seasons + '</p></div>';

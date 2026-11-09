@@ -396,7 +396,7 @@ def main():
         "backfill": {"all": grade([x for x in finals if x["mode"] == "backfill"]),
                      "west": grade([x for x in west_f if x["mode"] == "backfill"])},
         "weeks": [],
-        "boys_vs_bot": {"boys": 0, "bot": 0, "weeks": []},
+        "boys_vs_bot": {"boys": 0, "bot": 0, "ties": 0, "weeks": []},
     }
     for wk in sorted({x["week"] for x in west_f}):
         gw = [x for x in west_f if x["week"] == wk]
@@ -405,7 +405,7 @@ def main():
     # the lower combined point miss wins, then closeness on the winner's points
     by_names = {(x["home"], x["away"]): x for x in finals}
     for wk, picks in sorted(boys.get(str(season), {}).items(), key=lambda kv: int(kv[0])):
-        bw = {"week": int(wk), "boys": 0, "bot": 0, "games": []}
+        bw = {"week": int(wk), "boys": 0, "bot": 0, "ties": 0, "games": []}
         for pk in picks:
             gx = by_names.get((pk["home"], pk["away"])) or by_names.get((pk["away"], pk["home"]))
             if not gx:
@@ -432,13 +432,13 @@ def main():
             else:
                 winner = "boys" if mb < mt else "bot"
                 how = "score"
-            if winner != "push":
-                bw[winner] += 1
+            bw[winner if winner != "push" else "ties"] += 1
             bw["games"].append({"home": gx["home"], "away": gx["away"], "final": [gx["home_pts"], gx["away_pts"]],
                                 "boys": [bh, ba], "bot": [th, ta], "boys_miss": mb, "bot_miss": mt, "point": winner, "how": how,
                                 "boys_right": boys_right, "bot_right": bot_right})
         record["boys_vs_bot"]["boys"] += bw["boys"]
         record["boys_vs_bot"]["bot"] += bw["bot"]
+        record["boys_vs_bot"]["ties"] += bw["ties"]
         record["boys_vs_bot"]["weeks"].append(bw)
 
     meta = {

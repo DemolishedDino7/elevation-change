@@ -123,10 +123,12 @@ select.sel { background: var(--ink-2); color: var(--paper); border: 1px solid va
 .kv b { font-weight: 700; text-align: right; }
 h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
 .note { color: var(--muted); font-size: 0.875rem; max-width: 60ch; }
-.vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; text-align: center; border: 1px solid var(--line); background: var(--ink-2); border-radius: 4px; padding: 1.25rem 0.75rem; margin-bottom: 1rem; }
+.vs { display: grid; grid-template-columns: 1fr auto 1fr auto; align-items: center; text-align: center; border: 1px solid var(--line); background: var(--ink-2); border-radius: 4px; padding: 1.25rem 0.75rem; margin-bottom: 1rem; }
 .vs b { display: block; font-family: var(--display); font-style: italic; font-weight: 900; font-stretch: 112%; font-size: 3rem; line-height: 1; margin-top: 0.3rem; }
 .vs .bot b { color: var(--purple); }
 .vs .x { color: var(--muted); font-family: var(--display); font-style: italic; font-weight: 900; }
+.vs .tie { border-left: 1px solid var(--line); padding: 0 0.25rem 0 1rem; color: var(--muted); }
+.vs .tie b { font-size: 2rem; color: var(--muted); }
 
 /* how it works */
 .how { max-width: 46rem; }
@@ -268,7 +270,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       (lastWk
         ? '<div><span class="lbl">Week ' + lastWk.week + ' · Boys vs. Bot</span><b>' + lastWk.boys + '<small> – </small><span style="color:var(--purple)">' + lastWk.bot + '</span></b><p>' + (lastWk.boys > lastWk.bot ? 'The Boys took the week' : lastWk.bot > lastWk.boys ? 'The Bot took the week' : 'Week ended in a tie') + '</p></div>'
         : '<div><span class="lbl">' + meta.season + ' Western games</span><b class="p">' + done.su_w + '-' + done.su_l + '</b><p>' + (live.games ? 'Live picks since Week ' + meta.launch_week : 'Weeks 1-' + (meta.launch_week - 1) + ' walk-forward test') + '</p></div>') +
-      '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>Running contest tally</p></div>';
+      '<div><span class="lbl">The Boys vs. The Bot</span><b>' + bvb.boys + '<small> – </small><span style="color:var(--purple)">' + bvb.bot + '</span></b><p>Running contest tally' + (bvb.ties ? ' · ' + bvb.ties + (bvb.ties === 1 ? ' tie' : ' ties') : '') + '</p></div>';
     const up = new Date(meta.generated);
     $('#updated').textContent = 'Updated ' + up.toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' · ' + meta.games_in_ratings + ' games this season in the ratings · ' + meta.sims.toLocaleString() + ' simulated seasons';
 
@@ -385,7 +387,7 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       '</div><p class="note" style="margin:0.75rem 0 0">' + sub + '</p></div>';
     let html = '', renderBvb = null;
     html += '<h2 class="sh dv" style="margin-top:0">The Boys vs. The Bot</h2>';
-    html += '<div class="vs"><div><span class="lbl">The Boys</span><b>' + bvb.boys + '</b></div><span class="x">vs.</span><div class="bot"><span class="lbl">The Bot</span><b>' + bvb.bot + '</b></div></div>';
+    html += '<div class="vs"><div><span class="lbl">The Boys</span><b>' + bvb.boys + '</b></div><span class="x">vs.</span><div class="bot"><span class="lbl">The Bot</span><b>' + bvb.bot + '</b></div><div class="tie"><span class="lbl">Ties</span><b>' + (bvb.ties || 0) + '</b></div></div>';
     var bw = bvb.weeks.filter(w => w.games.length);
     if (bw.length) {
       const ab = n => { const t = teams.find(x => x.name === n); return t && t.abbr ? t.abbr : short(n); };
@@ -395,12 +397,12 @@ h2.sh { font-size: 1.35rem; margin: 2.25rem 0 0.9rem; }
       renderBvb = v => {
         const ws = v === 'all' ? bw : bw.filter(w => String(w.week) === String(v));
         document.querySelectorAll('#bvb-wk button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === String(v)));
-        const sb = ws.reduce((a, w) => a + w.boys, 0), st = ws.reduce((a, w) => a + w.bot, 0);
-        $('#bvb-sum').innerHTML = (v === 'all' ? 'All weeks' : 'Week ' + v) + ': The Boys <b>' + sb + '</b> – <b style="color:var(--purple)">' + st + '</b> The Bot · <span class="' + (sb > st ? 'up' : st > sb ? 'down' : 'flat') + '">' + (sb > st ? 'Boys win' : st > sb ? 'Bot wins' : 'Tied') + (v === 'all' ? ' the season so far' : ' the week') + '</span>';
+        const sb = ws.reduce((a, w) => a + w.boys, 0), st = ws.reduce((a, w) => a + w.bot, 0), stie = ws.reduce((a, w) => a + (w.ties || 0), 0);
+        $('#bvb-sum').innerHTML = (v === 'all' ? 'All weeks' : 'Week ' + v) + ': The Boys <b>' + sb + '</b> – <b style="color:var(--purple)">' + st + '</b> The Bot' + (stie ? ' · ' + stie + (stie === 1 ? ' tie' : ' ties') : '') + ' · <span class="' + (sb > st ? 'up' : st > sb ? 'down' : 'flat') + '">' + (sb > st ? 'Boys win' : st > sb ? 'Bot wins' : 'Tied') + (v === 'all' ? ' the season so far' : ' the week') + '</span>';
         $('#bvb-table').innerHTML = '<thead><tr>' + (v === 'all' ? '<th class="hide-s">Week</th>' : '') + '<th>Game</th><th class="n">Final</th><th class="n">Boys</th><th class="n">Bot</th><th class="n">Point</th></tr></thead><tbody>' +
           ws.map(w => w.games.map((g, i) => '<tr>' + (v === 'all' ? '<td class="hide-s">' + (i ? '' : w.week) + '</td>' : '') + '<td>' + esc(ab(g.away)) + ' at ' + esc(ab(g.home)) + '</td><td class="n">' + g.final[1] + '-' + g.final[0] + '</td>' +
           '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : '') + '">' + pick(g.boys, g.boys_right, g.boys_miss) + '</td><td class="n ' + (g.point === 'bot' ? 'up' : g.point === 'boys' ? 'down' : '') + '">' + pick(g.bot, g.bot_right, g.bot_miss) + '</td>' +
-          '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Push') + '<span class="why">' + ({ winner: 'Winner', score: 'Score', tiebreak: 'Tiebreak' }[g.how] || '') + '</span></td></tr>').join('')).join('') + '</tbody>';
+          '<td class="n ' + (g.point === 'boys' ? 'up' : g.point === 'bot' ? 'down' : 'flat') + '">' + (g.point === 'bot' ? 'Bot' : g.point === 'boys' ? 'Boys' : 'Tie') + '<span class="why">' + ({ winner: 'Winner', score: 'Score', tiebreak: 'Tiebreak' }[g.how] || '') + '</span></td></tr>').join('')).join('') + '</tbody>';
       };
       html += '<p class="note">Scores listed away-home. ✓ / ✗ = picked the right winner; “off” = combined points missed. Picking the right winner earns the point first (“Winner”). If both sides or neither got the winner, the smaller miss wins it (“Score”).</p>';
     } else html += '<p class="note">Results post here once the week\'s games are final.</p>';

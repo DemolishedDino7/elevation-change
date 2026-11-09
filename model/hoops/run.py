@@ -473,7 +473,7 @@ def main():
     finals = [x for x in out_games if x["final"] and x["home_d1"] and x["away_d1"] and x["pred_margin"] is not None]
     west_f = [x for x in finals if x["home_west"] or x["away_west"]]
     record = {"live": {"all": grade([x for x in finals if x["mode"] == "live"]), "west": grade([x for x in west_f if x["mode"] == "live"])},
-              "weeks": [], "boys_vs_bot": {"boys": 0, "bot": 0, "weeks": []}}
+              "weeks": [], "boys_vs_bot": {"boys": 0, "bot": 0, "ties": 0, "weeks": []}}
     for wk in sorted({x["week"] for x in west_f}):
         gw = [x for x in west_f if x["week"] == wk]
         record["weeks"].append({"week": wk, **grade(gw)})
@@ -482,7 +482,7 @@ def main():
                                          "out and the contest uses the Bot's locked pick."})
     by_names = {(x["home"], x["away"]): x for x in finals}
     for wk, picks in sorted(boys.get(str(season), {}).items(), key=lambda kv: int(kv[0])):
-        bw = {"week": int(wk), "boys": 0, "bot": 0, "games": []}
+        bw = {"week": int(wk), "boys": 0, "bot": 0, "ties": 0, "games": []}
         for pk in picks:
             gx = by_names.get((pk["home"], pk["away"])) or by_names.get((pk["away"], pk["home"]))
             if not gx:
@@ -501,13 +501,13 @@ def main():
                 winner, how = ("boys" if wb < wt else "bot" if wt < wb else "push"), "tiebreak"
             else:
                 winner, how = ("boys" if mb < mt else "bot"), "score"
-            if winner != "push":
-                bw[winner] += 1
+            bw[winner if winner != "push" else "ties"] += 1
             bw["games"].append({"home": gx["home"], "away": gx["away"], "final": [fh, fa], "boys": [bh, ba], "bot": [th, ta],
                                 "boys_miss": mb, "bot_miss": mt, "point": winner, "how": how,
                                 "boys_right": boys_right, "bot_right": bot_right})
         record["boys_vs_bot"]["boys"] += bw["boys"]
         record["boys_vs_bot"]["bot"] += bw["bot"]
+        record["boys_vs_bot"]["ties"] += bw["ties"]
         record["boys_vs_bot"]["weeks"].append(bw)
 
     # ---------------- standings ----------------
