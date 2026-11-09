@@ -7,6 +7,7 @@ on:
     - cron: "10 13 * 10-12,1-4 *"          # daily 6:10am MT: full refresh (data mirror updates overnight)
     - cron: "40 23 * 11,12,1-4 *"          # 4:40pm MT: lock evening picks, afternoon finals
     - cron: "40 3,5,7,9 * 11,12,1-4 *"     # 8:40pm, 10:40pm, 12:40am, 2:40am MT: same-night finals (Hawai'i too)
+    - cron: "25 14,16,19 * 10-12,1-4 *"    # 7:25am, 9:25am, 12:25pm MT: backups; if GitHub skipped the 6:10am run, these do the full refresh (and Monday bracket) instead
   workflow_dispatch:
     inputs:
       full:
@@ -48,9 +49,14 @@ jobs:
           restore-keys: hoops-data-
 
       - name: Exhibitions
-        if: github.event.schedule == '10 13 * 10-12,1-4 *' || inputs.full == 'yes'
         continue-on-error: true
-        run: python model/hoops/fetch_exhibitions.py
+        run: |
+          # every full refresh, including a backup run catching up on a skipped morning
+          today=$(TZ=America/Denver date +%F)
+          last=$(python -c "import json;print(json.load(open('hoops/meta.json')).get('last_full') or '')" 2>/dev/null || true)
+          if [ "${{ github.event.schedule }}" = "10 13 * 10-12,1-4 *" ] || [ "${{ inputs.full }}" = "yes" ] || [ "$last" != "$today" ]; then
+            python model/hoops/fetch_exhibitions.py
+          fi
 
       - name: Run model
         run: |

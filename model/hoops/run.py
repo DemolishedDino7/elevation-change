@@ -162,6 +162,18 @@ def main():
     if not args.no_download:
         data.download(season)
     today = (now + data.MT).date()
+    # Self-healing schedule: GitHub sometimes skips the 6:10am full refresh. If today's full
+    # refit hasn't happened yet, the first run after 5am MT does it, whatever triggered it.
+    prev_meta = load("meta.json", {})
+    if args.quick and prev_meta.get("last_full") != str(today) and (now + data.MT).hour >= 5:
+        log(f"  no full refresh yet today (last: {prev_meta.get('last_full')}); upgrading this run to a full refresh")
+        args.quick = False
+    # Same for the weekly bracket: rebuild whenever the one on the site predates this week's Monday.
+    this_monday = today - timedelta(days=today.weekday())
+    br_gen = str(load("bracket.json", {}).get("generated", ""))[:10]
+    bracket_due = args.bracket or not br_gen or br_gen < str(this_monday)
+    if bracket_due and not args.bracket:
+        log(f"  bracket last built {br_gen or 'never'}, before Monday {this_monday}: rebuilding it this run")
     patch, new_lines, espn_status = (pd.DataFrame(), {}, {"ok": False, "error": "skipped"}) if args.no_espn else \
         espn.fetch(espn.window(today), season, log=log)
     if not args.no_espn and not espn_status.get("ok"):
@@ -574,7 +586,7 @@ def main():
                         "espn_reports": len(espn_inj), "hand": len(hand)}
 
     # ---------------- March Madness projection (weekly: Monday morning runs) ----------------
-    if args.bracket or (not args.quick and pd.Timestamp(today).weekday() == 0) or not (OUT / "bracket.json").exists():
+    if bracket_due:
         try:
             rb = dict(rnow)
             rb["O"] = rnow["O"].copy()
@@ -587,6 +599,9 @@ def main():
             import traceback
             traceback.print_exc()
             log("bracket step failed:", repr(e)[:200])
+    meta["last_full"] = str(today) if not args.quick else prev_meta.get("last_full")
+    if "bracket" not in meta and prev_meta.get("bracket"):
+        meta["bracket"] = prev_meta["bracket"]
     dump("meta.json", meta, indent=1)
     dump("teams.json", teams)
     dump("games_west.json", west_games)

@@ -8,6 +8,7 @@ on:
     - cron: "10 13 * 8-12,1 1"   # Mon  7:10am MT  full week of results -> next week's picks
     - cron: "10 13 * 8-12,1 3"   # Wed  7:10am MT  refresh + lock Thursday games
     - cron: "10 15 * 8-12,1 5"   # Fri  9:10am MT  refresh + lock Friday/Saturday games
+    - cron: "25 16,19 * 8-12,1 1,3,5"  # Mon/Wed/Fri 9:25am + 12:25pm MT: backups in case GitHub skips the morning run (reruns are harmless)
     - cron: "0 11 4 10 *"        # one-off: Sun Oct 4 5:00am MT, Elevation Index goes automatic
     # game nights: hourly so finals (from NCAA.com) show up the same night
     - cron: "40 18-23 * 8-12,1 6"  # Sat 12:40pm-5:40pm MT
