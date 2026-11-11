@@ -90,7 +90,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--purple); outlin
 .feature-img { display: block; width: 100%; max-width: 100%; height: auto; border: 1px solid var(--line); margin: 2rem 0 0; }
 /* stories run the full width of the page; keep tall photos from taking over the screen */
 .feature-img[src*="poster"] { width: auto; max-height: 85vh; }
-.article-body .body-fig img { width: auto; max-width: 100%; max-height: 80vh; margin-inline: auto; }
+.article-body .body-fig img { width: auto; height: auto; max-width: 100%; max-height: 80vh; margin-inline: auto; object-fit: contain; }
 .feature-cap { font-size: 0.7rem; color: var(--muted); margin: 0.75rem 0 0; }
 .article-body { max-width: none; padding: 2.5rem 0 4rem; font-size: 1.125rem; }
 .article-body p { margin: 0 0 1.4rem; }
