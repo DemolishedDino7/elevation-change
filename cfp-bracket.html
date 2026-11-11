@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playoff Picture — Elevation Change</title>
+<meta name="description" content="The 12-team College Football Playoff as it would look today under the Elevation Index, plus every conference's bowl, title-game and playoff odds from The Bot.">
+<meta name="theme-color" content="#08080E">
+<meta property="og:site_name" content="Elevation Change">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Elevation Index Playoff Bracket">
+<meta property="og:description" content="If the season ended today: our 12-team field, seeded by résumé, and every conference's odds.">
+<meta property="og:url" content="https://elevationchange.co/cfp-bracket.html">
+<meta property="og:image" content="https://elevationchange.co/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://elevationchange.co/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;0,104,800;0,108,700;0,112,900;1,100,700;1,104,700;1,104,800;1,108,700;1,112,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202610151840">
+<style>
+.pb-head { padding: 3.5rem 0 1rem; }
+.pb-intro { max-width: 50ch; color: var(--muted); margin: 0; }
+.pb-h2 { font-family: var(--display); text-transform: uppercase; font-style: italic; font-weight: 700; font-stretch: 108%; letter-spacing: 0.02em; font-size: clamp(1.6rem, 4vw, 2.25rem); margin: 3rem 0 0.35rem; line-height: 1; }
+.pb-sub { color: var(--muted); font-size: 0.9375rem; margin: 0 0 1.25rem; max-width: 60ch; }
+.lbl { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- logos ---------- */
+.lg { width: 24px; height: 24px; flex: none; padding: 3px; box-sizing: border-box; background: #F2F1EE; border-radius: 50%; object-fit: contain; }
+.sw { width: 10px; height: 10px; border-radius: 2px; flex: none; margin: 0 7px; }
+
+/* ---------- bracket ---------- */
+.bracket { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+.round h3 { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--purple); margin: 0 0 0.6rem; font-weight: 600; }
+.round .games { display: grid; gap: 0.75rem; }
+@media (min-width: 60rem) { .bracket { grid-template-columns: repeat(4, 1fr); gap: 1rem; } .round { display: flex; flex-direction: column; } .round .games { flex: 1; display: flex; flex-direction: column; justify-content: space-around; gap: 1rem; } }
+.game { border: 1px solid var(--line); border-radius: 4px; background: var(--ink-2); overflow: hidden; }
+.game .site { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 0.4rem 0.7rem 0; }
+.slot { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; }
+.slot + .slot { border-top: 1px solid var(--line); }
+.slot .sd { font-family: var(--display); font-weight: 700; font-size: 0.875rem; width: 1.3rem; color: var(--muted); text-align: right; flex: none; }
+.slot .nm { font-family: var(--display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.03em; font-size: 0.9375rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slot .nm small { display: block; font-family: var(--body); text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 0.6875rem; color: var(--muted); }
+.slot .sc { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.slot.win .nm { color: var(--paper); }
+.slot.win .sc { color: var(--purple); font-weight: 600; }
+.slot.lose { opacity: 0.45; }
+.slot.bye .nm { color: var(--muted); font-style: italic; font-weight: 500; }
+.champ { margin-top: 1rem; border: 1px solid var(--purple); border-top-width: 4px; border-radius: 4px; background: var(--ink-2); padding: 1rem 1.1rem; display: flex; align-items: center; gap: 0.75rem; }
+.champ .lg { width: 44px; height: 44px; padding: 5px; }
+.champ b { font-family: var(--display); text-transform: uppercase; font-style: italic; font-weight: 800; font-size: 1.5rem; display: block; line-height: 1; }
+
+/* ---------- field + bubble ---------- */
+.field { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-top: 2rem; }
+@media (min-width: 46rem) { .field { grid-template-columns: 1.4fr 1fr; } }
+.box { border: 1px solid var(--line); border-radius: 4px; background: var(--ink-2); padding: 1rem 1.1rem; }
+.box h3 { font-family: var(--display); text-transform: uppercase; font-style: italic; font-weight: 700; font-size: 1.15rem; margin: 0 0 0.75rem; }
+.frow { display: flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.875rem; }
+.frow:first-of-type { border-top: 0; }
+.frow .sd { font-family: var(--display); font-weight: 700; width: 1.3rem; text-align: right; color: var(--muted); }
+.frow .nm { flex: 1; min-width: 0; }
+.frow .how { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.frow .how.auto { border-color: var(--purple); color: var(--purple); }
+.frow .rk { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); width: 2.4rem; text-align: right; }
+
+/* ---------- conference cards ---------- */
+.cards { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+@media (min-width: 46rem) { .cards { grid-template-columns: 1fr 1fr; } }
+.cc { border: 1px solid var(--line); border-top: 4px solid var(--purple); border-radius: 4px; background: var(--ink-2); padding: 1.1rem 1.1rem 1.25rem; min-width: 0; }
+.cc.ours { border-top-color: #F2F1EE; }
+.cc h3 { font-family: var(--display); text-transform: uppercase; font-style: italic; font-weight: 700; font-size: 1.4rem; margin: 0; line-height: 1.05; display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.cc h3 .tag { font-style: normal; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.12em; color: var(--ink); background: var(--paper); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 0.9rem 0 1rem; }
+.stat { background: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 0.6rem 0.65rem; min-width: 0; }
+.stat b { display: block; font-family: var(--display); font-weight: 800; font-size: 1.35rem; line-height: 1.05; color: var(--paper); font-variant-numeric: tabular-nums; }
+.stat span { font-family: var(--mono); font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.25rem; line-height: 1.3; }
+.odds { width: 100%; border-collapse: collapse; font-size: 0.8125rem; table-layout: fixed; }
+.odds th { font-family: var(--mono); font-weight: 500; font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: right; padding: 0 0 0.4rem; border-bottom: 1px solid var(--line); }
+.odds th:first-child { text-align: left; width: 46%; }
+.odds td { padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: right; font-variant-numeric: tabular-nums; position: relative; }
+.odds td:first-child { text-align: left; }
+.odds .tm { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
+.odds .tm .lg { width: 20px; height: 20px; padding: 2px; }
+.odds .tm span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.02em; }
+.odds .tm small { color: var(--muted); font-family: var(--mono); font-size: 0.625rem; margin-left: auto; padding-left: 0.3rem; flex: none; }
+.pct { display: inline-block; min-width: 2.6rem; padding: 0.12rem 0.3rem; border-radius: 3px; font-family: var(--mono); font-size: 0.75rem; text-align: center; }
+.more summary { cursor: pointer; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); margin-top: 0.6rem; list-style: none; }
+.more summary::-webkit-details-marker { display: none; }
+.more[open] summary { display: none; }
+.pb-method { max-width: 44rem; margin: 3.5rem 0 4rem; }
+.pb-method h2 { font-family: var(--display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; font-size: 1.5rem; margin: 0 0 0.75rem; }
+.pb-method p { color: var(--muted); }
+.err { color: var(--down); }
+@media (max-width: 30rem) { .odds .tm small { display: none; } .odds th:first-child { width: 42%; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Elevation Change"><circle cx="50" cy="50" r="45" fill="none" stroke="#8B6BB8" stroke-width="4"/><path d="M16 64 L32 40 L41 50 L54 26 L66 48 L74 40 L86 64 Z" fill="#F2F1EE"/><path d="M47 66 Q60 74 45 80 Q33 85 52 90" fill="none" stroke="#8B6BB8" stroke-width="5" stroke-linecap="round"/></svg>
+      <span>Elevation Change</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="football.html" aria-current="page">Football</a>
+      <a href="basketball.html">Basketball</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav" aria-label="Football">
+  <div class="wrap">
+    <a href="football.html">Hub</a>
+    <a href="elevation-index.html">Index</a>
+    <a href="cfp-bracket.html" aria-current="page">Playoff</a>
+    <a href="standings.html">Standings</a>
+    <a href="the-bot.html">The Bot</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="pb-head">
+      <p class="eyebrow" id="pb-eyebrow">The Elevation Index: Playoff Picture</p>
+      <h1 class="page-title">If It Ended Today</h1>
+      <p class="pb-intro">The 12-team College Football Playoff built straight from the <a href="national-index.html">National Index</a>. No committee, no polls. Then every conference's odds of reaching a bowl, its title game and the playoff, from 10,000 simulated seasons by <a href="the-bot.html">The Bot</a>.</p>
+    </section>
+
+    <h2 class="pb-h2">The Bracket</h2>
+    <p class="pb-sub">Seeded 1–12 by Index score. Seeds 1–4 get byes. Every game is picked for the team with the higher Index score.</p>
+    <div class="bracket" id="bracket"></div>
+
+    <div class="field">
+      <div class="box"><h3>The Field</h3><div id="field"></div></div>
+      <div class="box"><h3>On the Bubble</h3><div id="bubble"></div></div>
+    </div>
+
+    <h2 class="pb-h2">Conference Odds</h2>
+    <p class="pb-sub" id="odds-sub">Each team's chance to reach a bowl, play in its conference title game, and make the playoff. The three totals are what the conference can expect as a whole.</p>
+    <div class="cards" id="cards"><p class="lbl">Loading The Bot's simulations…</p></div>
+
+    <section class="pb-method">
+      <h2>How it works</h2>
+      <p><b>The bracket</b> uses the playoff rules The Bot simulates: the SEC, Big Ten, ACC and Big 12 champions get automatic bids, along with the highest-ranked champion from the Group of Six. Notre Dame gets in if it's in the top 12. Every other spot goes to the next-highest teams in the Index. Each conference's champion is its highest-ranked team in the Index right now. The four highest-ranked teams in the field get the byes, and the rest are seeded straight down the Index. It's a résumé bracket, so it shows who has earned a spot, not who would win.</p>
+      <p><b>The conference odds</b> come from The Bot's power ratings, which measure how strong a team is going forward. The Bot plays out the rest of the season 10,000 times, seats each title game from the simulated standings, then picks the playoff field the same way as above. "Bowl teams" is how many teams the conference can expect to finish bowl-eligible, and "Playoff bids" is how many it can expect in the 12-team field. The two can disagree with the bracket: a team with a strong résumé but a hard schedule left can rank high in the Index and still have long playoff odds.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;width:min(68rem,100% - 2.5rem);">
+    <span>Elevation Change | 2026</span>
+    <span><a href="index.html">Home</a></span>
+  </div>
+</footer>
+
+<script src="ei-national.js?v=202611110830"></script>
+<script src="ei-engine.js?v=202611110830"></script>
+<script>
+(function () {
+  const P4 = ['SEC', 'Big Ten', 'ACC', 'Big 12'];
+  const OURS = ['Pac-12', 'Mountain West'];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const confName = c => c === 'FBS Independents' ? 'Independents' : c;
+
+  /* a logo with fallbacks: each candidate in turn, then a color swatch */
+  function logo(src, color, cls) {
+    const c = (src || '').split('|').map(s => s.trim()).filter(Boolean);
+    if (!c.length) return '<i class="sw" style="background:' + esc(color || '#555') + '"></i>';
+    return '<img class="lg ' + (cls || '') + '" src="' + esc(c[0]) + '" data-alt="' + esc(c.slice(1).join('|')) + '" data-color="' + esc(color || '#555') + '" alt="" onerror="EC_logoErr(this)">';
+  }
+  window.EC_logoErr = function (im) {
+    const rest = (im.dataset.alt || '').split('|').filter(Boolean);
+    if (rest.length) { im.dataset.alt = rest.slice(1).join('|'); im.src = rest[0]; return; }
+    const i = document.createElement('i'); i.className = 'sw'; i.style.background = im.dataset.color; im.replaceWith(i);
+  };
+
+  /* ---------------- the Index field ---------------- */
+  const L = EI.history(CURRENT_WEEK).latest.filter(t => t.games.length).map((t, i) => Object.assign(t, { rank: i + 1 }));
+  document.getElementById('pb-eyebrow').textContent = 'The Elevation Index: Playoff Picture | Through Week ' + CURRENT_WEEK;
+
+  const champOf = {};
+  L.forEach(t => { if (t.conf && t.conf !== 'FBS Independents' && !champOf[t.conf]) champOf[t.conf] = t; });
+  const field = [], how = {};
+  P4.forEach(c => { if (champOf[c]) { field.push(champOf[c]); how[champOf[c].id] = c + ' champ'; } });
+  const g6 = Object.keys(champOf).filter(c => !P4.includes(c)).map(c => champOf[c]).sort((a, b) => a.rank - b.rank)[0];
+  if (g6) { field.push(g6); how[g6.id] = 'G6 champ · ' + g6.conf; }
+  const nd = L.find(t => t.id === 'ND');
+  if (nd && nd.rank <= 12 && !field.includes(nd)) { field.push(nd); how[nd.id] = 'Top 12'; }
+  for (const t of L) { if (field.length >= 12) break; if (!field.includes(t)) { field.push(t); how[t.id] = 'At-large'; } }
+  field.sort((a, b) => a.rank - b.rank);
+  field.forEach((t, i) => t.seed = i + 1);
+  const S = n => field[n - 1];
+
+  const better = (a, b) => (a.score > b.score || (a.score === b.score && a.rank < b.rank)) ? a : b;
+  const slot = (t, cls) => '<div class="slot ' + (cls || '') + '"><span class="sd">' + t.seed + '</span>' + logo(t.logo, t.color) +
+    '<span class="nm">' + esc(t.name) + '<small>' + t.rec.w + '-' + t.rec.l + ' · ' + esc(confName(t.conf)) + '</small></span><span class="sc">' + t.score.toFixed(1) + '</span></div>';
+  const game = (a, b, site) => { const w = better(a, b); return { w, html: '<div class="game">' + (site ? '<div class="site">' + site + '</div>' : '') + slot(a, a === w ? 'win' : 'lose') + slot(b, b === w ? 'win' : 'lose') + '</div>' }; };
+
+  const fr = [[5, 12], [8, 9], [6, 11], [7, 10]].map(p => game(S(p[0]), S(p[1]), 'Campus of the ' + p[0] + ' seed'));
+  const qf = [[S(4), fr[0].w], [S(1), fr[1].w], [S(3), fr[2].w], [S(2), fr[3].w]].map(p => game(p[0], p[1], 'Quarterfinal bowl'));
+  const sf = [game(qf[0].w, qf[1].w, 'Semifinal'), game(qf[2].w, qf[3].w, 'Semifinal')];
+  const nc = game(sf[0].w, sf[1].w, 'National championship');
+  const col = (h, gs) => '<div class="round"><h3>' + h + '</h3><div class="games">' + gs.map(g => g.html).join('') + '</div></div>';
+  const ch = nc.w;
+  document.getElementById('bracket').innerHTML =
+    col('First round', fr) + col('Quarterfinals', qf) + col('Semifinals', sf) +
+    '<div class="round"><h3>Title game</h3><div class="games"><div>' + nc.html +
+    '<div class="champ">' + logo(ch.logo, ch.color) + '<div><span class="lbl">Index champion</span><b>' + esc(ch.name) + '</b></div></div></div></div></div>';
+
+  document.getElementById('field').innerHTML = field.map(t =>
+    '<div class="frow"><span class="sd">' + t.seed + '</span>' + logo(t.logo, t.color) + '<span class="nm">' + esc(t.name) + '</span>' +
+    '<span class="how' + (/champ|Top 12/.test(how[t.id]) ? ' auto' : '') + '">' + esc(how[t.id]) + '</span><span class="rk">#' + t.rank + '</span></div>').join('');
+
+  const out = L.filter(t => !field.includes(t)).slice(0, 4);
+  const lastIn = field.filter(t => how[t.id] === 'At-large').sort((a, b) => b.rank - a.rank).slice(0, 2);
+  const brow = (t, tag) => '<div class="frow">' + logo(t.logo, t.color) + '<span class="nm">' + esc(t.name) + ' <span class="lbl">' + t.rec.w + '-' + t.rec.l + '</span></span><span class="how">' + tag + '</span><span class="rk">#' + t.rank + '</span></div>';
+  document.getElementById('bubble').innerHTML = lastIn.map(t => brow(t, 'Last in')).join('') + out.map(t => brow(t, 'Out')).join('') ;
+
+  /* ---------------- conference odds from The Bot ---------------- */
+  const pct = v => v == null ? '—' : v <= 0 ? '—' : v < 0.005 ? '<1%' : v > 0.995 ? '>99%' : Math.round(v * 100) + '%';
+  const shade = v => { if (!v || v <= 0) return ''; const a = Math.min(0.85, 0.08 + v * 0.8); return 'background:rgba(139,107,184,' + a.toFixed(2) + ');color:' + (v > 0.55 ? '#08080E' : 'var(--paper)'); };
+  const cell = v => '<td><span class="pct" style="' + shade(v) + '">' + pct(v) + '</span></td>';
+  const num = (v, d) => v.toFixed(d);
+
+  Promise.all([
+    fetch('bot/ratings.json', { cache: 'no-cache' }).then(r => r.json()),
+    fetch('bot/meta.json', { cache: 'no-cache' }).then(r => r.json()).catch(() => ({}))
+  ]).then(([teams, meta]) => {
+    const fbs = teams.filter(t => t.div === 'fbs');
+    const by = {};
+    fbs.forEach(t => (by[t.conf] = by[t.conf] || []).push(t));
+    const order = Object.keys(by).sort((a, b) => {
+      const oa = OURS.indexOf(a), ob = OURS.indexOf(b);
+      if (oa !== ob) return (oa < 0 ? 99 : oa) - (ob < 0 ? 99 : ob);
+      if (a === 'FBS Independents') return 1; if (b === 'FBS Independents') return -1;
+      const s = c => by[c].reduce((x, t) => x + t.cfp, 0);
+      return s(b) - s(a);
+    });
+    if (meta.sims) document.getElementById('odds-sub').textContent = 'Each team\'s chance to reach a bowl, play in its conference title game, and make the playoff, from ' + meta.sims.toLocaleString() + ' simulated seasons. The three totals are what the conference can expect as a whole.';
+    document.getElementById('cards').innerHTML = order.map(c => {
+      const ts = by[c].slice().sort((a, b) => (b.ccg - a.ccg) || (b.cfp - a.cfp) || (b.bowl - a.bowl));
+      const ind = c === 'FBS Independents';
+      const bowls = ts.reduce((x, t) => x + t.bowl, 0), bids = ts.reduce((x, t) => x + t.cfp, 0);
+      const fav = ind ? null : ts.slice().sort((a, b) => b.title - a.title)[0];
+      const row = t => '<tr><td><div class="tm">' + logo('logos/' + t.abbr + '.png|' + (t.logo || ''), t.color) + '<span>' + esc(t.name) + '</span><small>' + t.w + '-' + t.l + '</small></div></td>' + cell(t.bowl) + (ind ? '<td class="lbl">—</td>' : cell(t.ccg)) + cell(t.cfp) + '</tr>';
+      const head = '<table class="odds"><thead><tr><th>Team</th><th>Bowl</th><th>Title game</th><th>CFP</th></tr></thead><tbody>';
+      const top = OURS.includes(c) ? ts : ts.slice(0, 6), rest = OURS.includes(c) ? [] : ts.slice(6);
+      return '<article class="cc' + (OURS.includes(c) ? ' ours' : '') + '"><h3>' + esc(confName(c)) + (OURS.includes(c) ? '<span class="tag">Our league</span>' : '') + '</h3>' +
+        '<div class="stats"><div class="stat"><b>' + num(bowls, 1) + '</b><span>Bowl teams of ' + ts.length + '</span></div>' +
+        '<div class="stat"><b>' + (fav ? Math.round(fav.title * 100) + '%' : '—') + '</b><span>' + (fav ? esc(fav.name) + ' title odds' : 'No title game') + '</span></div>' +
+        '<div class="stat"><b>' + num(bids, 2) + '</b><span>Expected playoff bids</span></div></div>' +
+        head + top.map(row).join('') + '</tbody></table>' +
+        (rest.length ? '<details class="more"><summary>+ ' + rest.length + ' more teams</summary>' + head + rest.map(row).join('') + '</tbody></table></details>' : '') +
+        '</article>';
+    }).join('');
+  }).catch(() => { document.getElementById('cards').innerHTML = '<p class="err">The Bot\'s odds didn\'t load. Refresh to try again.</p>'; });
+})();
+</script>
+<script data-goatcounter="https://elevationchange.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="ticker.js?v=202610151845"></script>
+</body>
+</html>
