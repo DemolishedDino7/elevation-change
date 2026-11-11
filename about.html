@@ -25,8 +25,8 @@
 .team { list-style: none; margin: 0; padding: 2rem 0 4rem; display: grid; gap: 1.25rem; }
 @media (min-width: 52rem) { .team { grid-template-columns: repeat(3, 1fr); } }
 .member { background: var(--ink-2); border: 1px solid var(--line); border-top: 3px solid var(--purple); border-radius: 4px; padding: 1.5rem; display: flex; flex-direction: column; }
-.member-head { display: flex; align-items: center; gap: 1.1rem; margin-bottom: 1.25rem; }
-.member .photo { flex: none; display: block; width: 6.5rem; height: 6.5rem; border-radius: 50%; object-fit: cover; border: 3px solid var(--purple); background: var(--line); }
+.member-head { display: flex; align-items: flex-end; gap: 1.1rem; margin-bottom: 1.25rem; }
+.member .photo { flex: none; display: block; width: 7.5rem; height: auto; aspect-ratio: 4 / 5; border-radius: 4px; object-fit: cover; background: var(--line); }
 .member-head .role { margin: 0; }
 .member h3 { font-family: var(--display); text-transform: uppercase; font-weight: 800; font-stretch: 104%; font-size: 1.5rem; line-height: 1; letter-spacing: -0.01em; margin: 0 0 0.45rem; color: var(--paper); }
 .member .role { font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; font-weight: 600; color: var(--purple); margin: 0 0 1.1rem; }
@@ -81,7 +81,7 @@
     <ul class="team">
       <li class="member" id="preston">
         <div class="member-head">
-          <img class="photo" src="team-preston.jpg?v=2" alt="Preston Thompson" width="480" height="480" loading="lazy">
+          <img class="photo" src="team-preston.jpg?v=3" alt="Preston Thompson" width="480" height="600" loading="lazy">
           <div>
             <h3>Preston Thompson</h3>
             <p class="role">Founder &amp; Creator</p>
@@ -95,7 +95,7 @@
 
       <li class="member" id="tyler">
         <div class="member-head">
-          <img class="photo" src="team-tyler.jpg?v=2" alt="Tyler Angerbauer" width="480" height="480" loading="lazy">
+          <img class="photo" src="team-tyler.jpg?v=3" alt="Tyler Angerbauer" width="480" height="600" loading="lazy">
           <div>
             <h3>Tyler Angerbauer</h3>
             <p class="role">Lead Beat Writer</p>
@@ -108,7 +108,7 @@
 
       <li class="member" id="brooks">
         <div class="member-head">
-          <img class="photo" src="team-brooks.jpg?v=2" alt="Brooks Barney" width="480" height="480" loading="lazy">
+          <img class="photo" src="team-brooks.jpg?v=3" alt="Brooks Barney" width="480" height="600" loading="lazy">
           <div>
             <h3>Brooks Barney</h3>
             <p class="role">Lead Content Producer</p>
