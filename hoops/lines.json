@@ -1905,7 +1905,7 @@
 "spread": 4.5,
 "total": 158.5,
 "provider": "Draft Kings",
-"seen": "2026-11-10T20:54+00:00"
+"seen": "2026-11-11T02:57+00:00"
 },
 "401921686": {
 "spread": 2.5,
@@ -2395,9 +2395,9 @@
 },
 "401921062": {
 "spread": -11.5,
-"total": 148.5,
+"total": 147.5,
 "provider": "Draft Kings",
-"seen": "2026-11-10T20:54+00:00"
+"seen": "2026-11-11T02:57+00:00"
 },
 "401920063": {
 "spread": -20.5,
@@ -2488,5 +2488,203 @@
 "total": 181.5,
 "provider": "Draft Kings",
 "seen": "2026-11-10T20:54+00:00"
+},
+"401920234": {
+"spread": 1.5,
+"total": 143.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401918992": {
+"spread": -7.5,
+"total": 152.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401911230": {
+"spread": 9.5,
+"total": 162.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401918978": {
+"spread": -10.5,
+"total": 151.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401925717": {
+"spread": -18.5,
+"total": 152.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401921181": {
+"spread": 9.5,
+"total": 149.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401926202": {
+"spread": -6.5,
+"total": 151.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401925858": {
+"spread": -1.5,
+"total": 155.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401921175": {
+"spread": -7.5,
+"total": 164.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401909524": {
+"spread": -3.5,
+"total": 158.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401926868": {
+"spread": -4.5,
+"total": 153.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401926863": {
+"spread": -7.5,
+"total": 155.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401924735": {
+"spread": -4.5,
+"total": 137.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401921821": {
+"spread": -22.5,
+"total": 127.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401921286": {
+"spread": 12.5,
+"total": 149.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401920903": {
+"spread": 3.5,
+"total": 149.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401920740": {
+"spread": -4.5,
+"total": 146.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401920202": {
+"spread": -30.5,
+"total": 147.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401918452": {
+"spread": -4.5,
+"total": 165.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401911263": {
+"spread": -9.5,
+"total": 156.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401928794": {
+"spread": 1.5,
+"total": 160.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401925702": {
+"spread": -37.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401928824": {
+"spread": -32.5,
+"total": 157.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401928996": {
+"spread": 1.5,
+"total": 142.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401925863": {
+"spread": -17.5,
+"total": 154.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401917522": {
+"spread": 2.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401926062": {
+"spread": -34.5,
+"total": 151.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401925915": {
+"spread": -14.5,
+"total": 148.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401911454": {
+"spread": 1.5,
+"total": 145.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401911346": {
+"spread": -18.5,
+"total": 179.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401917523": {
+"spread": 6.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401917521": {
+"spread": -15.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
+},
+"401918054": {
+"spread": 8.5,
+"total": 162.5,
+"provider": "Draft Kings",
+"seen": "2026-11-11T02:57+00:00"
 }
 }
