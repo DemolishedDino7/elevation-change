@@ -24,8 +24,10 @@
 .about-story { max-width: 44rem; padding-bottom: 1rem; }
 .team { list-style: none; margin: 0; padding: 2rem 0 4rem; display: grid; gap: 1.25rem; }
 @media (min-width: 52rem) { .team { grid-template-columns: repeat(3, 1fr); } }
-.member { background: var(--ink-2); border: 1px solid var(--line); border-top: 3px solid var(--purple); border-radius: 4px; padding: 0 1.5rem 1.5rem; display: flex; flex-direction: column; overflow: hidden; }
-.member .photo { display: block; width: calc(100% + 3rem); margin: 0 -1.5rem 1.4rem; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 30%; background: var(--line); }
+.member { background: var(--ink-2); border: 1px solid var(--line); border-top: 3px solid var(--purple); border-radius: 4px; padding: 1.5rem; display: flex; flex-direction: column; }
+.member-head { display: flex; align-items: center; gap: 1.1rem; margin-bottom: 1.25rem; }
+.member .photo { flex: none; display: block; width: 6.5rem; height: 6.5rem; border-radius: 50%; object-fit: cover; border: 3px solid var(--purple); background: var(--line); }
+.member-head .role { margin: 0; }
 .member h3 { font-family: var(--display); text-transform: uppercase; font-weight: 800; font-stretch: 104%; font-size: 1.5rem; line-height: 1; letter-spacing: -0.01em; margin: 0 0 0.45rem; color: var(--paper); }
 .member .role { font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; font-weight: 600; color: var(--purple); margin: 0 0 1.1rem; }
 .member p { font-size: 1rem; line-height: 1.6; margin: 0 0 1rem; color: var(--paper); }
@@ -78,9 +80,13 @@
     <h2 class="section-head" id="team">Meet the team</h2>
     <ul class="team">
       <li class="member" id="preston">
-        <img class="photo" src="team-preston.jpg" alt="Preston Thompson" width="800" height="600" loading="lazy">
-        <h3>Preston Thompson</h3>
-        <p class="role">Founder &amp; Creator</p>
+        <div class="member-head">
+          <img class="photo" src="team-preston.jpg?v=2" alt="Preston Thompson" width="480" height="480" loading="lazy">
+          <div>
+            <h3>Preston Thompson</h3>
+            <p class="role">Founder &amp; Creator</p>
+          </div>
+        </div>
         <p>Preston Thompson is the creator and founder of Elevation Change and a current student at Brigham Young University, where he studies Business Management. A lifelong sports enthusiast, Preston follows just about everything, with a particular passion for college football, college basketball, the NFL, NBA, NHL, track and field, and cross country.</p>
         <p>Growing up, Preston cheered for the University of Utah, Oregon, and BYU across their respective athletic programs. Later, while dating his wife in Logan, Utah, he developed an appreciation for the Utah State Aggies as well. Whether it was football, basketball, or just about any other sport, Preston could usually be found losing his voice cheering for teams from Utah and the surrounding region. The one exception? The Philadelphia Eagles.</p>
         <p>As a kid, Preston spent countless hours watching ESPN and wondering why nationally recognized analysts so often overlooked talented teams from Utah and the West Coast, particularly those competing in the Pac-12 and Mountain West. He believed these programs deserved the same level of attention, analysis, and national coverage as the major programs across the country. That belief eventually became the inspiration behind Elevation Change. Preston saw an opportunity to help close that gap by providing in-depth coverage, data-driven analysis, and meaningful national exposure to programs that too often get overlooked.</p>
@@ -88,18 +94,26 @@
       </li>
 
       <li class="member" id="tyler">
-        <img class="photo" src="team-tyler.jpg" alt="Tyler Angerbauer" width="800" height="600" loading="lazy">
-        <h3>Tyler Angerbauer</h3>
-        <p class="role">Lead Beat Writer</p>
+        <div class="member-head">
+          <img class="photo" src="team-tyler.jpg?v=2" alt="Tyler Angerbauer" width="480" height="480" loading="lazy">
+          <div>
+            <h3>Tyler Angerbauer</h3>
+            <p class="role">Lead Beat Writer</p>
+          </div>
+        </div>
         <p>Tyler is the lead beat writer for Elevation Change. He is a senior at Brigham Young University majoring in journalism with an emphasis in sports media. He is an avid fan of baseball and football, especially the professional teams in the Dallas/Fort Worth area (except for the Mavericks &mdash; Go Spurs Go).</p>
         <p>He loves getting to tell and share stories and aspires to one day be a play-by-play broadcaster.</p>
         <p class="off">Outside of sports, Tyler loves hiking, roller coasters, singing, and finding as many different species of birds as he can.</p>
       </li>
 
       <li class="member" id="brooks">
-        <img class="photo" src="team-brooks.jpg" alt="Brooks Barney" width="800" height="600" loading="lazy">
-        <h3>Brooks Barney</h3>
-        <p class="role">Lead Content Producer</p>
+        <div class="member-head">
+          <img class="photo" src="team-brooks.jpg?v=2" alt="Brooks Barney" width="480" height="480" loading="lazy">
+          <div>
+            <h3>Brooks Barney</h3>
+            <p class="role">Lead Content Producer</p>
+          </div>
+        </div>
         <p>Brooks is the lead content producer for Elevation Change. He's a junior at Utah Valley University studying finance with a minor in Spanish, and yes, he's a die-hard Utah Utes fan who loves Saturdays in the fall more than anything.</p>
         <p>He's also a Utah Jazz fan, and he's happiest turning big sports moments into content fans want to share.</p>
         <p class="off">Outside of sports, Brooks loves running, camping, playing whatever pickup game is going, or taking over the mic at karaoke.</p>
