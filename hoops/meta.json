@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13T11:31+00:00",
+ "generated": "2026-11-13T20:27+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-13",
@@ -89,8 +89,8 @@
   "ok": true,
   "days": 10,
   "events": 537,
-  "finals": 96,
-  "lines": 55,
+  "finals": 97,
+  "lines": 54,
   "error": null
  },
  "lines_seen": 542,
@@ -122,7 +122,7 @@
   "espn_reports": 0,
   "hand": 0
  },
- "last_full": "2026-11-12",
+ "last_full": "2026-11-13",
  "bracket": {
   "generated": "2026-11-09T20:15+00:00",
   "champion": 150
