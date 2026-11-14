@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14T18:42+00:00",
+ "generated": "2026-11-14T19:15+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-14",
@@ -89,8 +89,8 @@
   "ok": true,
   "days": 10,
   "events": 527,
-  "finals": 90,
-  "lines": 53,
+  "finals": 91,
+  "lines": 45,
   "error": null
  },
  "lines_seen": 601,
