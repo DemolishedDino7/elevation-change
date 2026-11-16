@@ -360,6 +360,28 @@ def main():
     # ---------------- record.json ----------------
     boys_path = OUT / "boys.json"
     boys = json.load(open(boys_path)) if boys_path.exists() else {}
+    # any week with a published Boys vs. Bot article but no hand-entered picks gets them from the article
+    try:
+        import boys_articles
+        if boys_articles.merge(boys, season, SITE, games_out, log=log):
+            with open(boys_path, "w", encoding="utf-8") as f:
+                f.write("{\n")
+                items = list(boys.items())
+                for i, (k, v) in enumerate(items):
+                    tail = "," if i < len(items) - 1 else ""
+                    if not isinstance(v, dict):
+                        f.write(f"  {json.dumps(k)}: {json.dumps(v, ensure_ascii=False)}{tail}\n")
+                        continue
+                    f.write(f"  {json.dumps(k)}: {{\n")
+                    wks = sorted(v.items(), key=lambda kv: int(kv[0]))
+                    for j, (wk, picks) in enumerate(wks):
+                        f.write(f"    {json.dumps(wk)}: [\n")
+                        f.write(",\n".join("      " + json.dumps(p, ensure_ascii=False) for p in picks))
+                        f.write("\n    ]" + ("," if j < len(wks) - 1 else "") + "\n")
+                    f.write("  }" + tail + "\n")
+                f.write("}\n")
+    except Exception as e:  # never let article parsing take down the model run
+        log(f"boys articles: skipped ({e})")
     # before launch, show the Bot picks exactly as published in The Boys vs. The Bot
     from math import erf, sqrt
     gidx = {(x["home"], x["away"]): x for x in games_out}

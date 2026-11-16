@@ -1,5 +1,5 @@
 {
-  "_how_to": "Each week add the analysts' score picks before kickoff. Team names must match the schedule (e.g. \"Hawai'i\", \"San José State\", \"California\"). bot_home/bot_away are optional: leave them out and the contest uses the Bot's locked pick from bot/locked.json.",
+  "_how_to": "Filled in automatically from each week's the-boys-vs-the-bot-week-N.html article (any week missing here). Hand edits still win. To enter by hand: each week add the analysts' score picks before kickoff. Team names must match the schedule (e.g. \"Hawai'i\", \"San José State\", \"California\"). bot_home/bot_away are optional: leave them out and the contest uses the Bot's locked pick from bot/locked.json.",
   "2026": {
     "5": [
       {"home": "New Mexico State", "away": "Western Kentucky", "home_pts": 20, "away_pts": 14, "bot_home": 28, "bot_away": 27},
