@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T22:52+00:00",
+ "generated": "2026-11-16T23:26+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-16",
@@ -90,10 +90,10 @@
   "days": 10,
   "events": 526,
   "finals": 115,
-  "lines": 52,
+  "lines": 55,
   "error": null
  },
- "lines_seen": 688,
+ "lines_seen": 693,
  "next_west": "2026-11-14",
  "model": {
   "hca_pts": 2.8,
