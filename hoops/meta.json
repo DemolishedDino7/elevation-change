@@ -1,9 +1,9 @@
 {
- "generated": "2026-11-16T02:59+00:00",
+ "generated": "2026-11-16T12:02+00:00",
  "season": 2027,
  "season_label": "2026-27",
- "today": "2026-11-15",
- "week": 3,
+ "today": "2026-11-16",
+ "week": 4,
  "first_day": "2026-11-01",
  "games_in_ratings": 817,
  "teams": 366,
@@ -88,8 +88,8 @@
  "espn": {
   "ok": true,
   "days": 10,
-  "events": 540,
-  "finals": 169,
+  "events": 526,
+  "finals": 111,
   "lines": 22,
   "error": null
  },
@@ -122,9 +122,9 @@
   "espn_reports": 0,
   "hand": 0
  },
- "last_full": "2026-11-15",
  "bracket": {
-  "generated": "2026-11-09T20:15+00:00",
+  "generated": "2026-11-16T12:02+00:00",
   "champion": 150
- }
+ },
+ "last_full": "2026-11-16"
 }
