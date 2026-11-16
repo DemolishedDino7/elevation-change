@@ -71,6 +71,19 @@
       {"home": "UTEP", "away": "Hawai'i", "home_pts": 17, "away_pts": 27, "bot_home": 22, "bot_away": 30},
       {"home": "Oregon State", "away": "Texas State", "home_pts": 41, "away_pts": 37, "bot_home": 36, "bot_away": 30},
       {"home": "UNLV", "away": "Wyoming", "home_pts": 21, "away_pts": 26, "bot_home": 25, "bot_away": 20}
+    ],
+    "11": [
+      {"home": "Central Michigan", "away": "Sacramento State", "home_pts": 26, "away_pts": 15, "bot_home": 31, "bot_away": 15},
+      {"home": "Missouri State", "away": "New Mexico State", "home_pts": 22, "away_pts": 21, "bot_home": 27, "bot_away": 23},
+      {"home": "Northern Illinois", "away": "Nevada", "home_pts": 14, "away_pts": 26, "bot_home": 20, "bot_away": 28},
+      {"home": "Texas State", "away": "Fresno State", "home_pts": 34, "away_pts": 23, "bot_home": 33, "bot_away": 24},
+      {"home": "Boise State", "away": "Oregon State", "home_pts": 43, "away_pts": 30, "bot_home": 36, "bot_away": 27},
+      {"home": "Air Force", "away": "San José State", "home_pts": 27, "away_pts": 16, "bot_home": 31, "bot_away": 19},
+      {"home": "New Mexico", "away": "UNLV", "home_pts": 25, "away_pts": 19, "bot_home": 34, "bot_away": 19},
+      {"home": "San Diego State", "away": "Utah State", "home_pts": 20, "away_pts": 23, "bot_home": 21, "bot_away": 22},
+      {"home": "UTEP", "away": "Wyoming", "home_pts": 12, "away_pts": 28, "bot_home": 18, "bot_away": 29},
+      {"home": "Washington State", "away": "Colorado State", "home_pts": 28, "away_pts": 26, "bot_home": 36, "bot_away": 26},
+      {"home": "Hawai'i", "away": "North Dakota State", "home_pts": 17, "away_pts": 31, "bot_home": 17, "bot_away": 28}
     ]
   }
 }
