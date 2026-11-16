@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T19:50+00:00",
+ "generated": "2026-11-16T02:59+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-15",
@@ -89,11 +89,11 @@
   "ok": true,
   "days": 10,
   "events": 540,
-  "finals": 133,
-  "lines": 18,
+  "finals": 169,
+  "lines": 22,
   "error": null
  },
- "lines_seen": 635,
+ "lines_seen": 657,
  "next_west": "2026-11-14",
  "model": {
   "hca_pts": 2.8,
@@ -118,7 +118,7 @@
  "injuries": {
   "k": 0.215,
   "flagged": 58,
-  "games_adjusted": 1996,
+  "games_adjusted": 1982,
   "espn_reports": 0,
   "hand": 0
  },
