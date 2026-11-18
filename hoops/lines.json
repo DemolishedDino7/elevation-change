@@ -4122,10 +4122,10 @@
 "seen": "2026-11-17T22:29+00:00"
 },
 "401920512": {
-"spread": -1.5,
-"total": 143.5,
+"spread": 1.5,
+"total": 144.5,
 "provider": "Draft Kings",
-"seen": "2026-11-17T22:29+00:00"
+"seen": "2026-11-18T04:40+00:00"
 },
 "401921826": {
 "spread": -40.5,
@@ -4275,6 +4275,354 @@
 "spread": -3.5,
 "total": 148.5,
 "provider": "Draft Kings",
-"seen": "2026-11-17T22:29+00:00"
+"seen": "2026-11-18T04:40+00:00"
+},
+"401909753": {
+"spread": -35.5,
+"total": 155.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920513": {
+"spread": -3.5,
+"total": 149.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920514": {
+"spread": -2.5,
+"total": 148.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401922292": {
+"spread": 2.5,
+"total": 161.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401922283": {
+"spread": 7.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920974": {
+"spread": 1.5,
+"total": 164.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920947": {
+"spread": -11.5,
+"total": 142.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401917181": {
+"spread": -17.5,
+"total": 168.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401909516": {
+"spread": -22.5,
+"total": 140.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920682": {
+"spread": -29.5,
+"total": 167.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401928347": {
+"spread": -2.5,
+"total": 154.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401926838": {
+"spread": -3.5,
+"total": 140.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401925782": {
+"spread": -7.5,
+"total": 143.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401925632": {
+"spread": -14.5,
+"total": 143.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401923401": {
+"spread": -4.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401922212": {
+"spread": -6.5,
+"total": 155.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401922055": {
+"spread": 5.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401922047": {
+"spread": -6.5,
+"total": 151.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921156": {
+"spread": -7.5,
+"total": 149.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921141": {
+"spread": -15.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920963": {
+"spread": -17.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920694": {
+"spread": -3.5,
+"total": 140.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920075": {
+"spread": -26.5,
+"total": 135.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401919808": {
+"spread": 10.5,
+"total": 147.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401919760": {
+"spread": -3.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401919735": {
+"spread": -22.5,
+"total": 141.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911377": {
+"spread": 3.5,
+"total": 161.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911309": {
+"spread": 6.5,
+"total": 138.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911277": {
+"spread": -2.5,
+"total": 133.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921134": {
+"spread": -34.5,
+"total": 153.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920751": {
+"spread": -27.5,
+"total": 153.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401909526": {
+"spread": -29.5,
+"total": 145.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401917982": {
+"spread": -36.5,
+"total": 158.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401929420": {
+"spread": -15.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401929201": {
+"spread": -17.5,
+"total": 143.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401928398": {
+"spread": -25.5,
+"total": 159.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401927357": {
+"spread": -6.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401924721": {
+"spread": -22.5,
+"total": 156.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401919848": {
+"spread": 2.5,
+"total": 133.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911393": {
+"spread": 2.5,
+"total": 150.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911232": {
+"spread": 1.5,
+"total": 149.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401909555": {
+"spread": 3.5,
+"total": 128.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401906805": {
+"spread": -23.5,
+"total": 147.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401926064": {
+"spread": -33.5,
+"total": 160.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921742": {
+"spread": -29.5,
+"total": 162.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401929176": {
+"spread": -14.5,
+"total": 147.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401925949": {
+"spread": -31.5,
+"total": 168.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921816": {
+"spread": -45.5,
+"total": 153.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921734": {
+"spread": -24.5,
+"total": 148.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911473": {
+"spread": -6.5,
+"total": 152.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401909762": {
+"spread": -14.5,
+"total": 154.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401909494": {
+"spread": -23.5,
+"total": 151.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401917535": {
+"spread": -7.5,
+"total": 148.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401929146": {
+"spread": -27.5,
+"total": 155.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401929004": {
+"spread": -1.5,
+"total": 141.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401921064": {
+"spread": -10.5,
+"total": 136.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401911456": {
+"spread": -18.5,
+"total": 145.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
+},
+"401920158": {
+"spread": -34.5,
+"total": 165.5,
+"provider": "Draft Kings",
+"seen": "2026-11-18T04:40+00:00"
 }
 }
