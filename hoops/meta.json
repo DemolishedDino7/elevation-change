@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-19T12:07+00:00",
+ "generated": "2026-11-19T21:26+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-19",
  "week": 4,
  "first_day": "2026-11-01",
- "games_in_ratings": 961,
+ "games_in_ratings": 1032,
  "teams": 366,
  "backtest": {
   "seasons": "2021-22 to 2025-26",
@@ -93,7 +93,7 @@
   "lines": 29,
   "error": null
  },
- "lines_seen": 802,
+ "lines_seen": 803,
  "next_west": "2026-11-14",
  "model": {
   "hca_pts": 2.8,
@@ -117,8 +117,8 @@
  },
  "injuries": {
   "k": 0.215,
-  "flagged": 84,
-  "games_adjusted": 2655,
+  "flagged": 79,
+  "games_adjusted": 2879,
   "espn_reports": 0,
   "hand": 0
  },
