@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-21T20:03+00:00",
+ "generated": "2026-11-21T20:35+00:00",
  "season": 2027,
  "season_label": "2026-27",
  "today": "2026-11-21",
@@ -89,8 +89,8 @@
   "ok": true,
   "days": 10,
   "events": 548,
-  "finals": 101,
-  "lines": 31,
+  "finals": 103,
+  "lines": 29,
   "error": null
  },
  "lines_seen": 904,
@@ -118,7 +118,7 @@
  "injuries": {
   "k": 0.215,
   "flagged": 79,
-  "games_adjusted": 3068,
+  "games_adjusted": 3067,
   "espn_reports": 0,
   "hand": 0
  },
