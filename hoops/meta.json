@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-23T03:57+00:00",
+ "generated": "2026-11-23T13:38+00:00",
  "season": 2027,
  "season_label": "2026-27",
- "today": "2026-11-22",
- "week": 4,
+ "today": "2026-11-23",
+ "week": 5,
  "first_day": "2026-11-01",
- "games_in_ratings": 1184,
+ "games_in_ratings": 1226,
  "teams": 366,
  "backtest": {
   "seasons": "2021-22 to 2025-26",
@@ -88,12 +88,12 @@
  "espn": {
   "ok": true,
   "days": 10,
-  "events": 562,
-  "finals": 156,
-  "lines": 39,
+  "events": 518,
+  "finals": 99,
+  "lines": 40,
   "error": null
  },
- "lines_seen": 980,
+ "lines_seen": 982,
  "next_west": "2026-11-14",
  "model": {
   "hca_pts": 2.8,
@@ -117,14 +117,14 @@
  },
  "injuries": {
   "k": 0.215,
-  "flagged": 89,
-  "games_adjusted": 3111,
+  "flagged": 91,
+  "games_adjusted": 3182,
   "espn_reports": 0,
   "hand": 0
  },
- "last_full": "2026-11-22",
  "bracket": {
-  "generated": "2026-11-16T12:02+00:00",
-  "champion": 150
- }
+  "generated": "2026-11-23T13:38+00:00",
+  "champion": 248
+ },
+ "last_full": "2026-11-23"
 }
