@@ -22,15 +22,17 @@ const WATCH = [
 /* Hand-entered backup. ["Away @ Home", "Day time (MT)", "Line", live?]
    Put true as a 4th value to mark a game in progress (red dot + LIVE label). */
 const FALLBACK = [
-  ["Navy @ Air Force",                  "Sat 10:00 AM", "AFA −2.5"],
-  ["California @ UNLV",                 "Sat 1:30 PM",  "UNLV −2.5"],
-  ["Wyoming @ North Dakota State",      "Sat 1:30 PM",  "NDSU −20.5"],
-  ["UTEP @ New Mexico",                 "Sat 2:00 PM",  "UNM −22.5"],
-  ["Oregon State @ Colorado State",     "Sat 4:00 PM",  "ORST −4.5"],
-  ["Utah State @ Boise State",          "Sat 5:30 PM",  "BSU −21"],
-  ["Fresno State @ Washington State",   "Sat 7:30 PM",  "FRES −1.5"],
-  ["Texas State @ San Diego State",     "Sat 8:30 PM",  "TXST −4"],
-  ["San José State @ Hawai'i",          "Sat TBA",      ""]
+  ["North Dakota State @ San José State", "Fri 1:30 PM",  ""],
+  ["Air Force @ New Mexico",              "Fri 2:30 PM",  ""],
+  ["UConn @ Wyoming",                     "Sat 10:00 AM", ""],
+  ["New Mexico State @ Middle Tennessee", "Sat 12:00 PM", ""],
+  ["UTEP @ Northern Illinois",            "Sat 1:30 PM",  ""],
+  ["Boise State @ Colorado State",        "Sat 4:00 PM",  ""],
+  ["San Diego State @ Washington State",  "Sat 4:30 PM",  ""],
+  ["Nevada @ UNLV",                       "Sat 7:00 PM",  ""],
+  ["Texas State @ Utah State",            "Sat 7:30 PM",  ""],
+  ["Oregon State @ Fresno State",         "Sat 8:00 PM",  ""],
+  ["Sacramento State @ Hawai'i",          "Sat 9:00 PM",  ""]
 ];
 
 /* ---- nothing below here needs editing ---- */

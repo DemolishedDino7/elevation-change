@@ -23,6 +23,7 @@ and commits the results; `the-bot.html` reads them.
 
 ## Weekly chores
 * **The Boys vs. The Bot:** add the analysts' picks to `bot/boys.json` before kickoff.
+* **Late-announced games** (e.g. the Pac-12 flex week): add them to `model/schedule_adds.json`; they're skipped automatically once the data archive lists them.
 * `LAUNCH` in `run.py` marks the first live week each season (earlier weeks are graded as walk-forward tests).
 
 ## Optional

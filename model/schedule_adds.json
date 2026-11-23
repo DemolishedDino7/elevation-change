@@ -1,0 +1,17 @@
+{
+  "_note": "Games the data archive doesn't have yet. run.py adds each one unless the archive already lists the same home/away teams that week, so entries can stay here after the archive catches up. Times are UTC. Team ids are CollegeFootballData ids (see bot/predictions.json).",
+  "games": [
+    {"id": 990026001, "season": 2026, "week": 13, "start": "2026-11-28T23:00:00.000Z", "venue": "Canvas Stadium",
+     "home_id": 36,  "home": "Colorado State",   "away_id": 68,  "away": "Boise State",
+     "notes": "Pac-12 Flex Week (non-conference) | USA Network"},
+    {"id": 990026002, "season": 2026, "week": 13, "start": "2026-11-28T23:30:00.000Z", "venue": "Gesa Field at Martin Stadium",
+     "home_id": 265, "home": "Washington State", "away_id": 21,  "away": "San Diego State",
+     "notes": "Pac-12 Flex Week (non-conference) | The CW"},
+    {"id": 990026003, "season": 2026, "week": 13, "start": "2026-11-29T02:30:00.000Z", "venue": "Maverik Stadium",
+     "home_id": 328, "home": "Utah State",       "away_id": 326, "away": "Texas State",
+     "notes": "Pac-12 Flex Week (non-conference) | USA Network"},
+    {"id": 990026004, "season": 2026, "week": 13, "start": "2026-11-29T03:00:00.000Z", "venue": "Valley Children's Stadium",
+     "home_id": 278, "home": "Fresno State",     "away_id": 204, "away": "Oregon State",
+     "notes": "Pac-12 Flex Week (non-conference) | The CW"}
+  ]
+}

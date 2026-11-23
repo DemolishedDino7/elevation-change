@@ -104,6 +104,33 @@ def contest_points(pick_h, pick_a, act_h, act_a):
     return abs(pick_h - act_h) + abs(pick_a - act_a)
 
 
+def manual_games(season: int, sch: pd.DataFrame, ti: pd.DataFrame) -> pd.DataFrame:
+    """Hand-entered games from model/schedule_adds.json (e.g. the Pac-12 flex week) that the archive lacks."""
+    f = Path(__file__).resolve().parent / "schedule_adds.json"
+    if not f.exists():
+        return pd.DataFrame()
+    have = {(int(r.week), int(r.home_id), int(r.away_id)) for r in sch.itertuples() if pd.notna(r.home_id) and pd.notna(r.away_id)}
+    t = ti[ti.season == season].drop_duplicates("team_id").set_index("team_id")
+    rows = []
+    for x in json.load(open(f)).get("games", []):
+        if x["season"] != season or (x["week"], x["home_id"], x["away_id"]) in have:
+            continue
+        side = {}
+        for s in ("home", "away"):
+            tid = x[f"{s}_id"]
+            side[f"{s}_division"] = t.classification.get(tid, "fbs") if "classification" in t else "fbs"
+            side[f"{s}_conference"] = t.conference.get(tid) if "conference" in t else None
+        rows.append({"game_id": x["id"], "season": season, "week": x["week"], "season_type": "regular",
+                     "start_date": x["start"], "completed": False, "neutral_site": False,
+                     "conference_game": bool(x.get("conference_game", False)), "venue_id": None,
+                     "venue": x.get("venue"), "notes": x.get("notes"),
+                     "home_id": x["home_id"], "home_team": x["home"], "home_points": None,
+                     "away_id": x["away_id"], "away_team": x["away"], "away_points": None, **side})
+    if rows:
+        log(f"schedule_adds: {len(rows)} hand-entered games added")
+    return pd.DataFrame(rows)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--season", type=int)
@@ -126,6 +153,9 @@ def main():
     reg0 = sch0[sch0.season_type == "regular"]
     done_wk = int(reg0[reg0.completed.fillna(False).astype(bool)].week.max() or 1) if len(reg0) else 1
     fcs_extra = ncaa.fcs_rows(season, list(range(1, done_wk + 2)), ti0[ti0.season == season], sch0, log=log)
+    fcs_ids = fcs_extra.attrs.get("ncaa_ids", {})
+    fcs_extra = pd.concat([fcs_extra, manual_games(season, sch0, ti0)], ignore_index=True)
+    fcs_extra.attrs["ncaa_ids"] = fcs_ids
     g = data.build_games(season, extra=fcs_extra)
     # same-night finals and official box scores from NCAA.com (the archive lags a day)
     sg0 = g[(g.season == season) & (g.season_type == "regular")]
